@@ -15,17 +15,17 @@
 
           <v-form>
 
-            <v-text-field v-model="eventName" label="EventName" name="event-name" prepend-icon="fas fa-users" type="text" outlined single-line rounded></v-text-field>
+            <v-text-field v-model="eventName" label="EventName" name="event-name" prepend-icon="fas fa-users" type="text" outlined rounded></v-text-field>
 
-            <v-textarea v-model="description" rows="1" name="description" label="Description" auto-grow prepend-icon="far fa-comment-alt" outlined single-line rounded></v-textarea>
+            <v-textarea v-model="description" rows="1" name="description" label="Description" auto-grow prepend-icon="far fa-comment-alt" outlined rounded></v-textarea>
 
-            <v-autocomplete :items="items" v-model="venue" label="Venue" name="venue" prepend-icon="fas fa-map-marker-alt" outlined single-line rounded></v-autocomplete>
+            <v-autocomplete :items="items" v-model="venue" label="Venue" name="venue" prepend-icon="fas fa-map-marker-alt" outlined rounded></v-autocomplete>
 
             <v-text-field v-model="picker" @click="ifdate = !ifdate" label="Date" prepend-icon="fas fa-calendar-alt" outlined single-line rounded></v-text-field>
 
             <center><v-date-picker v-if="ifdate" v-model="picker" class="mb-3"></v-date-picker></center>
 
-            <v-file-input v-model="images" small-chips accept="image/png, image/jpeg, image/bmp" placeholder="Upload the Poster" prepend-icon="mdi-camera" label="Avatar" outlined single-line rounded></v-file-input>
+            <v-file-input v-model="images" small-chips accept="image/png, image/jpeg, image/bmp" placeholder="Poster" prepend-icon="mdi-camera" label="Avatar" outlined single-line rounded></v-file-input>
 
           </v-form>
 
@@ -45,6 +45,12 @@
 import EventServices from '@/services/EventServices'
 
 export default {
+  mounted () {
+    if (this.$store.state.firsttime) {
+      this.$store.dispatch('authenticate')
+      this.$store.dispatch('setFirstTime',false)
+    }
+  },
   data: () => ({
     eventName: '',
     description: '',

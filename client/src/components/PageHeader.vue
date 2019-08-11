@@ -8,11 +8,16 @@
       <v-spacer></v-spacer>
 
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn text dark :to="{name: 'home'}"><v-icon>fas fa-home</v-icon>&nbsp;Home</v-btn>
-        <v-btn text dark><v-icon>fas fa-info-circle</v-icon>&nbsp;About Us</v-btn>
-        <v-btn text dark><v-icon>fas fa-laptop-code</v-icon>&nbsp;Activities</v-btn>
-        <v-btn text dark><v-icon>fas fa-images</v-icon>&nbsp;Glimpses</v-btn>
-        <v-btn text dark><v-icon>fas fa-users</v-icon>&nbsp;Team</v-btn>
+        <v-btn text dark :to="{name: 'add-event'}"><v-icon>fas fa-home</v-icon>&nbsp;Home</v-btn>
+        <v-btn text dark v-if="$store.state.isLoggedIn"><v-icon>fas fa-info-circle</v-icon>&nbsp;About Us</v-btn>
+        <v-btn text dark v-if="$store.state.isLoggedIn"><v-icon>fas fa-laptop-code</v-icon>&nbsp;Activities</v-btn>
+        <v-btn text dark v-if="$store.state.isLoggedIn"><v-icon>fas fa-images</v-icon>&nbsp;Glimpses</v-btn>
+        <v-btn text dark v-if="$store.state.isLoggedIn"><v-icon>fas fa-users</v-icon>&nbsp;Team</v-btn>
+        <v-btn text dark v-if="$store.state.isLoggedIn" @click="logout"><v-icon>fas fa-sign-out-alt</v-icon>&nbsp;LogOut</v-btn>
+        <v-avatar color="red" v-if="$store.state.isLoggedIn" class="mt-2">
+          <span class="white--text headline">{{this.$store.state.user.substring(0,1)}}</span>
+        </v-avatar>
+        <v-btn text dark :to="{name: 'auth'}" v-if="!$store.state.isLoggedIn"><v-icon>fas fa-sign-in-alt</v-icon>&nbsp;SignUp</v-btn>
       </v-toolbar-items>
 
     </v-app-bar>
@@ -33,15 +38,74 @@
 
       <v-list dense nav rounded>
 
-        <v-list-item v-for="(link, i) in links" :key="i" dark link color="black" :to="link.to">
-          <v-list-item-icon>
-            <v-icon>{{ link.icon }}</v-icon>
-          </v-list-item-icon>
+        <v-list-item dark link color="black" :to="{name: 'home'}">
+            <v-list-item-icon>
+              <v-icon>fas fa-home</v-icon>
+            </v-list-item-icon>
 
-          <v-list-item-content>
-            <v-list-item-title>{{ link.text }}</v-list-item-title>
-          </v-list-item-content>
+            <v-list-item-content>
+              <v-list-item-title>Home</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
 
+        <v-list-item dark link color="black" v-if="$store.state.isLoggedIn">
+            <v-list-item-icon>
+              <v-icon>fas fa-info-circle</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>About Us</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item dark link color="black" v-if="$store.state.isLoggedIn">
+            <v-list-item-icon>
+              <v-icon>fas fa-laptop-code</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>Activities</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item dark link color="black" v-if="$store.state.isLoggedIn">
+            <v-list-item-icon>
+              <v-icon>fas fa-images</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>Glimpses</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item dark link color="black" v-if="$store.state.isLoggedIn">
+            <v-list-item-icon>
+              <v-icon>fas fa-users</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>Team</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item dark link color="black" v-if="$store.state.isLoggedIn" @click="logout">
+            <v-list-item-icon>
+              <v-icon>fas fa-sign-out-alt</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>Logout</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item dark link color="black" v-if="!$store.state.isLoggedIn" :to="{name: 'auth'}">
+            <v-list-item-icon>
+              <v-icon>fas fa-sign-in-alt</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>SignUp</v-list-item-title>
+            </v-list-item-content>
         </v-list-item>
 
       </v-list>
@@ -53,34 +117,14 @@
 export default {
   data: () => ({
     drawer: false,
-    links: [
-      {
-        to: "/",
-        icon: 'fas fa-home',
-        text: 'Home'
-      },
-      {
-        to: '/about',
-        icon: 'fas fa-info-circle',
-        text: 'About Us'
-      },
-      {
-        to: '/activities',
-        icon: 'fas fa-laptop-code',
-        text: 'Activities'
-      },
-      {
-        to: '/glimpses',
-        icon: 'fas fa-images',
-        text: 'Glimpses'
-      },
-      {
-        to: '/team',
-        icon: 'fas fa-users',
-        text: 'Team'
-      }
-    ]
-  })
+  }),
+  methods: {
+    logout () {
+      this.$store.dispatch('setIsLoggedIn',false)
+      this.$store.dispatch('setUser',null)
+      this.$store.dispatch('setToken',null)
+    }
+  }
 }
 </script>
 

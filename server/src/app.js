@@ -6,7 +6,6 @@ const routes = require('./routes')
 const config = require('./config')
 const dbconnect = require('./config/dbconnect')
 
-
 const app = express()
 
 app.use(bodyParser.json())

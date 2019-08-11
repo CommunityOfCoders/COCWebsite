@@ -9,6 +9,8 @@ module.exports = (app) => {
 
     app.post('/login',AuthController.login)
 
+    app.post('/verify-token',AuthController.verifyToken)
+
     //Events Paths
     app.post('/events/upload', upload.single('COC_Event'), addEvent.uploadEvent)
 

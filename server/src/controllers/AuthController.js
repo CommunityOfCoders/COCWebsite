@@ -1,5 +1,7 @@
 const User = require('../models/User')
 const passwordhasher = require('password-hasher')
+const jwt = require('jsonwebtoken')
+const config = require('../config')
 
 module.exports = {
 
@@ -15,11 +17,18 @@ module.exports = {
             
             const user = await User.create(req.body)
 
+            const token = jwt.sign(
+                {user: user},
+                config.privateKey,
+                {expiresIn: 60}
+            )
+
             res.send({
-                user: user
+                user: user,
+                token: token
             })
         } catch (err) {
-            res.status(400).send({
+            res.status(500).send({
                 err: err
             })
         }
@@ -33,7 +42,7 @@ module.exports = {
             })
 
             if(!user) {
-                return res.status(403).send({
+                return res.status(303).send({
                    error: "Invalid login info" 
                 })
             }
@@ -43,17 +52,39 @@ module.exports = {
             const rfcHash = passwordhasher.formatRFC2307(hash)
 
             if(rfcHash !== user.password) {
-                return res.status(403).send({
+                return res.status(303).send({
                     error: "Invalid login info" 
                 })
             }
 
+            const token = jwt.sign(
+                {user: user},
+                config.privateKey,
+                {expiresIn: 60*3}
+            )
+
             res.send({
-                user: user
+                user: user,
+                token: token
             })
         } catch (err) {
-            res.status(400).send({
+            res.status(500).send({
                 err: err
+            })
+        }
+    },
+
+    async verifyToken(req,res) {
+        const {token} = req.body
+
+        try {
+            jwt.verify(token,config.privateKey)
+            return res.send({
+                status: true
+            })
+        } catch (err) {
+            return res.send({
+                status:false
             })
         }
     }
