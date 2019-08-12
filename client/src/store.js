@@ -64,6 +64,10 @@ export default new Vuex.Store({
             name: 'auth'
           })
         }
+      } else {
+        router.push({
+          name: 'auth'
+        })
       }
     }
   }
