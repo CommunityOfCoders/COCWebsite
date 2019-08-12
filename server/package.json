@@ -4,6 +4,7 @@
   "description": "Server for vue front end",
   "main": "src/app.js",
   "scripts": {
+    "start": "node src/app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
