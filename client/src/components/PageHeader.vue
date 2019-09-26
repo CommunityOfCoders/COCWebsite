@@ -8,8 +8,8 @@
       <v-spacer></v-spacer>
 
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn text dark :to="{name: 'add-event'}"><v-icon>fas fa-home</v-icon>&nbsp;Home</v-btn>
-        <v-btn text dark ><v-icon>fas fa-info-circle</v-icon>&nbsp;About Us</v-btn>
+        <v-btn text dark :to="{name: 'home'}"><v-icon>fas fa-home</v-icon>&nbsp;Home</v-btn>
+        <v-btn text dark :to="{name: 'add-event'}"><v-icon>fas fa-info-circle</v-icon>&nbsp;About Us</v-btn>
         <v-btn text dark ><v-icon>fas fa-laptop-code</v-icon>&nbsp;Activities</v-btn>
         <v-btn text dark ><v-icon>fas fa-images</v-icon>&nbsp;Glimpses</v-btn>
         <v-btn text dark ><v-icon>fas fa-users</v-icon>&nbsp;Team</v-btn>
@@ -48,7 +48,7 @@
             </v-list-item-content>
         </v-list-item>
 
-        <v-list-item dark link color="black" v-if="$store.state.isLoggedIn">
+        <v-list-item dark link color="black" >
             <v-list-item-icon>
               <v-icon>fas fa-info-circle</v-icon>
             </v-list-item-icon>
@@ -58,7 +58,7 @@
             </v-list-item-content>
         </v-list-item>
 
-        <v-list-item dark link color="black" v-if="$store.state.isLoggedIn">
+        <v-list-item dark link color="black">
             <v-list-item-icon>
               <v-icon>fas fa-laptop-code</v-icon>
             </v-list-item-icon>
@@ -68,7 +68,7 @@
             </v-list-item-content>
         </v-list-item>
 
-        <v-list-item dark link color="black" v-if="$store.state.isLoggedIn">
+        <v-list-item dark link color="black">
             <v-list-item-icon>
               <v-icon>fas fa-images</v-icon>
             </v-list-item-icon>
@@ -78,7 +78,7 @@
             </v-list-item-content>
         </v-list-item>
 
-        <v-list-item dark link color="black" v-if="$store.state.isLoggedIn">
+        <v-list-item dark link color="black">
             <v-list-item-icon>
               <v-icon>fas fa-users</v-icon>
             </v-list-item-icon>
