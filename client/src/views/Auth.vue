@@ -107,6 +107,7 @@ export default {
         this.$store.dispatch('setUser',user.data.user.username)
         this.$store.dispatch('setToken',user.data.token)
         this.$store.dispatch('setCookie')
+        this.$router.go(-1)
       }
     },
     lvalidate () {
@@ -125,6 +126,7 @@ export default {
         this.$store.dispatch('setUser',user.data.user.username)
         this.$store.dispatch('setToken',user.data.token)
         this.$store.dispatch('setCookie')
+        this.$router.go(-1)
       }
     },
     reset () {

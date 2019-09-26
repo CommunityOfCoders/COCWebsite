@@ -12,6 +12,7 @@ function guard(to, from, next){
       // or however you store your logged in state
       next(); // allow to enter route
   } else{
+      next()
       next('/auth'); // go to '/login';
   }
 }
