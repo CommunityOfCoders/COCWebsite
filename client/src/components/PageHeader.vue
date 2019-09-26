@@ -26,7 +26,9 @@
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="title">
-            Application
+            <v-avatar color="red" v-if="$store.state.isLoggedIn" class="mt-2">
+              <span class="white--text headline">{{this.$store.state.user.substring(0,1)}}</span>
+            </v-avatar>
           </v-list-item-title>
           <v-list-item-subtitle>
             subtext

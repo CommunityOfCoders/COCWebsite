@@ -5,13 +5,6 @@
         <v-layout column align-center justify-center xs8>
           <div class="headline white--text mb-3 text-center">"There was an idea, called the COC Initiative. The idea was to bring together a group of remarkable people, see if they could become something more. See if they could work together when we needed them to, to guide the students we never could."</div>
           <em>- Pratik Prabhu</em>
-          <v-btn
-            class="blue lighten-2 mt-5"
-            dark
-            large
-          >
-            Get Started
-          </v-btn>
         </v-layout>
       </v-parallax>
     </section>

@@ -14,13 +14,6 @@
           <img src="../../assets/coc_logo.png" alt="Vuetify.js" height="200" class="hidden-md-and-up">
           <h1 class="white--text mb-2 display-1 text-center">Community Of Coders</h1>
           <div class="subheading mb-3 text-center">Good software, like wine, takes time ~ Joel Spolsky</div>
-          <v-btn
-            class="blue lighten-2 mt-5"
-            dark
-            large
-          >
-            Get Started
-          </v-btn>
 
         </v-layout>
       </v-parallax>
