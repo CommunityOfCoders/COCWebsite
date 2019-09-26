@@ -13,7 +13,7 @@
         <v-btn text dark ><v-icon>fas fa-laptop-code</v-icon>&nbsp;Activities</v-btn>
         <v-btn text dark ><v-icon>fas fa-images</v-icon>&nbsp;Glimpses</v-btn>
         <v-btn text dark ><v-icon>fas fa-users</v-icon>&nbsp;Team</v-btn>
-        <v-btn text dark v-if="$store.state.isLoggedIn" @click="logout"><v-icon>fas fa-sign-out-alt</v-icon>&nbsp;LogOut</v-btn>
+        <v-btn text dark v-if="$store.state.isLoggedIn" @click="logout"><v-icon>fas fa-sign-out-alt</v-icon>&nbsp;LogOut&nbsp;</v-btn>
         <v-avatar color="red" v-if="$store.state.isLoggedIn" class="mt-2">
           <span class="white--text headline">{{this.$store.state.user.substring(0,1)}}</span>
         </v-avatar>
@@ -125,6 +125,7 @@ export default {
       this.$store.dispatch('setIsLoggedIn',false)
       this.$store.dispatch('setUser',null)
       this.$store.dispatch('setToken',null)
+      this.$store.dispatch('setCookie')
     }
   }
 }

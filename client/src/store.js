@@ -9,8 +9,7 @@ export default new Vuex.Store({
   state: {
     user: null,
     isLoggedIn: false,
-    token: null,
-    firsttime: true
+    token: null
   },
   mutations: {
     setUser (state,user) {
@@ -21,9 +20,6 @@ export default new Vuex.Store({
     },
     setToken(state,token) {
       state.token = token
-    },
-    setFirstTime(state,firsttime) {
-      state.firsttime = firsttime
     }
   },
   actions: {
@@ -36,15 +32,11 @@ export default new Vuex.Store({
     setToken({commit},token) {
       commit('setToken',token)
     },
-    setFirstTime ({commit},firsttime) {
-      commit('setFirstTime',firsttime)
-    },
     setCookie () {
       $cookies.set('token',this.state.token);
       $cookies.set('user',this.state.user)
     },
     async authenticate () {
-      console.log("Inside Authenticate")
       this.state.token = $cookies.get('token')
       this.state.user = $cookies.get('user')
       
@@ -60,14 +52,7 @@ export default new Vuex.Store({
           console.log("Expired")
           this.state.token = null
           this.state.user = null
-          router.push({
-            name: 'auth'
-          })
         }
-      } else {
-        router.push({
-          name: 'auth'
-        })
       }
     }
   }

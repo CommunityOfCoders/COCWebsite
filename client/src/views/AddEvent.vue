@@ -45,11 +45,8 @@
 import EventServices from '@/services/EventServices'
 
 export default {
-  mounted () {
-    if (this.$store.state.firsttime) {
-      this.$store.dispatch('authenticate')
-      this.$store.dispatch('setFirstTime',false)
-    }
+  beforeCreate() {
+    
   },
   data: () => ({
     eventName: '',
