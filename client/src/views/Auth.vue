@@ -29,7 +29,7 @@
                   <v-text-field v-model="spassword" :rules="passwordRules" label="Password" required outlined rounded type="password"></v-text-field>
                   <br>
                   <v-btn :disabled="!svalid" color="success" @click="svalidate">SignUp</v-btn>&ensp;
-                  <v-btn color="error" @click="reset">Reset</v-btn>
+                  <v-btn color="error" @click="reset">Reset</v-btn><br><br>
                   <br><br>
                 </v-form>
               </div>
@@ -134,7 +134,7 @@ export default {
     },
     lreset () {
       this.$refs.loginform.reset()
-    },
+    }
   }
 }
 </script>
@@ -143,5 +143,14 @@ export default {
   .basil--text {
     color: #356859 !important;
     font-size: 2em; 
+  }
+  .g-signin-button {
+    /* This is where you control how the button looks. Be creative! */
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 3px;
+    background-color: #3c82f7;
+    color: #fff;
+    box-shadow: 0 3px 0 #0f69ff;
   }
 </style>

@@ -13,6 +13,8 @@
     "register-service-worker": "^1.6.2",
     "vue": "^2.6.10",
     "vue-cookies": "^1.5.13",
+    "vue-google-login": "^2.0.2",
+    "vue-google-signin-button": "^1.0.4",
     "vue-router": "^3.0.3",
     "vuetify": "^2.0.0",
     "vuex": "^3.0.1"
