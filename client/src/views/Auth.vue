@@ -106,6 +106,9 @@ export default {
         this.$store.dispatch('setIsLoggedIn',true)
         this.$store.dispatch('setUser',user.data.user.username)
         this.$store.dispatch('setToken',user.data.token)
+        if(user.data.user.username == this.$store.state.adminUsername) {
+          this.$store.dispatch('setIsAdmin',true)
+        }
         this.$store.dispatch('setCookie')
         this.$router.go(-1)
       }
@@ -125,6 +128,9 @@ export default {
         this.$store.dispatch('setIsLoggedIn',true)
         this.$store.dispatch('setUser',user.data.user.username)
         this.$store.dispatch('setToken',user.data.token)
+        if(user.data.user.username == this.$store.state.adminUsername) {
+          this.$store.dispatch('setIsAdmin',true)
+        }
         this.$store.dispatch('setCookie')
         this.$router.go(-1)
       }

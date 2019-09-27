@@ -9,10 +9,11 @@
 
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn text dark :to="{name: 'home'}"><v-icon>fas fa-home</v-icon>&nbsp;Home</v-btn>
-        <v-btn text dark :to="{name: 'add-event'}"><v-icon>fas fa-info-circle</v-icon>&nbsp;About Us</v-btn>
+        <v-btn text dark ><v-icon>fas fa-info-circle</v-icon>&nbsp;About Us</v-btn>
         <v-btn text dark ><v-icon>fas fa-laptop-code</v-icon>&nbsp;Activities</v-btn>
         <v-btn text dark ><v-icon>fas fa-images</v-icon>&nbsp;Glimpses</v-btn>
         <v-btn text dark ><v-icon>fas fa-users</v-icon>&nbsp;Team</v-btn>
+        <v-btn text dark :to="{name: 'add-event'}" v-if="$store.state.isAdmin"><v-icon>fas fa-users</v-icon>&nbsp;AddEvents</v-btn>
         <v-btn text dark v-if="$store.state.isLoggedIn" @click="logout"><v-icon>fas fa-sign-out-alt</v-icon>&nbsp;LogOut&nbsp;</v-btn>
         <v-avatar color="red" v-if="$store.state.isLoggedIn" class="mt-2">
           <span class="white--text headline">{{this.$store.state.user.substring(0,1)}}</span>
@@ -125,6 +126,7 @@ export default {
       this.$store.dispatch('setIsLoggedIn',false)
       this.$store.dispatch('setUser',null)
       this.$store.dispatch('setToken',null)
+      this.$store.dispatch('setIsAdmin',false)
       this.$store.dispatch('setCookie')
     }
   }

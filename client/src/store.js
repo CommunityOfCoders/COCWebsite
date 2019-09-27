@@ -9,7 +9,9 @@ export default new Vuex.Store({
   state: {
     user: null,
     isLoggedIn: false,
-    token: null
+    token: null,
+    isAdmin: false,
+    adminUsername: 'PratikRock'
   },
   mutations: {
     setUser (state,user) {
@@ -20,6 +22,9 @@ export default new Vuex.Store({
     },
     setToken(state,token) {
       state.token = token
+    },
+    setIsAdmin(state,isAdmin) {
+      state.isAdmin = isAdmin
     }
   },
   actions: {
@@ -31,6 +36,9 @@ export default new Vuex.Store({
     },
     setToken({commit},token) {
       commit('setToken',token)
+    },
+    setIsAdmin({commit},isAdmin) {
+      commit('setIsAdmin',isAdmin)
     },
     setCookie () {
       $cookies.set('token',this.state.token);
@@ -47,6 +55,12 @@ export default new Vuex.Store({
         if (token.data.status) {
           console.log("Not Expired")
           this.state.isLoggedIn = true
+          if(this.state.user == this.state.adminUsername)  {
+            this.state.isAdmin = true
+          }
+          else {
+            this.state.isAdmin=false
+          }
         }
         else {
           console.log("Expired")
