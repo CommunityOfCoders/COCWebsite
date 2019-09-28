@@ -13,7 +13,8 @@
         <v-btn text dark ><v-icon>fas fa-laptop-code</v-icon>&nbsp;Activities</v-btn>
         <v-btn text dark ><v-icon>fas fa-images</v-icon>&nbsp;Glimpses</v-btn>
         <v-btn text dark ><v-icon>fas fa-users</v-icon>&nbsp;Team</v-btn>
-        <v-btn text dark :to="{name: 'add-event'}" v-if="$store.state.isAdmin"><v-icon>fas fa-users</v-icon>&nbsp;AddEvents</v-btn>
+        <v-btn text dark :to="{name: 'add-event'}" v-if="$store.state.isAdmin"><v-icon>far fa-calendar-plus</v-icon>&nbsp;AddEvents</v-btn>
+        <v-btn text dark v-if="$store.state.isLoggedIn"><v-icon>far fa-user-circle</v-icon>&nbsp;Dashboard</v-btn>
         <v-btn text dark v-if="$store.state.isLoggedIn" @click="logout"><v-icon>fas fa-sign-out-alt</v-icon>&nbsp;LogOut&nbsp;</v-btn>
         <v-avatar color="red" v-if="$store.state.isLoggedIn" class="mt-2">
           <span class="white--text headline">{{this.$store.state.user.substring(0,1)}}</span>
@@ -88,6 +89,26 @@
 
             <v-list-item-content>
               <v-list-item-title>Team</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item dark link color="black" v-if="$store.state.isAdmin" :to="{name: 'add-event'}">
+            <v-list-item-icon>
+              <v-icon>far fa-calendar-plus</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>AddEvents</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item dark link color="black" v-if="$store.state.isLoggedIn">
+            <v-list-item-icon>
+              <v-icon>far fa-user-circle</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>Dashboard</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
 
