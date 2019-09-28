@@ -9,7 +9,12 @@ const user = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    graduationYear: Number
 })
 
 const User = mongoose.model('users',user)

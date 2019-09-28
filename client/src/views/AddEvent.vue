@@ -21,6 +21,8 @@
 
             <v-autocomplete :items="items" v-model="venue" label="Venue" name="venue" prepend-icon="fas fa-map-marker-alt" outlined rounded></v-autocomplete>
 
+            <v-text-field v-model="graduationYear" label="GraduationYear" name="graduation-year" prepend-icon="fas fa-users" type="text" outlined rounded></v-text-field>
+            
             <v-text-field v-model="picker" @click="ifdate = !ifdate" label="Date" prepend-icon="fas fa-calendar-alt" outlined single-line rounded></v-text-field>
 
             <center><v-date-picker v-if="ifdate" v-model="picker" class="mb-3"></v-date-picker></center>
@@ -52,6 +54,7 @@ export default {
     eventName: '',
     description: '',
     venue: '',
+    graduationYear: '',
     items: [
       'Lab3',
       'CCF2',
@@ -69,6 +72,7 @@ export default {
       event.append('description',this.description)
       event.append('venue',this.venue)
       event.append('date',this.date)
+      event.append('graduationYear',this.graduationYear)
       event.append('COC_Event',this.images)
       
       const events = await EventServices.addEvent(event)
