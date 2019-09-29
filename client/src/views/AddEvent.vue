@@ -71,7 +71,7 @@ export default {
       event.append('eventName',this.eventName)
       event.append('description',this.description)
       event.append('venue',this.venue)
-      event.append('date',this.date)
+      event.append('date',this.picker)
       event.append('graduationYear',this.graduationYear)
       event.append('COC_Event',this.images)
       
