@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import AddEvent from './views/AddEvent.vue'
 import Auth from './views/Auth.vue'
 import Profile from './views/Profile.vue'
+import displayEvents from './views/displayEvents.vue'
 import store from './store'
 
 Vue.use(Router)
@@ -23,7 +24,6 @@ function adminGuard(to, from, next){
       // or however you store your logged in state
       next() // allow to enter route
   } else{
-      next()
       next('/auth') // go to '/login';
   }
 }
@@ -53,6 +53,11 @@ const router = new Router({
       name: 'profile',
       component: Profile,
       beforeEnter: guard
+    },
+    {
+      path: '/events,',
+      name: 'events',
+      component: displayEvents
     }
   ]
 })

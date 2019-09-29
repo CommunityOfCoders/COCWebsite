@@ -4,13 +4,16 @@ const Event = require('../models/Event')
 
 module.exports = {
 	async getEvents(_req, res) {
-		const events = Event.find({});
-		res.json(events);
+		const events = await Event.find()
+
+		res.json(events)
 	},
 	async getEventById(req, res) {
 		const eventId = req.params.id;
 		const event = await Event.findById(eventId);
-		res.json(event);
+		res.send({
+			event: event
+		});
 	},
 	async uploadEvent(req, res) {
 		try {

@@ -12,11 +12,11 @@ module.exports = (app) => {
     app.post('/verify-token',AuthController.verifyToken)
 
     //Events Paths
-    app.get('/events', getAllEvents);
+    app.get('/events', Events.getEvents);
     app.post('/events', upload.single('COC_Event'), Events.uploadEvent)
-    app.get('/events/:id', getEvent);
-    app.put('/events/:id', updateEvent);
-    app.delete('/events/:id', deleteEvent);
+    app.get('/events/:id', Events.getEventById);
+    app.put('/events/:id', Events.updateEvent);
+    app.delete('/events/:id', Events.deleteEvent);
 
     app.post('/glimpses/upload',Glimpsesupload.fields([{name: 'photos',maxCount: 10}]),GlimpseController.save)
 }

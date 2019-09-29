@@ -10,7 +10,7 @@
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn text dark :to="{name: 'home'}"><v-icon>fas fa-home</v-icon>&nbsp;Home</v-btn>
         <v-btn text dark ><v-icon>fas fa-info-circle</v-icon>&nbsp;About Us</v-btn>
-        <v-btn text dark ><v-icon>fas fa-laptop-code</v-icon>&nbsp;Activities</v-btn>
+        <v-btn text dark :to="{name: 'events'}"><v-icon>fas fa-laptop-code</v-icon>&nbsp;Activities</v-btn>
         <v-btn text dark ><v-icon>fas fa-images</v-icon>&nbsp;Glimpses</v-btn>
         <v-btn text dark ><v-icon>fas fa-users</v-icon>&nbsp;Team</v-btn>
         <v-btn text dark :to="{name: 'add-event'}" v-if="$store.state.isAdmin"><v-icon>far fa-calendar-plus</v-icon>&nbsp;AddEvents</v-btn>
