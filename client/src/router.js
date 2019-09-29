@@ -51,7 +51,8 @@ const router = new Router({
     {
       path: '/profile',
       name: 'profile',
-      component: Profile
+      component: Profile,
+      beforeEnter: guard
     }
   ]
 })
