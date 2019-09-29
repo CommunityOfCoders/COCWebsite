@@ -3,17 +3,19 @@ const passwordhasher = require('password-hasher')
 const jwt = require('jsonwebtoken')
 const config = require('../config')
 
+function passwordHash(password) {
+        const hash = passwordhasher.createHash('ssha512',password,new Buffer('83d88386463f0625', 'hex'))
+        const rfcHash = passwordhasher.formatRFC2307(hash)
+        return rfcHash;
+}
 module.exports = {
 
     async register (req,res) {
         try {
             var {password} = req.body
             
-            const hash = passwordhasher.createHash('ssha512',password,new Buffer('83d88386463f0625', 'hex'))
 
-            const rfcHash = passwordhasher.formatRFC2307(hash)
-
-            req.body.password = rfcHash
+            req.body.password = passwordHash(password);
             
             const user = await User.create(req.body)
 
@@ -47,9 +49,7 @@ module.exports = {
                 })
             }
 
-            const hash = passwordhasher.createHash('ssha512',password,new Buffer('83d88386463f0625', 'hex'))
-
-            const rfcHash = passwordhasher.formatRFC2307(hash)
+            const rfcHash = passwordHash(password);
 
             if(rfcHash !== user.password) {
                 return res.status(303).send({
