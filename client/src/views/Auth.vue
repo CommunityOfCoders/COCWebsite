@@ -27,6 +27,7 @@
                   <v-text-field v-model="susername" :counter="10" :rules="nameRules" label="Username" required outlined rounded></v-text-field>
                   <v-text-field v-model="email" :rules="emailRules" label="Email" required outlined rounded></v-text-field>
                   <v-text-field v-model="spassword" :rules="passwordRules" label="Password" required outlined rounded type="password"></v-text-field>
+                  <v-text-field v-model="graduationYear" :rules="gradRules" label="GraduationYear" required outlined rounded></v-text-field>
                   <br>
                   <v-btn :disabled="!svalid" color="success" @click="svalidate">SignUp</v-btn>&ensp;
                   <v-btn color="error" @click="reset">Reset</v-btn><br><br>
@@ -72,6 +73,7 @@ export default {
       lvalid: true,
       susername: '',
       spassword: '',
+      graduationYear: '',
       lusername: '',
       lpassword: '',
       email: '',
@@ -86,6 +88,10 @@ export default {
       passwordRules: [
         v => !!v || 'Password is required',
         v => /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/.test(v) || 'Passwords should contain atleast one number and one special character one uppercase character one lowercase character and must be between 6 to 16 characters long'
+      ],
+      gradRules: [
+        v => !!v || 'GradYear is required',
+        v => /^[0-9]{4}$/.test(v) || "Graduation Year should be a year"
       ]
     }
   },
@@ -100,7 +106,8 @@ export default {
       const user = await AuthServices.register({
         username: this.susername,
         email: this.email,
-        password: this.spassword
+        password: this.spassword,
+        graduationYear: this.graduationYear
       })
       if(user.status == 200) {
         this.$store.dispatch('setIsLoggedIn',true)
