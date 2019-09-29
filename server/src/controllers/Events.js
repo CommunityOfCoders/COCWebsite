@@ -11,9 +11,7 @@ module.exports = {
 	async getEventById(req, res) {
 		const eventId = req.params.id;
 		const event = await Event.findById(eventId);
-		res.send({
-			event: event
-		});
+		res.json(event)
 	},
 	async uploadEvent(req, res) {
 		try {
