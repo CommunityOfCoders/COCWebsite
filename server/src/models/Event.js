@@ -21,8 +21,9 @@ const event = new mongoose.Schema({
         type:String,
         required: true
     },
-    imagePath: {
-        type: String
+    image: {
+        url: String,
+        public_id: String
     }
 })
 

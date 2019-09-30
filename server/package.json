@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "cloudinary": "^1.15.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.1",
@@ -20,5 +21,8 @@
     "node-waf": "^1.0.0",
     "npm": "^6.11.3",
     "password-hasher": "^1.0.1"
+  },
+  "devDependencies": {
+    "dotenv": "^8.1.0"
   }
 }
