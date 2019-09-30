@@ -55,7 +55,7 @@ const router = new Router({
       beforeEnter: guard
     },
     {
-      path: '/events,',
+      path: '/events',
       name: 'events',
       component: displayEvents
     }

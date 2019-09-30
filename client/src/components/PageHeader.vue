@@ -3,7 +3,7 @@
     <v-app-bar app dark>
       <v-app-bar-nav-icon class="hidden-md-and-up" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       
-      <v-toolbar-title class="mr-2"><img src="../assets/coc_logo.png" height="50"></v-toolbar-title>
+      <v-toolbar-title class="mr-2 ml-2 pl-0"><img src="../assets/coc_logo.png" height="50"></v-toolbar-title>
 
       <v-spacer></v-spacer>
 
@@ -62,7 +62,7 @@
             </v-list-item-content>
         </v-list-item>
 
-        <v-list-item dark link color="black">
+        <v-list-item dark link color="black" :to="{name: 'events'}">
             <v-list-item-icon>
               <v-icon>fas fa-laptop-code</v-icon>
             </v-list-item-icon>
@@ -141,6 +141,7 @@
 export default {
   data: () => ({
     drawer: false,
+    search: ''
   }),
   methods: {
     logout () {
