@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const event = new mongoose.Schema({
     eventName: {
@@ -18,15 +18,15 @@ const event = new mongoose.Schema({
         required: true
     },
     graduationYear: {
-        type:String,
+        type: String,
         required: true
     },
     image: {
         url: String,
         public_id: String
     }
-})
+});
 
-const Event = mongoose.model('events',event)
+const Event = mongoose.model('events', event);
 
 module.exports = Event;

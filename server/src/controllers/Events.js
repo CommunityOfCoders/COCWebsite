@@ -10,18 +10,17 @@ const Event = require('../models/Event')
 
 module.exports = {
 	async getEvents(_req, res) {
-		const events = await Event.find()
-
-		res.json(events)
+		const events = await Event.find();
+		res.json(events);
 	},
 	async getEventById(req, res) {
 		const eventId = req.params.id;
 		const event = await Event.findById(eventId);
-		res.json(event)
+		res.json(event);
 	},
 	async uploadEvent(req, res) {
 		try {
-			
+
 			// const eventname = req.body.eventName
 			const file = req.file;
 			const image = cloudinary.v2.uploader.upload(file.path);
@@ -29,12 +28,14 @@ module.exports = {
 				url: image.secure_url,
 				public_id: image.public_id
 			};
-            // const filename = eventname + '-' + req.body.date.substr(0,3) + path.extname(req.file.originalname).toLowerCase()
-			
-            // req.body.imagePath = path.join(__dirname,'../images/events/',filename)
+			// const filename = eventname + '-' + req.body.date.substr(0,3) + path.extname(req.file.originalname).toLowerCase()
 
-			const event = await Event.create(req.body)
-			res.json({"id": event._id});
+			// req.body.imagePath = path.join(__dirname,'../images/events/',filename)
+
+			const event = await Event.create(req.body);
+			res.json({
+				"id": event._id
+			});
 		} catch (err) {
 			res.status(400).send({
 				err: err
@@ -44,7 +45,9 @@ module.exports = {
 	async updateEvent(req, res) {
 		const eventId = req.params.id;
 		const event = Event.findById(eventId);
-		res.json({"id": event._id});
+		res.json({
+			"id": event._id
+		});
 	},
 	async deleteEvent(_req, res) {
 		const eventId = req.params.id;
