@@ -2,6 +2,6 @@ import axios from 'axios'
 
 export default () => {
   return axios.create({
-    baseURL: 'http://localhost:8000/'
+    baseURL: 'http://192.168.1.102:8000/'
   })
 }
