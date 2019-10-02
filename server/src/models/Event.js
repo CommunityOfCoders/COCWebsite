@@ -24,6 +24,10 @@ const event = new mongoose.Schema({
     image: {
         url: String,
         public_id: String
+    },
+    form: {
+        type: Schema.Types.ObjectId,
+        ref: 'registerForm'
     }
 });
 
