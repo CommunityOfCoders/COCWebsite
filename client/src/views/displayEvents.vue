@@ -9,9 +9,9 @@
         
       </v-toolbar>
 
-      <v-row class="mr-0 ml-0" >
+      <v-row class="mr-0 ml-0">
         <v-col cols="12">
-          <v-row :align="alignment" :justify="justify" class="grey lighten-5">
+          <v-row :align="alignment" :justify="justify" class="grey lighten-5" >
 
             <v-card class="mx-auto mt-4 mb-4" :max-width="imageHeight" v-for="event in filteredEvents" :key="event._id" dark>
               <v-img class="white--text" height="200px" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg">
@@ -32,8 +32,7 @@
               </v-card-actions>
             </v-card>
 
-            <p  v-if="!filteredEvents.length" class="mr-4 ml-4">There is currently no event of this name. If you want any particular event you can suggest it to your seniors, we are very eager to know what you want to learn next</p> 
-
+              <p v-if="!filteredEvents.length" class="red--text mr-4 ml-4">There is currently no event of this name. If you want any particular event you can suggest it to your seniors, we are very eager to know what you want to learn next.</p> 
           </v-row>
         </v-col>
       </v-row>
@@ -68,7 +67,7 @@ export default {
     },
     filteredEvents () {
       return this.events.filter((event) => {
-        return event.eventName.match(this.search)
+        return event.eventName.toLowerCase().match(this.search.toLowerCase())
       })
     }
   }
@@ -79,5 +78,9 @@ export default {
   .text {
     font-size: 1.15em;
     color: white;
+  }
+
+  .div {
+    min-height: 70vh;
   }
 </style>
