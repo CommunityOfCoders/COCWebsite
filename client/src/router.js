@@ -10,22 +10,27 @@ import store from './store'
 Vue.use(Router)
 
 function guard(to, from, next){
-  if(store.state.isLoggedIn) {
+  setTimeout(function(){ 
+    if(store.state.isLoggedIn) {
       // or however you store your logged in state
       next() // allow to enter route
-  } else{
-      next()
-      next('/auth') // go to '/login';
-  }
+    } else{
+        next()
+        next('/auth') // go to '/login';
+    }
+   }, 500);
+  
 }
 
 function adminGuard(to, from, next){
-  if(store.state.isAdmin) {
+  setTimeout(function(){
+    if(store.state.isAdmin) {
       // or however you store your logged in state
       next() // allow to enter route
-  } else{
-      next('/auth') // go to '/login';
-  }
+    } else{
+        next('/auth') // go to '/login';
+    }
+  },500)
 }
 
 const router = new Router({

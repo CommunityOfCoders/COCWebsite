@@ -44,14 +44,14 @@ module.exports = {
 	},
 	async updateEvent(req, res) {
 		const eventId = req.params.id;
-		const event = Event.findById(eventId);
+		const event = await Event.findById(eventId);
 		res.json({
 			"id": event._id
 		});
 	},
 	async deleteEvent(_req, res) {
 		const eventId = req.params.id;
-		const event = Event.findById(eventId);
+		const event = await Event.findById(eventId);
 		await event.remove();
 		res.status(204);
 	},

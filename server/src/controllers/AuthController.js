@@ -26,11 +26,11 @@ module.exports = {
             )
 
             res.send({
-                user: user,
+                username: user.username,
                 token: token
             })
         } catch (err) {
-            res.status(500).send({
+            res.status(201).send({
                 err: err
             })
         }
@@ -44,7 +44,7 @@ module.exports = {
             })
 
             if(!user) {
-                return res.status(303).send({
+                return res.status(203).send({
                    error: "Invalid login info" 
                 })
             }
@@ -52,7 +52,7 @@ module.exports = {
             const rfcHash = passwordHash(password);
 
             if(rfcHash !== user.password) {
-                return res.status(303).send({
+                return res.status(203).send({
                     error: "Invalid login info" 
                 })
             }
@@ -60,15 +60,15 @@ module.exports = {
             const token = jwt.sign(
                 {user: user},
                 config.privateKey,
-                {expiresIn: 60*3}
+                {expiresIn: 60*60}
             )
 
             res.send({
-                user: user,
+                username: user.username,
                 token: token
             })
         } catch (err) {
-            res.status(500).send({
+            res.status(201).send({
                 err: err
             })
         }
@@ -85,6 +85,26 @@ module.exports = {
         } catch (err) {
             return res.send({
                 status:false
+            })
+        }
+    },
+
+    async getUser(req,res) {
+        try {
+            
+            const {username} = req.body
+
+            const user = await User.findOne({
+                username: username
+            })
+
+            user.password = null
+
+            res.status(200).json(user)
+        } catch (e) {
+            res.status(201).send({
+                message: 'An error has occured',
+                err: e
             })
         }
     }

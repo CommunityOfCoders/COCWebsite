@@ -11,6 +11,8 @@ module.exports = (app) => {
 
     app.post('/verify-token',AuthController.verifyToken)
 
+    app.post('/user',AuthController.getUser)
+
     //Events Paths
     app.get('/events', Events.getEvents);
     app.post('/events', upload.single('event'), Events.uploadEvent)

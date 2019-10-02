@@ -111,13 +111,15 @@ export default {
       })
       if(user.status == 200) {
         this.$store.dispatch('setIsLoggedIn',true)
-        this.$store.dispatch('setUser',user.data.user.username)
+        this.$store.dispatch('setUser',user.data.username)
         this.$store.dispatch('setToken',user.data.token)
-        if(user.data.user.username == this.$store.state.adminUsername) {
+        if(user.data.username == this.$store.state.adminUsername) {
           this.$store.dispatch('setIsAdmin',true)
         }
         this.$store.dispatch('setCookie')
-        this.$router.go(-1)
+        this.$router.push({
+          name: 'profile'
+        })
       }
     },
     lvalidate () {
@@ -133,13 +135,15 @@ export default {
       })
       if(user.status == 200) {
         this.$store.dispatch('setIsLoggedIn',true)
-        this.$store.dispatch('setUser',user.data.user.username)
+        this.$store.dispatch('setUser',user.data.username)
         this.$store.dispatch('setToken',user.data.token)
-        if(user.data.user.username == this.$store.state.adminUsername) {
+        if(user.data.username == this.$store.state.adminUsername) {
           this.$store.dispatch('setIsAdmin',true)
         }
         this.$store.dispatch('setCookie')
-        this.$router.go(-1)
+        this.$router.push({
+          name: 'profile'
+        })
       }
     },
     reset () {
