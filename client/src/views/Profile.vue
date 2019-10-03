@@ -2,7 +2,7 @@
   <v-layout justify-center align-center>
     <v-flex xs12 md3>
       <v-card
-        max-width="375"
+        width="375"
         class="mx-auto mt-2 mb-2"
         grey
       >
@@ -77,6 +77,7 @@ export default {
     })
 
     this.user = response.data
+    console.log(this.user)
   },
   data: () => ({
     textInput: '',

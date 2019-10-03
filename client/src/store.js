@@ -11,7 +11,8 @@ export default new Vuex.Store({
     isLoggedIn: false,
     token: null,
     isAdmin: false,
-    adminUsername: 'PratikRock'
+    adminUsername: 'PratikRock',
+    firstTime: true
   },
   mutations: {
     setUser (state,user) {
@@ -25,6 +26,9 @@ export default new Vuex.Store({
     },
     setIsAdmin(state,isAdmin) {
       state.isAdmin = isAdmin
+    },
+    setFirstTime(state,firstTime) {
+      state.firstTime = firstTime
     }
   },
   actions: {
@@ -39,6 +43,9 @@ export default new Vuex.Store({
     },
     setIsAdmin({commit},isAdmin) {
       commit('setIsAdmin',isAdmin)
+    },
+    setFirstTime({commit},firstTime) {
+      commit('setFirstTime',firstTime)
     },
     setCookie () {
       $cookies.set('token',this.state.token);

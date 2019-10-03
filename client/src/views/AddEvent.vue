@@ -39,6 +39,60 @@
         </v-card-actions>
 
       </v-card>
+
+      <v-dialog
+        v-model="dialog"
+        max-width="400"
+      >
+        <v-card>
+          <v-card-title class="headline">Success!!!</v-card-title>
+
+          <v-divider></v-divider>
+
+          <v-card-text class="errortext success--text">
+            Event SuccessfullyCreated
+          </v-card-text>
+
+          <v-card-actions>
+            <div class="flex-grow-1"></div>
+
+            <v-btn
+              color="green darken-1"
+              @click="reroute"
+              class="white--text"
+            >
+              Great
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+      <v-dialog
+        v-model="errordialog"
+        max-width="400"
+      >
+        <v-card>
+          <v-card-title class="headline">Error!!!</v-card-title>
+
+          <v-divider></v-divider>
+
+          <v-card-text class="errortext error--text">
+            Could not Create Event 
+          </v-card-text>
+
+          <v-card-actions>
+            <div class="flex-grow-1"></div>
+
+            <v-btn
+              color="red darken-1"
+              @click="errordialog = false"
+              class="white--text"
+            >
+              Try Again
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-flex>
   </v-layout>
 </template>
@@ -63,7 +117,9 @@ export default {
     ],
     ifdate: false,
     picker: new Date().toISOString().substr(0, 10),
-    images: []
+    images: [],
+    dialog: false,
+    errordialog: false
   }),
   methods: {
     async addEvent () {
@@ -79,7 +135,17 @@ export default {
 
       if (events.status == 200) {
         console.log("Done")
+        this.dialog =true
       }
+      else {
+        this.errordialog = true
+      }
+    },
+    reroute () {
+      this.dialog = false
+      this.$router.push({
+        name: 'add-event'
+      })
     }
   }
 }
