@@ -23,6 +23,7 @@ module.exports = {
 
 			// const eventname = req.body.eventName
 			const file = req.file;
+			console.log(req.file)
 			const image = cloudinary.v2.uploader.upload(file.path);
 			req.body.image = {
 				url: image.secure_url,

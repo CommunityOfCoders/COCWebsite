@@ -16,7 +16,7 @@ module.exports = (app) => {
 
     //Events Paths
     app.get('/events', Events.getEvents);
-    app.post('/events', upload.single('event'), Events.uploadEvent)
+    app.post('/events', upload.single('COC_Event'), Events.uploadEvent)
     app.get('/events/:id', Events.getEventById);
     app.put('/events/:id', Events.updateEvent);
     app.delete('/events/:id', Events.deleteEvent);
