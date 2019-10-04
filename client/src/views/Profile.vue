@@ -68,6 +68,7 @@
 
 <script>
 import AuthServices from '@/services/AuthServices'
+import heros from '@/services/heros'
 export default {
   async mounted () {
     this.textInput = this.$store.state.user
@@ -77,7 +78,6 @@ export default {
     })
 
     this.user = response.data
-    console.log(this.user)
   },
   data: () => ({
     textInput: '',
@@ -92,7 +92,7 @@ export default {
   },
   methods: {
     hash (s){
-      return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);              
+      return heros[Math.floor(Math.random() * heros.length)];              
     }
   }
 }
