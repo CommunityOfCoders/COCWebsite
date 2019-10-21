@@ -1,6 +1,7 @@
 const AuthController = require('./controllers/AuthController')
 const Events = require('./controllers/Events')
-const Register = require('./controllers/Register');
+const Blogs = require('./controllers/Blogs')
+const Register = require('./controllers/Register')
 const upload = require('./middleware/upload')
 const Glimpsesupload = require('./config/multerglimpsesconfig')
 const GlimpseController = require('./controllers/GLimpseController')
@@ -24,4 +25,13 @@ module.exports = (app) => {
     // Registration
     app.post('/reg-form', Register.regForm);
     app.post('/glimpses/upload',Glimpsesupload.fields([{name: 'photos',maxCount: 10}]),GlimpseController.save)
+
+    // Blogs
+    app.get('/blogs', Blogs.allBlogs);
+    app.get('/blogs/:id', Blogs.viewBlogById);
+    // app.get('/blogs/new', Blogs.newBlog);
+    app.post('/blogs/new', Blogs.uploadBlog);
+    // app.get('/blogs/edit/:id', Blogs.editBlog);
+    app.put('/blogs/edit/:id', Blogs.editBlogById);
+    app.delete('/blogs/delete/:id', Blogs.deleteBlogById);
 }
