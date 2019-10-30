@@ -9,5 +9,8 @@ export default {
     },
     verifyToken (token) {
         return Api().post('verify-token',token)
+    },
+    getUser (username) {
+        return Api().post('user',username)
     }
 }

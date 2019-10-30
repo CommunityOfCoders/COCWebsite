@@ -21,37 +21,35 @@ module.exports = {
 	async uploadEvent(req, res) {
 		try {
 
-			// const eventname = req.body.eventName
 			const file = req.file;
+			console.log(req.file)
 			const image = cloudinary.v2.uploader.upload(file.path);
 			req.body.image = {
 				url: image.secure_url,
 				public_id: image.public_id
 			};
-			// const filename = eventname + '-' + req.body.date.substr(0,3) + path.extname(req.file.originalname).toLowerCase()
-
-			// req.body.imagePath = path.join(__dirname,'../images/events/',filename)
-
+			
 			const event = await Event.create(req.body);
 			res.json({
 				"id": event._id
 			});
 		} catch (err) {
-			res.status(400).send({
+			res.status(203).send({
 				err: err
 			})
 		}
 	},
 	async updateEvent(req, res) {
 		const eventId = req.params.id;
-		const event = Event.findById(eventId);
+		const event = await Event.findById(eventId);
 		res.json({
 			"id": event._id
 		});
+		// TODO ?
 	},
-	async deleteEvent(_req, res) {
+	async deleteEvent(req, res) {
 		const eventId = req.params.id;
-		const event = Event.findById(eventId);
+		const event = await Event.findById(eventId);
 		await event.remove();
 		res.status(204);
 	},

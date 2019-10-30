@@ -26,7 +26,7 @@ const event = new mongoose.Schema({
         public_id: String
     },
     form: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'registerForm'
     }
 });

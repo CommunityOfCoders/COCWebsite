@@ -59,6 +59,59 @@
         </v-tabs-items>
 
       </v-card>
+
+      <v-dialog
+        v-model="dialog"
+        max-width="400"
+      >
+        <v-card>
+          <v-card-title class="headline">Success!!!</v-card-title>
+
+          <v-divider></v-divider>
+
+          <v-card-text class="errortext success--text">
+            Successfully Logged In
+          </v-card-text>
+
+          <v-card-actions>
+            <div class="flex-grow-1"></div>
+
+            <v-btn
+              color="green darken-1"
+              @click="reroute"
+              class="white--text"
+            >
+              Let's Start
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+      <v-dialog
+        v-model="errordialog"
+        max-width="400"
+      >
+        <v-card>
+          <v-card-title class="headline">Error!!!</v-card-title>
+
+          <v-divider></v-divider>
+
+          <v-card-text class="errortext error--text">{{ errormsg }}</v-card-text>
+
+          <v-card-actions>
+            <div class="flex-grow-1"></div>
+
+            <v-btn
+              color="red darken-1"
+              @click="errordialog = false"
+              class="white--text"
+            >
+              Try Again
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
     </v-flex>
   </v-layout>
 </template>
@@ -92,7 +145,10 @@ export default {
       gradRules: [
         v => !!v || 'GradYear is required',
         v => /^[0-9]{4}$/.test(v) || "Graduation Year should be a year"
-      ]
+      ],
+      dialog: false,
+      errordialog: false,
+      errormsg: ''
     }
   },
   methods: {
@@ -111,13 +167,16 @@ export default {
       })
       if(user.status == 200) {
         this.$store.dispatch('setIsLoggedIn',true)
-        this.$store.dispatch('setUser',user.data.user.username)
+        this.$store.dispatch('setUser',user.data.username)
         this.$store.dispatch('setToken',user.data.token)
-        if(user.data.user.username == this.$store.state.adminUsername) {
+        if(user.data.username == this.$store.state.adminUsername) {
           this.$store.dispatch('setIsAdmin',true)
         }
         this.$store.dispatch('setCookie')
-        this.$router.go(-1)
+        this.dialog = true
+      } else {
+        this.errormsg = user.data.error
+        this.errordialog = true
       }
     },
     lvalidate () {
@@ -131,15 +190,20 @@ export default {
         username: this.lusername,
         password: this.lpassword
       })
+      console.log(user.data)
       if(user.status == 200) {
         this.$store.dispatch('setIsLoggedIn',true)
-        this.$store.dispatch('setUser',user.data.user.username)
+        this.$store.dispatch('setUser',user.data.username)
         this.$store.dispatch('setToken',user.data.token)
-        if(user.data.user.username == this.$store.state.adminUsername) {
+        if(user.data.username == this.$store.state.adminUsername) {
           this.$store.dispatch('setIsAdmin',true)
         }
         this.$store.dispatch('setCookie')
-        this.$router.go(-1)
+        
+        this.dialog = true
+      } else {
+        this.errormsg = user.data.error
+        this.errordialog = true
       }
     },
     reset () {
@@ -147,6 +211,12 @@ export default {
     },
     lreset () {
       this.$refs.loginform.reset()
+    },
+    reroute () {
+      this.dialog = false
+      this.$router.push({
+        name: 'profile'
+      })
     }
   }
 }
@@ -157,13 +227,8 @@ export default {
     color: #356859 !important;
     font-size: 2em; 
   }
-  .g-signin-button {
-    /* This is where you control how the button looks. Be creative! */
-    display: inline-block;
-    padding: 4px 8px;
-    border-radius: 3px;
-    background-color: #3c82f7;
-    color: #fff;
-    box-shadow: 0 3px 0 #0f69ff;
+
+  .errortext {
+    font-size: 1.15em;
   }
 </style>

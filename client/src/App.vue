@@ -13,9 +13,11 @@ import PageHeader from '@/components/PageHeader'
 import PageFooter from '@/components/PageFooter'
 export default {
   name: 'App',
-  beforeCreate() {
-    console.log("Called")
-    this.$store.dispatch('authenticate')
+  async beforeCreate() {
+    if(this.$store.state.firstTime){
+      await this.$store.dispatch('authenticate')
+      this.$store.dispatch('setFirstTime',false)
+    }
   },
   components: {
     PageHeader,

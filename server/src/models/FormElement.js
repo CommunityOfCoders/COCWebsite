@@ -18,6 +18,6 @@ const formElement = new mongoose.Schema({
     attr: [Mixed]
 });
 
-const FormElement = mongoose.Model('formElement', formElement);
+const FormElement = mongoose.model('formElement', formElement);
 
 module.exports = FormElement;
