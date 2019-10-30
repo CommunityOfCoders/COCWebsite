@@ -13,6 +13,8 @@ const formElement = new mongoose.Schema({
     },
     for: String,
     value: Mixed,
+    style: String,
+    class: String,
     attr: [Mixed]
 });
 
