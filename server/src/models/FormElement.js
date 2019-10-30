@@ -3,14 +3,15 @@ const mongoose = require('mongoose');
 const formElement = new mongoose.Schema({
     elementType: {
         type: String,
-        enum: ['text', 'email', 'url', 'number', 'checkbox', 'radio', 'textarea'],
+        enum: ['text', 'email', 'url', 'number', 'checkbox', 'radio', 'textarea', 'label'],
         required: true
     },
+    id: String,
     name: {
         type: String,
         required: true
     },
-    label: String,
+    for: String,
     value: Mixed,
     attr: [Mixed]
 });
