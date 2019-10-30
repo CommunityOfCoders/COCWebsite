@@ -2,7 +2,6 @@ const AuthController = require('./controllers/AuthController')
 const Events = require('./controllers/Events')
 const Register = require('./controllers/Register');
 const upload = require('./middleware/upload')
-const Glimpsesupload = require('./config/multerglimpsesconfig')
 const GlimpseController = require('./controllers/GLimpseController')
 
 module.exports = (app) => {
@@ -23,5 +22,6 @@ module.exports = (app) => {
 
     // Registration
     app.post('/reg-form', Register.regForm);
-    app.post('/glimpses/upload',Glimpsesupload.fields([{name: 'photos',maxCount: 10}]),GlimpseController.save)
+
+    app.get('/glimpses',GlimpseController.getPhotos)
 }

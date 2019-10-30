@@ -150,6 +150,9 @@ export default {
       this.$store.dispatch('setToken',null)
       this.$store.dispatch('setIsAdmin',false)
       this.$store.dispatch('setCookie')
+      this.$router.push({
+        name: 'home'
+      })
     }
   }
 }
