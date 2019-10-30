@@ -6,15 +6,10 @@ const formElement = new mongoose.Schema({
         enum: ['text', 'email', 'url', 'number', 'checkbox', 'radio', 'textarea', 'label'],
         required: true
     },
-    id: String,
     name: {
         type: String,
         required: true
     },
-    for: String,
-    value: mongoose.Schema.Types.Mixed,
-    style: String,
-    class: String,
     attr: [mongoose.Schema.Types.Mixed]
 });
 
