@@ -45,8 +45,9 @@ module.exports = {
 		res.json({
 			"id": event._id
 		});
+		// TODO ?
 	},
-	async deleteEvent(_req, res) {
+	async deleteEvent(req, res) {
 		const eventId = req.params.id;
 		const event = await Event.findById(eventId);
 		await event.remove();
