@@ -12,10 +12,10 @@ const formElement = new mongoose.Schema({
         required: true
     },
     for: String,
-    value: Mixed,
+    value: mongoose.Schema.Types.Mixed,
     style: String,
     class: String,
-    attr: [Mixed]
+    attr: [mongoose.Schema.Types.Mixed]
 });
 
 const FormElement = mongoose.model('formElement', formElement);
