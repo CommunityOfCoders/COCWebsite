@@ -23,11 +23,9 @@ module.exports = (app) => {
 
     // Registration
     app.post('/reg-form', Register.regForm);
-<<<<<<< HEAD
 
     app.get('/glimpses',GlimpseController.getPhotos)
-=======
-    app.post('/glimpses/upload',Glimpsesupload.fields([{name: 'photos',maxCount: 10}]),GlimpseController.save)
+
 
     // Blogs
     app.get('/blogs', Blogs.allBlogs);
@@ -37,5 +35,4 @@ module.exports = (app) => {
     // app.get('/blogs/edit/:id', Blogs.editBlog);
     app.put('/blogs/edit/:id', Blogs.editBlogById);
     app.delete('/blogs/delete/:id', Blogs.deleteBlogById);
->>>>>>> 09a38615845642f18fa953975306b7a1d2bcb5a9
 }
