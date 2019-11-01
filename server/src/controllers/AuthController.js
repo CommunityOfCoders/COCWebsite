@@ -12,8 +12,19 @@ module.exports = {
 
     async register (req,res) {
         try {
-            var {password} = req.body
+            const {password,username} = req.body
             
+            const user1 = await User.findOne({
+                username: username
+            })
+
+            if(user1) {
+                return res.status(203).send({
+                   error: "UserName Already Exists" 
+                })
+            }
+
+            console.log("Yes")
 
             req.body.password = passwordHash(password);
             

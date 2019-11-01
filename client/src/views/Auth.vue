@@ -2,6 +2,22 @@
   <v-layout justify-center align-center>
     <v-flex xs11 md6>
 
+      <v-alert
+        text
+        type="success"
+        v-if="dialog"
+      >
+        Successfully Logged In
+      </v-alert>
+
+      <v-alert
+        text
+        type="error"
+        v-if="errordialog"
+      >
+        {{errormsg}}
+      </v-alert>
+
       <v-card light>
 
         <v-card-title class="text-center justify-center py-6">
@@ -59,58 +75,6 @@
         </v-tabs-items>
 
       </v-card>
-
-      <v-dialog
-        v-model="dialog"
-        max-width="400"
-      >
-        <v-card>
-          <v-card-title class="headline">Success!!!</v-card-title>
-
-          <v-divider></v-divider>
-
-          <v-card-text class="errortext success--text">
-            Successfully Logged In
-          </v-card-text>
-
-          <v-card-actions>
-            <div class="flex-grow-1"></div>
-
-            <v-btn
-              color="green darken-1"
-              @click="reroute"
-              class="white--text"
-            >
-              Let's Start
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-
-      <v-dialog
-        v-model="errordialog"
-        max-width="400"
-      >
-        <v-card>
-          <v-card-title class="headline">Error!!!</v-card-title>
-
-          <v-divider></v-divider>
-
-          <v-card-text class="errortext error--text">{{ errormsg }}</v-card-text>
-
-          <v-card-actions>
-            <div class="flex-grow-1"></div>
-
-            <v-btn
-              color="red darken-1"
-              @click="errordialog = false"
-              class="white--text"
-            >
-              Try Again
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
 
     </v-flex>
   </v-layout>
@@ -174,9 +138,13 @@ export default {
         }
         this.$store.dispatch('setCookie')
         this.dialog = true
+        this.errordialog = false
       } else {
+        console.log(user.data)
+        console.log(user.status)
         this.errormsg = user.data.error
         this.errordialog = true
+        this.dialog = false
       }
     },
     lvalidate () {
@@ -201,9 +169,11 @@ export default {
         this.$store.dispatch('setCookie')
         
         this.dialog = true
+        this.errordialog = false
       } else {
         this.errormsg = user.data.error
         this.errordialog = true
+        this.dialog = false
       }
     },
     reset () {
@@ -211,12 +181,6 @@ export default {
     },
     lreset () {
       this.$refs.loginform.reset()
-    },
-    reroute () {
-      this.dialog = false
-      this.$router.push({
-        name: 'profile'
-      })
     }
   }
 }

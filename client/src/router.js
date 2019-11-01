@@ -71,7 +71,8 @@ const router = new Router({
     {
       path: '/write-blog',
       name: 'write-blog',
-      component: Blog
+      component: Blog,
+      beforeEnter: guard
     }
   ]
 })
