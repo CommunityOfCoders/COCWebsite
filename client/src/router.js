@@ -5,6 +5,7 @@ import AddEvent from './views/AddEvent.vue'
 import Auth from './views/Auth.vue'
 import Profile from './views/Profile.vue'
 import displayEvents from './views/displayEvents.vue'
+import Blog from './views/CreateBlog.vue'
 import store from './store'
 
 Vue.use(Router)
@@ -66,6 +67,11 @@ const router = new Router({
       path: '/events',
       name: 'events',
       component: displayEvents
+    },
+    {
+      path: '/write-blog',
+      name: 'write-blog',
+      component: Blog
     }
   ]
 })
