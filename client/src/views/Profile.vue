@@ -4,7 +4,7 @@
       <v-card
         width="375"
         class="mx-auto mt-2 mb-2"
-        grey
+        dark
       >
 
         <div v-html="identicon" class="profilepic"></div>

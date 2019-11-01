@@ -2,7 +2,7 @@
   <v-layout justify-center align-center>
     <v-flex xs11 md6>
 
-      <v-card color="basil">
+      <v-card light>
 
         <v-card-title class="text-center justify-center py-6">
           <p class="font-weight-bold basil--text" >Authorization</p>
@@ -20,7 +20,7 @@
 
           <v-tab-item>
 
-            <v-card flat class="mb-3 mt-3 basil">
+            <v-card flat class="mb-3 mt-3" dark>
               <div class="mb-4 mt-4 ml-4 mr-4">
                 <br>
                 <v-form ref="form" v-model="svalid" lazy-validation>
@@ -40,7 +40,7 @@
 
           <v-tab-item>
 
-            <v-card flat class="mb-3 mt-3 basil">
+            <v-card flat class="mb-3 mt-3" dark>
               <div class="mb-4 mt-4 ml-4 mr-4">
                 <br>
                 <v-form ref="loginform" v-model="lvalid" lazy-validation>

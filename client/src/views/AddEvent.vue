@@ -1,7 +1,7 @@
 <template>
   <v-layout align-center justify-center class="bgimage">
     <v-flex xs10 sm10 md6>
-      <v-card elevation="12" class="mb-3 mt-3" color="rgba(255,255,255,0.85)">
+      <v-card light elevation="12" class="mb-3 mt-3" color="rgba(255,255,255,0.85)">
 
         <v-toolbar color="black" dark flat>
 

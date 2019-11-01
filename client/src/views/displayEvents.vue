@@ -11,7 +11,7 @@
 
       <v-row class="mr-0 ml-0">
         <v-col cols="12">
-          <v-row :align="alignment" :justify="justify" class="grey lighten-5" >
+          <v-row :align="alignment" :justify="justify">
 
             <v-card class="mx-auto mt-4 mb-4" :max-width="imageHeight" v-for="event in filteredEvents" :key="event._id" dark>
               <v-img class="white--text" height="200px" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg">
