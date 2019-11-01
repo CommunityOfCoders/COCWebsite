@@ -18,13 +18,12 @@ module.exports = {
         // TODO: add isBlogAuthorized middleware
         try {
             // Assumed that req.body already has required fields
-            req.body.author = req.user.username;
             const blog = await Blog.create(req.body);
 			res.json({
 				"id": blog._id
 			});
 		} catch (err) {
-			res.status(400).send({
+			res.status(201).send({
 				err: err
 			})
 		}

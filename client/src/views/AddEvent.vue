@@ -1,6 +1,21 @@
 <template>
   <v-layout align-center justify-center class="bgimage">
     <v-flex xs10 sm10 md6>
+
+      <v-alert
+        type="success"
+        v-if="dialog"
+      >
+        Event Created Successfully
+      </v-alert>
+
+      <v-alert
+        type="error"
+        v-if="errordialog"
+      >
+        Could Not Create Event
+      </v-alert>
+
       <v-card light elevation="12" class="mb-3 mt-3" color="rgba(255,255,255,0.85)">
 
         <v-toolbar color="black" dark flat>
@@ -40,7 +55,7 @@
 
       </v-card>
 
-      <v-dialog
+      <!-- <v-dialog
         v-model="dialog"
         max-width="400"
       >
@@ -92,7 +107,7 @@
             </v-btn>
           </v-card-actions>
         </v-card>
-      </v-dialog>
+      </v-dialog> -->
     </v-flex>
   </v-layout>
 </template>
@@ -135,10 +150,12 @@ export default {
 
       if (events.status == 200) {
         console.log("Done")
-        this.dialog =true
+        this.dialog = true
+        this.errordialog = false
       }
       else {
         this.errordialog = true
+        this.dialog = false
       }
     },
     reroute () {
