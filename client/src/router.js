@@ -6,6 +6,8 @@ import Auth from './views/Auth.vue'
 import Profile from './views/Profile.vue'
 import displayEvents from './views/displayEvents.vue'
 import Blog from './views/CreateBlog.vue'
+import ViewBlogs from './views/ViewBlogs.vue'
+import ViewBlog from './views/ViewBlog.vue'
 import store from './store'
 
 Vue.use(Router)
@@ -73,6 +75,16 @@ const router = new Router({
       name: 'write-blog',
       component: Blog,
       beforeEnter: guard
+    },
+    {
+      path: '/view-blogs',
+      name: 'view-blogs',
+      component: ViewBlogs
+    },
+    {
+      path: '/view-blog/:id',
+      name: 'view-blog',
+      component: ViewBlog
     }
   ]
 })

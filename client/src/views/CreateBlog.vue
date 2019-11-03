@@ -27,7 +27,21 @@
         class="mt-2 mb-2"
       ></v-text-field>
       <editor :value="editorText" :html="editorHtml" :visible="editorVisible" previewStyle="vertical" v-model="editorText" height="65vh"/><br>
+      
+      <v-combobox multiple
+        v-model="select" 
+        label="Tags" 
+        append-icon
+        chips
+        deletable-chips
+        class="tag-input"
+        :search-input.sync="search" 
+        @keyup.tab="updateTags"
+        @paste="updateTags">
+      </v-combobox>
+      
       <v-btn color="success" @click="addBlog" class="mt-2 mb-2">Add Blog</v-btn>&ensp;
+      <v-btn color="success" @click="print" class="mt-2 mb-2">Print</v-btn>&ensp;
       <v-btn color="warning" @click="reset" class="mt-2 mb-2">Reset</v-btn><br>
     </v-flex>
   </v-layout>
@@ -57,7 +71,10 @@ export default {
           editorVisible: true,
           blogTitle: '',
           dialog: false,
-          errordialog: false
+          errordialog: false,
+          select: [],
+          items: [],
+          search: ''
       }
   },
   methods: {
@@ -66,6 +83,7 @@ export default {
         blogTitle : this.blogTitle,
         blogContent: this.editorText,
         date: Date.now,
+        tags: this.select,
         author: this.$store.state.user
       });
       if (response.status == 200) {
@@ -78,10 +96,25 @@ export default {
     },
     reset () {
       this.editorText = ''
+      this.items = []
+      this.select = []
+      this.search = ""
+    },
+    print () {
+      console.log(this.select)
+    },
+    updateTags() {
+      this.$nextTick(() => {
+        this.select.push(...this.search.split(","));
+        this.$nextTick(() => {
+          this.search = "";
+        });
+      });
     }
   }
 }
 </script> 
 
 <style scoped>
+  
 </style>

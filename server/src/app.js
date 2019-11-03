@@ -9,7 +9,7 @@ const dbconnect = require('./config/dbconnect');
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '10mb' }));
 app.use(cors());
 app.use(morgan('combined'));
 
