@@ -8,6 +8,7 @@ import displayEvents from './views/displayEvents.vue'
 import Blog from './views/CreateBlog.vue'
 import ViewBlogs from './views/ViewBlogs.vue'
 import ViewBlog from './views/ViewBlog.vue'
+import Admin from './views/Admin.vue'
 import store from './store'
 
 Vue.use(Router)
@@ -85,6 +86,12 @@ const router = new Router({
       path: '/view-blog/:id',
       name: 'view-blog',
       component: ViewBlog
+    },
+    {
+      path: '/add-form',
+      name: 'add-form',
+      component: Admin,
+      beforeEnter: adminGuard
     }
   ]
 })

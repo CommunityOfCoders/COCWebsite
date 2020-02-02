@@ -1,6 +1,7 @@
 <template>
   <v-layout align-center justify-center class="bgimage">
-    <v-flex xs10 sm10 md6>
+
+    <v-flex xs12 sm12 md6>
 
       <v-alert
         type="success"
