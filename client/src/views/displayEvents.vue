@@ -31,8 +31,8 @@
                 <v-btn text color="orange">Explore</v-btn>
               </v-card-actions>
             </v-card>
-
-              <p v-if="!filteredEvents.length" class="red--text mr-4 ml-4">There is currently no event of this name. If you want any particular event you can suggest it to your seniors, we are very eager to know what you want to learn next.</p> 
+              <p v-if="!filteredEvents.length && search==''" class="red--text mr-4 ml-4">There is currently no event scheduled. If you want any particular event you can suggest it to your seniors, we are very eager to know what you want to learn next.</p>
+              <p v-else-if="!filteredEvents.length" class="red--text mr-4 ml-4">There is currently no event of this name. If you want any particular event you can suggest it to your seniors, we are very eager to know what you want to learn next.</p> 
           </v-row>
         </v-col>
       </v-row>

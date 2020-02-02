@@ -13,7 +13,7 @@
         <v-btn text dark :to="{name: 'events'}"><v-icon>fas fa-laptop-code</v-icon>&nbsp;Activities</v-btn>
         <v-btn text dark ><v-icon>fas fa-images</v-icon>&nbsp;Glimpses</v-btn>
         <v-btn text dark ><v-icon>fas fa-users</v-icon>&nbsp;Team</v-btn>
-        <v-btn text dark :to="{name: 'add-event'}" v-if="$store.state.isAdmin"><v-icon>far fa-calendar-plus</v-icon>&nbsp;AddEvents</v-btn>
+        <v-btn text dark :to="{name: 'add-event'}" v-if="$store.state.isAdmin"><v-icon>far fa-calendar-plus</v-icon>&nbsp;Admin</v-btn>
         <v-btn text dark :to="{name: 'profile'}" v-if="$store.state.isLoggedIn"><v-icon>far fa-user-circle</v-icon>&nbsp;Profile</v-btn>
         <v-btn text dark v-if="$store.state.isLoggedIn" @click="logout"><v-icon>fas fa-sign-out-alt</v-icon>&nbsp;LogOut&nbsp;</v-btn>
         <v-avatar color="red" v-if="$store.state.isLoggedIn" class="mt-2">

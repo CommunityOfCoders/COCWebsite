@@ -116,8 +116,9 @@
 import EventServices from '@/services/EventServices'
 
 export default {
-  beforeCreate() {
-    
+  async mounted() {
+    const response = await EventServices.getEvents()
+    this.events = response.data
   },
   data: () => ({
     eventName: '',
@@ -134,7 +135,8 @@ export default {
     picker: new Date().toISOString().substr(0, 10),
     images: [],
     dialog: false,
-    errordialog: false
+    errordialog: false,
+    events: []
   }),
   methods: {
     async addEvent () {
