@@ -13,7 +13,28 @@
         <v-btn text dark :to="{name: 'events'}"><v-icon>fas fa-laptop-code</v-icon>&nbsp;Activities</v-btn>
         <v-btn text dark ><v-icon>fas fa-images</v-icon>&nbsp;Glimpses</v-btn>
         <v-btn text dark ><v-icon>fas fa-users</v-icon>&nbsp;Team</v-btn>
-        <v-btn text dark :to="{name: 'add-event'}" v-if="$store.state.isAdmin"><v-icon>far fa-calendar-plus</v-icon>&nbsp;Admin</v-btn>
+        <v-menu offset-y transition="scale-transition" v-if="$store.state.isAdmin">
+          <template v-slot:activator="{ on }">
+            <v-btn
+              dark
+              v-on="on"
+              text
+            >
+              <v-icon>fas fa-user-shield</v-icon>&nbsp;
+              Admin
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="(item, index) in items"
+              :key="index"
+              @click="$router.push({name: item.link})"
+            >
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+ 
         <v-btn text dark :to="{name: 'profile'}" v-if="$store.state.isLoggedIn"><v-icon>far fa-user-circle</v-icon>&nbsp;Profile</v-btn>
         <v-btn text dark v-if="$store.state.isLoggedIn" @click="logout"><v-icon>fas fa-sign-out-alt</v-icon>&nbsp;LogOut&nbsp;</v-btn>
         <v-avatar color="red" v-if="$store.state.isLoggedIn" class="mt-2">
@@ -141,7 +162,17 @@
 export default {
   data: () => ({
     drawer: false,
-    search: ''
+    search: '',
+    items: [
+      { 
+        title: 'Add Event' ,
+        link: 'add-event'
+      },
+      { 
+        title: 'Add-From',
+        link: 'add-form'
+      }
+    ],
   }),
   methods: {
     logout () {
