@@ -6,6 +6,8 @@ const upload = require('./middleware/upload')
 const GlimpseController = require('./controllers/GLimpseController')
 
 module.exports = (app) => {
+    app.get('/hello', (req,res) => {res.send('Hello World')})
+
     app.post('/register',AuthController.register)
 
     app.post('/login',AuthController.login)
