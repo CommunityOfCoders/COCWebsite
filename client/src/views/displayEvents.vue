@@ -13,26 +13,31 @@
         <v-col cols="12">
           <v-row :align="alignment" :justify="justify">
 
-            <v-card class="mx-auto mt-4 mb-4" :max-width="imageHeight" v-for="event in filteredEvents" :key="event._id" dark>
-              <v-img class="white--text" height="200px" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg">
-                <v-card-title class="align-end fill-height">{{ event.eventName }}</v-card-title>
-              </v-img>
+            <div v-for="event in filteredEvents" :key="event._id">
+            <v-card class="mx-auto mt-4 mb-4 mr-4 ml-4" :max-width="imageHeight" dark v-if="new Date(event.date).getTime() > Date.now()">
+              <div >
+                <v-img class="white--text" height="200px" src="https://cdn.vuetifyjs.com/images/cards/docks.jpg">
+                  <v-card-title class="align-end fill-height">{{ event.eventName }}</v-card-title>
+                </v-img>
 
-              <v-card-text class="text">
-                <span>Date: {{ event.date }}</span><br><br>
-                <span>
-                  <span>Description: {{ event.description }}</span><br><br>
-                  <span>Venue: {{ event.venue }}</span>
-                </span>
-              </v-card-text>
+                <v-card-text class="text">
+                  <span>Date: {{ event.date }}</span><br><br>
+                  <span>
+                    <span>Description: {{ event.description }}</span><br><br>
+                    <span>Venue: {{ event.venue }}</span>
+                  </span>
+                </v-card-text>
 
-              <v-card-actions>
-                <v-btn text color="success">Register</v-btn>
-                <v-btn text color="orange">Explore</v-btn>
-              </v-card-actions>
+                <v-card-actions>
+                  <v-btn text color="success">Register</v-btn>
+                  <v-btn text color="orange">Explore</v-btn>
+                </v-card-actions>
+              </div>
             </v-card>
-              <p v-if="!filteredEvents.length && search==''" class="red--text mr-4 ml-4">There is currently no event scheduled. If you want any particular event you can suggest it to your seniors, we are very eager to know what you want to learn next.</p>
-              <p v-else-if="!filteredEvents.length" class="red--text mr-4 ml-4">There is currently no event of this name. If you want any particular event you can suggest it to your seniors, we are very eager to know what you want to learn next.</p> 
+            </div>
+            
+            <p v-if="!filteredEvents.length && search==''" class="red--text mr-4 ml-4">There is currently no event scheduled. If you want any particular event you can suggest it to your seniors, we are very eager to know what you want to learn next.</p>
+            <p v-else-if="!filteredEvents.length" class="red--text mr-4 ml-4">There is currently no event of this name. If you want any particular event you can suggest it to your seniors, we are very eager to know what you want to learn next.</p> 
           </v-row>
         </v-col>
       </v-row>
@@ -53,7 +58,7 @@ export default {
     alignment: 'center',
     dense: false, 
     justify: 'center',
-    search: ''
+    search: '',
   }),
   computed: {
     imageHeight () {
