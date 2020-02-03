@@ -83,7 +83,6 @@ export default {
   methods: {
     async addForm(id) {
       const formURL = document.getElementById(id).value
-      console.log(formURL)
       const response = await EventServices.addForm({
         id: id,
         formURL: formURL

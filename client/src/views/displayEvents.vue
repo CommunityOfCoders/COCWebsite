@@ -29,7 +29,7 @@
                 </v-card-text>
 
                 <v-card-actions>
-                  <v-btn text color="success">Register</v-btn>
+                  <v-btn text color="success" :to="{name: 'event-form', params: {id: event._id}}">Register</v-btn>
                   <v-btn text color="orange">Explore</v-btn>
                 </v-card-actions>
               </div>

@@ -9,5 +9,8 @@ export default {
     },
     addForm (form) {
         return Api().put('events/form',form)
+    },
+    getEvent (id) {
+        return Api().get('events/' + id)
     }
 }

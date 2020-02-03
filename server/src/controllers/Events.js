@@ -14,9 +14,15 @@ module.exports = {
 		res.json(events);
 	},
 	async getEventById(req, res) {
-		const eventId = req.params.id;
-		const event = await Event.findById(eventId);
-		res.json(event);
+		try {
+			const eventId = req.params.id;
+			const event = await Event.findById(eventId);
+			res.json(event);
+		} catch (err) {
+			res.status(203).send({
+				err: err
+			})
+		}
 	},
 	async uploadEvent(req, res) {
 		try {
