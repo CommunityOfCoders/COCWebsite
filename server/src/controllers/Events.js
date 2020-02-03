@@ -53,4 +53,20 @@ module.exports = {
 		await event.remove();
 		res.status(204);
 	},
+	async addForm (req,res) {
+		const formURL = req.body.formURL
+		const eventId = req.body.id
+
+		try {
+			const event = await Event.findByIdAndUpdate(eventId,{form: formURL})
+
+			res.status(200).send({
+				message: 'Form added successfully'
+			})
+		} catch (err) {
+			res.status(203).send({
+				err: err
+			})
+		}
+	}
 }

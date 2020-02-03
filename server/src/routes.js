@@ -17,9 +17,11 @@ module.exports = (app) => {
     //Events Paths
     app.get('/events', Events.getEvents);
     app.post('/events', upload.single('COC_Event'), Events.uploadEvent)
+    app.put('/events/form',Events.addForm)
     app.get('/events/:id', Events.getEventById);
     app.put('/events/:id', Events.updateEvent);
     app.delete('/events/:id', Events.deleteEvent);
+    
 
     // Registration
     app.post('/reg-form', Register.regForm);

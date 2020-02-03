@@ -25,9 +25,12 @@ const event = new mongoose.Schema({
         url: String,
         public_id: String
     },
+    // form: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'registerForm'
+    // }
     form: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'registerForm'
+        type: String
     }
 });
 

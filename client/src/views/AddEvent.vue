@@ -117,10 +117,6 @@
 import EventServices from '@/services/EventServices'
 
 export default {
-  async mounted() {
-    const response = await EventServices.getEvents()
-    this.events = response.data
-  },
   data: () => ({
     eventName: '',
     description: '',
