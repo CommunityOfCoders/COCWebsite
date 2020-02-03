@@ -6,37 +6,37 @@ const upload = require('./middleware/upload')
 const GlimpseController = require('./controllers/GLimpseController')
 
 module.exports = (app) => {
-    app.get('/hello', (req,res) => {res.send('Hello World')})
+    app.get('/api/hello', (req,res) => {res.send('Hello World')})
 
-    app.post('/register',AuthController.register)
+    app.post('/api/register',AuthController.register)
 
-    app.post('/login',AuthController.login)
+    app.post('/api/login',AuthController.login)
 
-    app.post('/verify-token',AuthController.verifyToken)
+    app.post('/api/verify-token',AuthController.verifyToken)
 
-    app.post('/user',AuthController.getUser)
+    app.post('/api/user',AuthController.getUser)
 
     //Events Paths
-    app.get('/events', Events.getEvents);
-    app.post('/events', upload.single('COC_Event'), Events.uploadEvent)
-    app.put('/events/form',Events.addForm)
-    app.get('/events/:id', Events.getEventById);
-    app.put('/events/:id', Events.updateEvent);
-    app.delete('/events/:id', Events.deleteEvent);
+    app.get('/api/events', Events.getEvents);
+    app.post('/api/events', upload.single('COC_Event'), Events.uploadEvent)
+    app.put('/api/events/form',Events.addForm)
+    app.get('/api/events/:id', Events.getEventById);
+    app.put('/api/events/:id', Events.updateEvent);
+    app.delete('/api/events/:id', Events.deleteEvent);
     
 
     // Registration
-    app.post('/reg-form', Register.regForm);
+    app.post('/api/reg-form', Register.regForm);
 
-    app.get('/glimpses',GlimpseController.getPhotos)
+    app.get('/api/glimpses',GlimpseController.getPhotos)
 
 
     // Blogs
-    app.get('/blogs', Blogs.allBlogs);
-    app.get('/blogs/:id', Blogs.viewBlogById);
-    // app.get('/blogs/new', Blogs.newBlog);
-    app.post('/blogs/new', Blogs.uploadBlog);
-    // app.get('/blogs/edit/:id', Blogs.editBlog);
-    app.put('/blogs/edit/:id', Blogs.editBlogById);
-    app.delete('/blogs/delete/:id', Blogs.deleteBlogById);
+    app.get('/api/blogs', Blogs.allBlogs);
+    app.get('/api/blogs/:id', Blogs.viewBlogById);
+    // app.get('/api/blogs/new', Blogs.newBlog);
+    app.post('/api/blogs/new', Blogs.uploadBlog);
+    // app.get('/api/blogs/edit/:id', Blogs.editBlog);
+    app.put('/api/blogs/edit/:id', Blogs.editBlogById);
+    app.delete('/api/blogs/delete/:id', Blogs.deleteBlogById);
 }
