@@ -35,11 +35,12 @@
           </v-list>
         </v-menu>
  
-        <v-btn text dark :to="{name: 'profile'}" v-if="$store.state.isLoggedIn"><v-icon>far fa-user-circle</v-icon>&nbsp;Profile</v-btn>
         <v-btn text dark v-if="$store.state.isLoggedIn" @click="logout"><v-icon>fas fa-sign-out-alt</v-icon>&nbsp;LogOut&nbsp;</v-btn>
-        <v-avatar color="red" v-if="$store.state.isLoggedIn" class="mt-2">
-          <span class="white--text headline">{{this.$store.state.user.substring(0,1)}}</span>
-        </v-avatar>
+        <v-btn icon fab dark large :to="{name: 'profile'}" v-if="$store.state.isLoggedIn">
+          <v-avatar color="red" class="mt-2">
+            <span class="white--text headline">{{this.$store.state.user.substring(0,1)}}</span>
+          </v-avatar>
+        </v-btn>
         <v-btn text dark :to="{name: 'auth'}" v-if="!$store.state.isLoggedIn"><v-icon>fas fa-sign-in-alt</v-icon>&nbsp;SignUp</v-btn>
       </v-toolbar-items>
 
@@ -49,12 +50,14 @@
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title class="title">
-            <v-avatar color="red" v-if="$store.state.isLoggedIn" class="mt-2">
-              <span class="white--text headline">{{this.$store.state.user.substring(0,1)}}</span>
-            </v-avatar>
+            <v-btn icon fab dark large :to="{name: 'profile'}" v-if="$store.state.isLoggedIn">
+              <v-avatar color="red" class="mt-2" >
+                <span class="white--text headline">{{this.$store.state.user.substring(0,1)}}</span>
+              </v-avatar>
+            </v-btn>
           </v-list-item-title>
           <v-list-item-subtitle>
-            subtext
+            Community of Coders
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -133,16 +136,6 @@
             </v-list-item-content>
         </v-list-item>
 
-        <v-list-item dark link color="black" v-if="$store.state.isLoggedIn" :to="{name: 'profile'}">
-            <v-list-item-icon>
-              <v-icon>far fa-user-circle</v-icon>
-            </v-list-item-icon>
-
-            <v-list-item-content>
-              <v-list-item-title>Profile</v-list-item-title>
-            </v-list-item-content>
-        </v-list-item>
-
         <v-list-item dark link color="black" v-if="$store.state.isLoggedIn" @click="logout">
             <v-list-item-icon>
               <v-icon>fas fa-sign-out-alt</v-icon>
@@ -160,6 +153,16 @@
 
             <v-list-item-content>
               <v-list-item-title>SignUp</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item dark link color="black" @click="drawer = false ">
+            <v-list-item-icon>
+              <v-icon>fas fa-window-close</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>Close</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
 
