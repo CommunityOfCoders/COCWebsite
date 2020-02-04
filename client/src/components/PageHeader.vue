@@ -123,6 +123,16 @@
             </v-list-item-content>
         </v-list-item>
 
+        <v-list-item dark link color="black" v-if="$store.state.isAdmin" :to="{name: 'add-form'}">
+            <v-list-item-icon>
+              <v-icon>far fa-calendar-plus</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <v-list-item-title>AddEventForm</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+
         <v-list-item dark link color="black" v-if="$store.state.isLoggedIn" :to="{name: 'profile'}">
             <v-list-item-icon>
               <v-icon>far fa-user-circle</v-icon>
