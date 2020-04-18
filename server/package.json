@@ -5,7 +5,10 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "nodemon src/app",
+    "new_client": "npm start --prefix=../new_client",
+    "dev": "concurrently \" npm run serve \" \" npm run new_client \""
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +26,8 @@
     "password-hasher": "^1.0.1"
   },
   "devDependencies": {
-    "dotenv": "^8.1.0"
+    "concurrently": "^5.1.0",
+    "dotenv": "^8.1.0",
+    "nodemon": "^2.0.3"
   }
 }
