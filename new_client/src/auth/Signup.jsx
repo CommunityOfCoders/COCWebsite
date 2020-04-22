@@ -7,7 +7,7 @@ export default function Signup() {
 		username: "",
 		email: "",
 		password: "",
-		graduationYear: null,
+		graduationYear: null
 	});
 
 	const [errors, updateErrors] = React.useState({
@@ -95,7 +95,6 @@ export default function Signup() {
 		}
 
 		if (form.graduationYear) {
-			console.log(form.graduationYear);
 			let pattern = new RegExp(/^[0-9]{4}$/);
 			if (!pattern.test(form.graduationYear)) {
 				formIsValid = false;
@@ -193,11 +192,11 @@ export default function Signup() {
 						<TextField
 							fullWidth
 							required
-							name="graduation-year"
+							name="graduationYear"
 							type="number"
 							placeholder="Graduation Year"
 							onChange={handleChange}
-							value={form.graduationYear || ''}
+							value={form.graduationYear}
 						/>
 						<div className="errorMsg">{errors.graduationYear}</div>
 					</Grid>
