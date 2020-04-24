@@ -1,11 +1,21 @@
 import React from 'react';
-import Auth from "./auth/Auth";
+import './App.css';
+
+// Imports of pages
+import Header from "./components/Header.js"
+import Home from './components/Home/home.js';
+import Footer from './components/Footer.js'
+
+
 function App() {
   return (
     <div className="App">
-      <Auth/>
+      <Header/>
+      <Home/>
+      <Footer/>
     </div>
   );
 }
 
 export default App;
+

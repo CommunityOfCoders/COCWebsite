@@ -1,0 +1,45 @@
+.footer {
+    float: left;
+    width: 100%;
+    background-color: #000000;
+    overflow: auto;
+    padding-left: 40px;
+
+  }
+.footer-center{
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.footer-right {
+    padding-top: 15px;
+    float: right;
+    padding-right: 100px;
+  }
+  .footer a {
+    float: left;
+    padding: 15px;
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+  }
+  .footer p {
+    float: left;
+    padding: 5px;
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+  }
+  .footer a:hover {
+    background-color: green;
+  }
+  
+  .active {
+    background-color: #000000;
+  }
+  
+  @media screen and (max-width: 500px) {
+    .navbar a {
+      float: none;
+      display: block;
+    }
+  }
