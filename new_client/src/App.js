@@ -1,5 +1,4 @@
 import React from 'react';
-
 import './App.css';
 
 // Imports of pages
@@ -14,12 +13,6 @@ function App() {
       <Header/>
       <Home/>
       <Footer/>
-=======
-import Auth from "./auth/Auth";
-function App() {
-  return (
-    <div className="App">
-      <Auth/>
     </div>
   );
 }
