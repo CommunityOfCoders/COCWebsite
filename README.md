@@ -26,4 +26,12 @@ Tips to get started :-
 
     d. To start both the server and the new_client __concurrently__, type `npm run dev`.
 
-  
+
+For the developers and the contributors :-
+
+Always run the following two commands in all folders containing node_modules to ensure that the `package-lock.json` doesn't break.
+
+```bash
+    npm i
+    npm ci
+```
