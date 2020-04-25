@@ -114,3 +114,53 @@
       width: 100%;
     }
   }
+  /* Parallex */
+
+  body, html {
+    height: 100%;
+  }
+  
+  /* this is for hero picture  */
+  .parallax1 {
+    /* The image used */
+    background-image: url("./hero.jpeg");
+  
+    /* Full height */
+    height: 100%;
+    width: 100%;
+  
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  @media only screen and (max-device-width: 1366px) {
+    .parallax1 {
+      background-attachment: scroll;
+    }
+  }
+
+  /* this is for section picture */
+
+  .parallax2 {
+    /* The image used */
+    background-image: url("./section.jpg");
+  
+    /* Full height */
+    height: 100%;
+    width: 100%;
+  
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  @media only screen and (max-device-width: 1366px) {
+    .parallax2 {
+      background-attachment: scroll;
+    }
+  }
