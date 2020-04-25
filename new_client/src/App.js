@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 
 // Imports of pages
 import Header from "./components/Header.js"
