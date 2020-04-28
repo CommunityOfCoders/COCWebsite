@@ -14,7 +14,7 @@ export default function Home() {
 
         {/* This is the code for inside the image of hero */}
         <div className="hero">
-          <img src={hero}  alt = ""className="white--text mb-2 display-1 text-center" width="100%" height="650px"></img>
+          <img src={hero}  alt = ""className="white--text mb-2 display-1 text-center parallax1" width="100%" height="650px"></img>
           <div  className="centered">Community Of Coders </div>
           <div className="centered2" >
             <h4>Community Of Coders</h4>
@@ -47,8 +47,8 @@ export default function Home() {
       </div>      {/* main1 */}
 
       {/* This is for the section pincture and the text inside */}
-      <div className="section">
-        <img src={section} alt="" width="100%" height="500px"></img>
+      <div className="section ">
+        <img src={section} alt="" width="100%" height="1000px" className="parallax2"></img>
         <div className="section-text">"There was an idea, called the COC Initiative. The idea was to bring together a group of remarkable people, see if they could become something more. See if they could work together when we needed them to, to guide the students we never could."</div>
       </div>    {/* section */}
 
