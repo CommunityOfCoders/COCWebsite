@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Paper, Grid, TextField, Button } from '@material-ui/core';
+import { Container, Paper, Grid, TextField, Button, Typography, Link } from '@material-ui/core';
 import "./Error.css";
 
 export default function Signup() {
@@ -211,6 +211,12 @@ export default function Signup() {
 								Submit
               </Button>
 						</div>
+					</Grid>
+
+					<Grid item xs={12}>
+						<Typography>
+							Already an user ? <Link to="/Signin">Sign In</Link> instead.
+						</Typography>
 					</Grid>
 				</Grid>
 			</Paper>
