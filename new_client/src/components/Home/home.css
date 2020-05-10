@@ -1,0 +1,166 @@
+/* This is for the hero picture */
+.hero {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.centered {
+  font-size: 70px;
+  font-family: 'Titillium Web', sans-serif;;
+  position: absolute;
+  text-align: center;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.centered2 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 30px;
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+/* Hero picture css ends */
+
+
+/* Styling for the main */
+.main1{
+  padding-left: 80px;
+  padding-right: 80px;
+  padding-top: 30px;
+  font-size: 30px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+
+}
+/* Styling for main ends */
+
+
+/* Styling for the section picture */
+.section {
+  padding-top: 100px;
+  justify-content: center;
+  position: relative;
+  justify-content: center;
+  color: white;
+}
+
+.section-text {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Times New Roman', Times, serif;
+  font-size: xx-large;
+  color: white;
+}
+/* Section picture css ends */
+
+
+/* This is for the rows and coloumns */
+* {
+  box-sizing: border-box;
+}
+
+        /* Create three equal columns that floats next to each other */
+.column1 {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: medium;
+  float: left;
+  width: 33.33%;
+  padding: 10px;
+}
+
+        /* Clear floats after the columns */
+.row1:after {
+  padding-left: 70px;
+  content: "";
+  display: table;
+  clear: both;
+}
+
+        /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column1 {
+    width: 100%;
+  }
+}
+/* Rows and coloums css ends */
+
+
+/* This is for main2 */
+
+.main2{
+    justify-content: center;
+    padding-top: 30px;
+    font-size: 30px;
+    font-family: 'Roboto', sans-serif;
+
+}
+
+.column2 {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  justify-content: center;
+  font-size: medium;
+  float: left;
+  width: 50%;
+  padding: 10px;
+  }
+
+  @media screen and (max-width: 600px) {
+    .column2 {
+      width: 100%;
+    }
+  }
+  /* Parallex */
+
+  body, html {
+    height: 100%;
+  }
+  
+  /* this is for hero picture  */
+  .parallax1 {
+    /* The image used */
+    background-image: url("./hero.jpeg");
+  
+    /* Full height */
+    height: 100%;
+    width: 100%;
+  
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  @media only screen and (max-device-width: 1366px) {
+    .parallax1 {
+      background-attachment: scroll;
+    }
+  }
+
+  /* this is for section picture */
+
+  .parallax2 {
+    /* The image used */
+    background-image: url("./section.jpg");
+  
+    /* Full height */
+    height: 100%;
+    width: 100%;
+  
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  @media only screen and (max-device-width: 1366px) {
+    .parallax2 {
+      background-attachment: scroll;
+    }
+  }
