@@ -11,7 +11,7 @@ export default function Header() {
         <Link to="/about"><i className="fa fa-fw fa-info"></i> ABOUT US</Link>
 
         <Link to="/"><i className="fa fa-fw fa-info"></i>EVENTS</Link>
-        <Link to="/glimps"><i className="fa fa-fw fa-info"></i>GLIMPSES</Link>
+        <Link to="/glimpse"><i className="fa fa-fw fa-info"></i>GLIMPSES</Link>
         <Link to="/blogs"><i className="fa fa-fw fa-info"></i>BLOGS</Link>
         <Link to="/auth"><i className="fa fa-fw fa-info"></i> SIGN UP</Link>
 

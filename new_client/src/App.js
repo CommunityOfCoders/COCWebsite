@@ -5,14 +5,14 @@ import Home from './components/Home/home.js';
 import Footer from './components/Footer.js'
 import About from './components/pages/About.jsx';
 import Auth from './components/auth/Auth';
-import Glimps from './components/glimpses/Glimps';
+import Glimpse from './components/glimpses/Glimpse';
 import axios from 'axios';
 import Blogs from './components/blogs/Blog.jsx';
 import Addblog from './components/blogs/Addblog';
 function App() {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:8000/api/blogs")
+    axios.get(process.env.REACT_APP_API_GETBLOGS)
       .then(res => setPosts(res.data))
       .catch(error => console.log(error));
   });
@@ -27,7 +27,7 @@ function App() {
         <Route path="/auth" component={Auth} />
         <Route exact path="/addblog" component={Addblog} />
 
-        <Route path="/glimps" component={Glimps} />
+        <Route path="/glimpse" component={Glimpse} />
         {/* <Footer /> */}
 
 
