@@ -15,6 +15,7 @@ export const loadUser = () => (dispatch, getState) => {
 
   axios
     .get("http://localhost:5000/api/user", tokenConfig(getState))
+    .then(res => res.json())
     .then(res => dispatch({
       type: USER_LOADED,
       payload: res.data
@@ -34,15 +35,17 @@ export const register = ({ username, email, password, graduationYear }) => (disp
     }
   };
   const body = JSON.stringify({ username, email, password, graduationYear });
-
+  console.log(body);
+  console.log(process.env.REACT_APP_API_REGISTER)
   axios
     .post(process.env.REACT_APP_API_REGISTER, body, config)
-    .then(res =>
+    .then(res => {
       dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data
-      })
-    )
+      });
+      console.log("post works");
+    })
     .catch(err => {
       dispatch(
         returnErrors(err.response.data, err.response.status, "REGISTER_FAIL")
