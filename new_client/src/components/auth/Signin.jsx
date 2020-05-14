@@ -4,6 +4,7 @@ import "./Error.css";
 import { connect } from "react-redux";
 import { login } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
+import { LOGIN_FAIL } from "../../actions/types";
 
 function Signin(props) {
 
@@ -55,13 +56,17 @@ function Signin(props) {
 	}
 
 	useEffect(() => {
-		if (error.id === 'LOGIN_FAIL') {
+		if (error.id === LOGIN_FAIL) {
 			setMsg(error.msg.msg);
 		}
 		else {
 			setMsg(null);
 		}
-	})
+
+		if (isAuthenticated) {
+			// Work here if auth is successful
+		}
+	}, [error, isAuthenticated]);
 
 	return (
 		<Container maxWidth="sm">

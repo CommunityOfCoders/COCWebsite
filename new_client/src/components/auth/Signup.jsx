@@ -27,113 +27,113 @@ function Signup(props) {
 		graduationYear: null
 	})
 
-	// function isFormValid() {
-	// 	let formIsValid = true;
-	// 	// Constraints for Username
+	function isFormValid() {
+		let formIsValid = true;
+		// Constraints for Username
 
-	// 	if (!username) {
-	// 		formIsValid = false;
-	// 		updateErrors(prevErrors => ({
-	// 			...prevErrors,
-	// 			username: "*Username can't be Empty"
-	// 		}));
-	// 	}
+		if (!username) {
+			formIsValid = false;
+			updateErrors(prevErrors => ({
+				...prevErrors,
+				username: "*Username can't be Empty"
+			}));
+		}
 
-	// 	if (username) {
-	// 		if (username.length > 10) {
-	// 			formIsValid = false;
-	// 			updateErrors(prevErrors => ({
-	// 				...prevErrors,
-	// 				username: "*Username can't be more than 10 characters long."
-	// 			}));
-	// 		}
-	// 	}
+		if (username) {
+			if (username.length > 10) {
+				formIsValid = false;
+				updateErrors(prevErrors => ({
+					...prevErrors,
+					username: "*Username can't be more than 10 characters long."
+				}));
+			}
+		}
 
-	// 	// Constraints for Email
+		// Constraints for Email
 
-	// 	if (!email) {
-	// 		formIsValid = false;
-	// 		updateErrors(prevErrors => ({
-	// 			...prevErrors,
-	// 			email: "*Email can't be Empty",
-	// 		}));
-	// 	}
+		if (!email) {
+			formIsValid = false;
+			updateErrors(prevErrors => ({
+				...prevErrors,
+				email: "*Email can't be Empty",
+			}));
+		}
 
-	// 	if (email) {
-	// 		let pattern = new RegExp(/^[a-zA-Z0-9_+&*-] + (?:\\.[a-zA-Z0-9_+&*-]+ )*@(?:[a-zA-Z0-9-]+\\.) + [a-zA-Z]{2, 7}/);
-	// 		if (!pattern.test(email)) {
-	// 			formIsValid = false;
-	// 			updateErrors(prevErrors => ({
-	// 				...prevErrors,
-	// 				errors: "*Please enter valid Email ID",
-	// 			}));
-	// 		}
-	// 	}
+		if (email) {
+			let pattern = new RegExp(/^[a-zA-Z0-9_+&*-] + (?:\\.[a-zA-Z0-9_+&*-]+ )*@(?:[a-zA-Z0-9-]+\\.) + [a-zA-Z]{2, 7}/);
+			if (!pattern.test(email)) {
+				formIsValid = false;
+				updateErrors(prevErrors => ({
+					...prevErrors,
+					errors: "*Please enter valid Email ID",
+				}));
+			}
+		}
 
-	// 	/* Password Constraints 
-	// 	1. Must be within 6 to 16 characters
-	// 	2. Must contain at least 1 number, 1 lowercase, 1 uppercase letter, 1 special character
-	// 	*/
+		/* Password Constraints 
+		1. Must be within 6 to 16 characters
+		2. Must contain at least 1 number, 1 lowercase, 1 uppercase letter, 1 special character
+		*/
 
-	// 	if (!password) {
-	// 		formIsValid = false;
-	// 		updateErrors(prevErrors => ({
-	// 			...prevErrors,
-	// 			password: "*Password can't be empty."
-	// 		}));
-	// 	}
+		if (!password) {
+			formIsValid = false;
+			updateErrors(prevErrors => ({
+				...prevErrors,
+				password: "*Password can't be empty."
+			}));
+		}
 
-	// 	if (password !== "") {
-	// 		if (!password.match(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/)) {
-	// 			formIsValid = false;
-	// 			updateErrors(prevErrors => ({
-	// 				...prevErrors,
-	// 				password: `Passwords should contain atleast one number, one special character,  
-	// 				one uppercase character, one lowercase character and must be between 6 to 16 characters long`
-	// 			}));
+		if (password !== "") {
+			if (!password.match(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/)) {
+				formIsValid = false;
+				updateErrors(prevErrors => ({
+					...prevErrors,
+					password: `Passwords should contain atleast one number, one special character,  
+					one uppercase character, one lowercase character and must be between 6 to 16 characters long`
+				}));
 
-	// 		}
-	// 	}
+			}
+		}
 
-	// 	// Constraints for Graduation Year
-	// 	if (!graduationYear) {
-	// 		formIsValid = false;
-	// 		updateErrors(prevErrors => ({
-	// 			...prevErrors,
-	// 			graduationYear: "*Graduation Year can't be Empty",
-	// 		}));
-	// 	}
+		// Constraints for Graduation Year
+		if (!graduationYear) {
+			formIsValid = false;
+			updateErrors(prevErrors => ({
+				...prevErrors,
+				graduationYear: "*Graduation Year can't be Empty",
+			}));
+		}
 
-	// 	if (graduationYear) {
-	// 		let pattern = new RegExp(/^[0-9]{4}$/);
-	// 		if (!pattern.test(graduationYear)) {
-	// 			formIsValid = false;
-	// 			updateErrors(prevErrors => ({
-	// 				...prevErrors,
-	// 				graduationYear: "*Please enter valid year",
-	// 			}));
-	// 		}
-	// 	}
+		if (graduationYear) {
+			let pattern = new RegExp(/^[0-9]{4}$/);
+			if (!pattern.test(graduationYear)) {
+				formIsValid = false;
+				updateErrors(prevErrors => ({
+					...prevErrors,
+					graduationYear: "*Please enter valid year",
+				}));
+			}
+		}
 
-	// 	return formIsValid;
+		return formIsValid;
 
-	// }
+	}
 
 	function handleClick(event) {
-		// if (isFormValid()) {
-		event.preventDefault()
-		const user = {
-			username,
-			password,
-			email,
-			graduationYear
-		};
-		register(user);
-		// }
-		// else {
-		// 	alert("There are errors in your form.");
-		// 	console.log(errors);
-		// }
+		if (isFormValid()) {
+			event.preventDefault()
+			const user = {
+				username,
+				password,
+				email,
+				graduationYear
+			};
+			register(user);
+		}
+		else {
+			alert("There are errors in your form.");
+			console.log(errors);
+		}
 	};
 
 	useEffect(() => {

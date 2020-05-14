@@ -14,7 +14,7 @@ export const loadUser = () => (dispatch, getState) => {
   dispatch({ type: USER_LOADING });
 
   axios
-    .get("http://localhost:5000/api/user", tokenConfig(getState))
+    .get(process.env.REACT_APP_API + "/user", tokenConfig(getState))
     .then(res => res.json())
     .then(res => dispatch({
       type: USER_LOADED,
@@ -35,20 +35,17 @@ export const register = ({ username, email, password, graduationYear }) => (disp
     }
   };
   const body = JSON.stringify({ username, email, password, graduationYear });
-  console.log(body);
-  console.log(process.env.REACT_APP_API_REGISTER)
   axios
-    .post(process.env.REACT_APP_API_REGISTER, body, config)
+    .post(process.env.REACT_APP_API + "/register", body, config)
     .then(res => {
       dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data
       });
-      console.log("post works");
     })
     .catch(err => {
       dispatch(
-        returnErrors(err.response.data, err.response.status, "REGISTER_FAIL")
+        returnErrors(err.response.data, err.response.status, REGISTER_FAIL)
       );
       dispatch({
         type: REGISTER_FAIL
@@ -66,7 +63,7 @@ export const login = ({ username, password }) => (dispatch) => {
   const body = JSON.stringify({ username, password });
 
   axios
-    .post(process.env.REACT_APP_API_LOGIN, body, config)
+    .post(process.env.REACT_APP_API + "/login", body, config)
     .then(res =>
       dispatch({
         type: LOGIN_SUCCESS,
@@ -75,7 +72,7 @@ export const login = ({ username, password }) => (dispatch) => {
     )
     .catch(err => {
       dispatch(
-        returnErrors(err.response.data, err.response.status, "LOGIN_FAIL")
+        returnErrors(err.response.data, err.response.status, LOGIN_FAIL)
       );
       dispatch({
         type: LOGIN_FAIL

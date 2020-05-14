@@ -1,27 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import React from 'react';
+import { Router, Route, Switch } from 'react-router-dom';
 import { createBrowserHistory } from "history";
-import Header from "./components/Header.js"
-import Home from './components/Home/home.js';
-import Footer from './components/Footer.js'
-import About from './components/pages/About.jsx';
-import Glimpse from './components/glimpses/Glimpse';
-import axios from 'axios';
-import Blogs from './components/blogs/Blog.jsx';
-import Addblog from './components/blogs/Addblog';
 import { Provider } from "react-redux";
 import configureStore from "./store/configureStore";
+
+// Components begin here
+import Header from "./components/Header"
+import Home from './components/Home/home';
+import Footer from './components/Footer'
+import About from './components/pages/About';
+import Glimpse from './components/glimpses/Glimpse';
+
+import Blogs from './components/blogs/Blog';
+import AddBlog from './components/blogs/AddBlog';
+
 import Signin from './components/auth/Signin.jsx';
 import Signup from './components/auth/Signup.jsx';
 
 function App() {
-  const [posts, setPosts] = useState([]);
-  useEffect(() => {
-    axios.get(process.env.REACT_APP_API_GETBLOGS)
-      .then(res => setPosts(res.data))
-      .catch(error => console.log(error));
-  });
-
   const store = configureStore();
   const history = createBrowserHistory();
 
@@ -30,15 +26,16 @@ function App() {
       <Router history={history}>
         <div className="App">
           <Header />
-          <Route exact path="/" component={Home} />
-          <Route path="/about" component={About} />
-          <Route exact path="/blogs" render={() => <Blogs posts={posts} />} />
-          <Route path="/signin" component={Signin} />
-          <Route exact path="/addblog" component={Addblog} />
-          <Route path="/signup" component={Signup} />
-
-          <Route path="/glimpse" component={Glimpse} />
-          {/* <Footer /> */}
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/about" component={About} />
+            <Route exact path="/blogs" render={() => <Blogs />} />
+            <Route path="/signin" component={Signin} />
+            <Route exact path="/addblog" component={AddBlog} />
+            <Route path="/signup" component={Signup} />
+            <Route path="/glimpse" component={Glimpse} />
+            {/* <Footer /> */}
+          </Switch>
         </div>
       </Router>
     </Provider>
