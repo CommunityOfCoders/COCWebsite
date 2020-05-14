@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Addblog() {
+export default function AddBlog() {
     return (
         <div>
             

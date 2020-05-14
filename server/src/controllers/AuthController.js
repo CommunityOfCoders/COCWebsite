@@ -33,7 +33,7 @@ module.exports = {
             const token = jwt.sign(
                 {user: user},
                 config.privateKey,
-                {expiresIn: 60}
+                {expiresIn: 3600}
             )
 
             res.send({

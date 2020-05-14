@@ -1,27 +1,37 @@
-import React from 'react';
-import { Container, Paper, Grid, TextField, Button } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { Container, Paper, Grid, TextField, Button, Typography, Link } from '@material-ui/core';
+import { connect } from "react-redux";
+import { register } from "../../actions/authActions";
+import { clearErrors } from "../../actions/errorActions";
 import "./Error.css";
 
-export default function Signup() {
-	const [form, updateForm] = React.useState({
-		username: "",
-		email: "",
-		password: "",
-		graduationYear: null
-	});
+function Signup(props) {
 
-	const [errors, updateErrors] = React.useState({
-		username: "",
-		email: "",
-		password: "",
-		graduationYear: ""
-	});
+	const { isAuthenticated, error, register, clearErrors } = props;
+
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
+	const [email, setEmail] = useState('');
+	const [graduationYear, setGraduationYear] = useState(null);
+	const [msg, setMsg] = useState(null);
+
+	const handleChangeUsername = (e) => setUsername(e.target.value)
+	const handleChangePassword = (e) => setPassword(e.target.value)
+	const handleChangeEmail = (e) => setEmail(e.target.value)
+	const handleChangeGraduationYear = (e) => setGraduationYear(e.target.value)
+
+	const [errors, updateErrors] = useState({
+		username: '',
+		email: '',
+		password: '',
+		graduationYear: null
+	})
 
 	function isFormValid() {
 		let formIsValid = true;
 		// Constraints for Username
 
-		if (!form.username) {
+		if (!username) {
 			formIsValid = false;
 			updateErrors(prevErrors => ({
 				...prevErrors,
@@ -29,8 +39,8 @@ export default function Signup() {
 			}));
 		}
 
-		if (form.username) {
-			if (form.username.length > 10) {
+		if (username) {
+			if (username.length > 10) {
 				formIsValid = false;
 				updateErrors(prevErrors => ({
 					...prevErrors,
@@ -41,7 +51,7 @@ export default function Signup() {
 
 		// Constraints for Email
 
-		if (!form.email) {
+		if (!email) {
 			formIsValid = false;
 			updateErrors(prevErrors => ({
 				...prevErrors,
@@ -49,9 +59,9 @@ export default function Signup() {
 			}));
 		}
 
-		if (form.email) {
+		if (email) {
 			let pattern = new RegExp(/^[a-zA-Z0-9_+&*-] + (?:\\.[a-zA-Z0-9_+&*-]+ )*@(?:[a-zA-Z0-9-]+\\.) + [a-zA-Z]{2, 7}/);
-			if (!pattern.test(form.email)) {
+			if (!pattern.test(email)) {
 				formIsValid = false;
 				updateErrors(prevErrors => ({
 					...prevErrors,
@@ -65,7 +75,7 @@ export default function Signup() {
 		2. Must contain at least 1 number, 1 lowercase, 1 uppercase letter, 1 special character
 		*/
 
-		if (!form.password) {
+		if (!password) {
 			formIsValid = false;
 			updateErrors(prevErrors => ({
 				...prevErrors,
@@ -73,8 +83,8 @@ export default function Signup() {
 			}));
 		}
 
-		if (form.password !== "") {
-			if (!form.password.match(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/)) {
+		if (password !== "") {
+			if (!password.match(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/)) {
 				formIsValid = false;
 				updateErrors(prevErrors => ({
 					...prevErrors,
@@ -86,7 +96,7 @@ export default function Signup() {
 		}
 
 		// Constraints for Graduation Year
-		if (!form.graduationYear) {
+		if (!graduationYear) {
 			formIsValid = false;
 			updateErrors(prevErrors => ({
 				...prevErrors,
@@ -94,9 +104,9 @@ export default function Signup() {
 			}));
 		}
 
-		if (form.graduationYear) {
+		if (graduationYear) {
 			let pattern = new RegExp(/^[0-9]{4}$/);
-			if (!pattern.test(form.graduationYear)) {
+			if (!pattern.test(graduationYear)) {
 				formIsValid = false;
 				updateErrors(prevErrors => ({
 					...prevErrors,
@@ -109,39 +119,33 @@ export default function Signup() {
 
 	}
 
-	function handleChange(event) {
-		const { name, value } = event.target;
-		updateForm(prevDetails => {
-			return (
-				{
-					...prevDetails,
-					[name]: value
-				}
-			);
-		});
-
-	}
-
 	function handleClick(event) {
-		event.preventDefault();
 		if (isFormValid()) {
-			fetch(process.env.REACT_APP_API_REGISTER, {
-				method: "POST",
-				mode: "cors",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(form),
-			})
-				.then((response) => response.json())
-				.catch((err) => {
-					console.log(err);
-				});
+			event.preventDefault()
+			const user = {
+				username,
+				password,
+				email,
+				graduationYear
+			};
+			register(user);
 		}
 		else {
-			alert("There are errors in the form !");
+			alert("There are errors in your form.");
+			console.log(errors);
 		}
-	}
+	};
+
+	useEffect(() => {
+		if (error.id === 'REGISTER_FAIL') {
+			setMsg(error.msg.msg);
+		} else {
+			setMsg(null);
+		}
+		if (isAuthenticated) {
+			// TODO: something here after auth
+		}
+	}, [error, isAuthenticated]);
 
 	return (
 		<Container maxWidth="sm">
@@ -156,8 +160,7 @@ export default function Signup() {
 							name="username"
 							type="text"
 							placeholder="Username"
-							onChange={handleChange}
-							value={form.username}
+							onChange={handleChangeUsername}
 						/>
 						<div className="errorMsg">{errors.username}</div>
 					</Grid>
@@ -169,8 +172,7 @@ export default function Signup() {
 							name="email"
 							type="email"
 							placeholder="Email"
-							onChange={handleChange}
-							value={form.email}
+							onChange={handleChangeEmail}
 						/>
 						<div className="errorMsg">{errors.email}</div>
 					</Grid>
@@ -182,8 +184,7 @@ export default function Signup() {
 							name="password"
 							type="password"
 							placeholder="Password"
-							onChange={handleChange}
-							value={form.password}
+							onChange={handleChangePassword}
 						/>
 						<div className="errorMsg">{errors.password}</div>
 					</Grid>
@@ -195,8 +196,7 @@ export default function Signup() {
 							name="graduationYear"
 							type="number"
 							placeholder="Graduation Year"
-							onChange={handleChange}
-							value={form.graduationYear}
+							onChange={handleChangeGraduationYear}
 						/>
 						<div className="errorMsg">{errors.graduationYear}</div>
 					</Grid>
@@ -212,9 +212,22 @@ export default function Signup() {
               </Button>
 						</div>
 					</Grid>
+
+					<Grid item xs={12}>
+						<Typography>
+							Already an user ? <Link to="/signin">Sign In</Link> instead.
+						</Typography>
+					</Grid>
 				</Grid>
 			</Paper>
 		</Container >
 
 	)
 }
+
+const mapStateToProps = (state) => ({
+	isAuthenticated: state.auth.isAuthenticated,
+	error: state.error
+});
+
+export default connect(mapStateToProps, { register, clearErrors })(Signup);
