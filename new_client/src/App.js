@@ -1,21 +1,21 @@
-import React from 'react';
-import { Router, Route, Switch } from 'react-router-dom';
+import React from "react";
+import { Router, Route, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { Provider } from "react-redux";
 import configureStore from "./store/configureStore";
 
 // Components begin here
-import Header from "./components/Header"
-import Home from './components/Home/home';
-import Footer from './components/Footer'
-import About from './components/pages/About';
-import Glimpse from './components/glimpses/Glimpse';
+import Header from "./components/Header";
+import Home from "./components/Home/home";
+import Footer from "./components/Footer";
+import About from "./components/pages/About";
+import Glimpse from "./components/glimpses/Glimpse";
 
-import Blogs from './components/blogs/Blog';
-import AddBlog from './components/blogs/AddBlog';
+import Blogs from "./components/blogs/Blog";
+import AddBlog from "./components/blogs/AddBlog";
 
-import Signin from './components/auth/Signin.jsx';
-import Signup from './components/auth/Signup.jsx';
+import Signin from "./components/auth/Signin.jsx";
+import Signup from "./components/auth/Signup.jsx";
 
 function App() {
   const store = configureStore();
@@ -34,14 +34,12 @@ function App() {
             <Route exact path="/addblog" component={AddBlog} />
             <Route path="/signup" component={Signup} />
             <Route path="/glimpse" component={Glimpse} />
-            {/* <Footer /> */}
           </Switch>
+          <Footer />
         </div>
       </Router>
     </Provider>
-
   );
 }
 
 export default App;
-

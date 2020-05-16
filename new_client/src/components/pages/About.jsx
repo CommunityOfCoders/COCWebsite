@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react";
 
 export default function About() {
-    return (
-        <div>
-            <p>COC</p>
-        </div>
-    )
+  return (
+    <div style={{ height: "100vh" }}>
+      <p>COC</p>
+    </div>
+  );
 }

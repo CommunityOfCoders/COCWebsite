@@ -1,21 +1,30 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
+import "./Header.css";
+import { makeStyles } from "@material-ui/core";
 
-import './Header.css';
+const useStyles = makeStyles({
+  navbar: {
+    backgroundColor: "#0d0d0d",
+    padding: "10px 5%",
+    textAlign: "center",
+  },
+});
+
 export default function Header() {
+  const classes = useStyles();
   return (
-    <div className="navbar">
-      <div className="navbar-right">
-        <Link to="/"><i className="fa fa-fw fa-info"></i> HOME</Link>
-        <Link to="/about"><i className="fa fa-fw fa-info"></i> ABOUT US</Link>
-
-        <Link to="/"><i className="fa fa-fw fa-info"></i>EVENTS</Link>
-        <Link to="/glimpse"><i className="fa fa-fw fa-info"></i>GLIMPSES</Link>
-        <Link to="/blogs"><i className="fa fa-fw fa-info"></i>BLOGS</Link>
-        <Link to="/signup"><i className="fa fa-fw fa-info"></i> SIGN UP</Link>
-
-      </div>
+    <div className={`${classes.navbar} navbar`}>
+      <Link to="/">Home</Link>
+      <Link to="/about">About Us</Link>
+      <Link to="/">Events</Link>
+      <Link to="/">
+        <img src="./coc-logo.jpeg" alt="Coc Logo" height="30"></img>
+      </Link>
+      <Link to="/glimpse">Glimpses</Link>
+      <Link to="/blogs">Blogs</Link>
+      <Link to="/signup">Sign up</Link>
     </div>
   );
 }
