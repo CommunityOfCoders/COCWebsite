@@ -57,7 +57,7 @@ module.exports = {
 		const eventId = req.params.id;
 		const event = await Event.findById(eventId);
 		await event.remove();
-		res.status(204);
+		res.status(204).send({});
 	},
 	async addForm (req,res) {
 		const formURL = req.body.formURL

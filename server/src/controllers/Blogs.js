@@ -12,12 +12,20 @@ module.exports = {
      }]);*/
         //==========tested this server and client connected
 
-        res.json(blogs);
+        res.status(200).json(blogs);
     },
     async viewBlogById(req, res) {
         const blogId = req.params.id;
-        const blog = await Blog.findById(blogId);
-        res.json(blog);
+        const doesBlogExist = await Blog.exists({ _id: blogId });
+        if (doesBlogExist) {
+            const blog = await Blog.findById(blogId);
+            res.status(200).json(blog);
+        }
+        else {
+            res.status(404).json({
+                err: "The requested blog doesn't exist"
+            });
+        }
     },
     // async newBlog (req,res) {
 
@@ -26,12 +34,14 @@ module.exports = {
         // TODO: add isBlogAuthorized middleware
         try {
             // Assumed that req.body already has required fields
+            // console.log(req.body);
             const blog = await Blog.create(req.body);
-            res.json({
+            res.status(201).json({
                 "id": blog._id
             });
         } catch (err) {
-            res.status(201).send({
+            // console.log(err);
+            res.status(500).send({
                 err: err
             })
         }
@@ -58,6 +68,6 @@ module.exports = {
         const blogId = req.params.id;
         const blog = await Blog.findById(blogId);
         await blog.remove();
-        res.status(204);
+        res.status(204).send({});
     },
 }
