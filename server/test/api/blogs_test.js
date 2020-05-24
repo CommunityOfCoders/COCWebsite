@@ -27,8 +27,10 @@ describe("Blogs", () => {
   });
 
   describe("/GET/:id Blog", () => {
+    let blog;
+
     it("should return a single blog if id is correct", (done) => {
-      let blog = new Blog({
+      blog = new Blog({
         blogTitle: "Test blog title",
         blogContent: "Test blog content",
         author: "Test blog author",
@@ -41,10 +43,6 @@ describe("Blogs", () => {
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a("object");
-            res.body.should.have.property("blogTitle");
-            res.body.should.have.property("blogContent");
-            res.body.should.have.property("author");
-            res.body.should.have.property("date");
             res.body.should.have.property("blogTitle").eql("Test blog title");
             res.body.should.have
               .property("blogContent")

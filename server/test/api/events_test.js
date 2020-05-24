@@ -109,4 +109,52 @@ describe("Events", () => {
       });
     });
   });
+
+  describe("PUT/ add form url to event", () => {
+    let formBody;
+
+    beforeEach((done) => {
+      let event = new Event({
+        eventName: "Test event",
+        description: "Test description",
+        venue: "Test venue",
+        date: "Test date",
+        graduationYear: "Test graduation year",
+      });
+      formBody = {
+        formURL: "Test form url",
+      };
+      event.save((err, event) => {
+        formBody.id = event._id;
+        done();
+      });
+    });
+
+    it("adds form to event body", (done) => {
+      chai
+        .request(app)
+        .put("/api/events/form")
+        .send(formBody)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a("object");
+          res.body.should.have.property("message").not.eql("");
+          done();
+        });
+    });
+
+    it("does not add form to event body", (done) => {
+      formBody.id = "Wrong test url";
+      chai
+        .request(app)
+        .put("/api/events/form")
+        .send(formBody)
+        .end((err, res) => {
+          res.should.have.status(203);
+          res.body.should.be.a("object");
+          res.body.should.have.property("err").not.eql("");
+          done();
+        });
+    });
+  });
 });

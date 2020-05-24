@@ -24,8 +24,6 @@ module.exports = {
                 })
             }
 
-            console.log("Yes")
-
             req.body.password = passwordHash(password);
             
             const user = await User.create(req.body)
@@ -36,12 +34,12 @@ module.exports = {
                 {expiresIn: 3600}
             )
 
-            res.send({
+            res.status(201).send({
                 username: user.username,
                 token: token
             })
         } catch (err) {
-            res.status(201).send({
+            res.status(500).send({
                 err: err
             })
         }
@@ -55,7 +53,7 @@ module.exports = {
             })
 
             if(!user) {
-                return res.status(203).send({
+                return res.status(400).send({
                    error: "Invalid login info" 
                 })
             }
@@ -63,7 +61,7 @@ module.exports = {
             const rfcHash = passwordHash(password);
 
             if(rfcHash !== user.password) {
-                return res.status(203).send({
+                return res.status(401).send({
                     error: "Invalid login info" 
                 })
             }
@@ -74,12 +72,12 @@ module.exports = {
                 {expiresIn: 60*60}
             )
 
-            res.send({
+            res.status(200).send({
                 username: user.username,
                 token: token
             })
         } catch (err) {
-            res.status(201).send({
+            res.status(500).send({
                 err: err
             })
         }
@@ -90,11 +88,11 @@ module.exports = {
 
         try {
             jwt.verify(token,config.privateKey)
-            return res.send({
+            return res.status(200).send({
                 status: true
             })
         } catch (err) {
-            return res.send({
+            return res.status(403).send({
                 status:false
             })
         }
@@ -113,7 +111,7 @@ module.exports = {
 
             res.status(200).json(user)
         } catch (e) {
-            res.status(201).send({
+            res.status(404).send({
                 message: 'An error has occured',
                 err: e
             })

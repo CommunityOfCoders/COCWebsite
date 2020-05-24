@@ -5,7 +5,7 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app",
-    "test": "mocha -R min --recursive --timeout 120000 --exit",
+    "test": "mocha --recursive --timeout 120000 --exit",
     "serve": "nodemon src/app",
     "new_client": "npm start --prefix=../new_client",
     "dev": "concurrently \" npm run serve \" \" npm run new_client \""
@@ -13,7 +13,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.18.3",
     "cloudinary": "^1.15.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",

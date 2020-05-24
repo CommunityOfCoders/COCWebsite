@@ -2,18 +2,17 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-const bodyParser = require('body-parser');
 const routes = require('./routes');
 const config = require('./config');
 const dbconnect = require('./config/dbconnect');
 
 const app = express();
 
-app.use(bodyParser.json({ limit: '10mb' }));
+app.use(express.json({ limit: '10mb' }));
 app.use(cors());
-if (process.env.NODE_ENV !== 'test') {
-	app.use(morgan('combined'));
-}
+
+app.use(morgan('combined'));
+
 
 routes(app);
 

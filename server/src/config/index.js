@@ -1,16 +1,13 @@
 const config = {
-    port: 8000,
-    privateKey: 'Pratik is great'
-}
+  port: process.env.NODE_ENV || 8000,
+  privateKey: "COC is great",
+  oAuthClientID:
+    "867161018507-an34btl13d6n23ujgcjnjpm4qvdacqss.apps.googleusercontent.com",
+  oAuthclientSecret: "visPWNEfpoigIUS4MxzGxXPC",
+  searchPageSize: 100,
+  albumPageSize: 50,
+  apiEndpoint: "https://photoslibrary.googleapis.com",
+  env: "development"
+};
 
-config.oAuthClientID = '867161018507-an34btl13d6n23ujgcjnjpm4qvdacqss.apps.googleusercontent.com'
-
-config.oAuthclientSecret = 'visPWNEfpoigIUS4MxzGxXPC'
-
-config.searchPageSize = 100
-
-config.albumPageSize = 50
-
-config.apiEndpoint = 'https://photoslibrary.googleapis.com'
-
-module.exports = config
+module.exports = config;
