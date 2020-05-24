@@ -2,6 +2,11 @@ const assert = require("assert");
 const Event = require("../../../src/models/Event");
 
 describe('Testing Events', () => {
+
+  beforeEach((done) => {
+    Event.remove().then(() => done());
+  })
+
   it('creates an event', (done) => {
     let event = {
       eventName: "Test event",

@@ -23,9 +23,9 @@ describe("Updating blogs", () => {
     };
   });
 
-  afterEach((done) => {
-    Blog.remove().then(() => done());
-  })
+  // afterEach((done) => {
+  //   Blog.remove().then(() => done());
+  // })
 
   it("finds blog with matching title", (done) => {
     Blog.findOneAndUpdate({ blogTitle: "Test Blog Title" }, newBlog)

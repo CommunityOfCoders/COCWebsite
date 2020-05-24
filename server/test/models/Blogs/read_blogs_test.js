@@ -18,9 +18,9 @@ describe("Reading blogs", () => {
     });
   });
 
-  afterEach((done) => {
-    Blog.remove().then(() => done());
-  })
+  // afterEach((done) => {
+  //   Blog.remove().then(() => done());
+  // })
 
   it("finds event with matching title", (done) => {
     Blog.findOne({ blogTitle: "Test Blog Title" })
