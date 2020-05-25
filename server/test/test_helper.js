@@ -4,11 +4,14 @@ const MongoMemoryServer = require("mongodb-memory-server").MongoMemoryServer;
 mongoose.Promise = global.Promise;
 
 const mongoOptions = {
-  useNewUrlParser: true
+  useCreateIndex: true,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
 };
 
 before(async () => {
-  config.env = 'test';
+  config.env = "test";
   mongoServer = new MongoMemoryServer();
   const mongoUri = await mongoServer.getUri();
   await mongoose.connect(mongoUri, mongoOptions);
@@ -19,4 +22,4 @@ after(async () => {
   await mongoose.disconnect();
   await mongoServer.stop();
   console.log(`Mongo URI stopped`);
-})
+});
