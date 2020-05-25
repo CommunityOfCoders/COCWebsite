@@ -5,6 +5,7 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app",
+    "pretest": "eslint --ignore-path .gitignore . ",
     "test": "mocha --recursive --timeout 120000 --exit",
     "serve": "nodemon src/app",
     "new_client": "npm start --prefix=../new_client",
@@ -29,6 +30,8 @@
     "chai-http": "^4.3.0",
     "concurrently": "^5.1.0",
     "dotenv": "^8.1.0",
+    "eslint": "^7.1.0",
+    "eslint-config-strongloop": "^2.1.0",
     "mocha": "^7.1.2",
     "mongodb-memory-server": "^6.6.1",
     "nodemon": "^2.0.3"
