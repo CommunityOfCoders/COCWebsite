@@ -16,6 +16,7 @@ import AddBlog from './components/blogs/AddBlog';
 
 import Signin from './components/auth/Signin.jsx';
 import Signup from './components/auth/Signup.jsx';
+import NewHome from './components/Home/Newhome';
 
 function App() {
   const store = configureStore();
@@ -34,6 +35,7 @@ function App() {
             <Route exact path="/addblog" component={AddBlog} />
             <Route path="/signup" component={Signup} />
             <Route path="/glimpse" component={Glimpse} />
+            <Route path="/newHome" component={NewHome} />
             {/* <Footer /> */}
           </Switch>
         </div>
