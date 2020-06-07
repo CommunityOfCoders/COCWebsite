@@ -6,7 +6,7 @@ const upload = require('./middleware/upload')
 const GlimpseController = require('./controllers/GLimpseController')
 
 module.exports = (app) => {
-    app.get('/api/hello', (req,res) => {res.send('Hello World')}) // Very hard to test
+    app.get('/api/hello', (req,res) => {res.json('Hello World')}) // Very hard to test and change
 
     // Auth
     app.post('/api/register',AuthController.register) // Tested

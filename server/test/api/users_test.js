@@ -1,6 +1,7 @@
 const User = require("../../src/models/User");
 const chai = require("chai");
 const should = chai.should();
+const expect = chai.expect;
 const app = require("../../src/app");
 const chaiHttp = require("chai-http");
 
@@ -25,8 +26,9 @@ describe("Users", () => {
         .post("/api/register")
         .send(user)
         .end((err, res) => {
+          expect(err).to.be.null;
           res.should.have.status(201);
-          res.body.should.be.a("object");
+          res.body.should.be.an("object");
           res.body.should.have.property("username").eql("Test user");
           res.body.should.have.property("token").not.eql("");
           done();
@@ -47,8 +49,9 @@ describe("Users", () => {
           .post("/api/register")
           .send(user)
           .end((err, res) => {
-            res.should.have.status(203);
-            res.body.should.be.a("object");
+            expect(err).to.be.null;
+            res.should.have.status(422);
+            res.body.should.be.an("object");
             res.body.should.have
               .property("error")
               .eql("UserName Already Exists");
@@ -73,6 +76,7 @@ describe("Users", () => {
         .post("/api/register")
         .send(user)
         .end((err, res) => {
+          expect(err).to.be.null;
           res.should.have.status(201);
           done();
         });
@@ -84,8 +88,9 @@ describe("Users", () => {
         .post("/api/login")
         .send(user)
         .end((err, res) => {
+          expect(err).to.be.null;
           res.should.have.status(200);
-          res.body.should.be.a("object");
+          res.body.should.be.an("object");
           res.body.should.have.property("username").eql("Test user");
           res.body.should.have.property("token").not.eql(null);
           done();
@@ -99,8 +104,9 @@ describe("Users", () => {
         .post("/api/login")
         .send(user)
         .end((err, res) => {
+          expect(err).to.be.null;
           res.should.have.status(400);
-          res.body.should.be.a("object");
+          res.body.should.be.an("object");
           res.body.should.have.property("error");
           done();
         });
@@ -113,8 +119,9 @@ describe("Users", () => {
         .post("/api/login")
         .send(user)
         .end((err, res) => {
+          expect(err).to.be.null;
           res.should.have.status(401);
-          res.body.should.be.a("object");
+          res.body.should.be.an("object");
           res.body.should.have.property("error");
           done();
         });
@@ -138,20 +145,22 @@ describe("Users", () => {
           .post("/api/register")
           .send(user)
           .end((err, res) => {
+            if (err) throw err;
             authenticatedUser = res.body;
             res.should.have.status(201);
             done();
           });
       });
 
-      it("gives 204 on successful verification", (done) => {
+      it("gives 200 on successful verification", (done) => {
         chai
           .request(app)
           .post("/api/verify-token")
           .send(authenticatedUser)
           .end((err, res) => {
+            expect(err).to.be.null;
             res.should.have.status(200);
-            res.body.should.be.a("object");
+            res.body.should.be.an("object");
             res.body.should.have.property("status").eql(true);
             done();
           });
@@ -164,8 +173,9 @@ describe("Users", () => {
           .post("/api/verify-token")
           .send(authenticatedUser)
           .end((err, res) => {
+            expect(err).to.be.null;
             res.should.have.status(403);
-            res.body.should.be.a("object");
+            res.body.should.be.an("object");
             res.body.should.have.property("status").eql(false);
             done();
           });
@@ -188,12 +198,14 @@ describe("Users", () => {
           .post("/api/register")
           .send(user)
           .end((err, res) => {
+            expect(err).to.be.null;
             res.should.have.status(201);
             chai
               .request(app)
               .post("/api/login")
               .send(user)
               .end((err, res) => {
+                if (err) throw err;
                 authenticatedUser = res.body;
                 done();
               });
@@ -201,14 +213,15 @@ describe("Users", () => {
           });
       });
 
-      it("gives 204 on successful verification", (done) => {
+      it("gives 200 on successful verification", (done) => {
         chai
           .request(app)
           .post("/api/verify-token")
           .send(authenticatedUser)
           .end((err, res) => {
+            expect(err).to.be.null;
             res.should.have.status(200);
-            res.body.should.be.a("object");
+            res.body.should.be.an("object");
             res.body.should.have.property("status").eql(true);
             done();
           });
@@ -221,8 +234,9 @@ describe("Users", () => {
           .post("/api/verify-token")
           .send(authenticatedUser)
           .end((err, res) => {
+            expect(err).to.be.null;
             res.should.have.status(403);
-            res.body.should.be.a("object");
+            res.body.should.be.an("object");
             res.body.should.have.property("status").eql(false);
             done();
           });
@@ -240,13 +254,15 @@ describe("Users", () => {
       });
 
       user.save((err, user) => {
+        if (err) throw err;
         chai
           .request(app)
           .post("/api/user")
           .send(user)
           .end((err, res) => {
+            expect(err).to.be.null;
             res.should.have.status(200);
-            res.body.should.be.a("object");
+            res.body.should.be.an("object");
             res.body.should.have.property("username").eql("Test user");
             res.body.should.have.property("password").eql(null);
             res.body.should.have.property("email").eql("Test email");
@@ -264,16 +280,18 @@ describe("Users", () => {
         graduationYear: 2018,
       });
       user.save((err, user) => {
+        if (err) throw err;
         user.username = "Wrong test user";
         chai
           .request(app)
           .post("/api/user")
           .send(user)
           .end((err, res) => {
+            expect(err).to.be.null;
             res.should.have.status(404);
-            res.body.should.be.a("object");
+            res.body.should.be.an("object");
             res.body.should.have.property("message");
-            res.body.should.have.property("err");
+            res.body.should.have.property("error");
             done();
           });
       });

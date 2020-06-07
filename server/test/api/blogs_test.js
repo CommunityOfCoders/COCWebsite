@@ -2,6 +2,7 @@ const Blog = require("../../src/models/Blog");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const should = chai.should();
+const expect = chai.expect;
 const app = require("../../src/app");
 
 chai.use(chaiHttp);
@@ -14,13 +15,31 @@ describe("Blogs", () => {
   });
 
   describe("/GET blogs", () => {
+    beforeEach((done) => {
+      const data = [];
+      for (let i = 0; i < 10; i++) {
+        let objToInsert = {
+          blogTitle: "Test blog title " + i,
+          blogContent: "Test blog content " + i,
+          author: "Test blog author " + i,
+        };
+        data.push(objToInsert);
+      }
+      Blog.insertMany(data)
+        .then(() => done())
+        .catch((e) => console.log(e));
+    });
+
     it("should return all blogs", (done) => {
       chai
         .request(app)
         .get("/api/blogs")
         .end((err, res) => {
+          expect(err).to.be.null;
           res.should.have.status(200);
-          res.body.should.be.a("array");
+          res.body.should.be.an("array");
+          expect(res.body).to.have.lengthOf(10);
+          res.body[0].should.be.an("object");
           done();
         });
     });
@@ -36,13 +55,14 @@ describe("Blogs", () => {
         author: "Test blog author",
       });
       blog.save((err, blog) => {
+        if (err) throw err;
         chai
           .request(app)
           .get("/api/blogs/" + blog._id)
-          .send(blog)
           .end((err, res) => {
+            expect(err).to.be.null;
             res.should.have.status(200);
-            res.body.should.be.a("object");
+            res.body.should.be.an("object");
             res.body.should.have.property("blogTitle").eql("Test blog title");
             res.body.should.have
               .property("blogContent")
@@ -68,8 +88,9 @@ describe("Blogs", () => {
         .post("/api/blogs/new")
         .send(blog)
         .end((err, res) => {
+          expect(err).to.be.null;
           res.should.have.status(201);
-          res.body.should.be.a("object");
+          res.body.should.be.an("object");
           res.body.should.have.property("id");
           done();
         });
@@ -90,13 +111,15 @@ describe("Blogs", () => {
       };
       let newBlog = new Blog(blog);
       newBlog.save((err, blog) => {
+        if (err) throw err;
         chai
           .request(app)
           .put("/api/blogs/edit/" + blog._id)
           .send(updatedBlog)
           .end((err, res) => {
+            expect(err).to.be.null;
             res.should.have.status(200);
-            res.body.should.be.a("object");
+            res.body.should.be.an("object");
             res.body.should.have.property("id");
             done();
           });
@@ -113,11 +136,14 @@ describe("Blogs", () => {
       };
       let newBlog = new Blog(blog);
       newBlog.save((err, blog) => {
+        if (err) throw err;
         chai
           .request(app)
           .delete("/api/blogs/delete/" + blog._id)
           .end((err, res) => {
+            expect(err).to.be.null;
             res.should.have.status(204);
+            expect(res.body).to.be.empty;
             done();
           });
       });

@@ -2,6 +2,7 @@ const Event = require("../../src/models/Event");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const should = chai.should();
+const expect = chai.expect;
 const app = require("../../src/app");
 
 chai.use(chaiHttp);
@@ -17,8 +18,9 @@ describe("Events", () => {
         .request(app)
         .get("/api/events")
         .end((err, res) => {
+          expect(err).to.be.null;
           res.should.have.status(200);
-          res.body.should.be.a("array");
+          res.body.should.be.an("array");
           done();
         });
     });
@@ -34,13 +36,14 @@ describe("Events", () => {
         graduationYear: "Test graduation year",
       });
       event.save((err, event) => {
+        if (err) throw err;
         chai
           .request(app)
           .get("/api/events/" + event._id)
-          .send(event)
           .end((err, res) => {
+            expect(err).to.be.null;
             res.should.have.status(200);
-            res.body.should.be.a("object");
+            res.body.should.be.an("object");
             res.body.should.have.property("eventName").eql("Test event");
             res.body.should.have
               .property("description")
@@ -74,14 +77,17 @@ describe("Events", () => {
       };
       let newEvent = new Event(event);
       newEvent.save((err, event) => {
+        if (err) throw err;
         chai
           .request(app)
           .put("/api/events/" + event._id)
           .send(updatedEvent)
           .end((err, res) => {
+            expect(err).to.be.null;
             res.should.have.status(200);
-            res.body.should.be.a("object");
+            res.body.should.be.an("object");
             res.body.should.have.property("id");
+            expect(res.body).to.not.be.empty;
             done();
           });
       });
@@ -99,11 +105,14 @@ describe("Events", () => {
       };
       let newEvent = new Event(event);
       newEvent.save((err, event) => {
+        if (err) throw err;
         chai
           .request(app)
           .delete("/api/events/" + event._id)
           .end((err, res) => {
+            expect(err).to.be.null;
             res.should.have.status(204);
+            expect(res.body).to.be.empty;
             done();
           });
       });
@@ -125,6 +134,7 @@ describe("Events", () => {
         formURL: "Test form url",
       };
       event.save((err, event) => {
+        if (err) throw err;
         formBody.id = event._id;
         done();
       });
@@ -136,8 +146,9 @@ describe("Events", () => {
         .put("/api/events/form")
         .send(formBody)
         .end((err, res) => {
+          expect(err).to.be.null;
           res.should.have.status(200);
-          res.body.should.be.a("object");
+          res.body.should.be.an("object");
           res.body.should.have.property("message").not.eql("");
           done();
         });
@@ -150,9 +161,10 @@ describe("Events", () => {
         .put("/api/events/form")
         .send(formBody)
         .end((err, res) => {
-          res.should.have.status(203);
-          res.body.should.be.a("object");
-          res.body.should.have.property("err").not.eql("");
+          expect(err).to.be.null;
+          res.should.have.status(403);
+          res.body.should.be.an("object");
+          res.body.should.have.property("error").not.eql("");
           done();
         });
     });
