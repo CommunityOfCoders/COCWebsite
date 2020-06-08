@@ -1,7 +1,6 @@
 const Blog = require("../../src/models/Blog");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
-const should = chai.should();
 const expect = chai.expect;
 const app = require("../../src/app");
 
@@ -39,7 +38,26 @@ describe("Blogs", () => {
           res.should.have.status(200);
           res.body.should.be.an("array");
           expect(res.body).to.have.lengthOf(10);
+          done();
+        });
+    });
+
+    it("should preserve blog keys", (done) => {
+      chai
+        .request(app)
+        .get("/api/blogs")
+        .end((err, res) => {
+          expect(err).to.be.null;
+          res.should.have.status(200);
           res.body[0].should.be.an("object");
+          res.body[0].should.have
+            .property("blogTitle")
+            .eql("Test blog title 0");
+          res.body[0].should.have
+            .property("blogContent")
+            .eql("Test blog content 0");
+          res.body[0].should.have.property("author").eql("Test blog author 0");
+          res.body[0].should.have.property("date").not.eql(null);
           done();
         });
     });

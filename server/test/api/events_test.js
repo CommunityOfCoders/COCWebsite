@@ -1,7 +1,6 @@
 const Event = require("../../src/models/Event");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
-const should = chai.should();
 const expect = chai.expect;
 const app = require("../../src/app");
 
@@ -13,6 +12,23 @@ describe("Events", () => {
   });
 
   describe("/GET events", () => {
+    beforeEach((done) => {
+      const data = [];
+      for (let i = 0; i < 10; i++) {
+        let objToInsert = {
+          eventName: "Test event " + i,
+          description: "Test description " + i,
+          venue: "Test venue " + i,
+          date: "Test date " + i,
+          graduationYear: "Test graduation year " + i,
+        };
+        data.push(objToInsert);
+      }
+      Event.insertMany(data)
+        .then(() => done())
+        .catch((e) => console.log(e));
+    });
+
     it("should return all events", (done) => {
       chai
         .request(app)
@@ -21,6 +37,28 @@ describe("Events", () => {
           expect(err).to.be.null;
           res.should.have.status(200);
           res.body.should.be.an("array");
+          expect(res.body).to.have.lengthOf(10);
+          done();
+        });
+    });
+
+    it("should preserve event object properties", (done) => {
+      chai
+        .request(app)
+        .get("/api/events")
+        .end((err, res) => {
+          expect(err).to.be.null;
+          res.should.have.status(200);
+          res.body[0].should.be.an("object");
+          res.body[0].should.have.property("eventName").eql("Test event 0");
+          res.body[0].should.have
+            .property("description")
+            .eql("Test description 0");
+          res.body[0].should.have.property("venue").eql("Test venue 0");
+          res.body[0].should.have.property("date").eql("Test date 0");
+          res.body[0].should.have
+            .property("graduationYear")
+            .eql("Test graduation year 0");
           done();
         });
     });

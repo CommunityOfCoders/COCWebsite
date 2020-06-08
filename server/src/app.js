@@ -11,8 +11,9 @@ const app = express();
 app.use(express.json({ limit: '10mb' }));
 app.use(cors());
 
-app.use(morgan('combined'));
-
+if (process.env.NODE_ENV !== 'test') {
+	app.use(morgan('combined'));
+}
 
 routes(app);
 
