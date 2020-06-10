@@ -87,11 +87,8 @@ class AddEvent extends Component {
 			formData.append('date', date);
 			formData.append('venue', venue);
 			formData.append('graduationYear', graduationYear);
-			console.log(this.props.isUpdating);
 			if (this.props.isUpdating) {
 				const updatingEventId = this.props.updatingEvent._id;
-				// Update event is not implemented in the backend so this will make a query
-				// But the value will never get updated.
 				axios
 					.put(
 						process.env.REACT_APP_API +
@@ -102,7 +99,7 @@ class AddEvent extends Component {
 						console.trace(res.data, this.props.updatingEvent);
 					})
 					.catch((err) => {
-						alert(err);
+						console.log(err);
 					});
 			} else {
 				axios
@@ -132,13 +129,26 @@ class AddEvent extends Component {
 		);
 	}
 
-	componentDidUpdate() {
+	componentDidUpdate(nextProps) {
 		if (
 			JSON.stringify(this.props.updatingEvent) !==
-			JSON.stringify(this.state.event)
+				JSON.stringify(this.state.event) &&
+			JSON.stringify(this.props.updatingEvent) !==
+				JSON.stringify(nextProps.updatingEvent)
 		) {
 			if (this.props.updatingEvent) {
 				this.setState({ event: this.props.updatingEvent });
+			} else {
+				this.setState({
+					event: {
+						eventName: '',
+						description: '',
+						date: '',
+						venue: '',
+						graduationYear: '',
+						selectedFile: null,
+					},
+				});
 			}
 		}
 	}

@@ -19,6 +19,15 @@ class Event extends Component {
 
 	handleDelete = (eventId) => {
 		axios.delete(process.env.REACT_APP_API + `/events/${eventId}`);
+		const deletedEvent = this.state.events.find(
+			(event) => event._id === eventId
+		);
+		if (
+			JSON.stringify(deletedEvent) ===
+			JSON.stringify(this.state.updatingEvent)
+		) {
+			this.setState({ isUpdating: false, updatingEvent: null });
+		}
 		this.setState({ events: [] });
 	};
 
