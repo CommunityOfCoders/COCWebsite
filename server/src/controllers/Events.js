@@ -46,13 +46,30 @@ module.exports = {
       });
     }
   },
+
   async updateEvent(req, res) {
-    const eventId = req.params.id;
-    const event = await Event.findById(eventId);
-    res.json({
-      id: event._id,
-    });
-    // TODO ?
+    try {
+      const file = req.file;
+      if (file) {
+        const image = cloudinary.v2.uploader.upload(file.path);
+        req.body.image = {
+          url: image.secure_url,
+          public_id: image.public_id,
+        };
+      }
+      const eventId = req.params.id;
+      const event = await Event.findByIdAndUpdate(eventId, req.body, {
+        new: true,
+      });
+      res.json({
+        id: event._id,
+        eventName: event.eventName,
+      });
+    } catch (err) {
+      res.status(400).send({
+        err: err,
+      });
+    }
   },
 
   async deleteEvent(req, res) {

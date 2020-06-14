@@ -138,6 +138,9 @@ describe("Blogs", () => {
             expect(err).to.be.null;
             res.should.have.status(200);
             res.body.should.be.an("object");
+            res.body.should.have
+              .property("blogTitle")
+              .eql("Test put blog title");
             res.body.should.have.property("id");
             done();
           });

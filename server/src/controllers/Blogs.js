@@ -34,14 +34,17 @@ module.exports = {
       });
     }
   },
-  
+
   async editBlogById(req, res) {
     // TODO: add isBlogAuthorized middleware
     try {
       // Assumed that req.body already has required fields
-      const blog = await Blog.findByIdAndUpdate(req.params.id, req.body);
+      const blog = await Blog.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+      });
       res.json({
         id: blog._id,
+        blogTitle: blog.blogTitle,
       });
     } catch (error) {
       res.status(400).json({

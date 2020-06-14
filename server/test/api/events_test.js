@@ -124,6 +124,7 @@ describe("Events", () => {
             expect(err).to.be.null;
             res.should.have.status(200);
             res.body.should.be.an("object");
+            res.body.should.have.property("eventName").eql("Test new event");
             res.body.should.have.property("id");
             expect(res.body).to.not.be.empty;
             done();
