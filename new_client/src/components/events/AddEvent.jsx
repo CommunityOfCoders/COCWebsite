@@ -70,11 +70,13 @@ class AddEvent extends Component {
 	handleSubmit = (event) => {
 		if (this.isValid()) {
 			const formData = new FormData();
-			formData.append(
-				'COC_Event',
-				this.state.event.selectedFile,
-				this.state.event.selectedFile.name
-			);
+			if (this.state.event.selectedFile) {
+				formData.append(
+					'COC_Event',
+					this.state.event.selectedFile,
+					this.state.event.selectedFile.name
+				);
+			}
 			const {
 				eventName,
 				description,
@@ -96,7 +98,7 @@ class AddEvent extends Component {
 						formData
 					)
 					.then((res) => {
-						console.trace(res.data, this.props.updatingEvent);
+						console.log(res.data, this.props.updatingEvent);
 					})
 					.catch((err) => {
 						console.log(err);
@@ -108,7 +110,7 @@ class AddEvent extends Component {
 						console.log(res.data);
 					})
 					.catch((err) => {
-						alert(err);
+						console.log(err);
 					});
 			}
 		}

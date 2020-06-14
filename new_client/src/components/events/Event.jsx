@@ -11,10 +11,16 @@ class Event extends Component {
 	};
 
 	handleEdit = (eventId) => {
-		const updatingEvent = this.state.events.find(
+		let updatingEvent = this.state.events.find(
 			(event) => event._id === eventId
 		);
-		this.setState({ isUpdating: true, updatingEvent: updatingEvent });
+		this.setState((prevState) => {
+			updatingEvent = prevState.isUpdating ? null : updatingEvent;
+			return {
+				isUpdating: !prevState.isUpdating,
+				updatingEvent: updatingEvent,
+			};
+		});
 	};
 
 	handleDelete = (eventId) => {
@@ -40,25 +46,12 @@ class Event extends Component {
 			.catch((error) => console.log(error));
 	}
 
-	componentDidUpdate(prevProps, prevState) {
-		if (
-			JSON.stringify(this.state.events) !==
-			JSON.stringify(prevState.events)
-		) {
-			axios
-				.get(process.env.REACT_APP_API + '/events')
-				.then((res) => {
-					this.setState({ events: res.data });
-				})
-				.catch((error) => console.log(error));
-		}
-	}
-
 	render() {
 		return (
 			<div>
 				<EventList
 					events={this.state.events}
+					isUpdating={this.state.isUpdating}
 					handleEdit={this.handleEdit}
 					handleDelete={this.handleDelete}
 				/>

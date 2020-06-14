@@ -14,6 +14,13 @@ const EventList = (props) => {
 		props.handleDelete(eventId);
 	};
 
+	let editBtnText = 'Edit Event';
+	let editBtnStyle = 'btn-outline-warning';
+	if (props.isUpdating) {
+		editBtnText = 'Stop Editing';
+		editBtnStyle = 'btn-warning';
+	}
+
 	return (
 		<div>
 			{props.events.length ? (
@@ -39,20 +46,18 @@ const EventList = (props) => {
 							<p className='mb-1'>{event.description}</p>
 							<div className='controls row'>
 								<button
-									className='btn btn-outline-warning col'
+									className={`btn col ${editBtnStyle}`}
 									data-toggle='modal'
 									data-target='#myModal'
 									type='button'
 									style={buttonStyle}
 									onClick={() => handleEdit(event._id)}>
-									Edit Event
+									{editBtnText}
 								</button>
 								<button
 									className='btn btn-outline-danger col'
 									style={buttonStyle}
-									onClick={() =>
-										handleDelete(event._id)
-									}>
+									onClick={() => handleDelete(event._id)}>
 									Delete Event
 								</button>
 							</div>
