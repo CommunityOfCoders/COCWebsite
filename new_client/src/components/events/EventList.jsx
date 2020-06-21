@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const buttonStyle = {
   margin: '10px 15px',
@@ -11,7 +13,22 @@ const EventList = (props) => {
   };
 
   const handleDelete = (eventId) => {
-    props.handleDelete(eventId);
+    confirmAlert({
+      title: 'Confirm to delete',
+      message: 'Are you sure you want to delete the event?',
+      buttons: [
+        {
+          label: 'delete',
+          onClick: () => {
+            props.handleDelete(eventId);
+          }
+        },
+        {
+          label: 'cancel',
+          onClick: () => {}
+        }
+      ]
+    });
   };
 
   let editBtnText = 'Edit Event';
@@ -30,10 +47,12 @@ const EventList = (props) => {
             key={event._id}
             style={{ margin: '20px 100px', backgroundColor: 'white' }}
           >
-            <img
-              src={`http://res.cloudinary.com/coc-vjti/image/upload/v${event.version}/${event._id}`}
-              alt="coc event 1"
-            />
+            {event.version ? (
+              <img
+                src={`http://res.cloudinary.com/coc-vjti/image/upload/v${event.version}/${event._id}`}
+                alt="coc event 1"
+              />
+            ) : null}
             <div className="list-group-item list-group-item-action flex-column align-items-start">
               <div className="d-flex w-100 justify-content-between">
                 <h5 className="mb-1">{event.eventName}</h5>

@@ -10,7 +10,7 @@ class AddEvent extends Component {
       description: '',
       date: '',
       venue: '',
-      graduationYear: '',
+      graduationYear: null,
       selectedFile: null
     },
     error: {
@@ -18,7 +18,7 @@ class AddEvent extends Component {
       descriptionError: '',
       dateError: '',
       venueError: '',
-      graduationYearError: ''
+      graduationYearError: null
     }
   };
 
@@ -59,7 +59,7 @@ class AddEvent extends Component {
       error.dateError = '*Event date cannot be empty';
       ret = false;
     }
-    if (this.state.event.graduationYear === '') {
+    if (!this.state.event.graduationYear) {
       error.graduationYearError = '*Graduation year cannot be empty';
       ret = false;
     }
@@ -148,7 +148,7 @@ class AddEvent extends Component {
             description: '',
             date: '',
             venue: '',
-            graduationYear: '',
+            graduationYear: null,
             selectedFile: null
           }
         });
@@ -217,7 +217,7 @@ class AddEvent extends Component {
             <div className="form-group">
               <label>Graduation Year:</label>
               <input
-                type="text"
+                type="number"
                 className="form-control"
                 placeholder="Enter Graduation Year"
                 name="graduationYear"
