@@ -1,123 +1,123 @@
-const User = require('../models/User')
-const passwordhasher = require('password-hasher')
-const jwt = require('jsonwebtoken')
-const config = require('../config')
+const User = require("../models/User");
+const passwordhasher = require("password-hasher");
+const jwt = require("jsonwebtoken");
+const config = require("../config");
 
 function passwordHash(password) {
-        const hash = passwordhasher.createHash('ssha512',password,new Buffer('83d88386463f0625', 'hex'))
-        const rfcHash = passwordhasher.formatRFC2307(hash)
-        return rfcHash;
+  const hash = passwordhasher.createHash(
+    "ssha512",
+    password,
+    new Buffer("83d88386463f0625", "hex")
+  );
+  const rfcHash = passwordhasher.formatRFC2307(hash);
+  return rfcHash;
 }
 module.exports = {
+  async register(req, res) {
+    try {
+      const { password, username } = req.body;
 
-    async register (req,res) {
-        try {
-            const {password,username} = req.body
-            
-            const user1 = await User.findOne({
-                username: username
-            })
+      const user1 = await User.findOne({
+        username: username,
+      });
 
-            if(user1) {
-                return res.status(203).send({
-                   error: "UserName Already Exists" 
-                })
-            }
+      /* If user exists, return 422 - 
+      visit https://stackoverflow.com/questions/3825990/http-response-code-for-post-when-resource-already-exists for more details
+      */
+      if (user1) {
+        return res.status(422).json({
+          error: "UserName Already Exists",
+        });
+      }
 
-            console.log("Yes")
+      req.body.password = passwordHash(password);
 
-            req.body.password = passwordHash(password);
-            
-            const user = await User.create(req.body)
+      const user = await User.create(req.body);
 
-            const token = jwt.sign(
-                {user: user},
-                config.privateKey,
-                {expiresIn: 3600}
-            )
+      const token = jwt.sign({ user: user }, config.privateKey, {
+        expiresIn: 3600,
+      });
 
-            res.send({
-                username: user.username,
-                token: token
-            })
-        } catch (err) {
-            res.status(201).send({
-                err: err
-            })
-        }
-    },
-    async login (req,res) {
-        try {
-            const {username,password} = req.body
-
-            const user = await User.findOne({
-                username: username
-            })
-
-            if(!user) {
-                return res.status(203).send({
-                   error: "Invalid login info" 
-                })
-            }
-
-            const rfcHash = passwordHash(password);
-
-            if(rfcHash !== user.password) {
-                return res.status(203).send({
-                    error: "Invalid login info" 
-                })
-            }
-
-            const token = jwt.sign(
-                {user: user},
-                config.privateKey,
-                {expiresIn: 60*60}
-            )
-
-            res.send({
-                username: user.username,
-                token: token
-            })
-        } catch (err) {
-            res.status(201).send({
-                err: err
-            })
-        }
-    },
-
-    async verifyToken(req,res) {
-        const {token} = req.body
-
-        try {
-            jwt.verify(token,config.privateKey)
-            return res.send({
-                status: true
-            })
-        } catch (err) {
-            return res.send({
-                status:false
-            })
-        }
-    },
-
-    async getUser(req,res) {
-        try {
-            
-            const {username} = req.body
-
-            const user = await User.findOne({
-                username: username
-            })
-
-            user.password = null
-
-            res.status(200).json(user)
-        } catch (e) {
-            res.status(201).send({
-                message: 'An error has occured',
-                err: e
-            })
-        }
+      res.status(201).json({
+        username: user.username,
+        token: token,
+      });
+    } catch (error) {
+      res.status(500).json({
+        error: error,
+      });
     }
+  },
+  async login(req, res) {
+    try {
+      const { username, password } = req.body;
 
-}
+      const user = await User.findOne({
+        username: username,
+      });
+
+      // User not found, return 400
+      if (!user) {
+        return res.status(400).json({
+          error: "No user found",
+        });
+      }
+
+      const rfcHash = passwordHash(password);
+
+      // Password invalid
+      if (rfcHash !== user.password) {
+        return res.status(401).json({
+          error: "Invalid login info",
+        });
+      }
+
+      const token = jwt.sign({ user: user }, config.privateKey, {
+        expiresIn: 60 * 60,
+      });
+
+      res.status(200).json({
+        username: user.username,
+        token: token,
+      });
+    } catch (error) {
+      res.status(500).json({
+        error: error,
+      });
+    }
+  },
+
+  async verifyToken(req, res) {
+    const { token } = req.body;
+
+    try {
+      jwt.verify(token, config.privateKey);
+      return res.status(200).json({
+        status: true,
+      });
+    } catch (error) {
+      return res.status(403).json({
+        status: false,
+      });
+    }
+  },
+
+  async getUser(req, res) {
+    try {
+      const { username } = req.body;
+
+      const user = await User.findOne({
+        username: username,
+      });
+
+      user.password = null;
+
+      res.status(200).json(user);
+    } catch (e) {
+      res.status(404).json({
+        message: "An error has occured",
+        error: e,
+      });
+    }
+  },
+};
