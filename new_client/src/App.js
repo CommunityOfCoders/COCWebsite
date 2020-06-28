@@ -10,6 +10,7 @@ import Home from './components/Home/home';
 import Footer from './components/Footer'
 import About from './components/pages/About';
 import Glimpse from './components/glimpses/Glimpse';
+import Event from './components/events/Event'
 
 import Blogs from './components/blogs/Blog';
 import AddBlog from './components/blogs/AddBlog';
@@ -36,6 +37,7 @@ function App() {
             <Route path="/signup" component={Signup} />
             <Route path="/glimpse" component={Glimpse} />
             <Route path="/newHome" component={NewHome} />
+            <Route path="/events" component={Event}/>
             {/* <Footer /> */}
           </Switch>
         </div>

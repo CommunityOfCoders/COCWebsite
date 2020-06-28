@@ -17,9 +17,9 @@ module.exports = (app) => {
     //Events Paths
     app.get('/api/events', Events.getEvents); // Tested
     app.post('/api/events', upload.single('COC_Event'), Events.uploadEvent)
+    app.put('/api/events/:id', upload.single('COC_Event'),Events.updateEvent);
     app.put('/api/events/form',Events.addForm) // Tested
     app.get('/api/events/:id', Events.getEventById); // Tested
-    app.put('/api/events/:id', Events.updateEvent); // Tested
     app.delete('/api/events/:id', Events.deleteEvent); // Tested
     
 

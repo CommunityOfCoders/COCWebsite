@@ -18,7 +18,7 @@ const event = new mongoose.Schema({
         required: true
     },
     graduationYear: {
-        type: String,
+        type: Number,
         required: true
     },
     image: {
