@@ -100,6 +100,7 @@ class AddEvent extends Component {
             console.log(res.data, this.props.updatingEvent);
           })
           .catch((err) => {
+            alert(`A server error occured while processing the data. Please try again later`);
             console.log(err);
           });
       } else {
@@ -109,6 +110,7 @@ class AddEvent extends Component {
             console.log(res.data);
           })
           .catch((err) => {
+            alert(`A server error occured while processing the data. Please try again later`);
             console.log(err);
           });
       }
