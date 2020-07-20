@@ -54,7 +54,10 @@ module.exports = {
       const eventId = req.params.id;
       const file = req.file;
       if (file) {
-        await cloudinary.v2.uploader.destroy(eventId);
+        try {
+          await cloudinary.api.resource(eventId);
+          await cloudinary.v2.uploader.destroy(eventId);
+        } catch(error) {}
         const image = await cloudinary.v2.uploader.upload(file.path, {
           public_id: eventId,
           tags: ['event'],
@@ -79,7 +82,10 @@ module.exports = {
     const eventId = req.params.id;
     const event = await Event.findById(eventId);
     await event.remove();
-    await cloudinary.v2.uploader.destroy(eventId);
+    try {
+      await cloudinary.api.resource(eventId);
+      await cloudinary.v2.uploader.destroy(eventId);
+    } catch(error) {}
     res.status(204);
   },
   async addForm(req, res) {
