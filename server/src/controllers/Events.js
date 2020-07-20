@@ -7,6 +7,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET
 });
 const Event = require('../models/Event');
+const mongoose = require('mongoose');
 
 module.exports = {
   async getEvents(_req, res) {
@@ -68,10 +69,9 @@ module.exports = {
           public_id: image.public_id
         };
       }
-      const event = await Event.findByIdAndUpdate(eventId, req.body);
-      res.json({
-        id: event._id
-      });
+      let event = await Event.updateOne({_id: mongoose.Types.ObjectId(eventId)}, req.body);
+      event = await Event.findById(eventId);
+      res.json(event);
     } catch (err) {
       res.status(400).send({
         err: err
@@ -86,7 +86,7 @@ module.exports = {
       await cloudinary.api.resource(eventId);
       await cloudinary.v2.uploader.destroy(eventId);
     } catch(error) {}
-    res.status(204);
+    res.status(204).json({});
   },
   async addForm(req, res) {
     const formURL = req.body.formURL;
