@@ -103,7 +103,7 @@ module.exports = {
     }
   },
 
-  async getUser(req, res, next) {
+  async getUser(req, res) {
     try {
       const { username } = req.body;
 
@@ -115,8 +115,7 @@ module.exports = {
 
       res.status(200).json(user);
     } catch (e) {
-        next({
-          status: 400,
+        res.status(400).json({
           error: e.message
         })
     }
