@@ -11,7 +11,7 @@ const Event = require('../models/Event');
 module.exports = {
   async getEvents(_req, res) {
     const events = await Event.find();
-    res.json(events);
+    return res.status(200).json(events);
   },
   async getEventById(req, res) {
     try {
@@ -19,9 +19,9 @@ module.exports = {
       const event = await Event.findById(eventId);
       res.json(event);
     } catch (err) {
-      res.status(203).send({
-        err: err
-      });
+      return res.status(400).json({
+        message: err.message
+      })
     }
   },
   async uploadEvent(req, res) {
@@ -40,13 +40,13 @@ module.exports = {
           public_id: image.public_id
         };
       }
-      res.json({
+      return res.status(200).json({
         id: event._id
       });
     } catch (err) {
-      res.status(203).send({
-        err: err
-      });
+        return res.status(500).json({
+          	message: err.message
+        })
     }
   },
   async updateEvent(req, res) {
@@ -66,22 +66,24 @@ module.exports = {
         };
       }
       const event = await Event.findByIdAndUpdate(eventId, req.body);
-      res.json({
+      return res.status(200).json({
         id: event._id
       });
     } catch (err) {
-      res.status(400).send({
-        err: err
-      });
+      return res.status(400).json({
+        message: err.message,
+      })
     }
   },
+
   async deleteEvent(req, res) {
     const eventId = req.params.id;
     const event = await Event.findById(eventId);
     await event.remove();
     await cloudinary.v2.uploader.destroy(eventId);
-    res.status(204);
+    return res.status(204).json({message:"Successfully deleted event"});
   },
+
   async addForm(req, res) {
     const formURL = req.body.formURL;
     const eventId = req.body.id;
@@ -91,13 +93,13 @@ module.exports = {
         form: formURL
       });
 
-      res.status(200).send({
+      return res.status(200).send({
         message: 'Form added successfully'
       });
     } catch (err) {
-      res.status(203).send({
-        err: err
-      });
+      return res.status(203).json({
+		  err: err.message
+	  })
     }
   }
 };

@@ -48,6 +48,7 @@ module.exports = {
       });
     }
   },
+  
   async login(req, res) {
     try {
       const { username, password } = req.body;
@@ -102,7 +103,7 @@ module.exports = {
     }
   },
 
-  async getUser(req, res) {
+  async getUser(req, res, next) {
     try {
       const { username } = req.body;
 
@@ -112,12 +113,12 @@ module.exports = {
 
       user.password = null;
 
-      res.status(200).json(user);
+      return res.status(200).json(user);
     } catch (e) {
-      res.status(404).json({
-        message: "An error has occured",
-        error: e,
-      });
+        return next({
+          status: 400,
+          message: e.message
+        })
     }
   },
 };
