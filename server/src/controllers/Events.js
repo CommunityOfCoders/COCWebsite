@@ -11,16 +11,17 @@ const Event = require('../models/Event');
 module.exports = {
   async getEvents(_req, res) {
     const events = await Event.find();
-    return res.status(200).json(events);
+    res.status(200).json(events);
   },
+
   async getEventById(req, res) {
     try {
       const eventId = req.params.id;
       const event = await Event.findById(eventId);
       res.json(event);
     } catch (err) {
-      return res.status(400).json({
-        message: err.message
+      res.status(400).json({
+        error: err.message
       })
     }
   },
@@ -40,13 +41,13 @@ module.exports = {
           public_id: image.public_id
         };
       }
-      return res.status(200).json({
+      res.status(200).json({
         id: event._id
       });
     } catch (err) {
-        return res.status(500).json({
-          	message: err.message
-        })
+        res.status(500).json({
+          	error: err.message
+        });
     }
   },
   async updateEvent(req, res) {
@@ -66,13 +67,13 @@ module.exports = {
         };
       }
       const event = await Event.findByIdAndUpdate(eventId, req.body);
-      return res.status(200).json({
+      res.status(200).json({
         id: event._id
       });
     } catch (err) {
-      return res.status(400).json({
-        message: err.message,
-      })
+      res.status(400).json({
+        error: err.message,
+      });
     }
   },
 
@@ -81,7 +82,7 @@ module.exports = {
     const event = await Event.findById(eventId);
     await event.remove();
     await cloudinary.v2.uploader.destroy(eventId);
-    return res.status(204).json({message:"Successfully deleted event"});
+    res.status(204).json();
   },
 
   async addForm(req, res) {
@@ -93,13 +94,13 @@ module.exports = {
         form: formURL
       });
 
-      return res.status(200).send({
+      res.status(200).send({
         message: 'Form added successfully'
       });
     } catch (err) {
-      return res.status(203).json({
-		  err: err.message
-	  })
+        res.status(203).json({
+        err: err.message
+      })
     }
   }
 };

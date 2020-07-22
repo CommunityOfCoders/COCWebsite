@@ -25,7 +25,7 @@ module.exports = {
       visit https://stackoverflow.com/questions/3825990/http-response-code-for-post-when-resource-already-exists for more details
       */
       if (user1) {
-        return res.status(422).json({
+        res.status(422).json({
           error: "UserName Already Exists",
         });
       }
@@ -44,7 +44,7 @@ module.exports = {
       });
     } catch (error) {
       res.status(500).json({
-        error: error,
+        error: error.message,
       });
     }
   },
@@ -59,7 +59,7 @@ module.exports = {
 
       // User not found, return 400
       if (!user) {
-        return res.status(400).json({
+        res.status(400).json({
           error: "No user found",
         });
       }
@@ -83,7 +83,7 @@ module.exports = {
       });
     } catch (error) {
       res.status(500).json({
-        error: error,
+        error: error.message,
       });
     }
   },
@@ -93,11 +93,11 @@ module.exports = {
 
     try {
       jwt.verify(token, config.privateKey);
-      return res.status(200).json({
+      res.status(200).json({
         status: true,
       });
     } catch (error) {
-      return res.status(403).json({
+      res.status(403).json({
         status: false,
       });
     }
@@ -113,11 +113,11 @@ module.exports = {
 
       user.password = null;
 
-      return res.status(200).json(user);
+      res.status(200).json(user);
     } catch (e) {
-        return next({
+        next({
           status: 400,
-          message: e.message
+          error: e.message
         })
     }
   },
