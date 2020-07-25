@@ -54,10 +54,16 @@ module.exports = {
     try {
       const eventId = req.params.id;
       const file = req.file;
+      let event = await Event.updateOne({_id: mongoose.Types.ObjectId(eventId)}, req.body);
+      event = await Event.findById(eventId);
       if (file) {
         try {
           await cloudinary.api.resource(eventId);
-          await cloudinary.v2.uploader.destroy(eventId);
+          try {
+            await cloudinary.v2.uploader.destroy(eventId);
+          } catch(error) {
+            res.status(500).json({});
+          }
         } catch(error) {}
         const image = await cloudinary.v2.uploader.upload(file.path, {
           public_id: eventId,
@@ -69,8 +75,6 @@ module.exports = {
           public_id: image.public_id
         };
       }
-      let event = await Event.updateOne({_id: mongoose.Types.ObjectId(eventId)}, req.body);
-      event = await Event.findById(eventId);
       res.json(event);
     } catch (err) {
       res.status(400).send({
@@ -84,7 +88,11 @@ module.exports = {
     await event.remove();
     try {
       await cloudinary.api.resource(eventId);
-      await cloudinary.v2.uploader.destroy(eventId);
+      try {
+        await cloudinary.v2.uploader.destroy(eventId);
+      } catch(error) {
+        res.status(500).json({});
+      }
     } catch(error) {}
     res.status(204).json({});
   },
