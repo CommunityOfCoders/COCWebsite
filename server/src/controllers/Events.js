@@ -7,6 +7,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET
 });
 const Event = require('../models/Event');
+const mongoose = require('mongoose');
 
 module.exports = {
   async getEvents(_req, res) {
@@ -53,8 +54,17 @@ module.exports = {
     try {
       const eventId = req.params.id;
       const file = req.file;
+      let event = await Event.updateOne({_id: mongoose.Types.ObjectId(eventId)}, req.body);
+      event = await Event.findById(eventId);
       if (file) {
-        await cloudinary.v2.uploader.destroy(eventId);
+        try {
+          await cloudinary.api.resource(eventId);
+          try {
+            await cloudinary.v2.uploader.destroy(eventId);
+          } catch(error) {
+            res.status(500).json({});
+          }
+        } catch(error) {}
         const image = await cloudinary.v2.uploader.upload(file.path, {
           public_id: eventId,
           tags: ['event'],
@@ -65,10 +75,7 @@ module.exports = {
           public_id: image.public_id
         };
       }
-      const event = await Event.findByIdAndUpdate(eventId, req.body);
-      res.json({
-        id: event._id
-      });
+      res.json(event);
     } catch (err) {
       res.status(400).send({
         err: err
@@ -79,8 +86,15 @@ module.exports = {
     const eventId = req.params.id;
     const event = await Event.findById(eventId);
     await event.remove();
-    await cloudinary.v2.uploader.destroy(eventId);
-    res.status(204);
+    try {
+      await cloudinary.api.resource(eventId);
+      try {
+        await cloudinary.v2.uploader.destroy(eventId);
+      } catch(error) {
+        res.status(500).json({});
+      }
+    } catch(error) {}
+    res.status(204).json({});
   },
   async addForm(req, res) {
     const formURL = req.body.formURL;
