@@ -2,12 +2,22 @@ import "date-fns";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Button, Container, Grid, Typography, Card } from "@material-ui/core";
+import {
+  Button,
+  Container,
+  Grid,
+  Typography,
+  Card,
+  CardContent,
+  CardActions,
+  CardHeader,
+} from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 import ReactMarkdown from "react-markdown";
 import parse from "date-fns/parse";
+import { format } from "date-fns";
 
-const Blog = () => {
+const Blogs = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setIsLoading] = useState(true);
   const substringSize = 20;
@@ -15,10 +25,23 @@ const Blog = () => {
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_API + "/blogs")
-      .then((res) => setPosts(res.data.sort((a, b) => b.date - a.date)))
+      .then((res) => res.data)
+      .then((res) => {
+        console.log(res);
+        setPosts(res.sort((a, b) => b.date - a.date));
+      })
       .catch((error) => console.log(error))
       .then(() => setIsLoading(false));
   }, []);
+
+  const calculateReadingTime = (content) => {
+    const wordsPerMinute = 228;
+    const wordCount = content.replace(/[^\w ]/g, "").split(/\s+/).length;
+    const readingTimeInMinutes = Math.floor(wordCount / wordsPerMinute) + 1;
+    const readingTimeAsString = readingTimeInMinutes + " min";
+
+    return readingTimeAsString;
+  };
 
   return (
     <Container maxWidth="md">
@@ -30,38 +53,46 @@ const Blog = () => {
             {posts.map((article, key) => (
               <Grid item xs={6}>
                 <Card>
-                  <Typography variant="h3">{article.blogTitle}</Typography>
-                  <ReactMarkdown
-                    source={
-                      article.blogContent.length > substringSize
-                        ? `${article.blogContent.substring(
-                            0,
-                            substringSize
-                          )}...`
-                        : article.blogContent
-                    }
-                  />
-                  <span className="badge badge-secondary p-2">
-                    {" "}
-                    {/* {parse(article.date, "dd-MM-YYYY HH:mm:ss", new Date())} */}
-                  </span>
-                  <Typography>Written by : {article.author}</Typography>
-                  <Grid container spacing={4}>
-                    <Grid item xs={6}>
-                      <Button>
-                        <Link to="/" className="btn-outline-success">
-                          Edit Blog
-                        </Link>
-                      </Button>
+                  <CardHeader title={article.blogTitle} />{" "}
+                  <CardContent>
+                    <Typography>
+                      {" "}
+                      <p>
+                        {format(
+                          new Date(article.date),
+                          "dd/MM/yyyy HH:mm:ss a"
+                        )}
+                      </p>{" "}
+                      <p>Written by : {article.author}</p>
+                      <p>
+                        Estimated reading time:{" "}
+                        {calculateReadingTime(article.blogContent)}
+                      </p>
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Grid container spacing={4} justify="space-between">
+                      <Grid item xs={4}>
+                        <Button color="primary">
+                          <Link to={`blogs/${article._id}`}>Read More</Link>
+                        </Button>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <Button>
+                          <Link to="/" className="btn-outline-success">
+                            Edit Blog
+                          </Link>
+                        </Button>
+                      </Grid>
+                      <Grid item xs={4}>
+                        <Button>
+                          <Link to="/" className="btn-outline-danger">
+                            Delete Blog
+                          </Link>
+                        </Button>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={6}>
-                      <Button>
-                        <Link to="/" className="btn-outline-danger">
-                          Delete Blog
-                        </Link>
-                      </Button>
-                    </Grid>
-                  </Grid>
+                  </CardActions>
                 </Card>
               </Grid>
             ))}
@@ -76,4 +107,4 @@ const Blog = () => {
     </Container>
   );
 };
-export default Blog;
+export default Blogs;
