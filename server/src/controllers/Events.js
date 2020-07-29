@@ -98,7 +98,7 @@ module.exports = {
   },
   async addForm(req, res) {
     const formURL = req.body.formURL;
-    const eventId = req.body.id;
+    const eventId = req.params.id;
 
     try {
       const event = await Event.findByIdAndUpdate(eventId, {
@@ -109,8 +109,8 @@ module.exports = {
         message: 'Form added successfully'
       });
     } catch (err) {
-      res.status(203).send({
-        err: err
+      res.status(403).send({
+        error: err
       });
     }
   }
