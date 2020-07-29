@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import { Container } from "@material-ui/core";
+import CodeBlock from "./SyntaxHighlighter";
 
 function IndividualBlog() {
   const id = useParams().id;
@@ -19,7 +20,10 @@ function IndividualBlog() {
 
   return (
     <Container>
-      <ReactMarkdown source={blog.blogContent} />
+      <ReactMarkdown
+        source={blog.blogContent}
+        renderers={{ code: CodeBlock }}
+      />
     </Container>
   );
 }

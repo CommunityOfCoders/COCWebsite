@@ -14,16 +14,14 @@ export default function Editor(props) {
   const { content, setContent } = props;
   const [selectedTab, setSelectedTab] = useState("write");
   return (
-    <div className="container">
-      <ReactMde
-        value={content}
-        onChange={setContent}
-        selectedTab={selectedTab}
-        onTabChange={setSelectedTab}
-        generateMarkdownPreview={(markdown) =>
-          Promise.resolve(converter.makeHtml(markdown))
-        }
-      />
-    </div>
+    <ReactMde
+      value={content}
+      onChange={setContent}
+      selectedTab={selectedTab}
+      onTabChange={setSelectedTab}
+      generateMarkdownPreview={(markdown) =>
+        Promise.resolve(converter.makeHtml(markdown))
+      }
+    />
   );
 }

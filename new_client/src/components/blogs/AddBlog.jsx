@@ -76,7 +76,7 @@ export default function AddBlog() {
         <Grid item xs={12}>
           <Editor content={blogContent} setContent={setBlogContent} />
         </Grid>
-        <Grid item>
+        <Grid item xs={12}>
           <Button
             variant="contained"
             color="primary"
