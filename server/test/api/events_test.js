@@ -159,7 +159,7 @@ describe("Events", () => {
   });
 
   describe("PUT/ add form url to event", () => {
-    let formBody;
+    let formBody, id;
 
     beforeEach((done) => {
       let event = new Event({
@@ -174,7 +174,7 @@ describe("Events", () => {
       };
       event.save((err, event) => {
         if (err) throw err;
-        formBody.id = event._id;
+        id = event._id;
         done();
       });
     });
@@ -182,7 +182,7 @@ describe("Events", () => {
     it("adds form to event body", (done) => {
       chai
         .request(app)
-        .put("/api/events/form")
+        .put("/api/events/form/" + id)
         .send(formBody)
         .end((err, res) => {
           expect(err).to.be.null;
@@ -194,10 +194,10 @@ describe("Events", () => {
     });
 
     it("does not add form to event body", (done) => {
-      formBody.id = "Wrong test url";
+      id = "Wrong-test-id";
       chai
         .request(app)
-        .put("/api/events/form")
+        .put("/api/events/form/" + id)
         .send(formBody)
         .end((err, res) => {
           expect(err).to.be.null;

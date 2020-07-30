@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [8, 10, 12]
+        node-version: [10, 12]
         os: [ubuntu-latest]
         mongodb-version: [4.0]
     steps:
