@@ -93,7 +93,9 @@ module.exports = {
       try {
         await cloudinary.v2.uploader.destroy(eventId);
       } catch(error) {
-        res.status(500).json({});
+        res.status(500).json({
+          error: error
+        });
       }
     } catch(error) {}
     res.status(204).json({});
