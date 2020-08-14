@@ -1,15 +1,16 @@
-const mongoose = require('mongoose')
+require("dotenv").config();
+const mongoose = require("mongoose");
 
-function connect () {
-    const mongooseOptions = {
-        useCreateIndex: true,
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useFindAndModify: false
-    }
-    mongoose.connect('mongodb://localhost:27017/test', mongooseOptions);
-    mongoose.Promise = global.Promise;
-    mongoose.connection.on('error', console.error.bind(console, "MongoDB error"));
+function connect() {
+  const mongooseOptions = {
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  };
+  mongoose.connect(process.env.MONGO_URI, mongooseOptions);
+  mongoose.Promise = global.Promise;
+  mongoose.connection.on("open", () => console.log("MongoDB Connected"));
 }
 
-module.exports = connect
+module.exports = connect;
