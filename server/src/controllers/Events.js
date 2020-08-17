@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const cloudinary = require('cloudinary');
+const scheduler = require('../utility/scheduler');
 cloudinary.config({
   cloud_name: 'coc-vjti',
   api_key: '552242973352355',
@@ -28,7 +29,6 @@ module.exports = {
   async uploadEvent(req, res) {
     try {
       const file = req.file;
-      console.log(req.file);
       const event = await Event.create(req.body);
       if (file) {
         const image = await cloudinary.v2.uploader.upload(file.path, {
@@ -56,6 +56,14 @@ module.exports = {
       const file = req.file;
       let event = await Event.updateOne({_id: mongoose.Types.ObjectId(eventId)}, req.body);
       event = await Event.findById(eventId);
+      const eventDate = event.date.split('-');
+      const notificationDate = new Date(
+        parseInt(eventDate[0]), 
+        parseInt(eventDate[1])-1, 
+        parseInt(eventDate[2]), 
+        9
+      );
+      scheduler.rescheduleNotification(notificationDate, { prefix: eventId });
       if (file) {
         try {
           await cloudinary.api.resource(eventId);
@@ -84,6 +92,7 @@ module.exports = {
   },
   async deleteEvent(req, res) {
     const eventId = req.params.id;
+    scheduler.removeNotification({ substring: eventId });
     const event = await Event.findById(eventId);
     await event.remove();
     try {
@@ -112,6 +121,40 @@ module.exports = {
       res.status(403).send({
         error: err
       });
+    }
+  },
+  async addReminder(req, res) {
+    try {
+      const eventId = req.body.id;
+      const userEmail = req.body.email;
+      const event = await Event.findById(eventId);
+      const eventDate = event.date.split('-');
+      const notificationDate = new Date(
+        parseInt(eventDate[0]), 
+        parseInt(eventDate[1])-1, 
+        parseInt(eventDate[2]), 
+        9
+      ); // Sends notification at 09:00 at the day of the event
+      const data = {
+        jobName: `${eventId}-${userEmail}`,
+        to: userEmail,
+        subject: `${event.eventName} Reminder!!`,
+        message: `Reminder email for ${event.eventName} event`,
+      }
+      scheduler.scheduleEmailNotification(notificationDate, data);
+      res.status(200).json({mssg: 'Successfully added reminder'});
+    } catch (error) {
+      res.status(400).json({error: error.message});
+    }
+  },
+  async cancelReminder(req, res) {
+    const eventId = req.params.id;
+    const userEmail = req.body.email;
+    try {
+      scheduler.removeNotification({ substring: `${eventId}-${userEmail}` });
+      res.status(200).json({ mssg: 'Successfully cancelled reminder' });
+    } catch(error) {
+      res.status(400).json({error: error.message});
     }
   }
 };

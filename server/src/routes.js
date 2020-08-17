@@ -21,6 +21,8 @@ module.exports = (app) => {
     app.put('/api/events/form/:id',Events.addForm) // Tested
     app.get('/api/events/:id', Events.getEventById); // Tested
     app.delete('/api/events/:id', Events.deleteEvent); // Tested
+    app.post('/api/events/reminder', Events.addReminder);
+    app.delete('/api/events/reminder/:id', Events.cancelReminder);
     
 
     // Registration
