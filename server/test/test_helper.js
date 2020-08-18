@@ -13,7 +13,7 @@ const mongoOptions = {
 before(async () => {
   config.env = "test";
   mongoServer = new MongoMemoryServer();
-  const mongoUri = await mongoServer.getUri();
+  const mongoUri = await mongoServer.getConnectionString();
   await mongoose.connect(mongoUri, mongoOptions);
   console.log(`Mongo URI started on ${mongoUri}`);
 });

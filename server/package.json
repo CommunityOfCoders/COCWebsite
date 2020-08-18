@@ -1,12 +1,12 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "Server for vue front end",
+  "description": "Server for front end",
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app",
     "pretest": "eslint --ignore-path .gitignore . ",
-    "test": "mocha --recursive --timeout 120000 --exit",
+    "test": "NODE_ENV=test mocha --recursive --timeout 120000 --exit",
     "serve": "nodemon src/app",
     "new_client": "npm start --prefix=../new_client",
     "dev": "concurrently \" npm run serve \" \" npm run new_client \""
