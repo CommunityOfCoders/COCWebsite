@@ -5,19 +5,16 @@ const scheduleEmailNotification = (date, data) => {
 	const { jobName, to, subject, message } = data;
 	schedule.scheduleJob(jobName, date, () => {
 		sendEmail(to, subject, message);
-  });
-  console.log('[scheduler.js] 9',schedule.scheduledJobs);
+	});
 };
 
 const removeNotification = data => {
-  const { substring } = data;
-  console.log('[scheduler.js] 14',schedule.scheduledJobs);
+	const { substring } = data;
 	for (const prop in schedule.scheduledJobs) {
-		if (prop.toString().includes(substring)) {
+		if (prop.includes(substring)) {
 			schedule.scheduledJobs[prop].cancel();
 		}
-  }
-  console.log('[scheduler.js] 20',schedule.scheduledJobs);
+	}
 };
 
 const rescheduleNotification = (date, data) => {
@@ -29,8 +26,13 @@ const rescheduleNotification = (date, data) => {
 	}
 };
 
+const getNumberOfJobs = () => {
+	return Object.keys(schedule.scheduledJobs).length;
+};
+
 module.exports = {
 	scheduleEmailNotification,
 	removeNotification,
 	rescheduleNotification,
+	getNumberOfJobs,
 };
