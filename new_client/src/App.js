@@ -25,7 +25,7 @@ function App() {
 
   return (
     <Provider store={store}>
-      <Router history={history}>
+      <Router history={history} basename={process.env.REACT_APP_PUBLIC_URL}>
         <div className="App">
           <Header />
           <Switch>
