@@ -9,7 +9,8 @@
     "test": "NODE_ENV=test mocha --recursive --timeout 120000 --exit",
     "serve": "nodemon src/app",
     "new_client": "npm start --prefix=../new_client",
-    "dev": "concurrently \" npm run serve \" \" npm run new_client \""
+    "dev": "concurrently \" npm run serve \" \" npm run new_client \"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix=../new_client && npm run build --prefix=../new_client"
   },
   "author": "",
   "license": "ISC",
