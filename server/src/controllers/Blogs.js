@@ -6,7 +6,7 @@ module.exports = {
   async allBlogs(_req, res, next) {
     try{
       const blogs = await Blog.find();
-      res.status(200).json(blogs);
+      res.status(200).json({blogs});
     }catch(e){
       res.status(400).json({error:e.message});
     }
@@ -28,7 +28,7 @@ module.exports = {
     }
   },
 
-  async uploadBlog(req, res, next) {
+  async uploadBlog(req, res) {
     try {
       // Assumed that req.body already has required fields
       const blog = await Blog.create(req.body);
@@ -63,6 +63,6 @@ module.exports = {
     const blogId = req.params.id;
     const blog = await Blog.findById(blogId);
     await blog.remove();
-    res.status(204).json();
+    res.status(204).json({});
   },
 };

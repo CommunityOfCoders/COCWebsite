@@ -8,7 +8,7 @@ module.exports = {
             else
                 return res.status(403).json({error:"You are not authorized"})
         }catch(e){
-            return res.status(403).json({error:e.message})
+            return res.status(500).json({error:e.message})
         }
     }
 }

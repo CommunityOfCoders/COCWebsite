@@ -25,7 +25,7 @@ module.exports = {
       visit https://stackoverflow.com/questions/3825990/http-response-code-for-post-when-resource-already-exists for more details
       */
       if (user1) {
-        res.status(422).json({
+        return res.status(422).json({
           error: "UserName Already Exists",
         });
       }

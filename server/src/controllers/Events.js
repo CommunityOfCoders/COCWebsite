@@ -19,7 +19,7 @@ module.exports = {
     try {
       const eventId = req.params.id;
       const event = await Event.findById(eventId);
-      res.json(event);
+      res.status(200).json(event);
     } catch (err) {
       res.status(400).json({
         error: err.message
