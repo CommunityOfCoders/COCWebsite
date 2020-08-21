@@ -2,25 +2,33 @@ const User = require("../models/User");
 const Blog = require("../models/Blog");
 
 module.exports = {
-  async allBlogs(_req, res) {
-    const blogs = await Blog.find();
-    res.status(200).json(blogs);
+
+  async allBlogs(_req, res, next) {
+    try{
+      const blogs = await Blog.find();
+      res.status(200).json({blogs});
+    }catch(e){
+      res.status(400).json({error:e.message});
+    }
   },
 
   async viewBlogById(req, res) {
-    const blogId = req.params.id;
-    const blog = await Blog.findById(blogId);
-    if (blog) {
-      res.status(200).json(blog);
-    } else {
-      res.status(404).json({
-        error: "The requested blog doesn't exist",
-      });
+    try{
+      const blogId = req.params.id;
+      const blog = await Blog.findById(blogId);
+      if (blog) {
+        return res.status(200).json(blog);
+      } else {
+        res.status(404).json({
+          error: "The requested blog doesn't exist",
+        });
+      }
+    }catch(e){
+      res.status(500).json({error:e.message})
     }
   },
 
   async uploadBlog(req, res) {
-    // TODO: add isBlogAuthorized middleware
     try {
       // Assumed that req.body already has required fields
       const blog = await Blog.create(req.body);
@@ -29,9 +37,7 @@ module.exports = {
       });
     } catch (error) {
       // console.log(error);
-      res.status(500).json({
-        error: error,
-      });
+      res.status(500).json({error:error.message});
     }
   },
 
@@ -47,12 +53,12 @@ module.exports = {
         blogTitle: blog.blogTitle,
       });
     } catch (error) {
-      res.status(400).json({
-        error: error,
+        res.status(400).json({
+        error: error.message,
       });
     }
   },
-  async deleteBlogById(req, res) {
+  async deleteBlogById(req, res, next) {
     // TODO: add isBlogAuthorized middleware
     const blogId = req.params.id;
     const blog = await Blog.findById(blogId);
