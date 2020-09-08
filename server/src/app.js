@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const routes = require("./routes");
 const config = require("./config");
 const dbconnect = require("./config/dbconnect");
+const path = require("path");
 
 const app = express();
 
@@ -14,7 +15,6 @@ app.use(cors());
 if (process.env.NODE_ENV !== "test") {
   app.use(morgan("combined"));
 }
-
 
 routes(app);
 
