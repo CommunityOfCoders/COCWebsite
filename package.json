@@ -4,13 +4,13 @@
   "description": "Server for front end",
   "main": "src/app.js",
   "scripts": {
-    "start": "node src/app",
-    "pretest": "eslint --ignore-path .gitignore . ",
+    "start": "node server/src/app",
+    "pretest": "eslint --ignore-path .gitignore server ",
     "test": "NODE_ENV=test mocha --recursive --timeout 120000 --exit",
-    "serve": "nodemon src/app",
-    "new_client": "npm start --prefix=../new_client",
+    "serve": "nodemon server/src/app",
+    "new_client": "npm start --prefix new_client",
     "dev": "concurrently \" npm run serve \" \" npm run new_client \"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix=../new_client && npm run build --prefix=../new_client"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix new_client && npm run build --prefix new_client"
   },
   "author": "",
   "license": "ISC",
@@ -24,14 +24,14 @@
     "multer": "^1.4.1",
     "node-waf": "^1.0.0",
     "npm": "^6.14.6",
+    "dotenv": "^8.2.0",
     "password-hasher": "^1.0.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "concurrently": "^5.1.0",
-    "dotenv": "^8.1.0",
-    "eslint": "^7.1.0",
+    "eslint": "^6.6.0",
     "eslint-config-strongloop": "^2.1.0",
     "mocha": "^7.1.2",
     "mongodb-memory-server": "^6.6.1",
