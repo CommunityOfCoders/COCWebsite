@@ -23,7 +23,8 @@ dbconnect();
 app.use(express.static("new_client/build"));
 
 app.get("/*", (req, res) => {
-  res.sendFile("/new_client/build/index.html");
+  console.log(__dirname);
+  res.sendFile(path.join(__dirname, "../../new_client/build/index.html"));
 });
 
 let port = config.port;
