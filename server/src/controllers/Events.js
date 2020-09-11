@@ -13,17 +13,18 @@ const mongoose = require('mongoose');
 module.exports = {
   async getEvents(_req, res) {
     const events = await Event.find();
-    res.json(events);
+    res.status(200).json(events);
   },
+
   async getEventById(req, res) {
     try {
       const eventId = req.params.id;
       const event = await Event.findById(eventId);
-      res.json(event);
+      res.status(200).json(event);
     } catch (err) {
-      res.status(203).send({
-        err: err
-      });
+      res.status(400).json({
+        error: err.message
+      })
     }
   },
   async uploadEvent(req, res) {
@@ -41,13 +42,13 @@ module.exports = {
           public_id: image.public_id
         };
       }
-      res.json({
+      res.status(200).json({
         id: event._id
       });
     } catch (err) {
-      res.status(203).send({
-        err: err
-      });
+        res.status(500).json({
+          	error: err.message
+        });
     }
   },
   async updateEvent(req, res) {
@@ -85,11 +86,12 @@ module.exports = {
       }
       res.json(event);
     } catch (err) {
-      res.status(400).send({
-        err: err
+      res.status(400).json({
+        error: err.message,
       });
     }
   },
+
   async deleteEvent(req, res) {
     const eventId = req.params.id;
     scheduler.removeNotification({ substring: eventId });
@@ -100,11 +102,14 @@ module.exports = {
       try {
         await cloudinary.v2.uploader.destroy(eventId);
       } catch(error) {
-        res.status(500).json({});
+        res.status(500).json({
+          error: error
+        });
       }
     } catch(error) {}
     res.status(204).json({});
   },
+
   async addForm(req, res) {
     const formURL = req.body.formURL;
     const eventId = req.params.id;
