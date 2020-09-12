@@ -7,14 +7,14 @@ const encPassword = process.env.ENCPASSWORD;
 const transport = nodemailer.createTransport({
 	service: 'Gmail',
 	auth: {
-		user: 'aaathorve@gmail.com', // Change this email to COC email
+		user: 'communityofcoders@gmail.com', // Change this email to COC email
 		pass: crypt.decrypt(encPassword),
 	},
 });
 
 module.exports = sendMail = (to, subject, message) => {
 	const mailOptions = {
-		from: 'aaathorve@gmail.com', // Change this email to COC email
+		from: 'communityofcoders@gmail.com', // Change this email to COC email
 		to,
 		subject,
 		html: message,
