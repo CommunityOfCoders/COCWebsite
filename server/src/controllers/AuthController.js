@@ -44,10 +44,11 @@ module.exports = {
       });
     } catch (error) {
       res.status(500).json({
-        error: error,
+        error: error.message,
       });
     }
   },
+  
   async login(req, res) {
     try {
       const { username, password } = req.body;
@@ -58,7 +59,7 @@ module.exports = {
 
       // User not found, return 400
       if (!user) {
-        return res.status(400).json({
+        res.status(400).json({
           error: "No user found",
         });
       }
@@ -82,7 +83,7 @@ module.exports = {
       });
     } catch (error) {
       res.status(500).json({
-        error: error,
+        error: error.message,
       });
     }
   },
@@ -92,11 +93,11 @@ module.exports = {
 
     try {
       jwt.verify(token, config.privateKey);
-      return res.status(200).json({
+      res.status(200).json({
         status: true,
       });
     } catch (error) {
-      return res.status(403).json({
+      res.status(403).json({
         status: false,
       });
     }
@@ -114,10 +115,9 @@ module.exports = {
 
       res.status(200).json(user);
     } catch (e) {
-      res.status(404).json({
-        message: "An error has occured",
-        error: e,
-      });
+        res.status(400).json({
+          error: e.message
+        })
     }
   },
 };
