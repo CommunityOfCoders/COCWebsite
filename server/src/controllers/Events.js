@@ -3,12 +3,21 @@ const path = require('path');
 const cloudinary = require('cloudinary');
 const scheduler = require('../utility/scheduler');
 cloudinary.config({
-  cloud_name: 'coc-vjti',
-  api_key: '552242973352355',
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_APIKEY,
   api_secret: process.env.CLOUDINARY_SECRET
 });
 const Event = require('../models/Event');
 const mongoose = require('mongoose');
+
+const getNotificationDate = eventDate => {
+  return new Date(
+    parseInt(eventDate[0]), 
+    parseInt(eventDate[1])-1, 
+    parseInt(eventDate[2]), 
+    9
+  ); // Sends notification at 09:00 at the day of the event
+}
 
 module.exports = {
   async getEvents(_req, res) {
@@ -58,12 +67,7 @@ module.exports = {
       let event = await Event.updateOne({_id: mongoose.Types.ObjectId(eventId)}, req.body);
       event = await Event.findById(eventId);
       const eventDate = event.date.split('-');
-      const notificationDate = new Date(
-        parseInt(eventDate[0]), 
-        parseInt(eventDate[1])-1, 
-        parseInt(eventDate[2]), 
-        9
-      );
+      const notificationDate = getNotificationDate(eventDate);
       scheduler.rescheduleNotification(notificationDate, { prefix: eventId });
       if (file) {
         try {
@@ -134,12 +138,7 @@ module.exports = {
       const userEmail = req.body.email;
       const event = await Event.findById(eventId);
       const eventDate = event.date.split('-');
-      const notificationDate = new Date(
-        parseInt(eventDate[0]), 
-        parseInt(eventDate[1])-1, 
-        parseInt(eventDate[2]), 
-        9
-      ); // Sends notification at 09:00 at the day of the event
+      const notificationDate = getNotificationDate(eventDate);
       const data = {
         jobName: `${eventId}-${userEmail}`,
         to: userEmail,
