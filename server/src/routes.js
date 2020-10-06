@@ -23,6 +23,8 @@ module.exports = (app) => {
     app.put('/api/events/:id', auth.loginRequired, event.isMember, upload.single('COC_Event'),Events.updateEvent);
     app.put('/api/events/form', auth.loginRequired, event.isMember, Events.addForm) // Tested
     app.get('/api/events/:id', Events.getEventById); // Tested
+    app.post('/api/events/reminder', Events.addReminder);
+    app.delete('/api/events/reminder/:id', Events.cancelReminder);
     app.delete('/api/events/:id', auth.loginRequired, event.isMember, Events.deleteEvent); // Tested
     
 
