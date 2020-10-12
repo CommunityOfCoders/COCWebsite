@@ -16,6 +16,9 @@ export default function AddBlog() {
   const [blogContent, setBlogContent] = useState("**Hello world!!!**");
   const [selectedDate, setSelectedDate] = useState(new Date());
 
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isError, setIsError] = useState(false);
+
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
@@ -28,16 +31,16 @@ export default function AddBlog() {
       author: blogAuthor,
     };
     console.log(blog);
-    const res = await axios.post(
-      process.env.REACT_APP_API + "/blogs/new",
-      JSON.stringify(blog),
-      {
+    axios
+      .post(process.env.REACT_APP_API + "/blogs/new", JSON.stringify(blog), {
         headers: {
           "Content-Type": "application/json",
         },
-      }
-    );
-    console.log(res);
+      })
+      .then((res) => {
+        setIsSuccess(res.status === 201);
+      })
+      .catch((err) => setIsError(true));
   };
 
   return (
