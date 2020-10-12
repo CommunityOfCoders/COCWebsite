@@ -157,13 +157,13 @@ const Blogs = () => {
             item
             style={{ position: "fixed", right: "50px", bottom: "25px" }}
           >
-            <Tooltip title="Add Blog" aria-label="add">
-              <Fab color="secondary">
-                <Link to="/addblog" style={{ color: "white" }}>
+            <Link to="/addblog" style={{ color: "white" }}>
+              <Tooltip title="Add Blog" aria-label="add">
+                <Fab color="secondary">
                   <AddIcon />
-                </Link>
-              </Fab>
-            </Tooltip>
+                </Fab>
+              </Tooltip>
+            </Link>
           </Grid>
         </Grid>
       </Container>
