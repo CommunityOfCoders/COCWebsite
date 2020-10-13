@@ -38,10 +38,9 @@ export default function AddBlog(props) {
         },
       }).then((res) => {
         setIsSuccess(res.status === 201);
+        props.history.push("/blogs");
       })
       .catch((err) => setIsError(true));
-      props.history.push("/blogs");
-      console.log(res);
   };
 
   return (
