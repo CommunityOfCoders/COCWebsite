@@ -16,6 +16,9 @@ export default function AddBlog(props) {
   const [blogContent, setBlogContent] = useState("**Hello world!!!**");
   const [selectedDate, setSelectedDate] = useState(new Date());
 
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isError, setIsError] = useState(false);
+
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
@@ -28,17 +31,17 @@ export default function AddBlog(props) {
       author: blogAuthor,
     };
     console.log(blog);
-    const res = await axios.post(
-      process.env.REACT_APP_API + "/blogs/new",
-      JSON.stringify(blog),
-      {
+    axios
+      .post(process.env.REACT_APP_API + "/blogs/new", JSON.stringify(blog), {
         headers: {
           "Content-Type": "application/json",
         },
-      }
-    );
-    props.history.push("/blogs");
-    console.log(res);
+      }).then((res) => {
+        setIsSuccess(res.status === 201);
+      })
+      .catch((err) => setIsError(true));
+      props.history.push("/blogs");
+      console.log(res);
   };
 
   return (
