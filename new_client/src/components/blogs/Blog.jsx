@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 3,
     boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
     color: "white",
+    marginTop: 5,
   },
   alert: {
     width: "100%",
@@ -170,7 +171,7 @@ const Blogs = () => {
       <div className={classes.alert}>
         <Snackbar
           open={isDeleted}
-          autoHideDuration={6000}
+          autoHideDuration={1000}
           onClose={handleClose}
         >
           <Alert onClose={handleClose} severity="success">

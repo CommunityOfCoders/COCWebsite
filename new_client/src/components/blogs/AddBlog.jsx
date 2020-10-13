@@ -3,6 +3,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import React, { useState } from "react";
 import Container from "@material-ui/core/Container";
 import { TextField, Button, Grid } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -80,13 +81,15 @@ export default function AddBlog() {
           <Editor content={blogContent} setContent={setBlogContent} />
         </Grid>
         <Grid item xs={12}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleDataSubmit}
-          >
-            Submit
-          </Button>
+          <Link to="/blogs">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleDataSubmit}
+            >
+              Submit
+            </Button>
+          </Link>
         </Grid>
       </Grid>
     </Container>
