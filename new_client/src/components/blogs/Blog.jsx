@@ -14,13 +14,12 @@ import {
   Fab,
   makeStyles,
   Tooltip,
-  Snackbar,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { format } from "date-fns";
 import { confirmAlert } from "react-confirm-alert";
-import MuiAlert from "@material-ui/lab/Alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import AlertUtility from '../Utilities/Alert';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,17 +30,7 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     marginTop: 5,
   },
-  alert: {
-    width: "100%",
-    "& > * + *": {
-      marginTop: theme.spacing(2),
-    },
-  },
 }));
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 const Blogs = () => {
   const classes = useStyles();
@@ -168,28 +157,20 @@ const Blogs = () => {
           </Grid>
         </Grid>
       </Container>
-      <div className={classes.alert}>
-        <Snackbar
-          open={isDeleted}
-          autoHideDuration={1000}
-          onClose={handleClose}
-        >
-          <Alert onClose={handleClose} severity="success">
-            Deleted Successfully! Reloading Blogs...
-          </Alert>
-        </Snackbar>
-      </div>
-      <div className={classes.alert}>
-        <Snackbar
-          open={isError}
-          autoHideDuration={4500}
-          onClose={() => setIsError(false)}
-        >
-          <Alert onClose={() => setIsError(false)} severity="error">
-            Oops! An error occurred. Please try again.
-          </Alert>
-        </Snackbar>
-      </div>
+      <AlertUtility 
+        open={isDeleted} 
+        duration={1000} 
+        onCloseHandler={handleClose} 
+        severity="success"
+        message="Deleted Successfully! Reloading Blogs..." 
+      />
+      <AlertUtility 
+        open={isError}
+        duration={4500}
+        onCloseHandler={() => setIsError(false)}
+        severity="error"
+        message="Oops! An error occurred. Please try again."
+      />
     </div>
   );
 };
