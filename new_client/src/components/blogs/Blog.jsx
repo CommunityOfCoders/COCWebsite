@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 3,
     boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
     color: "white",
+    marginTop: 5,
   },
   alert: {
     width: "100%",
@@ -158,11 +159,11 @@ const Blogs = () => {
             style={{ position: "fixed", right: "50px", bottom: "25px" }}
           >
             <Tooltip title="Add Blog" aria-label="add">
-              <Fab color="secondary">
-                <Link to="/addblog" style={{ color: "white" }}>
-                  <AddIcon />
-                </Link>
-              </Fab>
+              <Link to="/addblog" style={{ color: "white" }}>
+                <Fab color="secondary">
+                    <AddIcon />
+                  </Fab>
+              </Link>
             </Tooltip>
           </Grid>
         </Grid>
@@ -170,7 +171,7 @@ const Blogs = () => {
       <div className={classes.alert}>
         <Snackbar
           open={isDeleted}
-          autoHideDuration={6000}
+          autoHideDuration={1000}
           onClose={handleClose}
         >
           <Alert onClose={handleClose} severity="success">
