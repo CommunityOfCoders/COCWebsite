@@ -3,7 +3,6 @@ import DateFnsUtils from "@date-io/date-fns";
 import React, { useState } from "react";
 import Container from "@material-ui/core/Container";
 import { TextField, Button, Grid } from "@material-ui/core";
-import { Link } from "react-router-dom";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -11,7 +10,7 @@ import {
 import Editor from "./Editor";
 import axios from "axios";
 
-export default function AddBlog() {
+export default function AddBlog(props) {
   const [blogTitle, setBlogTitle] = useState("");
   const [blogAuthor, setBlogAuthor] = useState("");
   const [blogContent, setBlogContent] = useState("**Hello world!!!**");
@@ -39,7 +38,9 @@ export default function AddBlog() {
         },
       })
       .then((res) => {
+      }).then((res) => {
         setIsSuccess(res.status === 201);
+        props.history.push("/blogs");
       })
       .catch((err) => setIsError(true));
   };
@@ -81,15 +82,13 @@ export default function AddBlog() {
           <Editor content={blogContent} setContent={setBlogContent} />
         </Grid>
         <Grid item xs={12}>
-          <Link to="/blogs">
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleDataSubmit}
-            >
-              Submit
-            </Button>
-          </Link>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleDataSubmit}
+          >
+            Submit
+          </Button>
         </Grid>
       </Grid>
     </Container>
