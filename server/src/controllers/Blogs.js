@@ -1,9 +1,10 @@
 const User = require("../models/User");
 const Blog = require("../models/Blog");
+const redis_client = require("../config/redis");
 
 module.exports = {
 
-  async allBlogs(_req, res, next) {
+  async allBlogs(_req, res) {
     try{
       const blogs = await Blog.find();
       res.status(200).json({blogs});
@@ -17,6 +18,8 @@ module.exports = {
       const blogId = req.params.id;
       const blog = await Blog.findById(blogId);
       if (blog) {
+        // Store into cache
+        redis_client.setex(`blog/${blogId}`, 3600, JSON.stringify(blog));
         return res.status(200).json(blog);
       } else {
         res.status(404).json({
