@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import { Container, Paper, Grid, TextField, Button, Typography, Link } from '@material-ui/core';
+import { Container, Paper, Grid, TextField, Button, Typography } from '@material-ui/core';
+import { Link } from "react-router-dom";
 import "./Error.css";
 import { connect } from "react-redux";
 import { login } from "../../actions/authActions";
@@ -8,7 +9,7 @@ import { LOGIN_FAIL } from "../../actions/types";
 
 function Signin(props) {
 
-	const { isAuthenticated, error, login, clearErrors } = props; 
+	const { isAuthenticated, error, login, clearErrors, history } = props; 
 
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
@@ -58,6 +59,7 @@ function Signin(props) {
 	useEffect(() => {
 		if (error.id === LOGIN_FAIL) {
 			setMsg(error.msg.msg);
+			alert(msg);
 		}
 		else {
 			setMsg(null);
@@ -65,8 +67,9 @@ function Signin(props) {
 
 		if (isAuthenticated) {
 			// Work here if auth is successful
+			history.push("/");
 		}
-	}, [error, isAuthenticated]);
+	}, [error, isAuthenticated, history, msg]);
 
 	return (
 		<Container maxWidth="sm">

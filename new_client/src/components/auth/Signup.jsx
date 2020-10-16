@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Paper, Grid, TextField, Button, Typography, Link } from '@material-ui/core';
+import { Container, Paper, Grid, TextField, Button, Typography } from '@material-ui/core';
+import { Link } from "react-router-dom"
 import { connect } from "react-redux";
 import { register } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
@@ -7,7 +8,7 @@ import "./Error.css";
 
 function Signup(props) {
 
-	const { isAuthenticated, error, register, clearErrors } = props;
+	const { isAuthenticated, error, register, clearErrors, history } = props;
 
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
@@ -145,6 +146,7 @@ function Signup(props) {
 		}
 		if (isAuthenticated) {
 			// TODO: something here after auth
+			history.push("/");
 		}
 	}, [error, isAuthenticated]);
 
