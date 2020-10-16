@@ -59,7 +59,7 @@ module.exports = {
 
       // User not found, return 400
       if (!user) {
-        res.status(400).json({
+        return res.status(400).json({
           error: "No user found",
         });
       }
@@ -82,6 +82,7 @@ module.exports = {
         token: token,
       });
     } catch (error) {
+      console.log(error);
       res.status(500).json({
         error: error.message,
       });

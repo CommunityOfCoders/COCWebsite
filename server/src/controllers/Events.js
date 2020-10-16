@@ -1,5 +1,3 @@
-const express = require('express');
-const path = require('path');
 const cloudinary = require('cloudinary');
 const scheduler = require('../utility/scheduler');
 cloudinary.config({
@@ -9,6 +7,7 @@ cloudinary.config({
 });
 const Event = require('../models/Event');
 const mongoose = require('mongoose');
+const redis_client = require('../config/redis');
 
 const getNotificationDate = eventDate => {
   return new Date(
@@ -29,6 +28,10 @@ module.exports = {
     try {
       const eventId = req.params.id;
       const event = await Event.findById(eventId);
+
+      // Store into cache
+      redis_client.setex(`event/${eventId}`, 3600, JSON.stringify(event));
+
       res.status(200).json(event);
     } catch (err) {
       res.status(400).json({
