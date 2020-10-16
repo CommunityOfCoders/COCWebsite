@@ -2,7 +2,11 @@ const Blog = require("../../src/models/Blog");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const expect = chai.expect;
+const should = chai.should();
 const app = require("../../src/app");
+const sinon = require("sinon");
+const blogMiddleware = require("../../src/middleware/blog");
+const authMiddleware = require("../../src/middleware/auth");
 
 chai.use(chaiHttp);
 
@@ -94,6 +98,28 @@ describe("Blogs", () => {
   });
 
   describe("/POST blogs", () => {
+    let loggedInStub;
+    let isBlogAuthorizedStub;
+
+    beforeEach(() => {
+      loggedInStub = sinon
+        .stub(authMiddleware, "loginRequired")
+        .callsFake((req, res, next) => {
+          next();
+        });
+      isBlogAuthorizedStub = sinon
+        .stub(blogMiddleware, "isBlogAuthorized")
+        .callsFake((req, res, next) => {
+          next();
+        });
+    });
+
+    afterEach(async () => {
+      await Blog.deleteOne({blogTitle: "Test post blog title"});
+      loggedInStub.restore();
+      isBlogAuthorizedStub.restore();
+    })
+
     it("creates blog if data is sent", (done) => {
       let blog = {
         blogTitle: "Test post blog title",

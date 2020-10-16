@@ -1,5 +1,3 @@
-const User = require("../models/User")
-
 module.exports = {
     async isMember(req,res,next){
         try{
