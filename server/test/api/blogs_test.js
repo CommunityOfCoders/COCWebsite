@@ -4,6 +4,8 @@ const chaiHttp = require("chai-http");
 const expect = chai.expect;
 const should = chai.should();
 const app = require("../../src/app");
+const jwt = require("jsonwebtoken");
+const config = require("../../src/config");
 const sinon = require("sinon");
 const blogMiddleware = require("../../src/middleware/blog");
 const authMiddleware = require("../../src/middleware/auth");
@@ -40,8 +42,9 @@ describe("Blogs", () => {
         .end((err, res) => {
           expect(err).to.be.null;
           res.should.have.status(200);
-          res.body.should.be.an("array");
-          expect(res.body).to.have.lengthOf(10);
+          res.body.should.be.an("object");
+          res.body.should.have.property("blogs")
+          expect(res.body.blogs).to.have.lengthOf(10);
           done();
         });
     });
@@ -53,15 +56,15 @@ describe("Blogs", () => {
         .end((err, res) => {
           expect(err).to.be.null;
           res.should.have.status(200);
-          res.body[0].should.be.an("object");
-          res.body[0].should.have
+          res.body.should.be.an("object");
+          res.body.blogs[0].should.have
             .property("blogTitle")
             .eql("Test blog title 0");
-          res.body[0].should.have
+          res.body.blogs[0].should.have
             .property("blogContent")
             .eql("Test blog content 0");
-          res.body[0].should.have.property("author").eql("Test blog author 0");
-          res.body[0].should.have.property("date").not.eql(null);
+          res.body.blogs[0].should.have.property("author").eql("Test blog author 0");
+          res.body.blogs[0].should.have.property("date").not.eql(null);
           done();
         });
     });
@@ -98,27 +101,25 @@ describe("Blogs", () => {
   });
 
   describe("/POST blogs", () => {
-    let loggedInStub;
-    let isBlogAuthorizedStub;
+    let token;
 
-    beforeEach(() => {
-      loggedInStub = sinon
-        .stub(authMiddleware, "loginRequired")
-        .callsFake((req, res, next) => {
-          next();
-        });
-      isBlogAuthorizedStub = sinon
-        .stub(blogMiddleware, "isBlogAuthorized")
-        .callsFake((req, res, next) => {
-          next();
-        });
+    before(() => {
+      token = jwt.sign(
+        {
+          user: {
+            isBlogAuthorized: true,
+          },
+        },
+        config.privateKey,
+        {
+          expiresIn: 3600,
+        }
+      );
     });
 
     afterEach(async () => {
-      await Blog.deleteOne({blogTitle: "Test post blog title"});
-      loggedInStub.restore();
-      isBlogAuthorizedStub.restore();
-    })
+      await Blog.deleteOne({ blogTitle: "Test post blog title" });
+    });
 
     it("creates blog if data is sent", (done) => {
       let blog = {
@@ -130,6 +131,7 @@ describe("Blogs", () => {
       chai
         .request(app)
         .post("/api/blogs/new")
+        .set("Authorization", `Bearer ${token}`)
         .send(blog)
         .end((err, res) => {
           expect(err).to.be.null;
@@ -142,6 +144,22 @@ describe("Blogs", () => {
   });
 
   describe("PUT/:id blogs", () => {
+    let token;
+
+    before(() => {
+      token = jwt.sign(
+        {
+          user: {
+            isBlogAuthorized: true,
+          },
+        },
+        config.privateKey,
+        {
+          expiresIn: 3600,
+        }
+      );
+    });
+
     it("updates blog with given id", (done) => {
       let blog = {
         blogTitle: "Test blog title",
@@ -159,6 +177,7 @@ describe("Blogs", () => {
         chai
           .request(app)
           .put("/api/blogs/edit/" + blog._id)
+          .set("Authorization", `Bearer ${token}`)
           .send(updatedBlog)
           .end((err, res) => {
             expect(err).to.be.null;
@@ -175,6 +194,22 @@ describe("Blogs", () => {
   });
 
   describe("DELETE/:id blogs", () => {
+    let token;
+
+    before(() => {
+      token = jwt.sign(
+        {
+          user: {
+            isBlogAuthorized: true,
+          },
+        },
+        config.privateKey,
+        {
+          expiresIn: 3600,
+        }
+      );
+    });
+
     it("should delete blog with given id", (done) => {
       let blog = {
         blogTitle: "Test blog title",
@@ -187,6 +222,7 @@ describe("Blogs", () => {
         chai
           .request(app)
           .delete("/api/blogs/delete/" + blog._id)
+          .set("Authorization", `Bearer ${token}`)
           .end((err, res) => {
             expect(err).to.be.null;
             res.should.have.status(204);

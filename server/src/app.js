@@ -12,7 +12,7 @@ app.use(express.json({ limit: "10mb" }));
 app.use(cors());
 
 if (process.env.NODE_ENV !== "test") {
-  app.use(morgan("combined"));
+  app.use(morgan("development"));
 }
 
 routes(app);
