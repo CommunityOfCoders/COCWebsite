@@ -38,17 +38,17 @@ module.exports = {
         expiresIn: 3600,
       });
 
-      res.status(201).json({
+      return res.status(201).json({
         username: user.username,
         token: token,
       });
     } catch (error) {
-      res.status(500).json({
+      return res.status(500).json({
         error: error.message,
       });
     }
   },
-  
+
   async login(req, res) {
     try {
       const { username, password } = req.body;
@@ -59,7 +59,7 @@ module.exports = {
 
       // User not found, return 400
       if (!user) {
-        res.status(400).json({
+        return res.status(400).json({
           error: "No user found",
         });
       }
@@ -77,12 +77,12 @@ module.exports = {
         expiresIn: 60 * 60,
       });
 
-      res.status(200).json({
+      return res.status(200).json({
         username: user.username,
         token: token,
       });
     } catch (error) {
-      res.status(500).json({
+      return res.status(500).json({
         error: error.message,
       });
     }
@@ -93,11 +93,11 @@ module.exports = {
 
     try {
       jwt.verify(token, config.privateKey);
-      res.status(200).json({
+      return res.status(200).json({
         status: true,
       });
     } catch (error) {
-      res.status(403).json({
+      return res.status(403).json({
         status: false,
       });
     }
@@ -113,11 +113,11 @@ module.exports = {
 
       user.password = null;
 
-      res.status(200).json(user);
+      return res.status(200).json(user);
     } catch (e) {
-        res.status(400).json({
-          error: e.message
-        })
+      return res.status(400).json({
+        error: e.message,
+      });
     }
   },
 };
