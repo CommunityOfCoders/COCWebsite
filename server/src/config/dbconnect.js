@@ -16,7 +16,7 @@ function connect() {
   }
   mongoose.connect(connectionString, mongooseOptions);
   mongoose.Promise = global.Promise;
-  mongoose.connection.on("open", () => console.log(`MongoDB Connected`));
+  mongoose.connection.on("open", () => console.log(`MongoDB Connected on ${connectionString}`));
   mongoose.connection.on("error", console.error.bind(console, "Mongo Error"));
 }
 

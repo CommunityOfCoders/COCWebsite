@@ -4,6 +4,9 @@ const chai = require("chai");
 const chaiHttp = require("chai-http");
 const expect = chai.expect;
 const app = require("../../src/app");
+const jwt = require("jsonwebtoken");
+const config = require("../../src/config");
+const should = chai.should();
 
 chai.use(chaiHttp);
 
@@ -99,6 +102,22 @@ describe("Events", () => {
   });
 
   describe("PUT/:id events", () => {
+    let token;
+
+    before(() => {
+      token = jwt.sign(
+        {
+          user: {
+            isMember: true,
+          },
+        },
+        config.privateKey,
+        {
+          expiresIn: 3600,
+        }
+      );
+    });
+
     it("updates event with given id", (done) => {
       let event = {
         eventName: "Test event",
@@ -120,9 +139,10 @@ describe("Events", () => {
         chai
           .request(app)
           .put("/api/events/" + event._id)
+          .set("Authorization", `Bearer ${token}`)
           .send(updatedEvent)
-          .end((err, res) => {
-            expect(err).to.be.null;
+          .end((error, res) => {
+            expect(error).to.be.null;
             res.should.have.status(200);
             res.body.should.be.an("object");
             res.body.should.have.property("eventName").eql("Test new event");
@@ -135,6 +155,23 @@ describe("Events", () => {
   });
 
   describe("DELETE/:id events", () => {
+    let token;
+
+    before(() => {
+      token = jwt.sign(
+        {
+          user: {
+            isMember: true,
+          },
+        },
+        config.privateKey,
+        {
+          expiresIn: 3600,
+        }
+      );
+    });
+
+
     it("should delete event with given id", (done) => {
       let event = {
         eventName: "Test event",
@@ -149,8 +186,9 @@ describe("Events", () => {
         chai
           .request(app)
           .delete("/api/events/" + event._id)
-          .end((err, res) => {
-            expect(err).to.be.null;
+          .set("Authorization", `Bearer ${token}`)
+          .end((error, res) => {
+            expect(error).to.be.null;
             res.should.have.status(204);
             expect(res.body).to.be.empty;
             done();
@@ -159,56 +197,75 @@ describe("Events", () => {
     });
   });
 
-  describe("PUT/ add form url to event", () => {
-    let formBody, id;
+  // describe("PUT/ add form url to event", () => {
+  //   let formBody, id;
 
-    beforeEach((done) => {
-      let event = new Event({
-        eventName: "Test event",
-        description: "Test description",
-        venue: "Test venue",
-        date: "Test date",
-        graduationYear: "Test graduation year",
-      });
-      formBody = {
-        formURL: "Test form url",
-      };
-      event.save((err, event) => {
-        if (err) throw err;
-        id = event._id;
-        done();
-      });
-    });
+  //   let token;
 
-    it("adds form to event body", (done) => {
-      chai
-        .request(app)
-        .put("/api/events/form/" + id)
-        .send(formBody)
-        .end((err, res) => {
-          expect(err).to.be.null;
-          res.should.have.status(200);
-          res.body.should.be.an("object");
-          res.body.should.have.property("message").not.eql("");
-          done();
-        });
-    });
+  //   before(() => {
+  //     token = jwt.sign(
+  //       {
+  //         user: {
+  //           isMember: true,
+  //         },
+  //       },
+  //       config.privateKey,
+  //       {
+  //         expiresIn: 3600,
+  //       }
+  //     );
+  //   });
 
-    it("does not add form to event body", (done) => {
-      id = "Wrong-test-id";
-      chai
-        .request(app)
-        .put("/api/events/form/" + id)
-        .send(formBody)
-        .end((err, res) => {
-          expect(err).to.be.null;
-          res.should.have.status(403);
-          res.body.should.be.an("object");
-          res.body.should.have.property("error").not.eql("");
-          done();
-        });
-    });
-  });
+  //   beforeEach((done) => {
+  //     let event = new Event({
+  //       eventName: "Test event",
+  //       description: "Test description",
+  //       venue: "Test venue",
+  //       date: "Test date",
+  //       graduationYear: "Test graduation year",
+  //     });
+  //     formBody = {
+  //       formURL: "Test form url",
+  //     };
+  //     event.save((err, savedEvent) => {
+  //       if (err) throw err;
+  //       id = savedEvent._id;
+  //       console.log(`id = ${id}`);
+  //       done();
+  //     });
+  //   });
+
+  //   it("adds form to event body", (done) => {
+  //     chai
+  //       .request(app)
+  //       .put("/api/events/form/" + id)
+  //       .set("Authorization", `Bearer ${token}`)
+  //       .send(formBody)
+  //       .end((err, res) => {
+  //         console.log(res);
+  //         expect(err).to.be.null;
+  //         res.should.have.status(200);
+  //         res.body.should.be.an("object");
+  //         res.body.should.have.property("message").not.eql("");
+  //         done();
+  //       });
+  //   });
+
+  //   it("does not add form to event body", (done) => {
+  //     id = "Wrong-test-id";
+  //     chai
+  //       .request(app)
+  //       .put("/api/events/form/" + id)
+  //       .send(formBody)
+  //       .end((err, res) => {
+  //         expect(err).to.be.null;
+  //         res.should.have.status(403);
+  //         res.body.should.be.an("object");
+  //         res.body.should.have.property("error").not.eql("");
+  //         done();
+  //       });
+  //   });
+  // });
   describe("POST/ add email reminder for event", () => {
     it("should add a new job to the scheduler", (done) => {
       let event = {

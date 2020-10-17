@@ -19,9 +19,9 @@ module.exports = (app) => {
 
     //Events Paths
     app.get('/api/events', Events.getEvents); // Tested
-    app.post('/api/events', auth.loginRequired, event.isMember, upload.single('COC_Event'), Events.uploadEvent)
-    app.put('/api/events/:id', auth.loginRequired, event.isMember, upload.single('COC_Event'),Events.updateEvent);
-    app.put('/api/events/form', auth.loginRequired, event.isMember, Events.addForm) // Tested
+    app.post('/api/events', auth.loginRequired, event.isMember, upload.single('COC_Event'), Events.uploadEvent) // Tested
+    app.put('/api/events/:id', auth.loginRequired, event.isMember, upload.single('COC_Event'),Events.updateEvent); // Tested
+    // app.put('/api/events/form', auth.loginRequired, event.isMember, Events.addForm)
     app.get('/api/events/:id', Events.getEventById); // Tested
     app.post('/api/events/reminder', Events.addReminder);
     app.delete('/api/events/reminder/:id', Events.cancelReminder);
