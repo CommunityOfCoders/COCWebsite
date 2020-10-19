@@ -15,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.20.0",
     "cloudinary": "^1.15.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
