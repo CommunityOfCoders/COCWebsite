@@ -23,7 +23,7 @@ module.exports = (app) => {
     app.post('/api/events', auth.loginRequired, event.isMember, upload.single('COC_Event'), Events.uploadEvent)
     app.put('/api/events/:id', auth.loginRequired, event.isMember, upload.single('COC_Event'),Events.updateEvent);
     app.put('/api/events/form', auth.loginRequired, event.isMember, Events.addForm) // Tested
-    app.get('/api/events/:id', cache.checkEventCache, Events.getEventById);
+    app.get('/api/events/:id', cache.checkCache, Events.getEventById);
     app.post('/api/events/reminder', Events.addReminder);
     app.delete('/api/events/reminder/:id', Events.cancelReminder);
     app.delete('/api/events/:id', auth.loginRequired, event.isMember, Events.deleteEvent); // Tested
@@ -36,7 +36,7 @@ module.exports = (app) => {
 
     // Blogs
     app.get('/api/blogs', Blogs.allBlogs); // Tested
-    app.get('/api/blogs/:id', cache.checkBlogCache, Blogs.viewBlogById);
+    app.get('/api/blogs/:id', cache.checkCache, Blogs.viewBlogById);
     app.post('/api/blogs/new', auth.loginRequired, blog.isBlogAuthorized, Blogs.uploadBlog); // Tested
     app.put('/api/blogs/edit/:id', auth.loginRequired, blog.isBlogAuthorized, Blogs.editBlogById); // Tested
     app.delete('/api/blogs/delete/:id', auth.loginRequired, blog.isBlogAuthorized, Blogs.deleteBlogById); // Tested

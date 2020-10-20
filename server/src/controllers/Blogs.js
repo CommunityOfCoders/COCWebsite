@@ -19,7 +19,7 @@ module.exports = {
       const blog = await Blog.findById(blogId);
       if (blog) {
         // Store into cache
-        redis_client.setex(`blog/${blogId}`, 3600, JSON.stringify(blog));
+        redis_client.setex(`blogs/${blogId}`, 3600, JSON.stringify(blog));
         return res.status(200).json(blog);
       } else {
         res.status(404).json({

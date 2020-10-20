@@ -30,7 +30,7 @@ module.exports = {
       const event = await Event.findById(eventId);
 
       // Store into cache
-      redis_client.setex(`event/${eventId}`, 3600, JSON.stringify(event));
+      redis_client.setex(`events/${eventId}`, 3600, JSON.stringify(event));
 
       res.status(200).json(event);
     } catch (err) {
