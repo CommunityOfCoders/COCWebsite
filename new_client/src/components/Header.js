@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { login, register, logout } from "../actions/authActions";
+import { login, logout } from "../actions/authActions";
 
 import "./Header.css";
 function Header({ isAuthenticated, logout }) {
@@ -42,4 +42,4 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { login, register, logout })(Header);
+export default connect(mapStateToProps, { login, logout })(Header);
