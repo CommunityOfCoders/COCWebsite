@@ -59,7 +59,6 @@ function Signin(props) {
 	useEffect(() => {
 		if (error.id === LOGIN_FAIL) {
 			setMsg(error.msg.msg);
-			alert(msg);
 		}
 		else {
 			setMsg(null);
@@ -69,7 +68,7 @@ function Signin(props) {
 			// Work here if auth is successful
 			history.push("/");
 		}
-	}, [error, isAuthenticated, history, msg]);
+	}, [error, isAuthenticated, history]);
 
 	return (
 		<Container maxWidth="sm">

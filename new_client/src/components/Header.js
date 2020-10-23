@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { login, register } from "../actions/authActions";
 
 import "./Header.css";
-export default function Header() {
+function Header({ isAuthenticated }) {
   return (
     <div className="navbar">
       <div className="navbar-right">
@@ -22,11 +24,10 @@ export default function Header() {
         <Link to="/blogs">
           <i className="fa fa-fw fa-pencil"></i>BLOGS
         </Link>
-        {/* localStorage has tokrn set, use it to show signup or logout */}
-        {localStorage.getItem("token") !== null ? (
-          <Link to="/" onClick={() => {
-            localStorage.clear();
-          }}>
+        {isAuthenticated || localStorage.getItem("token") !== null ? (
+          <Link
+            to="/"
+          >
             <i className="fa fa-fw fa-sign-in"></i> LOGOUT
           </Link>
         ) : (
@@ -38,3 +39,9 @@ export default function Header() {
     </div>
   );
 }
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { login, register })(Header);
