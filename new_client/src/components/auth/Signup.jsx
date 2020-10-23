@@ -19,7 +19,7 @@ function Signup(props) {
 	const handleChangeUsername = (e) => setUsername(e.target.value)
 	const handleChangePassword = (e) => setPassword(e.target.value)
 	const handleChangeEmail = (e) => setEmail(e.target.value)
-	const handleChangeGraduationYear = (e) => setGraduationYear(e.target.value)
+	const handleChangeGraduationYear = (e) => setGraduationYear(parseInt(e.target.value))
 
 	const [errors, updateErrors] = useState({
 		username: '',
@@ -197,7 +197,7 @@ function Signup(props) {
 							fullWidth
 							required
 							name="graduationYear"
-							type="number"
+							type="text"
 							placeholder="Graduation Year"
 							onChange={handleChangeGraduationYear}
 						/>

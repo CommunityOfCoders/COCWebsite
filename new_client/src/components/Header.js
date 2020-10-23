@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { login, logout } from "../actions/authActions";
+import { logout } from "../actions/authActions";
 
 import "./Header.css";
 function Header({ isAuthenticated, logout }) {
@@ -29,8 +29,8 @@ function Header({ isAuthenticated, logout }) {
             <i className="fa fa-fw fa-sign-in"></i> LOGOUT
           </Link>
         ) : (
-          <Link to="/signin">
-            <i className="fa fa-fw fa-sign-in"></i> SIGN IN
+          <Link to="/signup">
+            <i className="fa fa-fw fa-sign-in"></i> SIGN UP
           </Link>
         )}
       </div>
@@ -42,4 +42,4 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { login, logout })(Header);
+export default connect(mapStateToProps, { logout })(Header);
