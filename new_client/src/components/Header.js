@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { login, register } from "../actions/authActions";
+import { login, register, logout } from "../actions/authActions";
 
 import "./Header.css";
-function Header({ isAuthenticated }) {
+function Header({ isAuthenticated, logout }) {
   return (
     <div className="navbar">
       <div className="navbar-right">
@@ -25,9 +25,7 @@ function Header({ isAuthenticated }) {
           <i className="fa fa-fw fa-pencil"></i>BLOGS
         </Link>
         {isAuthenticated || localStorage.getItem("token") !== null ? (
-          <Link
-            to="/"
-          >
+          <Link to="/" onClick={() => logout()}>
             <i className="fa fa-fw fa-sign-in"></i> LOGOUT
           </Link>
         ) : (
@@ -44,4 +42,4 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { login, register })(Header);
+export default connect(mapStateToProps, { login, register, logout })(Header);

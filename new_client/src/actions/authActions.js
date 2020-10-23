@@ -82,6 +82,14 @@ export const login = ({ username, password }) => (dispatch) => {
     });
 }
 
+export const logout = () => (dispatch) => {
+  console.log("Logout called");
+  localStorage.removeItem("token");
+  dispatch({
+    type: LOGOUT_SUCCESS
+  });
+}
+
 export const tokenConfig = (getState) => {
   const token = getState().auth.token;
   const config = {
