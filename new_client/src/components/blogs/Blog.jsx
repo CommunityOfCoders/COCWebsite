@@ -1,5 +1,6 @@
 import "date-fns";
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import {
@@ -22,17 +23,17 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import AlertUtility from '../Utilities/Alert';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    background: "linear-gradient(45deg, #BFDCBC 30%, #EEF36A 90%)",
-    border: 0,
-    borderRadius: 3,
-    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
-    color: "white",
-    marginTop: 5,
-  },
+  // root: {
+  //   background: "linear-gradient(45deg, #BFDCBC 30%, #EEF36A 90%)",
+  //   border: 0,
+  //   borderRadius: 3,
+  //   boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+  //   color: "white",
+  //   marginTop: 5,
+  // },
 }));
 
-const Blogs = () => {
+const Blogs = (props) => {
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
   const [isDeleted, setIsDeleted] = useState(false);
@@ -92,6 +93,32 @@ const Blogs = () => {
   // TODO :- Change this to increase it to 12 if user isn't signed in.
   const spanSize = 4;
 
+  let addBlogFab = (
+    <Grid item style={{ position: "fixed", right: "50px", bottom: "25px" }}>
+      <Tooltip title="Login Required" aria-label="add">
+        <span>
+          <Fab color="secondary" disabled>
+            <AddIcon />
+          </Fab>
+        </span>
+      </Tooltip>
+    </Grid>
+  );
+
+  if(props.isAuthenticated) {
+    addBlogFab = (
+      <Grid item style={{ position: "fixed", right: "50px", bottom: "25px" }}>
+        <Link to="/addblog" style={{ color: "white" }}>
+          <Tooltip title="Add Blog" aria-label="add" arrow>
+            <Fab color="secondary">
+              <AddIcon />
+            </Fab>
+          </Tooltip>
+        </Link>
+      </Grid>
+    )
+  }
+
   return (
     <div className={classes.root}>
       <Container maxWidth="md">
@@ -143,18 +170,7 @@ const Blogs = () => {
               </Card>
             </Grid>
           ))}
-          <Grid
-            item
-            style={{ position: "fixed", right: "50px", bottom: "25px" }}
-          >
-            <Link to="/addblog" style={{ color: "white" }}>
-              <Tooltip title="Add Blog" aria-label="add">
-                <Fab color="secondary">
-                  <AddIcon />
-                </Fab>
-              </Tooltip>
-            </Link>
-          </Grid>
+          {addBlogFab}
         </Grid>
       </Container>
       <AlertUtility 
@@ -174,4 +190,9 @@ const Blogs = () => {
     </div>
   );
 };
-export default Blogs;
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps)(Blogs);
