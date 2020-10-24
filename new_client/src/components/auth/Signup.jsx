@@ -198,6 +198,9 @@ function Signup(props) {
 							required
 							name="graduationYear"
 							type="text"
+							inputProps={{
+								maxLength: 4
+							}}
 							placeholder="Graduation Year"
 							onChange={handleChangeGraduationYear}
 						/>
