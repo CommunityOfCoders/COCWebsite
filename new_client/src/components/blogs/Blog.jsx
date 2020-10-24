@@ -8,7 +8,7 @@ const Blog = () => {
 	const [posts, setPosts] = useState([]);
   useEffect(() => {
     axios.get(process.env.REACT_APP_API + "/blogs")
-      .then(res => setPosts(res.data))
+      .then(res => setPosts(res.data.blogs))
       .catch(error => console.log(error));
   }, posts);
 

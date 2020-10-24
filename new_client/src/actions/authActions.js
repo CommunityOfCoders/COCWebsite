@@ -5,7 +5,8 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   REGISTER_SUCCESS,
-  REGISTER_FAIL
+  REGISTER_FAIL,
+  LOGOUT_SUCCESS
 } from "./types";
 import axios from "axios";
 import { returnErrors } from "./errorActions";
@@ -71,6 +72,7 @@ export const login = ({ username, password }) => (dispatch) => {
       })
     )
     .catch(err => {
+      console.log(err);
       dispatch(
         returnErrors(err.response.data, err.response.status, LOGIN_FAIL)
       );
@@ -78,6 +80,14 @@ export const login = ({ username, password }) => (dispatch) => {
         type: LOGIN_FAIL
       })
     });
+}
+
+export const logout = () => (dispatch) => {
+  console.log("Logout called");
+  localStorage.removeItem("token");
+  dispatch({
+    type: LOGOUT_SUCCESS
+  });
 }
 
 export const tokenConfig = (getState) => {
