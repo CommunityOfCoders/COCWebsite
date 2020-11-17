@@ -6,7 +6,7 @@ module.exports = {
         try{
             const token = req.headers.authorization.split(" ")[1];
             jwt.verify(token, config.privateKey, (err, decoded) => {
-                if(!error){
+                if(!err){
                     const d = new Date();
                     if (decoded && Number(decoded.exp)*1000>d.getTime()) {
                         next();
@@ -14,11 +14,11 @@ module.exports = {
                         return res.status(401).json({error:"Token has expired"});
                     }
                 }else{
-                    return res.status(401).json({error:err.message});
+                    return res.status(400).json({error:err.message});
                 } 
             });
         }catch(e){
-            return res.status(401).json({error:e.message});
+            return res.status(500).json({error:e.message});
         }
     }
 }

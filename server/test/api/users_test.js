@@ -288,9 +288,8 @@ describe("Users", () => {
           .send(user)
           .end((err, res) => {
             expect(err).to.be.null;
-            res.should.have.status(404);
+            res.should.have.status(400);
             res.body.should.be.an("object");
-            res.body.should.have.property("message");
             res.body.should.have.property("error");
             done();
           });
