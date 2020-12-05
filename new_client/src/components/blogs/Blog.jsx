@@ -43,7 +43,7 @@ const Blogs = (props) => {
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_API + "/blogs")
-      .then((res) => res.data)
+      .then((res) => res.data.blogs)
       .then((res) => {
         setPosts(res.sort((a, b) => b.date - a.date));
       })
