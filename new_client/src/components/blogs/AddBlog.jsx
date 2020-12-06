@@ -10,6 +10,7 @@ import {
 } from "@material-ui/pickers";
 import Editor from "./Editor";
 import axios from "axios";
+import AlertUtility from "../Utilities/Alert";
 
 function AddBlog(props) {
   const [blogTitle, setBlogTitle] = useState("");
@@ -17,11 +18,16 @@ function AddBlog(props) {
   const [blogContent, setBlogContent] = useState("**Hello world!!!**");
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
+  };
+
+  const handleClose = () => {
+    setIsSubmitted(false);
+    props.history.push("/blogs");
   };
 
   const handleDataSubmit = async () => {
@@ -40,8 +46,11 @@ function AddBlog(props) {
         },
       })
       .then((res) => {
-        setIsSuccess(res.status === 201);
-        props.history.push("/blogs");
+        if (res.status === 201) {
+          setIsSubmitted(true);
+        } else {
+          setIsError(true);
+        }
       })
       .catch((err) => setIsError(true));
   };
@@ -92,6 +101,20 @@ function AddBlog(props) {
           </Button>
         </Grid>
       </Grid>
+      <AlertUtility 
+        open={isSubmitted}
+        duration={3000}
+        onCloseHandler={handleClose}
+        severity="success"
+        message="Blog added successfully! Redirecting to Blogs page..."
+      />
+      <AlertUtility 
+        open={isError}
+        duration={1000}
+        onCloseHandler={() => setIsError(false)}
+        severity="error"
+        message="Oops! An error occurred. Please try again."
+      />
     </Container>
   );
 }

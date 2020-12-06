@@ -13,27 +13,11 @@ import {
   Grid,
   Button,
   TextField,
-  makeStyles,
-  Snackbar,
 } from "@material-ui/core";
 import Editor from "./Editor";
-import MuiAlert from "@material-ui/lab/Alert";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-    "& > * + *": {
-      marginTop: theme.spacing(2),
-    },
-  },
-}));
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+import AlertUtility from "../Utilities/Alert";
 
 function EditBlog(props) {
-  const classes = useStyles();
   const id = useParams().id;
   const history = useHistory();
 
@@ -130,28 +114,20 @@ function EditBlog(props) {
           </Button>
         </Grid>
       </Grid>
-      <div className={classes.root}>
-        <Snackbar
-          open={isSubmitted}
-          autoHideDuration={6000}
-          onClose={handleClose}
-        >
-          <Alert onClose={handleClose} severity="success">
-            Edited Successfully! Redirecting to Blog Page...
-          </Alert>
-        </Snackbar>
-      </div>
-      <div className={classes.root}>
-        <Snackbar
-          open={isError}
-          autoHideDuration={6000}
-          onClose={() => setIsError(false)}
-        >
-          <Alert onClose={() => setIsError(false)} severity="error">
-            Oops! An error occurred. Please try again.
-          </Alert>
-        </Snackbar>
-      </div>
+      <AlertUtility 
+        open={isSubmitted}
+        duration={3000}
+        onCloseHandler={handleClose}
+        severity="success"
+        message="Edited Successfully! Redirecting to Blogs page..."
+      />
+      <AlertUtility 
+        open={isError}
+        duration={1000}
+        onCloseHandler={() => setIsError(false)}
+        severity="error"
+        message="Oops! An error occurred. Please try again."
+      />
     </Container>
   );
 }
