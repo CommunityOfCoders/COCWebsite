@@ -87,16 +87,38 @@ function AddBlog(props) {
   };
 
   useEffect(() => {
-    axios
-      .get(process.env.REACT_APP_API + `/blogs/${id}`)
-      .then((res) => {
-        const { blogTitle, blogContent, date, author } = res.data;
-        setBlogTitle(blogTitle);
-        setBlogContent(blogContent);
-        setBlogAuthor(author);
-        setSelectedDate(date);
-      })
-      .catch((err) => console.log(err.toString()));
+    if (!isEditPage) {
+      axios
+        .post(
+          process.env.REACT_APP_API + "/user",
+          JSON.stringify({ username: props.username }),
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res.data);
+          setBlogAuthor(res.data.username);
+        })
+        .catch((err) => console.log(err));
+    }
+  });
+
+  useEffect(() => {
+    if (isEditPage) {
+      axios
+        .get(process.env.REACT_APP_API + `/blogs/${id}`)
+        .then((res) => {
+          const { blogTitle, blogContent, date, author } = res.data;
+          setBlogTitle(blogTitle);
+          setBlogContent(blogContent);
+          setBlogAuthor(author);
+          setSelectedDate(date);
+        })
+        .catch((err) => console.log(err.toString()));
+    }
   }, [id]);
 
   return (
@@ -123,7 +145,7 @@ function AddBlog(props) {
             autoFocus
             label="Enter your username"
             value={blogAuthor}
-            disabled={isEditPage}
+            disabled
             onChange={(e) => setBlogAuthor(e.target.value)}
           />
         </Grid>
@@ -168,6 +190,7 @@ function AddBlog(props) {
 const mapStateToProps = (state) => ({
   userID: state.auth.userID,
   token: state.auth.token,
+  username: state.auth.username,
 });
 
 export default connect(mapStateToProps)(AddBlog);

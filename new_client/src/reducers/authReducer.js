@@ -34,6 +34,7 @@ export default function authReducer(state = initialState, action) {
       console.log(action.payload);
       localStorage.setItem("token", action.payload.token);
       localStorage.setItem("userID", action.payload.userID);
+      localStorage.setItem("username", action.payload.username);
       return {
         ...state,
         ...action.payload,
