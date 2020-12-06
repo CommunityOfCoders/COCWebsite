@@ -1,5 +1,6 @@
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
+import { connect } from "react-redux";
 import React, { useState } from "react";
 import Container from "@material-ui/core/Container";
 import { TextField, Button, Grid } from "@material-ui/core";
@@ -10,7 +11,7 @@ import {
 import Editor from "./Editor";
 import axios from "axios";
 
-export default function AddBlog(props) {
+function AddBlog(props) {
   const [blogTitle, setBlogTitle] = useState("");
   const [blogAuthor, setBlogAuthor] = useState("");
   const [blogContent, setBlogContent] = useState("**Hello world!!!**");
@@ -29,16 +30,16 @@ export default function AddBlog(props) {
       blogContent: blogContent,
       date: selectedDate,
       author: blogAuthor,
+      authorID: props.userID,
     };
-    console.log(blog);
     axios
       .post(process.env.REACT_APP_API + "/blogs/new", JSON.stringify(blog), {
         headers: {
           "Content-Type": "application/json",
+          "Authorization": "Bearer " + props.token
         },
       })
       .then((res) => {
-      }).then((res) => {
         setIsSuccess(res.status === 201);
         props.history.push("/blogs");
       })
@@ -94,3 +95,10 @@ export default function AddBlog(props) {
     </Container>
   );
 }
+
+const mapStateToProps = (state) => ({
+  userID: state.auth.userID,
+  token: state.auth.token
+});
+
+export default connect(mapStateToProps)(AddBlog);

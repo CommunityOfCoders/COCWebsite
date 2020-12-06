@@ -48,7 +48,7 @@ module.exports = {
       });
     }
   },
-  
+
   async login(req, res) {
     try {
       const { username, password } = req.body;
@@ -80,6 +80,7 @@ module.exports = {
       return res.status(200).json({
         username: user.username,
         token: token,
+        userID: user._id
       });
     } catch (error) {
       return res.status(500).json({
@@ -115,9 +116,9 @@ module.exports = {
 
       res.status(200).json(user);
     } catch (e) {
-        res.status(400).json({
-          error: e.message
-        })
+      res.status(400).json({
+        error: e.message,
+      });
     }
   },
 };

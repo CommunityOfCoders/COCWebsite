@@ -20,7 +20,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { format } from "date-fns";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
-import AlertUtility from '../Utilities/Alert';
+import AlertUtility from "../Utilities/Alert";
 
 const useStyles = makeStyles((theme) => ({
   // root: {
@@ -64,6 +64,8 @@ const Blogs = (props) => {
     setCounter(counter + 1);
   };
 
+  const handleVisibility = (authorID) => authorID === props.userID;
+
   const handleDelete = (blogId) => {
     confirmAlert({
       title: "Confirm to delete",
@@ -73,7 +75,11 @@ const Blogs = (props) => {
           label: "Yes",
           onClick: async () => {
             const res = await axios.delete(
-              process.env.REACT_APP_API + `/blogs/delete/${blogId}`
+              process.env.REACT_APP_API + `/blogs/delete/${blogId}`, {
+                headers: {
+                  "Authorization": "Bearer " + props.token
+                }
+              }
             );
             if (res.status === 204) {
               setIsDeleted(true);
@@ -105,7 +111,7 @@ const Blogs = (props) => {
     </Grid>
   );
 
-  if(props.isAuthenticated) {
+  if (props.isAuthenticated) {
     addBlogFab = (
       <Grid item style={{ position: "fixed", right: "50px", bottom: "25px" }}>
         <Link to="/addblog" style={{ color: "white" }}>
@@ -116,7 +122,7 @@ const Blogs = (props) => {
           </Tooltip>
         </Link>
       </Grid>
-    )
+    );
   }
 
   return (
@@ -147,24 +153,28 @@ const Blogs = (props) => {
                         <Link to={`blogs/${article._id}`}>Read More</Link>
                       </Button>
                     </Grid>
-                    <Grid item xs={spanSize}>
-                      <Button>
-                        <Link
-                          to={`blog/edit/${article._id}`}
-                          className="btn-outline-success"
-                        >
-                          Edit Blog
-                        </Link>
-                      </Button>
-                    </Grid>
-                    <Grid item xs={spanSize}>
-                      <Button
-                        className="btn-outline-danger"
-                        onClick={() => handleDelete(article._id)}
-                      >
-                        Delete Blog
-                      </Button>
-                    </Grid>
+                    {handleVisibility(article.authorID) && (
+                      <>
+                        <Grid item xs={spanSize}>
+                          <Button>
+                            <Link
+                              to={`blog/edit/${article._id}`}
+                              className="btn-outline-success"
+                            >
+                              Edit Blog
+                            </Link>
+                          </Button>
+                        </Grid>
+                        <Grid item xs={spanSize}>
+                          <Button
+                            className="btn-outline-danger"
+                            onClick={() => handleDelete(article._id)}
+                          >
+                            Delete Blog
+                          </Button>
+                        </Grid>
+                      </>
+                    )}
                   </Grid>
                 </CardActions>
               </Card>
@@ -173,14 +183,14 @@ const Blogs = (props) => {
           {addBlogFab}
         </Grid>
       </Container>
-      <AlertUtility 
-        open={isDeleted} 
-        duration={1000} 
-        onCloseHandler={handleClose} 
+      <AlertUtility
+        open={isDeleted}
+        duration={1000}
+        onCloseHandler={handleClose}
         severity="success"
-        message="Deleted Successfully! Reloading Blogs..." 
+        message="Deleted Successfully! Reloading Blogs..."
       />
-      <AlertUtility 
+      <AlertUtility
         open={isError}
         duration={4500}
         onCloseHandler={() => setIsError(false)}
@@ -193,6 +203,8 @@ const Blogs = (props) => {
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  userID: state.auth.userID,
+  token: state.auth.token
 });
 
 export default connect(mapStateToProps)(Blogs);

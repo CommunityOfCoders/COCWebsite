@@ -5,6 +5,7 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import React, { useState, useEffect } from "react";
+import {connect} from "react-redux"
 import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
 import {
@@ -31,7 +32,7 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-function EditBlog() {
+function EditBlog(props) {
   const classes = useStyles();
   const id = useParams().id;
   const history = useHistory();
@@ -67,6 +68,7 @@ function EditBlog() {
       {
         headers: {
           "Content-Type": "application/json",
+          "Authorization": "Bearer " + props.token
         },
       }
     );
@@ -154,4 +156,9 @@ function EditBlog() {
   );
 }
 
-export default EditBlog;
+const mapStateToProps = (state) => ({
+  token: state.auth.token,
+  userID: state.auth.userID
+})
+
+export default connect(mapStateToProps)(EditBlog);
