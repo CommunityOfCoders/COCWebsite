@@ -70,10 +70,10 @@ function Event() {
           handleEdit={handleEdit}
           handleDelete={handleDelete}
         />
-        <AddEvent
+        {/* <AddEvent
           isUpdating={isUpdating}
           updatingEvent={updatingEvent}
-        />
+        /> */}
     </div>
   )
 }

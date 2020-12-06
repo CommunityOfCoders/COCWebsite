@@ -19,6 +19,7 @@ import IndividualBlog from "./components/blogs/IndividualBlog";
 import Signin from "./components/auth/Signin.jsx";
 import Signup from "./components/auth/Signup.jsx";
 import NewHome from "./components/Home/Newhome";
+import AddEvent from "./components/events/AddEvent";
 
 function App() {
   const store = configureStore();
@@ -41,6 +42,7 @@ function App() {
             <Route path="/glimpse" component={Glimpse} />
             <Route path="/newHome" component={NewHome} />
             <Route path="/events" component={Event} />
+            <Route path="/addevent" component={AddEvent} />
             {/* <Footer /> */}
           </Switch>
         </div>
