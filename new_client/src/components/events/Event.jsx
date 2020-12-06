@@ -1,57 +1,49 @@
 import axios from 'axios';
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import AddEvent from './AddEvent';
 import EventList from './EventList';
 
-class Event extends Component {
-  state = {
-    events: [],
-    isUpdating: false,
-    updatingEvent: null
-  };
+function Event() {
 
-  handleEdit = (eventId) => {
-    let updatingEvent = this.state.events.find(
+  const [events, setEvents] = useState([]);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [updatingEvent, setUpdatingEvent] = useState(null);
+
+  const handleEdit = (eventId) => {
+    let updatingEvent = events.find(
       (event) => event._id === eventId
     );
-    this.setState((prevState) => {
-      updatingEvent = prevState.isUpdating ? null : updatingEvent;
-      return {
-        isUpdating: !prevState.isUpdating,
-        updatingEvent: updatingEvent
-      };
-    });
+    isUpdating ? setUpdatingEvent(null) : setUpdatingEvent(updatingEvent);
+    setIsUpdating(!isUpdating);
   };
-
-  handleDelete = (eventId) => {
+  
+  const handleDelete = (eventId) => {
     axios.delete(process.env.REACT_APP_API + `/events/${eventId}`);
-    const deletedEventIndex = this.state.events.findIndex(
+    const deletedEventIndex = events.findIndex(
       (event) => event._id === eventId
     );
     if (
       deletedEventIndex >= 0 &&
-      JSON.stringify(this.state.events[deletedEventIndex]) ===
-        JSON.stringify(this.state.updatingEvent)
+      JSON.stringify(events[deletedEventIndex]) ===
+        JSON.stringify(updatingEvent)
     ) {
-      this.setState({ isUpdating: false, updatingEvent: null });
+      setIsUpdating(false);
+      setUpdatingEvent(null);
     }
-    const events = [...this.state.events];
-    events.splice(deletedEventIndex, 1);
-    this.setState({ events: events });
+    setEvents(events.splice(deletedEventIndex, 1))
   };
 
-  componentDidMount() {
+  useEffect(() => {
     axios
       .get(process.env.REACT_APP_API + '/events')
       .then((res) => {
         console.log(res.data);
-        this.setState({ events: res.data });
+        setEvents(res.data);
         axios
           .get('http://res.cloudinary.com/coc-vjti/image/list/event.json')
           .then((res) => {
             console.log(res.data.resources);
-            if (this.state.events.length !== 0) {
-              const events = [...this.state.events];
+            if (events.length !== 0) {
               for (const event of events) {
                 for (const imageData of res.data.resources) {
                   if (event._id === imageData.public_id) {
@@ -60,7 +52,7 @@ class Event extends Component {
                   }
                 }
               }
-              this.setState({ events: events });
+              setEvents(events);
             }
           })
           .catch((err) => {
@@ -68,24 +60,23 @@ class Event extends Component {
           });
       })
       .catch((error) => console.log(error));
-  }
+  }, [])
 
-  render() {
-    return (
-      <div>
-        <EventList
-          events={this.state.events}
-          isUpdating={this.state.isUpdating}
-          handleEdit={this.handleEdit}
-          handleDelete={this.handleDelete}
+  return (
+    <div>
+      <EventList
+          events={events}
+          isUpdating={isUpdating}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
         />
         <AddEvent
-          isUpdating={this.state.isUpdating}
-          updatingEvent={this.state.updatingEvent}
+          isUpdating={isUpdating}
+          updatingEvent={updatingEvent}
         />
-      </div>
-    );
-  }
+    </div>
+  )
 }
+
 
 export default Event;

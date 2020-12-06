@@ -1,99 +1,134 @@
-import React, { Component } from 'react';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
+import React, { Component } from "react";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import {
+  Paper,
+  makeStyles,
+  Button,
+  Grid,
+  Typography,
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
+  Container,
+} from "@material-ui/core";
+import { Link } from "react-router-dom";
+import { format } from "date-fns";
 
 const buttonStyle = {
-  margin: '10px 15px',
-  maxWidth: '120px'
+  margin: "10px 15px",
+  maxWidth: "120px",
 };
 
+const useStyles = makeStyles((theme) => ({
+  card: {
+    margin: "20px 100px",
+    backgroundColor: "white",
+    position: "relative",
+  },
+}));
+
 const EventList = (props) => {
+  const classes = useStyles();
+
   const handleEdit = (eventId) => {
     props.handleEdit(eventId);
   };
 
   const handleDelete = (eventId) => {
     confirmAlert({
-      title: 'Confirm to delete',
-      message: 'Are you sure you want to delete the event?',
+      title: "Confirm to delete",
+      message: "Are you sure you want to delete the event?",
       buttons: [
         {
-          label: 'delete',
+          label: "Delete",
           onClick: () => {
             props.handleDelete(eventId);
-          }
+          },
         },
         {
-          label: 'cancel',
-          onClick: () => {}
-        }
-      ]
+          label: "Cancel",
+          onClick: () => {},
+        },
+      ],
     });
   };
 
-  let editBtnText = 'Edit Event';
-  let editBtnStyle = 'btn-outline-warning';
+  let editBtnText = "Edit Event";
+  let editBtnStyle = "btn-outline-warning";
   if (props.isUpdating) {
-    editBtnText = 'Stop Editing';
-    editBtnStyle = 'btn-warning';
+    editBtnText = "Stop Editing";
+    editBtnStyle = "btn-warning";
   }
 
   return (
-    <div>
+    <Container>
       {props.events.length ? (
-        props.events.map((event) => (
-          <div
-            className="list-group"
-            key={event._id}
-            style={{ margin: '20px 100px', backgroundColor: 'white' }}
-          >
-            {event.version ? (
+        props.events.map((article) => (
+          <>
+            {article.version ? (
               <img
-                src={`http://res.cloudinary.com/coc-vjti/image/upload/v${event.version}/${event._id}`}
+                src={`http://res.cloudinary.com/coc-vjti/image/upload/v${article.version}/${article._id}`}
                 alt="coc event 1"
               />
             ) : null}
-            <div className="list-group-item list-group-item-action flex-column align-items-start">
-              <div className="d-flex w-100 justify-content-between">
-                <h5 className="mb-1">{event.eventName}</h5>
-                <small>{event.date}</small>
-              </div>
-              <small
-                style={{
-                  position: 'absolute',
-                  right: '20px'
-                }}
-              >
-                Venue:
-                {' ' + event.venue}
-              </small>
-              <p className="mb-1">{event.description}</p>
-              <div className="controls row">
-                <button
-                  className={`btn col ${editBtnStyle}`}
-                  data-toggle="modal"
-                  data-target="#myModal"
-                  type="button"
-                  style={buttonStyle}
-                  onClick={() => handleEdit(event._id)}
-                >
-                  {editBtnText}
-                </button>
-                <button
-                  className="btn btn-outline-danger col"
-                  style={buttonStyle}
-                  onClick={() => handleDelete(event._id)}
-                >
-                  Delete Event
-                </button>
-              </div>
-            </div>
-          </div>
+            <Card className={classes.card}>
+              <CardHeader title={article.eventName} />{" "}
+              <CardContent>
+                <Typography>
+                  {" "}
+                  <p>{format(new Date(article.date), "dd/MM/yyyy")}</p>{" "}
+                  <small
+                    style={{
+                      position: "absolute",
+                      right: "20px",
+                    }}
+                  >
+                    Venue:
+                    {" " + article.venue}
+                  </small>
+                  {article.description}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Grid container spacing={2} xs={6} justify="space-between">
+                  {/* {handleVisibility(article.authorID) && ( */}
+                  <>
+                    <Grid item xs={4}>
+                      <Button
+                        className="btn-outline-success"
+                        variant="outlined"
+                      >
+                        {/* <Link
+                    to={`blog/edit/${article._id}`}
+                    className="btn-outline-success"
+                  > */}
+                        {editBtnText}
+                        {/* </Link> */}
+                      </Button>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Button
+                        className="btn-outline-danger"
+                        onClick={() => handleDelete(article._id)}
+                        color="secondary"
+                        variant="outlined"
+                      >
+                        Delete Event
+                      </Button>
+                    </Grid>
+                  </>
+                  {/* )} */}
+                </Grid>
+              </CardActions>
+            </Card>
+          </>
         ))
       ) : (
         <div>OOOPSY: NO EVENTS REGISTERED</div>
       )}
-    </div>
+    </Container>
   );
 };
 
