@@ -1,33 +1,44 @@
 const express = require('express');
 const path = require('path');
 const cloudinary = require('cloudinary');
+const scheduler = require('../utility/scheduler');
 cloudinary.config({
-  cloud_name: 'coc-vjti',
-  api_key: '552242973352355',
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_APIKEY,
   api_secret: process.env.CLOUDINARY_SECRET
 });
 const Event = require('../models/Event');
+const mongoose = require('mongoose');
+
+const getNotificationDate = eventDate => {
+  return new Date(
+    parseInt(eventDate[0]), 
+    parseInt(eventDate[1])-1, 
+    parseInt(eventDate[2]), 
+    9
+  ); // Sends notification at 09:00 at the day of the event
+}
 
 module.exports = {
   async getEvents(_req, res) {
     const events = await Event.find();
-    res.json(events);
+    res.status(200).json(events);
   },
+
   async getEventById(req, res) {
     try {
       const eventId = req.params.id;
       const event = await Event.findById(eventId);
-      res.json(event);
+      res.status(200).json(event);
     } catch (err) {
-      res.status(203).send({
-        err: err
-      });
+      res.status(400).json({
+        error: err.message
+      })
     }
   },
   async uploadEvent(req, res) {
     try {
       const file = req.file;
-      console.log(req.file);
       const event = await Event.create(req.body);
       if (file) {
         const image = await cloudinary.v2.uploader.upload(file.path, {
@@ -40,21 +51,33 @@ module.exports = {
           public_id: image.public_id
         };
       }
-      res.json({
+      res.status(200).json({
         id: event._id
       });
     } catch (err) {
-      res.status(203).send({
-        err: err
-      });
+        res.status(500).json({
+          	error: err.message
+        });
     }
   },
   async updateEvent(req, res) {
     try {
       const eventId = req.params.id;
       const file = req.file;
+      let event = await Event.updateOne({_id: mongoose.Types.ObjectId(eventId)}, req.body);
+      event = await Event.findById(eventId);
+      const eventDate = event.date.split('-');
+      const notificationDate = getNotificationDate(eventDate);
+      scheduler.rescheduleNotification(notificationDate, { prefix: eventId });
       if (file) {
-        await cloudinary.v2.uploader.destroy(eventId);
+        try {
+          await cloudinary.api.resource(eventId);
+          try {
+            await cloudinary.v2.uploader.destroy(eventId);
+          } catch(error) {
+            res.status(500).json({});
+          }
+        } catch(error) {}
         const image = await cloudinary.v2.uploader.upload(file.path, {
           public_id: eventId,
           tags: ['event'],
@@ -65,26 +88,35 @@ module.exports = {
           public_id: image.public_id
         };
       }
-      const event = await Event.findByIdAndUpdate(eventId, req.body);
-      res.json({
-        id: event._id
-      });
+      res.json(event);
     } catch (err) {
-      res.status(400).send({
-        err: err
+      res.status(400).json({
+        error: err.message,
       });
     }
   },
+
   async deleteEvent(req, res) {
     const eventId = req.params.id;
+    scheduler.removeNotification({ substring: eventId });
     const event = await Event.findById(eventId);
     await event.remove();
-    await cloudinary.v2.uploader.destroy(eventId);
-    res.status(204);
+    try {
+      await cloudinary.api.resource(eventId);
+      try {
+        await cloudinary.v2.uploader.destroy(eventId);
+      } catch(error) {
+        res.status(500).json({
+          error: error
+        });
+      }
+    } catch(error) {}
+    res.status(204).json({});
   },
+
   async addForm(req, res) {
     const formURL = req.body.formURL;
-    const eventId = req.body.id;
+    const eventId = req.params.id;
 
     try {
       const event = await Event.findByIdAndUpdate(eventId, {
@@ -95,9 +127,38 @@ module.exports = {
         message: 'Form added successfully'
       });
     } catch (err) {
-      res.status(203).send({
-        err: err
+      res.status(403).send({
+        error: err
       });
+    }
+  },
+  async addReminder(req, res) {
+    try {
+      const eventId = req.body.id;
+      const userEmail = req.body.email;
+      const event = await Event.findById(eventId);
+      const eventDate = event.date.split('-');
+      const notificationDate = getNotificationDate(eventDate);
+      const data = {
+        jobName: `${eventId}-${userEmail}`,
+        to: userEmail,
+        subject: `${event.eventName} Reminder!!`,
+        message: `Reminder email for ${event.eventName} event`,
+      }
+      scheduler.scheduleEmailNotification(notificationDate, data);
+      res.status(200).json({mssg: 'Successfully added reminder'});
+    } catch (error) {
+      res.status(400).json({error: error.message});
+    }
+  },
+  async cancelReminder(req, res) {
+    const eventId = req.params.id;
+    const userEmail = req.body.email;
+    try {
+      scheduler.removeNotification({ substring: `${eventId}-${userEmail}` });
+      res.status(200).json({ mssg: 'Successfully cancelled reminder' });
+    } catch(error) {
+      res.status(400).json({error: error.message});
     }
   }
 };

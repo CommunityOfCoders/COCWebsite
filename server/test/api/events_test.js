@@ -1,4 +1,5 @@
 const Event = require("../../src/models/Event");
+const scheduler = require("../../src/utility/scheduler");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const expect = chai.expect;
@@ -125,7 +126,7 @@ describe("Events", () => {
             res.should.have.status(200);
             res.body.should.be.an("object");
             res.body.should.have.property("eventName").eql("Test new event");
-            res.body.should.have.property("id");
+            res.body.should.have.property("_id");
             expect(res.body).to.not.be.empty;
             done();
           });
@@ -159,7 +160,7 @@ describe("Events", () => {
   });
 
   describe("PUT/ add form url to event", () => {
-    let formBody;
+    let formBody, id;
 
     beforeEach((done) => {
       let event = new Event({
@@ -174,7 +175,7 @@ describe("Events", () => {
       };
       event.save((err, event) => {
         if (err) throw err;
-        formBody.id = event._id;
+        id = event._id;
         done();
       });
     });
@@ -182,7 +183,7 @@ describe("Events", () => {
     it("adds form to event body", (done) => {
       chai
         .request(app)
-        .put("/api/events/form")
+        .put("/api/events/form/" + id)
         .send(formBody)
         .end((err, res) => {
           expect(err).to.be.null;
@@ -194,10 +195,10 @@ describe("Events", () => {
     });
 
     it("does not add form to event body", (done) => {
-      formBody.id = "Wrong test url";
+      id = "Wrong-test-id";
       chai
         .request(app)
-        .put("/api/events/form")
+        .put("/api/events/form/" + id)
         .send(formBody)
         .end((err, res) => {
           expect(err).to.be.null;
@@ -206,6 +207,79 @@ describe("Events", () => {
           res.body.should.have.property("error").not.eql("");
           done();
         });
+    });
+  });
+  describe("POST/ add email reminder for event", () => {
+    it("should add a new job to the scheduler", (done) => {
+      let event = {
+        eventName: "Test event",
+        description: "Test description",
+        venue: "Test venue",
+        date: "2200-11-31",
+        graduationYear: "Test graduation year",
+      };
+      let newEvent = new Event(event);
+      newEvent.save((err, event) => {
+        if(err) throw err;
+        let reqData = {
+          id: event._id,
+          email: "test@test.com",
+        }
+        const jobNumbers = scheduler.getNumberOfJobs();
+        chai
+        .request(app)
+        .post("/api/events/reminder")
+        .send(reqData)
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(jobNumbers).equal(scheduler.getNumberOfJobs() - 1);
+          res.should.have.status(200);
+          res.body.should.be.an("object");
+          res.body.should.have.property("mssg").eql("Successfully added reminder");
+          done();
+        });
+      });
+    });
+  });
+  describe("DELETE/ cancel email reminder for event", () => {
+    it("should cancel a set job in the scheduler", (done) => {
+      let event = {
+        eventName: "Test event",
+        description: "Test description",
+        venue: "Test venue",
+        date: "2200-11-31",
+        graduationYear: "Test graduation year",
+      };
+      let newEvent = new Event(event);
+      newEvent.save((err, event) => {
+        if(err) throw err;
+        let reqData = {
+          email: "test@test.com",
+        }
+        scheduler
+          .scheduleEmailNotification(
+            event.date, 
+            {
+              jobName: `${event._id}-${reqData.email}`,
+              to: 'test@test.com',
+              subject: `${event.eventName} Reminder!!`,
+              message: `Reminder email for ${event.eventName} event`,
+            }
+          );
+        const jobNumbers = scheduler.getNumberOfJobs();
+        chai
+        .request(app)
+        .delete("/api/events/reminder/" + event._id)
+        .send(reqData)
+        .end((err, res) => {
+          expect(err).to.be.null;
+          expect(jobNumbers).equal(scheduler.getNumberOfJobs() + 1);
+          res.should.have.status(200);
+          res.body.should.be.an("object");
+          res.body.should.have.property("mssg").eql("Successfully cancelled reminder");
+          done();
+        });
+      });
     });
   });
 });

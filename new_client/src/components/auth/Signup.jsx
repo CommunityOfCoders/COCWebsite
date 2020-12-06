@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Paper, Grid, TextField, Button, Typography, Link } from '@material-ui/core';
+import { Container, Paper, Grid, TextField, Button, Typography } from '@material-ui/core';
+import { Link } from "react-router-dom"
 import { connect } from "react-redux";
 import { register } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
@@ -7,7 +8,7 @@ import "./Error.css";
 
 function Signup(props) {
 
-	const { isAuthenticated, error, register, clearErrors } = props;
+	const { isAuthenticated, error, register, clearErrors, history } = props;
 
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
@@ -18,7 +19,7 @@ function Signup(props) {
 	const handleChangeUsername = (e) => setUsername(e.target.value)
 	const handleChangePassword = (e) => setPassword(e.target.value)
 	const handleChangeEmail = (e) => setEmail(e.target.value)
-	const handleChangeGraduationYear = (e) => setGraduationYear(e.target.value)
+	const handleChangeGraduationYear = (e) => setGraduationYear(parseInt(e.target.value))
 
 	const [errors, updateErrors] = useState({
 		username: '',
@@ -60,7 +61,8 @@ function Signup(props) {
 		}
 
 		if (email) {
-			let pattern = new RegExp(/^[a-zA-Z0-9_+&*-] + (?:\\.[a-zA-Z0-9_+&*-]+ )*@(?:[a-zA-Z0-9-]+\\.) + [a-zA-Z]{2, 7}/);
+			// /^[a-zA-Z0-9_+&*-] + (?:\\.[a-zA-Z0-9_+&*-]+ )*@(?:[a-zA-Z0-9-]+\\.) + [a-zA-Z]{2, 7}/
+			let pattern = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/);
 			if (!pattern.test(email)) {
 				formIsValid = false;
 				updateErrors(prevErrors => ({
@@ -144,6 +146,7 @@ function Signup(props) {
 		}
 		if (isAuthenticated) {
 			// TODO: something here after auth
+			history.push("/");
 		}
 	}, [error, isAuthenticated]);
 
@@ -194,7 +197,10 @@ function Signup(props) {
 							fullWidth
 							required
 							name="graduationYear"
-							type="number"
+							type="text"
+							inputProps={{
+								maxLength: 4
+							}}
 							placeholder="Graduation Year"
 							onChange={handleChangeGraduationYear}
 						/>

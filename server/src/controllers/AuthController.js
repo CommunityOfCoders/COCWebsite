@@ -44,10 +44,11 @@ module.exports = {
       });
     } catch (error) {
       res.status(500).json({
-        error: error,
+        error: error.message,
       });
     }
   },
+
   async login(req, res) {
     try {
       const { username, password } = req.body;
@@ -76,13 +77,14 @@ module.exports = {
         expiresIn: 60 * 60,
       });
 
-      res.status(200).json({
+      return res.status(200).json({
         username: user.username,
         token: token,
+        userID: user._id
       });
     } catch (error) {
-      res.status(500).json({
-        error: error,
+      return res.status(500).json({
+        error: error.message,
       });
     }
   },
@@ -92,11 +94,11 @@ module.exports = {
 
     try {
       jwt.verify(token, config.privateKey);
-      return res.status(200).json({
+      res.status(200).json({
         status: true,
       });
     } catch (error) {
-      return res.status(403).json({
+      res.status(403).json({
         status: false,
       });
     }
@@ -114,9 +116,8 @@ module.exports = {
 
       res.status(200).json(user);
     } catch (e) {
-      res.status(404).json({
-        message: "An error has occured",
-        error: e,
+      res.status(400).json({
+        error: e.message,
       });
     }
   },
