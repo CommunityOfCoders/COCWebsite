@@ -4,7 +4,11 @@ const Blog = require("../models/Blog");
 module.exports = {
   async allBlogs(_req, res) {
     try {
-      const blogs = await Blog.find();
+      let blogs = await Blog.find();
+      blogs = blogs.sort((a, b) => {
+        if (Date(b.date) > Date(a.date)) return 1;
+        else return -1;
+      });
       res.status(200).json({ blogs });
     } catch (e) {
       res.status(400).json({ error: e.message });
