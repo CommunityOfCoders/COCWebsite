@@ -174,7 +174,7 @@ function AddBlog(props) {
         duration={3000}
         onCloseHandler={handleClose}
         severity="success"
-        message={successString + " Reloading chats..."}
+        message={successString + " Reloading blogs..."}
       />
       <AlertUtility
         open={isError}

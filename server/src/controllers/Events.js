@@ -99,8 +99,7 @@ module.exports = {
   async deleteEvent(req, res) {
     const eventId = req.params.id;
     scheduler.removeNotification({ substring: eventId });
-    const event = await Event.findById(eventId);
-    await event.remove();
+    const event = await Event.findByIdAndDelete(eventId);
     try {
       await cloudinary.api.resource(eventId);
       try {
