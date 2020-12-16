@@ -13,7 +13,19 @@ module.exports = {
   async getAllGlimpses(req, res) {
     try {
       const glimpses = await Glimpses.find({});
-      return res.status(200).json({ data: glimpses });
+      const imageUrls = glimpses.map((glimpse) => glimpse.albumPath);
+      console.log(imageUrls);
+      const response = await axios.all(imageUrls.map((url) => axios.get(url)));
+      let returnArr = [];
+      for (let i = 0; i < glimpses.length; i += 1) {
+        const result = extractPhotos(response[i].data)[0];
+        const modObj = {
+          ...glimpses[i]["_doc"],
+          preview: result,
+        };
+        returnArr.push(modObj);
+      }
+      return res.status(200).json({ data: returnArr });
     } catch (e) {
       return res.status(500).json({ error: e.message });
     }
