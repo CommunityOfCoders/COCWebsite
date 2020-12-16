@@ -115,7 +115,7 @@ function AddBlog(props) {
           setBlogTitle(blogTitle);
           setBlogContent(blogContent);
           setBlogAuthor(author);
-          setSelectedDate(date);
+          setSelectedDate(new Date(date));
         })
         .catch((err) => console.log(err.toString()));
     }
@@ -125,20 +125,11 @@ function AddBlog(props) {
     <Container maxWidth="md" style={{ backgroundColor: "white" }}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDatePicker
-              margin="normal"
-              id="date-picker-dialog"
-              label="Date picker dialog"
-              format="MM/dd/yyyy"
-              value={selectedDate}
-              disabled={isEditPage}
-              onChange={handleDateChange}
-              KeyboardButtonProps={{
-                "aria-label": "change date",
-              }}
+            <TextField
+              label="Date"
+              value={selectedDate.toDateString()}
+              disabled
             />
-          </MuiPickersUtilsProvider>
         </Grid>
         <Grid item xs={12}>
           <TextField
