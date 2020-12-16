@@ -32,7 +32,12 @@ module.exports = (app) => {
     app.post('/api/reg-form', Register.regForm); // Incomplete controller
     
     // Glimpses
-    app.get('/api/glimpses',GlimpseController.getPhotos);
+    app.get('/api/glimpses', GlimpseController.getAllGlimpses);
+    app.get('/api/glimpses/:id', GlimpseController.getGlimpse);
+    app.post('/api/glimpses',GlimpseController.getPhotos);
+    app.post('/api/glimpses/new', GlimpseController.addGlimpse);
+    app.put('/api/glimpses/edit/:id', GlimpseController.editGlimpse);
+    app.delete('/api/glimpses/delete/:id', GlimpseController.deleteGlimpse);
 
     // Blogs
     app.get('/api/blogs', Blogs.allBlogs); // Tested
