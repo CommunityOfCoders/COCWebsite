@@ -35,9 +35,9 @@ module.exports = (app) => {
     app.get('/api/glimpses', GlimpseController.getAllGlimpses);
     app.get('/api/glimpses/:id', GlimpseController.getGlimpse);
     app.post('/api/glimpses',GlimpseController.getPhotos);
-    app.post('/api/glimpses/new', GlimpseController.addGlimpse);
-    app.put('/api/glimpses/edit/:id', GlimpseController.editGlimpse);
-    app.delete('/api/glimpses/delete/:id', GlimpseController.deleteGlimpse);
+    app.post('/api/glimpses/new', event.isMember, GlimpseController.addGlimpse);
+    app.put('/api/glimpses/edit/:id', event.isMember, GlimpseController.editGlimpse);
+    app.delete('/api/glimpses/delete/:id', event.isMember, GlimpseController.deleteGlimpse);
 
     // Blogs
     app.get('/api/blogs', Blogs.allBlogs); // Tested
