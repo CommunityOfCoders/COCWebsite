@@ -42,7 +42,7 @@ module.exports = (app) => {
     // Blogs
     app.get('/api/blogs', Blogs.allBlogs); // Tested
     app.get('/api/blogs/:id', Blogs.viewBlogById); // Tested
-    app.post('/api/blogs/new', auth.loginRequired, blog.isBlogAuthorized, Blogs.uploadBlog); // Tested
-    app.put('/api/blogs/edit/:id', auth.loginRequired, blog.isBlogAuthorized, Blogs.editBlogById); // Tested
-    app.delete('/api/blogs/delete/:id', auth.loginRequired, blog.isBlogAuthorized, Blogs.deleteBlogById); // Tested
+    app.post('/api/blogs/new', auth.loginRequired, Blogs.uploadBlog); // Tested
+    app.put('/api/blogs/edit/:id', auth.loginRequired, blog.isBlogWritten, Blogs.editBlogById); // Tested
+    app.delete('/api/blogs/delete/:id', auth.loginRequired, blog.isBlogWritten, Blogs.deleteBlogById); // Tested
 }

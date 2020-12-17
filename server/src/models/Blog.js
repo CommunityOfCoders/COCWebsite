@@ -22,6 +22,10 @@ const blog = new mongoose.Schema({
         type: String,
         required: true
     },
+    authorID: {
+        type: String,
+        required: true
+    }
 });
 
 const Blog = mongoose.model('blog', blog);
