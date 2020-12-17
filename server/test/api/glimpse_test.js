@@ -103,54 +103,36 @@ describe("Glimpses", () => {
     });
   });
 
-  describe("/GET glimpses", () => {
-    beforeEach((done) => {
-      const data = [];
-      for (let i = 0; i < 10; i++) {
-        let objToInsert = {
-          albumPath: `/var/www/html/${i}`,
-          eventName: `Test Glimpse ${i}`,
-        };
-        data.push(objToInsert);
-      }
-      Glimpse.insertMany(data)
-        .then(() => done())
-        .catch((e) => console.log(e));
-    });
+  // describe("/GET glimpses", () => {
+  //   beforeEach((done) => {
+  //     const data = [];
+  //     for (let i = 0; i < 10; i++) {
+  //       let objToInsert = {
+  //         albumPath: `/var/www/html/${i}`,
+  //         eventName: `Test Glimpse ${i}`,
+  //       };
+  //       data.push(objToInsert);
+  //     }
+  //     Glimpse.insertMany(data)
+  //       .then(() => done())
+  //       .catch((e) => console.log(e));
+  //   });
 
-    it("should return all glimpses", (done) => {
-      chai
-        .request(app)
-        .get("/api/glimpses")
-        .end((err, res) => {
-          expect(err).to.be.null;
-          res.should.have.status(200);
-          res.body.should.be.an("object");
-          res.body.should.have.property("data");
-          res.body.data.should.be.an("array");
-          expect(res.body.data).to.have.lengthOf(10);
-          done();
-        });
-    });
-
-    it("should preserve glimpse object properties", (done) => {
-      chai
-        .request(app)
-        .get("/api/glimpses")
-        .end((err, res) => {
-          expect(err).to.be.null;
-          res.should.have.status(200);
-          res.body.data[0].should.be.an("object");
-          res.body.data[0].should.have
-            .property("albumPath")
-            .eql("/var/www/html/0");
-          res.body.data[0].should.have
-            .property("eventName")
-            .eql("Test Glimpse 0");
-          done();
-        });
-    });
-  });
+  //   it("should return all glimpses", (done) => {
+  //     chai
+  //       .request(app)
+  //       .get("/api/glimpses")
+  //       .end((err, res) => {
+  //         expect(err).to.be.null;
+  //         res.should.have.status(200);
+  //         res.body.should.be.an("object");
+  //         res.body.should.have.property("data");
+  //         res.body.data.should.be.an("array");
+  //         expect(res.body.data).to.have.lengthOf(10);
+  //         done();
+  //       });
+  //   });
+  // });
 
   describe("/GET/:id Glimpse", () => {
     it("should return a single glimpse if id is correct", (done) => {
@@ -201,7 +183,9 @@ describe("Glimpses", () => {
             expect(err).to.be.null;
             res.should.have.status(200);
             res.body.should.be.an("object");
-            res.body.glimpse.should.have.property("eventName").eql("Test glimpse 2");
+            res.body.glimpse.should.have
+              .property("eventName")
+              .eql("Test glimpse 2");
             res.body.glimpse.should.have.property("_id");
             expect(res.body).to.not.be.empty;
             done();

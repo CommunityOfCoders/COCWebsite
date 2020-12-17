@@ -14,7 +14,6 @@ module.exports = {
     try {
       const glimpses = await Glimpses.find({});
       const imageUrls = glimpses.map((glimpse) => glimpse.albumPath);
-      console.log(imageUrls);
       const response = await axios.all(imageUrls.map((url) => axios.get(url)));
       let returnArr = [];
       for (let i = 0; i < glimpses.length; i += 1) {
