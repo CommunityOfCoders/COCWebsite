@@ -50,7 +50,7 @@ const EventList = (props) => {
     axios
       .get(process.env.REACT_APP_API + "/events")
       .then((res) => {
-        setEvents(res.data);
+        setEvents(res.data.sort((a, b) => new Date(b.date) - new Date(a.date)));
       })
       .catch((error) => console.log(error));
   }, []);
@@ -134,7 +134,12 @@ const EventList = (props) => {
           <>
             <Card className={classes.card}>
               <CardHeader title={article.eventName} />{" "}
-              {!!article.image && <CardMedia className={classes.media} image={article.image.url} />}
+              {!!article.image && (
+                <CardMedia
+                  className={classes.media}
+                  image={article.image.url}
+                />
+              )}
               <CardContent>
                 <Typography>
                   {" "}
