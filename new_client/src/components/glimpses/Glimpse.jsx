@@ -4,9 +4,11 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from "react-image-gallery";
 import { Container, Grid } from "@material-ui/core";
 import IndividualGlimpse from "./IndividualGlimpse";
+import IndividualImageGalllery from "./IndividualImageGalllery";
 
 const Glimpse = () => {
-  const [images, setImages] = useState(null);
+  const [counter, setCounter] = useState(0);
+  const [gPhotosURL, setGPhotosURL] = useState("");
   const [glimpses, setGlimpses] = useState([]);
 
   useEffect(() => {
@@ -34,7 +36,7 @@ const Glimpse = () => {
     return () => (shouldCancel = true);
   }, []);
   // return images ? <>{console.log()}<ImageGallery items={images} /></> : <div>None</div>;
-  return (
+  return counter === 0 ? (
     <Container maxWidth="lg">
       <Grid container spacing={4}>
         {glimpses.map((glimpse) => (
@@ -42,11 +44,16 @@ const Glimpse = () => {
             <IndividualGlimpse
               imgSrc={glimpse.preview}
               title={glimpse.eventName}
+              albumPath={glimpse.albumPath}
+              setCounter={setCounter}
+              setGPhotosURL={setGPhotosURL}
             />
           </Grid>
         ))}
       </Grid>
     </Container>
+  ) : (
+    <IndividualImageGalllery gPhotosUrl={gPhotosURL} />
   );
 };
 

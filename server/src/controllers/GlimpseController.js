@@ -5,8 +5,8 @@ const extractPhotos = require("../utility/extractPhotos");
 
 module.exports = {
   async getPhotos(req, res) {
-    const { photosURL } = req.body;
-    const response = await axios.get(photosURL);
+    const { gPhotosUrl } = req.body;
+    const response = await axios.get(gPhotosUrl);
     res.status(200).json(extractPhotos(response.data));
   },
 

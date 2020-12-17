@@ -11,23 +11,25 @@ export default function IndividualImageGalllery({ gPhotosUrl }) {
     const call = async () => {
       try {
         const response = await axios.post(
-          process.env.REACT_APP_API + "/glimpses"
+          process.env.REACT_APP_API + "/glimpses",
+          { gPhotosUrl }
         );
-        if (!shouldCancel && response.data && response.data.data.length > 0) {
-          setGlimpses(
-            // response.data.map((url) => ({
-            //   original: `${url}=w1024`,
-            //   thumbnail: `${url}=w100`,
-            // }))
-            response.data.data
+        if (!shouldCancel && response.data) {
+          setImages(
+            response.data.map((url) => ({
+              original: `${url}=w512`,
+              thumbnail: `${url}=w100`,
+            }))
           );
         }
       } catch (e) {
         console.log(e.message);
-        setGlimpses([]);
+        setImages([]);
       }
     };
     call();
     return () => (shouldCancel = true);
   }, []);
+
+  return images.length > 0 ? <ImageGallery items={images} /> : <div>Please wait</div>;
 }
