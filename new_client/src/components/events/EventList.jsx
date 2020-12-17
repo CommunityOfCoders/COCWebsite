@@ -14,6 +14,7 @@ import {
   Container,
   Tooltip,
   Fab,
+  CardMedia,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
@@ -31,6 +32,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "white",
     position: "relative",
   },
+  media: {
+    height: "auto",
+    paddingTop: "56.25%", // 16:9
+  },
 }));
 
 const EventList = (props) => {
@@ -46,24 +51,6 @@ const EventList = (props) => {
       .get(process.env.REACT_APP_API + "/events")
       .then((res) => {
         setEvents(res.data);
-        axios
-          .get("http://res.cloudinary.com/coc-vjti/image/list/event.json")
-          .then((res) => {
-            if (events.length !== 0) {
-              for (const event of events) {
-                for (const imageData of res.data.resources) {
-                  if (event._id === imageData.public_id) {
-                    event.version = imageData.version;
-                    break;
-                  }
-                }
-              }
-              setEvents(events);
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
       })
       .catch((error) => console.log(error));
   }, []);
@@ -145,14 +132,9 @@ const EventList = (props) => {
       {events.length ? (
         events.map((article) => (
           <>
-            {article.version ? (
-              <img
-                src={`http://res.cloudinary.com/coc-vjti/image/upload/v${article.version}/${article._id}`}
-                alt="coc event 1"
-              />
-            ) : null}
             <Card className={classes.card}>
               <CardHeader title={article.eventName} />{" "}
+              {!!article.image && <CardMedia className={classes.media} image={article.image.url} />}
               <CardContent>
                 <Typography>
                   {" "}

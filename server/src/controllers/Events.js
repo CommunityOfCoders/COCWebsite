@@ -39,17 +39,18 @@ module.exports = {
   async uploadEvent(req, res) {
     try {
       const file = req.file;
-      const event = await Event.create(req.body);
+      let event = await Event.create(req.body);
       if (file) {
         const image = await cloudinary.v2.uploader.upload(file.path, {
           public_id: event._id,
           tags: ["event"],
           invalidate: true,
         });
-        req.body.image = {
-          url: image.secure_url,
-          public_id: image.public_id,
-        };
+        event = await Event.findByIdAndUpdate(
+          event._id,
+          { image: { url: image.secure_url, public_id: image.public_id } },
+          { new: true }
+        );
       }
       res.status(200).json({
         id: event._id,
