@@ -69,6 +69,10 @@ module.exports = {
     try {
       const eventId = req.params.id;
       const file = req.file;
+      const { graduationYear } = req.body;
+      if (!!graduationYear && !graduationYear.match(/^[12]0[1-5]\d$/)) {
+        return res.status(400).json({ error: "Graduation Year must be valid" });
+      }
       let event = await Event.updateOne(
         { _id: mongoose.Types.ObjectId(eventId) },
         req.body

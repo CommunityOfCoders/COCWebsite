@@ -229,6 +229,7 @@ function AddEvent(props) {
                     label="Event date"
                     format="dd/MM/yyyy"
                     value={eventDate}
+                    disablePast
                     onChange={(date) => setEventDate(date)}
                     KeyboardButtonProps={{
                       "aria-label": "change date",
