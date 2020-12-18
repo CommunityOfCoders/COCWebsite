@@ -39,6 +39,10 @@ module.exports = {
   async uploadEvent(req, res) {
     try {
       const file = req.file;
+      const { graduationYear } = req.body;
+      if (!graduationYear.match(/^[12]0[1-5]\d$/)) {
+        return res.status(400).json({ error: "Graduation Year must be valid" });
+      }
       let event = await Event.create(req.body);
       if (file) {
         const image = await cloudinary.v2.uploader.upload(file.path, {
@@ -110,7 +114,7 @@ module.exports = {
         await cloudinary.v2.uploader.destroy(eventId);
       } catch (error) {
         res.status(500).json({
-          error: error,
+          error: error.message,
         });
       }
     } catch (error) {}

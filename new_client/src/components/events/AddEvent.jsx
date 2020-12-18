@@ -39,7 +39,7 @@ function AddEvent(props) {
     descriptionError: "",
     dateError: "",
     venueError: "",
-    graduationYearError: null,
+    graduationYearError: "",
   });
 
   useEffect(() => {
@@ -98,6 +98,15 @@ function AddEvent(props) {
         graduationYearError: "*Graduation year cannot be empty",
       }));
       ret = false;
+    } else {
+      const isMatch = eventGraduationYear.match(/^[12]0[1-5]\d$/);
+      if (!isMatch) {
+        setError((prevError) => ({
+          ...prevError,
+          graduationYearError: "*Enter valid graduation year",
+        }));
+        ret = false;
+      }
     }
     return ret;
   };
@@ -135,6 +144,8 @@ function AddEvent(props) {
           setIsError(true);
           console.log(err);
         });
+    } else {
+      alert("You have errors in your form");
     }
   };
 
