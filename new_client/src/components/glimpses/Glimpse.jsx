@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "react-image-gallery/styles/css/image-gallery.css";
-import ImageGallery from "react-image-gallery";
 import { Container, Grid } from "@material-ui/core";
 import IndividualGlimpse from "./IndividualGlimpse";
-import IndividualImageGalllery from "./IndividualImageGalllery";
 
 const Glimpse = () => {
-  const [counter, setCounter] = useState(0);
-  const [gPhotosURL, setGPhotosURL] = useState("");
   const [glimpses, setGlimpses] = useState([]);
 
   useEffect(() => {
@@ -19,13 +14,7 @@ const Glimpse = () => {
           process.env.REACT_APP_API + "/glimpses"
         );
         if (!shouldCancel && response.data && response.data.data.length > 0) {
-          setGlimpses(
-            // response.data.map((url) => ({
-            //   original: `${url}=w1024`,
-            //   thumbnail: `${url}=w100`,
-            // }))
-            response.data.data
-          );
+          setGlimpses(response.data.data);
         }
       } catch (e) {
         console.log(e.message);
@@ -35,8 +24,8 @@ const Glimpse = () => {
     call();
     return () => (shouldCancel = true);
   }, []);
-  // return images ? <>{console.log()}<ImageGallery items={images} /></> : <div>None</div>;
-  return counter === 0 ? (
+
+  return (
     <Container maxWidth="lg">
       <Grid container spacing={4}>
         {glimpses.map((glimpse) => (
@@ -45,15 +34,11 @@ const Glimpse = () => {
               imgSrc={glimpse.preview}
               title={glimpse.eventName}
               albumPath={glimpse.albumPath}
-              setCounter={setCounter}
-              setGPhotosURL={setGPhotosURL}
             />
           </Grid>
         ))}
       </Grid>
     </Container>
-  ) : (
-    <IndividualImageGalllery gPhotosUrl={gPhotosURL} />
   );
 };
 

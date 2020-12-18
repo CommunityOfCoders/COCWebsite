@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import cx from "clsx";
 import { useFourThreeCardMediaStyles } from "@mui-treasury/styles/cardMedia/fourThree";
 import { useOverShadowStyles } from "@mui-treasury/styles/shadow/over";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -25,18 +26,11 @@ const useStyles = makeStyles(() => ({
 export default function IndividualGlimpse({
   imgSrc,
   title,
-  setGPhotosURL,
-  setCounter,
   albumPath,
 }) {
   const styles = useStyles();
   const mediaStyles = useFourThreeCardMediaStyles();
   const shadowStyles = useOverShadowStyles({ inactive: true });
-
-  const handleClick = (e) => {
-    setGPhotosURL(albumPath);
-    setCounter(1);
-  };
 
   return (
     <Card className={cx(styles.root, shadowStyles.root)}>
@@ -50,9 +44,17 @@ export default function IndividualGlimpse({
         </Typography>
       </CardContent>
       <CardActions style={{ display: "flex", justifyContent: "flex-end" }}>
-        <Button size="small" color="primary" onClick={handleClick}>
-          View More
-        </Button>
+        <Link
+          to={{
+            pathname: `/glimpse/${title.replace(/\s/g, "_")}`,
+            state: { albumPath },
+          }}
+        >
+          {" "}
+          <Button size="small" color="primary">
+            View More
+          </Button>
+        </Link>
       </CardActions>
     </Card>
   );

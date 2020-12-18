@@ -3,8 +3,14 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from "react-image-gallery";
 import axios from "axios";
 
-export default function IndividualImageGalllery({ gPhotosUrl }) {
+export default function IndividualImageGalllery(props) {
   const [images, setImages] = useState([]);
+
+  const {
+    location: {
+      state: { albumPath },
+    },
+  } = props;
 
   useEffect(() => {
     let shouldCancel = false;
@@ -12,7 +18,7 @@ export default function IndividualImageGalllery({ gPhotosUrl }) {
       try {
         const response = await axios.post(
           process.env.REACT_APP_API + "/glimpses",
-          { gPhotosUrl }
+          { gPhotosUrl: albumPath }
         );
         if (!shouldCancel && response.data) {
           setImages(
@@ -31,5 +37,9 @@ export default function IndividualImageGalllery({ gPhotosUrl }) {
     return () => (shouldCancel = true);
   }, []);
 
-  return images.length > 0 ? <ImageGallery items={images} /> : <div>Please wait</div>;
+  return images.length > 0 ? (
+    <ImageGallery items={images} />
+  ) : (
+    <div>Please wait</div>
+  );
 }
