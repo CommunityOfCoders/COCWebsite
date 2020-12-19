@@ -1,8 +1,12 @@
-import { Container, Grid, Typography } from "@material-ui/core";
+import { Container, Grid, makeStyles, Typography } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
 import COC from "../Utilities/COC";
 import Title from "../Utilities/Title";
+import GenericCard from "./GenericCard";
+import Workshops from "./photo_11.jpg";
+import Discussions from "./photo_12.jpg";
+import Projects from "./Tips-for-Making-Side-Projects.png";
 
 export default function AboutUs() {
   return (
@@ -28,13 +32,16 @@ export default function AboutUs() {
         <Grid item xs={12}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={4} lg={4}>
-              Interactive Workshops
+              <GenericCard imgSrc={Workshops} title={"Interactive Workshops"} />
             </Grid>
             <Grid item xs={12} md={4} lg={4}>
-              Engaging Discussions
+              <GenericCard
+                imgSrc={Discussions}
+                title={"Engaging Discussions"}
+              />
             </Grid>
             <Grid item xs={12} md={4} lg={4}>
-              Project building
+              <GenericCard imgSrc={Projects} title={"Project building"} />
             </Grid>
           </Grid>
         </Grid>
