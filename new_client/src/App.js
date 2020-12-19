@@ -8,7 +8,7 @@ import configureStore from "./store/configureStore";
 import Header from "./components/Header";
 import Home from "./components/Home/home";
 import Footer from "./components/Footer";
-import About from "./components/pages/About";
+import AboutUs from "./components/about-us/AboutUs";
 import Glimpse from "./components/glimpses/Glimpse";
 import Event from "./components/events/Event";
 
@@ -32,7 +32,7 @@ function App() {
           <Header />
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route path="/about" component={About} />
+            <Route path="/about" component={AboutUs} />
             <Route exact path="/blogs" render={() => <Blogs />} />
             <Route path="/signin" component={Signin} />
             <Route exact path="/addblog" component={AddBlog} />
