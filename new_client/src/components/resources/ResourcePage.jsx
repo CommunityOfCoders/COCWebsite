@@ -100,7 +100,7 @@ const topics = [
     ],
   },
   {
-    name: "System Design",
+    name: "Introduction to Cloud",
     resources: [
       {
         name: "ABC",
@@ -170,7 +170,7 @@ const colors = [
 
 const responsiveFonts = responsiveFontSizes(createMuiTheme());
 
-export default function App() {
+export default function ResourcePage() {
   return (
     <ThemeProvider theme={responsiveFonts}>
       <Container maxWidth="md">
