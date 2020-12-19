@@ -80,7 +80,7 @@ module.exports = {
       return res.status(200).json({
         username: user.username,
         token: token,
-        userID: user._id
+        userID: user._id,
       });
     } catch (error) {
       return res.status(500).json({
@@ -106,16 +106,32 @@ module.exports = {
 
   async getUser(req, res) {
     try {
-      const { username } = req.body;
 
-      const user = await User.findOne({
-        username: username,
-      });
+      let userID = "";
+      let username = "";
+      if (!!req.body.userID) {
+        userID = req.body.userID;
+      }
+      if (!!req.body.username) {
+        username = req.body.username
+      }
+
+      let user;
+      if (!!userID) {
+        user = await User.findOne({
+          _id: userID,
+        });
+      } else {
+        user = await User.findOne({
+          username: username,
+        });
+      }
 
       user.password = null;
 
       res.status(200).json(user);
     } catch (e) {
+      console.log(e.message);
       res.status(400).json({
         error: e.message,
       });
