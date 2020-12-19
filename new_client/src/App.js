@@ -20,6 +20,8 @@ import Signin from "./components/auth/Signin.jsx";
 import Signup from "./components/auth/Signup.jsx";
 import NewHome from "./components/Home/Newhome";
 
+import ResourcePage from "./components/resources/ResourcePage";
+
 function App() {
   const store = configureStore();
   const history = createBrowserHistory();
@@ -41,6 +43,7 @@ function App() {
             <Route path="/glimpse" component={Glimpse} />
             <Route path="/newHome" component={NewHome} />
             <Route path="/events" component={Event} />
+            <Route path="/resources" component={ResourcePage} />
             {/* <Footer /> */}
           </Switch>
         </div>
