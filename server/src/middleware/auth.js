@@ -10,6 +10,7 @@ module.exports = {
                     const d = new Date();
                     if (decoded && Number(decoded.exp)*1000>d.getTime()) {
                         req['userID'] = decoded.user._id 
+                        req['user'] = decoded.user
                         next();
                     } else {
                         return res.status(401).json({error:"Token has expired"});
