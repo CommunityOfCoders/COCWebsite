@@ -19,6 +19,7 @@ import IndividualBlog from "./components/blogs/IndividualBlog";
 import Signin from "./components/auth/Signin.jsx";
 import Signup from "./components/auth/Signup.jsx";
 import NewHome from "./components/Home/Newhome";
+import IndividualImageGalllery from "./components/glimpses/IndividualImageGalllery";
 
 function App() {
   const store = configureStore();
@@ -38,6 +39,10 @@ function App() {
             <Route path="/blogs/:id" component={IndividualBlog} />
             <Route path="/blog/edit/:id" component={AddBlog} />
             <Route path="/signup" component={Signup} />
+            <Route
+              path="/glimpse/:header"
+              render={(prevProps) => <IndividualImageGalllery {...prevProps} />}
+            />
             <Route path="/glimpse" component={Glimpse} />
             <Route path="/newHome" component={NewHome} />
             <Route path="/events" component={Event} />
