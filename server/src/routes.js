@@ -2,7 +2,7 @@ const AuthController = require('./controllers/AuthController')
 const Events = require('./controllers/Events')
 const Blogs = require('./controllers/Blogs')
 const Register = require('./controllers/Register')
-const GlimpseController = require('./controllers/GLimpseController')
+const GlimpseController = require('./controllers/GlimpseController')
 const upload = require('./middleware/upload')
 const auth = require('./middleware/auth')
 const blog = require('./middleware/blog')
@@ -30,8 +30,14 @@ module.exports = (app) => {
 
     // Registration
     app.post('/api/reg-form', Register.regForm); // Incomplete controller
-    app.get('/api/glimpses',GlimpseController.getPhotos) // Incomplete controller
-
+    
+    // Glimpses
+    app.get('/api/glimpses', GlimpseController.getAllGlimpses);
+    app.get('/api/glimpses/:id', GlimpseController.getGlimpse);
+    app.post('/api/glimpses',GlimpseController.getPhotos);
+    app.post('/api/glimpses/new', event.isMember, GlimpseController.addGlimpse);
+    app.put('/api/glimpses/edit/:id', event.isMember, GlimpseController.editGlimpse);
+    app.delete('/api/glimpses/delete/:id', event.isMember, GlimpseController.deleteGlimpse);
 
     // Blogs
     app.get('/api/blogs', Blogs.allBlogs); // Tested
