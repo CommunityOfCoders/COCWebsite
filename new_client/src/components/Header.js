@@ -24,6 +24,9 @@ function Header({ isAuthenticated, logout }) {
         <Link to="/blogs">
           <i className="fa fa-fw fa-pencil"></i>BLOGS
         </Link>
+        <Link to="/projects">
+          <i className="fa fa-fw fa-desktop"></i>PROJECTS
+        </Link> 
         {isAuthenticated || localStorage.getItem("token") !== null ? (
           <Link to="/" onClick={() => logout()}>
             <i className="fa fa-fw fa-sign-in"></i> LOGOUT

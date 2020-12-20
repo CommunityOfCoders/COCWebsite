@@ -21,6 +21,8 @@ import NewHome from "./components/Home/Newhome";
 import AddEvent from "./components/events/AddEvent";
 import EventList from "./components/events/EventList";
 import IndividualImageGalllery from "./components/glimpses/IndividualImageGalllery";
+import Projects from './components/projects/Projects'
+import ProjectList from './components/projects/ProjectList'
 
 function App() {
   const store = configureStore();
@@ -49,6 +51,8 @@ function App() {
             <Route path="/events" component={EventList} />
             <Route path="/addevent" component={AddEvent} />
             <Route path="/event/edit/:id" component={AddEvent} />
+            <Route path="/projects/:category" component={ProjectList} /> 
+            <Route path="/projects" exact component={Projects} />
             {/* <Footer /> */}
           </Switch>
         </div>
