@@ -1,21 +1,45 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
+import "./Header.css";
+export default function Header(props) {
+	const [isDesktop, setisDesktop] = useState(window.innerWidth > 900);
 
-import './Header.css';
-export default function Header() {
-  return (
-    <div className="navbar">
-      <div className="navbar-right">
-        <Link to="/"><i className="fa fa-fw fa-home"></i> HOME</Link>
-        <Link to="/about"><i className="fa fa-fw fa-info"></i> ABOUT US</Link>
+	useEffect(() => {
+		console.log("Listener added");
+		window.addEventListener("resize", () => {
+			setisDesktop(window.innerWidth > 900);
+		});
+	}, []);
 
-        <Link to="/events"><i className="fa fa-fw fa-calendar"></i>EVENTS</Link>
-        <Link to="/glimpse"><i className="fa fa-fw fa-info"></i>GLIMPSES</Link>
-        <Link to="/blogs"><i className="fa fa-fw fa-pencil"></i>BLOGS</Link>
-        <Link to="/signup"><i className="fa fa-fw fa-sign-in"></i> SIGN UP</Link>
-
-      </div>
-    </div>
-  );
+	return (
+		<div className={isDesktop ? "navbar-custom-desk" : ""}>
+			<div className={isDesktop ? "nav-item-list-desk" : ""}>
+				<Link to="/" className={isDesktop ? "nav-item-desk" : ""}>
+					Home
+				</Link>
+				<Link to="/" className={isDesktop ? "nav-item-desk" : ""}>
+					About Us
+				</Link>
+				<Link to="/" className={isDesktop ? "nav-item-desk" : ""}>
+					Events
+				</Link>
+				<Link to="/" className={isDesktop ? "nav-item-desk" : ""}>
+					Glimpses
+				</Link>
+				<Link to="/" className={isDesktop ? "nav-item-desk" : ""}>
+					Blogs
+				</Link>
+				<Link to="/" className={isDesktop ? "nav-item-desk" : ""}>
+					Resources
+				</Link>
+				<Link to="/" className={isDesktop ? "nav-item-desk" : ""}>
+					Projects
+				</Link>
+				<Link to="/" className={isDesktop ? "nav-item-desk" : ""}>
+					{props.loggedIn ? "Logout" : "Login"}
+				</Link>
+			</div>
+		</div>
+	);
 }
