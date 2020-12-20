@@ -7,15 +7,20 @@ import GenericCard from "./GenericCard";
 import Workshops from "./photo_11.jpg";
 import Discussions from "./photo_12.jpg";
 import Projects from "./Tips-for-Making-Side-Projects.png";
+import C_WS from "./C_WS.jpg";
+import CP from "./CP.jpg";
+import Inheritance from "./Inheritance.jpg";
 
 export default function AboutUs() {
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" style={{ backgroundColor: "#eee" }}>
       <Grid container spacing={3}>
         <Grid item xs={0} md={4} lg={4} />
         <Grid item xs={12} md={8} lg={8}>
           <Typography variant="h2">
-            About <COC />{" "}
+            <u>
+              About <COC />{" "}
+            </u>
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -64,23 +69,24 @@ export default function AboutUs() {
           <span style={{ color: "#52B107" }}>C</span>ommunity Of{" "}
           <span style={{ color: "#52B107" }}>C</span>oders was founded in the
           year 2016, under the guidance of our veterans and the General
-          Secretaries at that time: _____________ . Since then, CoC is always
-          committed to conducting workshops, organizing events and holding
-          discussions solely aimed at improving our peers.
+          Secretaries at that time: <b>Ankitesh Gupta, Dharin Parekh</b> and{" "}
+          <b>Himanshu Maheshwari</b>. Since then, CoC is always committed to
+          conducting workshops, organizing events and holding discussions solely
+          aimed at improving our peers.
         </Grid>
         <Grid item xs={12}>
-          <Title>Some of our flagship events</Title>
+          <Title>Some of our flagship events are...</Title>
         </Grid>
         <Grid item xs={12}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={4} lg={4}>
-              Inheritance
+              <GenericCard imgSrc={Inheritance} title="Inheritance" />
             </Grid>
             <Grid item xs={12} md={4} lg={4}>
-              Competitive Programming Workshop
+              <GenericCard imgSrc={CP} title="CP Workshop" />
             </Grid>
             <Grid item xs={12} md={4} lg={4}>
-              C Workshop
+              <GenericCard imgSrc={C_WS} title="C Workshop" />
             </Grid>
             <Grid item xs={12}>
               To view more of our upcoming events, head over{" "}
@@ -89,8 +95,11 @@ export default function AboutUs() {
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          Sounds good? Want to be a part of us? Head over to register{" "}
-          <Link to="/signup">here</Link>
+          <Title>Sounds good?</Title>
+        </Grid>
+        <Grid item xs={12}>
+          Want to be a part of us? Head over to register{" "}
+          <Link to="/signup">here</Link>.
         </Grid>
       </Grid>
     </Container>
