@@ -15,8 +15,13 @@ import {
   Fab,
   makeStyles,
   Tooltip,
+  IconButton
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+import {green,red,grey} from '@material-ui/core/colors';
+
 import { format } from "date-fns";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
@@ -75,10 +80,11 @@ const Blogs = (props) => {
           label: "Yes",
           onClick: async () => {
             const res = await axios.delete(
-              process.env.REACT_APP_API + `/blogs/delete/${blogId}`, {
+              process.env.REACT_APP_API + `/blogs/delete/${blogId}`,
+              {
                 headers: {
-                  "Authorization": "Bearer " + props.token
-                }
+                  Authorization: "Bearer " + props.token,
+                },
               }
             );
             if (res.status === 204) {
@@ -132,49 +138,46 @@ const Blogs = (props) => {
           {posts.map((article) => (
             <Grid item xs={6} key={article._id}>
               <Card>
-                <CardHeader title={article.blogTitle} />{" "}
+                <CardHeader
+                  title={article.blogTitle}
+                  action={
+                    handleVisibility(article.authorID) && (
+                      <React.Fragment>
+                        <Link to={`blog/edit/${article._id}`}>
+                          <IconButton>
+                            <EditOutlinedIcon style={{ color: green[500] }} />
+                          </IconButton>
+                        </Link>
+                        <IconButton onClick={() => handleDelete(article._id)}>
+                          <DeleteOutlinedIcon
+                            variant
+                            style={{ color: red[400] }}
+                          />
+                        </IconButton>
+                      </React.Fragment>
+                    )
+                  }
+                  subheader={`by ${article.author}`}
+                />
                 <CardContent>
                   <Typography>
-                    {" "}
                     <p>
-                      {format(new Date(article.date), "dd/MM/yyyy HH:mm:ss a")}
+                      Date - {format(new Date(article.date), "do MMMM, yyyy")}
                     </p>{" "}
-                    <p>Written by : {article.author}</p>
+                    {/* <p>Written by : {article.author}</p> */}
                     <p>
-                      Estimated reading time:{" "}
+                      Estimated reading time - {" "}
                       {calculateReadingTime(article.blogContent)}
                     </p>
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Grid container spacing={4} justify="space-between">
+                  <Grid container spacing={4} justify="flex-end">
                     <Grid item xs={spanSize}>
                       <Button color="primary">
                         <Link to={`blogs/${article._id}`}>Read More</Link>
                       </Button>
                     </Grid>
-                    {handleVisibility(article.authorID) && (
-                      <>
-                        <Grid item xs={spanSize}>
-                          <Button>
-                            <Link
-                              to={`blog/edit/${article._id}`}
-                              className="btn-outline-success"
-                            >
-                              Edit Blog
-                            </Link>
-                          </Button>
-                        </Grid>
-                        <Grid item xs={spanSize}>
-                          <Button
-                            className="btn-outline-danger"
-                            onClick={() => handleDelete(article._id)}
-                          >
-                            Delete Blog
-                          </Button>
-                        </Grid>
-                      </>
-                    )}
                   </Grid>
                 </CardActions>
               </Card>
@@ -199,7 +202,7 @@ const Blogs = (props) => {
       />
     </div>
   );
-};
+}
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
