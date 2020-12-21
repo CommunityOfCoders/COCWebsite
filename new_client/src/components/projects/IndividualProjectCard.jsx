@@ -6,10 +6,6 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import cx from "clsx";
-import { useFourThreeCardMediaStyles } from "@mui-treasury/styles/cardMedia/fourThree";
-import { useOverShadowStyles } from "@mui-treasury/styles/shadow/over";
-import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -36,9 +32,7 @@ export default function IndividualProjectCard({
   linkToRepo
 }) {
   const classes = useStyles();
-  const mediaStyles = useFourThreeCardMediaStyles();
-  const shadowStyles = useOverShadowStyles({ inactive: true });
-
+  
   return (
     <Card className={classes.root} variant="outlined">
       <CardContent>
