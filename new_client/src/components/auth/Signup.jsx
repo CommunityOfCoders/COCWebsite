@@ -4,11 +4,12 @@ import { Link } from "react-router-dom"
 import { connect } from "react-redux";
 import { register } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
+import Spinner from "../spinner/Spinner";
 import "./Error.css";
 
 function Signup(props) {
 
-	const { isAuthenticated, error, register, clearErrors, history } = props;
+	const { isAuthenticated, error, register, clearErrors, history, isLoading } = props;
 
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
@@ -209,13 +210,16 @@ function Signup(props) {
 
 					<Grid item xs={12}>
 						<div>
-							<Button
-								variant="contained"
-								color="secondary"
-								onClick={handleClick}
-							>
-								Submit
-              </Button>
+							{isLoading ? ( 
+								<Spinner /> 
+							) : ( 
+								<Button
+									variant="contained"
+									color="secondary"
+									onClick={handleClick}>
+									Submit
+								</Button>
+							)}
 						</div>
 					</Grid>
 
@@ -233,7 +237,8 @@ function Signup(props) {
 
 const mapStateToProps = (state) => ({
 	isAuthenticated: state.auth.isAuthenticated,
-	error: state.error
+	error: state.error,
+	isLoading: state.auth.isLoading
 });
 
 export default connect(mapStateToProps, { register, clearErrors })(Signup);
