@@ -204,7 +204,7 @@ const Blogs = props => {
 		<div className={classes.root}>
 			<Container maxWidth='md'>
 				<Grid container spacing={3}>
-					{}
+					{blogComponent}
 					{addBlogFab}
 				</Grid>
 			</Container>
