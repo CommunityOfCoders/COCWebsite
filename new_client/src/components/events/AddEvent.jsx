@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Spinner from '../spinner/Spinner';
 import axios from 'axios';
 
 import '../auth/Error.css';
@@ -19,7 +20,8 @@ class AddEvent extends Component {
       dateError: '',
       venueError: '',
       graduationYearError: null
-    }
+    },
+    isLoading: false,
   };
 
   onFileChange = (e) => {
@@ -67,7 +69,7 @@ class AddEvent extends Component {
     return ret;
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     if (this.isValid()) {
       const formData = new FormData();
       if (this.state.event.selectedFile) {
@@ -89,37 +91,36 @@ class AddEvent extends Component {
       formData.append('date', date);
       formData.append('venue', venue);
       formData.append('graduationYear', graduationYear);
+      this.setState({ isLoading: true });
       if (this.props.isUpdating) {
         const updatingEventId = this.props.updatingEvent._id;
-        axios
-          .put(
+        try {
+            await axios.put(
             process.env.REACT_APP_API + `/events/${updatingEventId}`,
             formData
-          )
-          .then((res) => {
-            console.log(res.data, this.props.updatingEvent);
-          })
-          .catch((err) => {
-            alert(`A server error occured while processing the data. Please try again later`);
-            console.log(err);
-          });
+          );
+        } catch(err) {
+          alert(`A server error occured while processing the data. Please try again later`);
+          console.log(err);
+        }
       } else {
-        axios
-          .post(process.env.REACT_APP_API + '/events', formData)
-          .then((res) => {
-            console.log(res.data);
-          })
-          .catch((err) => {
-            alert(`A server error occured while processing the data. Please try again later`);
-            console.log(err);
-          });
+        try {
+          await axios.post(process.env.REACT_APP_API + '/events', formData)
+        } catch(err) {
+          alert(`A server error occured while processing the data. Please try again later`);
+          console.log(err);
+        }
       }
+      this.setState({ isLoading: false })
     } else {
       event.preventDefault();
     }
   };
 
   renderSubmitButton() {
+    if(this.state.isLoading) {
+      return <Spinner />
+    }
     if (this.props.isUpdating) {
       return (
         <button type="submit" className="btn btn-primary">

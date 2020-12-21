@@ -2,12 +2,14 @@ import axios from 'axios';
 import React, { Component } from 'react';
 import AddEvent from './AddEvent';
 import EventList from './EventList';
+import Spinner from '../spinner/Spinner';
 
 class Event extends Component {
   state = {
     events: [],
     isUpdating: false,
-    updatingEvent: null
+    updatingEvent: null,
+    isLoading: true,
   };
 
   handleEdit = (eventId) => {
@@ -23,8 +25,9 @@ class Event extends Component {
     });
   };
 
-  handleDelete = (eventId) => {
-    axios.delete(process.env.REACT_APP_API + `/events/${eventId}`);
+  handleDelete = async (eventId) => {
+    this.setState({ isLoading: true });
+    await axios.delete(process.env.REACT_APP_API + `/events/${eventId}`);
     const deletedEventIndex = this.state.events.findIndex(
       (event) => event._id === eventId
     );
@@ -37,7 +40,7 @@ class Event extends Component {
     }
     const events = [...this.state.events];
     events.splice(deletedEventIndex, 1);
-    this.setState({ events: events });
+    this.setState({ events: events, isLoading: false });
   };
 
   componentDidMount() {
@@ -60,7 +63,7 @@ class Event extends Component {
                   }
                 }
               }
-              this.setState({ events: events });
+              this.setState({ events: events, isLoading: false });
             }
           })
           .catch((err) => {
@@ -72,18 +75,22 @@ class Event extends Component {
 
   render() {
     return (
-      <div>
-        <EventList
-          events={this.state.events}
-          isUpdating={this.state.isUpdating}
-          handleEdit={this.handleEdit}
-          handleDelete={this.handleDelete}
-        />
+      <>
+        {this.state.isLoading ? (
+					<Spinner />
+				) : (
+					<EventList
+						events={this.state.events}
+						isUpdating={this.state.isUpdating}
+						handleEdit={this.handleEdit}
+						handleDelete={this.handleDelete}
+					/>
+				)}
         <AddEvent
           isUpdating={this.state.isUpdating}
           updatingEvent={this.state.updatingEvent}
         />
-      </div>
+      </>
     );
   }
 }
