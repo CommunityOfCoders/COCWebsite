@@ -3,6 +3,7 @@ const Events = require('./controllers/Events')
 const Blogs = require('./controllers/Blogs')
 const Register = require('./controllers/Register')
 const GlimpseController = require('./controllers/GlimpseController')
+const ProjectController = require('./controllers/Projects')
 const upload = require('./middleware/upload')
 const auth = require('./middleware/auth')
 const blog = require('./middleware/blog')
@@ -45,4 +46,8 @@ module.exports = (app) => {
     app.post('/api/blogs/new', auth.loginRequired, Blogs.uploadBlog); // Tested
     app.put('/api/blogs/edit/:id', auth.loginRequired, blog.isBlogWritten, Blogs.editBlogById); // Tested
     app.delete('/api/blogs/delete/:id', auth.loginRequired, blog.isBlogWritten, Blogs.deleteBlogById); // Tested
+
+    //Projects
+    app.get('/api/projects', ProjectController.getDomains);
+    app.get('/api/projects/:domain', ProjectController.getProjectsByDomain);
 }

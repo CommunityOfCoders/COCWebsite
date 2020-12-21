@@ -16,6 +16,18 @@ const Projects = () => {
             url: 'https://www.elegantthemes.com/blog/wp-content/uploads/2018/12/top11.png',
             title: 'Web development',
             descr: 'Browse through a variety of projects from the widest domain: web dev.'
+        },
+        {
+            id: 3,
+            url: 'https://www.elegantthemes.com/blog/wp-content/uploads/2018/12/top11.png',
+            title: 'Machine learning',
+            descr: 'Browse through a variety of projects from the machine learning.'
+        },
+        {
+            id: 4,
+            url: 'https://www.elegantthemes.com/blog/wp-content/uploads/2018/12/top11.png',
+            title: 'All',
+            descr: 'View all projects'
         }
     ]
 
@@ -26,7 +38,7 @@ const Projects = () => {
         <Typography align="center" variant="h4" gutterBottom="true"> Project Categories </Typography>
         </Grid>
         {projectGroups.map((group) => (
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={4}>
                 <ProjectGroup 
                     imageURL={group.url}
                     title={group.title}

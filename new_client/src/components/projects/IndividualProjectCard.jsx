@@ -45,6 +45,9 @@ export default function IndividualProjectCard({
       <Typography variant="h5" component="h2" align='center'>
           {title}
       </Typography>
+      <Typography variant="subtitle" component="h5" align='center'>
+          {domain}
+      </Typography>
       {imgSrc.length ? 
           (
           <React.Fragment>
