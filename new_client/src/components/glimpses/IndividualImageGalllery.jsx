@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from "react-image-gallery";
 import axios from "axios";
+import Spinner from '../spinner/Spinner';
 
 export default function IndividualImageGalllery(props) {
   const [images, setImages] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const {
     location: {
@@ -27,19 +29,26 @@ export default function IndividualImageGalllery(props) {
               thumbnail: `${url}=w100`,
             }))
           );
+          setIsLoading(false);
         }
       } catch (e) {
         console.log(e.message);
         setImages([]);
+        setIsLoading(false);
       }
     };
     call();
     return () => (shouldCancel = true);
   }, []);
 
-  return images.length > 0 ? (
-    <ImageGallery items={images} />
-  ) : (
-    <div>Please wait</div>
+  return (
+    <React.Fragment>
+      <Spinner />
+			{images.length > 0 ? (
+				<ImageGallery items={images} />
+			) : (
+				<div>Please wait</div>
+			)}
+		</React.Fragment>
   );
 }
