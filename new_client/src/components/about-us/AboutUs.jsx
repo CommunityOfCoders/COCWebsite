@@ -13,15 +13,26 @@ import Inheritance from "./Inheritance.jpg";
 
 export default function AboutUs() {
   return (
-    <Container maxWidth="lg" style={{ backgroundColor: "#eee" }}>
+    <Container
+      maxWidth="lg"
+      style={{ backgroundColor: "#eee", padding: "0 30px", margin: "0 5px" }}
+    >
       <Grid container spacing={3}>
         <Grid item xs={0} md={4} lg={4} />
         <Grid item xs={12} md={8} lg={8}>
           <Typography variant="h2">
-            <u>
-              About <COC />{" "}
-            </u>
+            <u>About Us </u>
           </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Title>Who are we?</Title>
+        </Grid>
+        <Grid item xs={12}>
+          We are a bunch of individuals, who have been passed down the baton
+          from our seniors. We received similar guidance from our seniors, and
+          we decided that it is upon us to teach our juniors as well, so that
+          when they go out in the broader, bigger scheme of things, they are
+          prepared.
         </Grid>
         <Grid item xs={12}>
           <Title>What do we do?</Title>
@@ -49,16 +60,6 @@ export default function AboutUs() {
               <GenericCard imgSrc={Projects} title={"Project building"} />
             </Grid>
           </Grid>
-        </Grid>
-        <Grid item xs={12}>
-          <Title>Who are we?</Title>
-        </Grid>
-        <Grid item xs={12}>
-          We are a bunch of individuals, who have been passed down the baton
-          from our seniors. We received similar guidance from our seniors, and
-          we decided that it is upon us to teach our juniors as well, so that
-          when they go out in the broader, bigger scheme of things, they are
-          prepared.
         </Grid>
         <Grid item xs={12}>
           <Title>
@@ -95,7 +96,7 @@ export default function AboutUs() {
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <Title>Sounds good?</Title>
+          <Typography variant="h4">Sounds good?</Typography>
         </Grid>
         <Grid item xs={12}>
           Want to be a part of us? Head over to register{" "}
