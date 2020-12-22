@@ -60,3 +60,60 @@
 		font-size: 1rem;
 	}
 }
+
+.nav-burg-desk {
+	display: none;
+}
+
+.navbar-custom-mob {
+	position: fixed;
+	z-index: 100;
+}
+.nav-burg-mob {
+	z-index: 100;
+	position: fixed;
+	width: max-content;
+	color: white;
+	height: 10vh;
+	top: 0px;
+	right: 0px;
+	font-size: 2rem;
+}
+.nav-burg-mob i {
+	margin: 20px;
+}
+.nav-item-list-mob {
+	position: fixed;
+	right: 5px;
+	top: 50px;
+
+	margin-top: 5px;
+	width: 50%;
+
+	display: flex;
+	padding: 1.5em 1em;
+	flex-direction: column;
+	/* align-items: center; */
+	background-color: rgba(0, 0, 0, 0.719);
+	backdrop-filter: blur(7px);
+	border-radius: 20px;
+	height: max-content;
+
+	transition: transform 0.7s cubic-bezier(0.13, 0.64, 0.46, 1.17);
+}
+.nav-mob-open {
+	transform: translateX(0%);
+}
+.nav-mob-close {
+	transform: translateX(105%);
+}
+.nav-item-mob {
+	font-size: 1.3rem;
+	color: white;
+	padding: 1rem 0;
+}
+
+.nav-item-mob:hover {
+	color: white;
+	text-decoration: none;
+}
