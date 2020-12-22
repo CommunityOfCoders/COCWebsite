@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "react-image-gallery/styles/css/image-gallery.css";
 import ImageGallery from "react-image-gallery";
 import axios from "axios";
-import Spinner from '../spinner/Spinner';
+import Spinner from "../spinner/Spinner";
 
 export default function IndividualImageGalllery(props) {
   const [images, setImages] = useState([]);
@@ -43,12 +43,7 @@ export default function IndividualImageGalllery(props) {
 
   return (
     <React.Fragment>
-      <Spinner />
-			{images.length > 0 ? (
-				<ImageGallery items={images} />
-			) : (
-				<div>Please wait</div>
-			)}
-		</React.Fragment>
+      {images.length > 0 ? <ImageGallery items={images} /> : <Spinner />}
+    </React.Fragment>
   );
 }
