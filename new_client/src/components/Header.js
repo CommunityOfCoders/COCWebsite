@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import "./Header.css";
 export default function Header(props) {
-	const [isDesktop, setisDesktop] = useState(window.innerWidth > 900);
+	const [isDesktop, setisDesktop] = useState(window.innerWidth > 1080);
 	const [navOpen, setnavOpen] = useState(false);
 	useEffect(() => {
 		function navToggle() {
@@ -12,7 +12,7 @@ export default function Header(props) {
 			});
 		}
 		window.addEventListener("resize", () => {
-			setisDesktop(window.innerWidth > 900);
+			setisDesktop(window.innerWidth > 1080);
 		});
 		document.getElementById("nav-toggler").addEventListener("click", navToggle);
 	}, []);
@@ -31,38 +31,64 @@ export default function Header(props) {
 					(navOpen ? " nav-mob-open" : " nav-mob-close")
 				}
 			>
-				<Link to="/" className={isDesktop ? "nav-item-desk" : "nav-item-mob"}>
-					<div className="nav-item-cont-wrapper">Home</div>
+				<Link
+					to="/"
+					className={
+						(isDesktop ? "nav-item-desk" : "nav-item-mob") + " curr-page"
+					}
+				>
+					<div className="nav-item-cont-wrapper">
+						Home
+						<i class="fa fa-home" aria-hidden="true"></i>
+					</div>
 				</Link>
 				<Link
 					to="/about"
 					className={isDesktop ? "nav-item-desk" : "nav-item-mob"}
 				>
-					<div className="nav-item-cont-wrapper">About Us</div>
+					<div className="nav-item-cont-wrapper">
+						About Us
+						<i class="fa fa-info-circle" aria-hidden="true"></i>
+					</div>
 				</Link>
 				<Link
 					to="/events"
 					className={isDesktop ? "nav-item-desk" : "nav-item-mob"}
 				>
-					<div className="nav-item-cont-wrapper">Events</div>
+					<div className="nav-item-cont-wrapper">
+						Events
+						<i class="fa fa-calendar" aria-hidden="true"></i>
+					</div>
 				</Link>
 				<Link
 					to="/glimpse"
 					className={isDesktop ? "nav-item-desk" : "nav-item-mob"}
 				>
-					<div className="nav-item-cont-wrapper">Glimpses</div>
+					<div className="nav-item-cont-wrapper">
+						Glimpses
+						<i class="fa fa-eye" aria-hidden="true"></i>
+					</div>
 				</Link>
 				<Link
 					to="/blogs"
 					className={isDesktop ? "nav-item-desk" : "nav-item-mob"}
 				>
-					<div className="nav-item-cont-wrapper">Blogs</div>
+					<div className="nav-item-cont-wrapper">
+						Blogs
+						<i class="fa fa-pencil" aria-hidden="true"></i>
+					</div>
 				</Link>
 				<Link to="/" className={isDesktop ? "nav-item-desk" : "nav-item-mob"}>
-					<div className="nav-item-cont-wrapper">Resources</div>
+					<div className="nav-item-cont-wrapper">
+						Resources
+						<i class="fa fa-cog" aria-hidden="true"></i>
+					</div>
 				</Link>
 				<Link to="/" className={isDesktop ? "nav-item-desk" : "nav-item-mob"}>
-					<div className="nav-item-cont-wrapper">Projects</div>
+					<div className="nav-item-cont-wrapper">
+						Projects
+						<i class="fa fa-code" aria-hidden="true"></i>
+					</div>
 				</Link>
 				<Link
 					to="/signin"
@@ -70,6 +96,7 @@ export default function Header(props) {
 				>
 					<div className="nav-item-cont-wrapper">
 						{props.loggedIn ? "Logout" : "Login"}
+						<i class="fa fa-sign-in" aria-hidden="true"></i>
 					</div>
 				</Link>
 			</div>
