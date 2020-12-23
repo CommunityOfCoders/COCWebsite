@@ -16,24 +16,38 @@
 
 	display: flex;
 	align-items: center;
-	justify-content: space-evenly;
+	justify-content: center;
 	animation: navappear 0.8s forwards;
 }
 .nav-item-desk {
 	color: rgb(255, 255, 255);
 	font-family: sans-serif;
 	font-size: 1.2rem;
-	padding: 1em;
+
+	padding: 0.5em 1em;
+	margin: 0.5em 0;
 	text-decoration: none;
-	text-align: center;
-	transition: transform 0.2s;
-	clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
-	animation: navitemsappear 1.5s 0.8s forwards;
+
+	border-right: 1px solid rgba(255, 255, 255, 0.233);
+
 	/* font-weight: 300; */
 }
+.nav-item-cont-wrapper {
+	transition: transform 0.3s;
+	clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+	animation: navitemsappear 1s 0.8s forwards;
+}
+
+.nav-item-desk:last-of-type {
+	border-right: none;
+}
 .nav-item-desk:hover {
-	color: rgb(255, 255, 255);
+	color: white;
 	text-decoration: none;
+}
+.nav-item-desk:hover .nav-item-cont-wrapper {
+	/* color: rgb(255, 255, 255);
+	text-decoration: none; */
 	transform: translateY(5px);
 }
 @keyframes navappear {

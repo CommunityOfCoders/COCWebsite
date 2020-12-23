@@ -32,28 +32,45 @@ export default function Header(props) {
 				}
 			>
 				<Link to="/" className={isDesktop ? "nav-item-desk" : "nav-item-mob"}>
-					Home
+					<div className="nav-item-cont-wrapper">Home</div>
+				</Link>
+				<Link
+					to="/about"
+					className={isDesktop ? "nav-item-desk" : "nav-item-mob"}
+				>
+					<div className="nav-item-cont-wrapper">About Us</div>
+				</Link>
+				<Link
+					to="/events"
+					className={isDesktop ? "nav-item-desk" : "nav-item-mob"}
+				>
+					<div className="nav-item-cont-wrapper">Events</div>
+				</Link>
+				<Link
+					to="/glimpse"
+					className={isDesktop ? "nav-item-desk" : "nav-item-mob"}
+				>
+					<div className="nav-item-cont-wrapper">Glimpses</div>
+				</Link>
+				<Link
+					to="/blogs"
+					className={isDesktop ? "nav-item-desk" : "nav-item-mob"}
+				>
+					<div className="nav-item-cont-wrapper">Blogs</div>
 				</Link>
 				<Link to="/" className={isDesktop ? "nav-item-desk" : "nav-item-mob"}>
-					About Us
+					<div className="nav-item-cont-wrapper">Resources</div>
 				</Link>
 				<Link to="/" className={isDesktop ? "nav-item-desk" : "nav-item-mob"}>
-					Events
+					<div className="nav-item-cont-wrapper">Projects</div>
 				</Link>
-				<Link to="/" className={isDesktop ? "nav-item-desk" : "nav-item-mob"}>
-					Glimpses
-				</Link>
-				<Link to="/" className={isDesktop ? "nav-item-desk" : "nav-item-mob"}>
-					Blogs
-				</Link>
-				<Link to="/" className={isDesktop ? "nav-item-desk" : "nav-item-mob"}>
-					Resources
-				</Link>
-				<Link to="/" className={isDesktop ? "nav-item-desk" : "nav-item-mob"}>
-					Projects
-				</Link>
-				<Link to="/" className={isDesktop ? "nav-item-desk" : "nav-item-mob"}>
-					{props.loggedIn ? "Logout" : "Login"}
+				<Link
+					to="/signin"
+					className={isDesktop ? "nav-item-desk" : "nav-item-mob"}
+				>
+					<div className="nav-item-cont-wrapper">
+						{props.loggedIn ? "Logout" : "Login"}
+					</div>
 				</Link>
 			</div>
 		</div>
