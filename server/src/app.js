@@ -4,6 +4,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const routes = require("./routes");
 const config = require("./config");
+const path = require("path");
 const dbconnect = require("./config/dbconnect");
 
 const app = express();
@@ -19,11 +20,11 @@ routes(app);
 
 dbconnect();
 
-app.use(express.static("new_client/build"));
+app.use(express.static(path.join(__dirname, "../../new_client/build")));
 
-// app.get("/*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "new_client/build/index.html"));
-// });
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../../new_client/build/index.html"));
+});
 
 let port = config.port;
 if (process.env.NODE_ENV === "test") port = 8001;
