@@ -140,7 +140,7 @@ const Blogs = props => {
 
 	if (!isLoading) {
 		blogComponent = posts.map(article => (
-			<Grid item xs={6} key={article._id}>
+			<Grid item xs={12} key={article._id}>
 				<Card>
 					<CardHeader
 						title={article.blogTitle}

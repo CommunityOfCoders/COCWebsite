@@ -104,7 +104,7 @@ function AddBlog(props) {
         })
         .catch((err) => console.log(err));
     }
-  });
+  }, [isEditPage, props.username]);
 
   useEffect(() => {
     if (isEditPage) {
@@ -119,7 +119,7 @@ function AddBlog(props) {
         })
         .catch((err) => console.log(err.toString()));
     }
-  }, [id]);
+  }, [id, isEditPage]);
 
   return (
     <Container maxWidth="md" style={{ backgroundColor: "white" }}>
