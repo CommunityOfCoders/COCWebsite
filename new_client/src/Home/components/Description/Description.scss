@@ -1,0 +1,213 @@
+// Description section of the homepage.
+// h2 font sizes match the h1 font sizes for the homepage only!
+
+section.Description {
+  margin: 0 auto;
+
+  // Mobile styles
+  p {
+    font-family: var(--font-family-text);
+  }
+
+  h2 {
+    font-family: var(--font-family-heading);
+    font-size: 2.25rem;
+  }
+
+  .description-top {
+    margin: 0 auto;
+    padding: 2.5rem var(--content-side-padding-value) 0;
+
+    .description-heading {
+      margin-bottom: 1rem;
+      font-size: 2.5rem;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .description-opening-paragraph {
+      margin: 0 auto;
+      font-size: var(--font-size-p);
+      text-align: center;
+    }
+
+    .description-image {
+      display: block;
+      margin: 2rem auto;
+      height: auto;
+      width: 100%;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+    }
+
+    .description-mission {
+      margin: 4rem auto;
+      text-align: center;
+
+      .description-mission-heading {
+        font-family: 'Raleway', sans-serif;
+        font-weight: bold;
+        font-size: 2.275rem;
+      }
+
+      .MissionContent {
+        font-size: 1.3rem;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .description-main {
+    padding: 0 8vw;
+
+    p {
+      margin: 1rem auto;
+      font-size: var(--font-size-p);
+    }
+  }
+
+  @media screen and (orientation: landscape) {
+    h2 {
+      font-size: 2.5rem;
+    }
+  }
+
+  // 370px (larger phones)
+  @media screen and (min-width: 23.125rem) {
+    h2 {
+      font-size: 2.5rem;
+    }
+
+    .description-top {
+      .description-mission {
+        .description-mission-heading {
+          font-size: 2.625rem;
+        }
+
+        .MissionContent {
+          font-size: 1.5rem;
+        }
+      }
+    }
+
+    @media screen and (orientation: landscape) {
+      .description-top {
+        .description-mission {
+          .description-mission-heading {
+            font-size: 2.3625rem;
+          }
+
+          .MissionContent {
+            font-size: 1.35rem;
+          }
+        }
+      }
+    }
+  }
+
+  // Desktop, Tablet, and Horizontal Phone styles
+
+  // 700px/43.75rem and above (Vertical tablets and large horizontal phones)
+  @media screen and (min-width: 43.75rem) {
+    // Portrait phones
+    .description-top {
+      padding: 4rem 6.25vw 0;
+
+      // Padding for landscape iPhones with notch
+      @supports (padding: max(0px)) {
+        @media screen and (orientation: landscape) {
+          padding-left: max(6.25vw, calc(env(safe-area-inset-left)));
+          padding-right: max(6.25vw, calc(env(safe-area-inset-right)));
+        }
+      }
+
+      .description-heading {
+        font-weight: 400;
+      }
+
+      .description-image {
+        border-radius: 15px;
+      }
+    }
+
+    .description-main {
+      padding: 0 10vw;
+
+      // Padding for landscape iPhones with notch
+      @supports (padding: max(0px)) {
+        @media screen and (orientation: landscape) {
+          padding-left: max(10vw, calc(env(safe-area-inset-left) + 10vw));
+          padding-right: max(10vw, calc(env(safe-area-inset-right) + 10vw));
+        }
+      }
+    }
+
+    // Landscape phones
+    @media screen and (orientation: landscape) {
+      .description-top {
+        .description-image-container {
+          padding-left: env(safe-area-inset-left);
+          padding-right: env(safe-area-inset-right);
+        }
+
+        .description-mission {
+          .description-mission-heading {
+            font-size: 2.5375rem;
+          }
+
+          .MissionContent {
+            font-size: 1.45rem;
+          }
+        }
+      }
+    }
+  }
+
+  // 768px
+  @media screen and (min-width: 48rem) {
+    .description-top {
+      .description-mission {
+        .description-mission-heading {
+          font-size: 2.8rem;
+        }
+
+        .MissionContent {
+          font-size: 1.6rem;
+        }
+      }
+    }
+  }
+
+  // 1024px (horizontal tablets)
+  @media screen and (min-width: 64rem) {
+    .description-top {
+      padding: 4rem 0 0;
+
+      .description-image {
+        max-width: 52rem;
+      }
+
+      .description-mission {
+        // Increase the font size slightly
+        .description-mission-heading {
+          font-size: 2.975rem;
+        }
+
+        .MissionContent {
+          font-size: 1.7rem;
+        }
+      }
+    }
+
+    .description-main p {
+      padding: 0;
+      max-width: 42rem;
+    }
+  }
+
+  // 1366px (medium laptops)
+  // Increase margin on top and set max width for all larger resolutions
+  @media screen and (min-width: 85.375rem) {
+    max-width: var(--large-screen-max-width);
+  }
+}
