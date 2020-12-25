@@ -18,7 +18,8 @@ const domain = new mongoose.Schema({
           type: mongoose.Schema.Types.ObjectId,
           ref: 'project'
         }],
-        required: true
+        required: false,
+        default: []
     }
 });
 

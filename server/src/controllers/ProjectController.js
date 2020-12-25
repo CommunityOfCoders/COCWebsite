@@ -5,7 +5,7 @@ const Project = require('../models/Project.js');
 module.exports = {
   async allProjects(_req,res){
     try{
-      let projects = await Project.find().populate({
+      const projects = await Project.find().populate({
         path: 'domains',
         select: ['_id', 'domainName']
       }).exec();
@@ -16,7 +16,7 @@ module.exports = {
   },
   async viewProjectsByDomain(req,res){
     try{
-      let domain = await Domain.findById(req.params.id).populate({
+      const domain = await Domain.findById(req.params.id).populate({
         path: 'projects',
         populate: {
           path: 'domains',
@@ -34,7 +34,7 @@ module.exports = {
   },
   async viewProjectById(req,res){
     try{
-      let project = await Project.findById(req.params.id).populate({
+      const project = await Project.findById(req.params.id).populate({
         path: 'domains',
         select: ['_id', 'domainName']
       }).exec();
@@ -50,13 +50,13 @@ module.exports = {
   async createProject(req,res){
     try{
       // assumes that domain of the project already exists
-      let project = await Project.create(req.body);
+      const project = await Project.create(req.body);
       for(const domainId of project.domains){
         let domain = await Domain.findById(domainId);
         domain.projects.push(project._id);
         await domain.save();
       }
-      res.status(200).json({ id: project._id });
+      res.status(201).json({ id: project._id });
     }catch(e){
       res.status(500).json({ error: e.message });
     }
@@ -64,8 +64,8 @@ module.exports = {
   async deleteProjectById(req,res){
     try{
       const projectId = req.params.id;
-      let project = await Project.findById(projectId);
-      let domains = project.domains;
+      const project = await Project.findById(projectId);
+      const domains = project.domains;
       for(const domainId of domains){
         let domain = await Domain.findById(domainId);
         domain.projects = domain.projects.filter((id) => {

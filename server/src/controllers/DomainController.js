@@ -3,7 +3,7 @@ const Domain = require('../models/Domain.js');
 module.exports = {
   async allDomains(_req,res){
     try{
-      let domains = await Domain.find();
+      const domains = await Domain.find();
       res.status(200).json({ domains });
     } catch(e){
       res.status(500).json({ error: e.message });
@@ -11,7 +11,7 @@ module.exports = {
   },
   async viewDomainById(req,res){
     try{
-      let domain = await Domain.findById(req.params.id);
+      const domain = await Domain.findById(req.params.id);
       if(domain){
         res.status(200).json(domain);
       }else{
@@ -23,15 +23,15 @@ module.exports = {
   },
   async createDomain(req,res){
     try{
-      let domain = await Domain.create(req.body);
-      res.status(200).json({ id: domain._id });
+      const domain = await Domain.create(req.body);
+      res.status(201).json({ id: domain._id });
     }catch(e){
       res.status(500).json({ error: e.message });
     }
   },
   async editDomainById(req,res){
     try{
-      let domain = await Domain.findByIdAndUpdate(req.params.id, req.body,{
+      const domain = await Domain.findByIdAndUpdate(req.params.id, req.body,{
         new: true
       });
       res.status(200).json(domain);
@@ -40,7 +40,7 @@ module.exports = {
     }
   },
   async deleteDomainById(req,res){
-    let domain = await Domain.findByIdAndRemove(req.params.id);
+    await Domain.findByIdAndRemove(req.params.id);
     res.status(204).json({});
   }
 }
