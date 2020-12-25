@@ -8,6 +8,7 @@ import axios from "axios";
 import AddIcon from "@material-ui/icons/Add";
 import AlertUtility from "../Utilities/Alert";
 import IndividualEvent from "./IndividualEvent";
+import Spinner from "../spinner/Spinner";
 
 const EventList = (props) => {
   const [isMember, setIsMember] = useState(false);
@@ -24,7 +25,7 @@ const EventList = (props) => {
         setEvents(res.data.sort((a, b) => new Date(b.date) - new Date(a.date)));
         setIsLoading(false);
       })
-      .catch((error) => { 
+      .catch((error) => {
         console.log(error);
         setIsLoading(false);
       });
