@@ -3,16 +3,18 @@ import {
   CardContent,
   CardMedia,
   makeStyles,
+  Tooltip,
   Typography,
 } from "@material-ui/core";
 import React from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
-  },
-  media: {
-    height: 260,
+    margin: "0 auto 1.25rem",
+    height: "auto",
+    width: "90%",
+    boxShadow: "0 0 25px rgba(0,0,0,.3)",
+    borderRadius: "10px",
   },
 }));
 
@@ -20,13 +22,8 @@ export default function GenericCard({ imgSrc, title }) {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root}>
-      <CardMedia className={classes.media} image={imgSrc} title={title} />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="h2">
-          {title}
-        </Typography>
-      </CardContent>
-    </Card>
+    <Tooltip title={title}>
+      <img src={imgSrc} alt={title} className={classes.root} />
+    </Tooltip>
   );
 }

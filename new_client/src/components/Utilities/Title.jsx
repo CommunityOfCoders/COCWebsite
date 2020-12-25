@@ -4,9 +4,11 @@ import Typography from "@material-ui/core/Typography";
 
 function Title(props) {
   return (
-    <Typography variant="h3">
-      {props.children}
-    </Typography>
+    <div style={{ textAlign: "center" }}>
+      <Typography variant="h3">
+        <b>{props.children}</b>
+      </Typography>
+    </div>
   );
 }
 
