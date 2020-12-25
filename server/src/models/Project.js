@@ -33,10 +33,10 @@ const project = new mongoose.Schema({
         },
         required: true
     },
-    domain: {
+    domains: {
         type: [{
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'Project'
+          ref: 'domain'
         }],
         required: true
     }

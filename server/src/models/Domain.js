@@ -16,7 +16,7 @@ const domain = new mongoose.Schema({
     projects: {
         type: [{
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'Domain'
+          ref: 'project'
         }],
         required: true
     }
