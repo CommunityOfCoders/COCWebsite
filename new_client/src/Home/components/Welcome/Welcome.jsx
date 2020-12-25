@@ -1,9 +1,8 @@
-// @flow
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Typewriter from 'typewriter-effect';
-import './Welcome.scss';
-import slideshow from 'assets/home/welcome-slideshow/inspiration.jpg';
+import React from "react";
+import { Link } from "react-router-dom";
+import Typewriter from "typewriter-effect";
+import "./Welcome.scss";
+import COC from '../coc.jpeg';
 
 const Welcome = (props) => {
   return (
@@ -29,7 +28,7 @@ const Welcome = (props) => {
           </div>
 
           <div className="welcome-slideshow">
-            <img className="slideshow" src={slideshow} alt="Slideshow" />
+            <img className="slideshow" src={COC} alt="Slideshow" />
           </div>
         </div>
       </div>
@@ -39,13 +38,13 @@ const Welcome = (props) => {
 
 const Slogan = (props) => {
   if (window.document.documentMode) {
-    console.log('Internet Explorer detected, disabling typewriter effect.');
+    console.log("Internet Explorer detected, disabling typewriter effect.");
     return (
       // eslint-disable-next-line
       <span className="Slogan" role="text">
         <h1 className="SloganBeginning">
-          A community driven by&nbsp;
-          <span id="welcome-typewriter-placeholder">inspiration.</span>
+          For the juniors, by&nbsp;
+          <span id="welcome-typewriter-placeholder">the seniors.</span>
         </h1>
       </span>
     );
@@ -66,14 +65,14 @@ const SloganBeginning = (props) => {
   if (props.width <= 370) {
     return (
       <h1 className="SloganBeginning">
-        A community driven by&nbsp;{props.children}
+        For the juniors, by&nbsp;{props.children}
       </h1>
     );
     // <= 600px (larger phones)
   } else if (props.width <= 600) {
     return (
       <h1 className="SloganBeginning">
-        A community driven
+        For the juniors,
         <br />
         by&nbsp;
         {props.children}
@@ -83,7 +82,7 @@ const SloganBeginning = (props) => {
   } else if (props.width <= 910) {
     return (
       <h1 className="SloganBeginning">
-        A community driven by
+        For the juniors, by
         <br />
         {props.children}
       </h1>
@@ -92,7 +91,7 @@ const SloganBeginning = (props) => {
     // > 910px (larger tablets and laptops)
     return (
       <h1 className="SloganBeginning">
-        A community driven
+        For the juniors,
         <br />
         by&nbsp;
         {props.children}
@@ -110,17 +109,10 @@ const TypewriterWelcome = () => {
   // }, []);
 
   // Strings for the typewriter effect to cycle through
-  const strings = [
-    'inspiration.',
-    'collaboration.',
-    'diversity.',
-    'passion.',
-    'creativity.',
-    'learning.',
-  ];
+  const strings = ["the seniors.", "your mentors.", "your teammates."];
 
   const typewriterInit = (typewriter) => {
-    document.getElementById('welcome-typewriter-placeholder').remove();
+    document.getElementById("welcome-typewriter-placeholder").remove();
     const typeString = (string, pauseTime) => {
       typewriter.typeString(string).pauseFor(pauseTime).deleteAll(30);
     };

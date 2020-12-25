@@ -114,12 +114,12 @@ section.Description {
       padding: 4rem 6.25vw 0;
 
       // Padding for landscape iPhones with notch
-      @supports (padding: max(0px)) {
-        @media screen and (orientation: landscape) {
-          padding-left: max(6.25vw, calc(env(safe-area-inset-left)));
-          padding-right: max(6.25vw, calc(env(safe-area-inset-right)));
-        }
-      }
+      // @supports (padding: max(0px)) {
+      //   @media screen and (orientation: landscape) {
+      //     padding-left: max(6.25vw, calc(env(safe-area-inset-left)));
+      //     padding-right: max(6.25vw, calc(env(safe-area-inset-right)));
+      //   }
+      // }
 
       .description-heading {
         font-weight: 400;
@@ -134,12 +134,12 @@ section.Description {
       padding: 0 10vw;
 
       // Padding for landscape iPhones with notch
-      @supports (padding: max(0px)) {
-        @media screen and (orientation: landscape) {
-          padding-left: max(10vw, calc(env(safe-area-inset-left) + 10vw));
-          padding-right: max(10vw, calc(env(safe-area-inset-right) + 10vw));
-        }
-      }
+      // @supports (padding: max(0px)) {
+      //   @media screen and (orientation: landscape) {
+      //     padding-left: max(10vw, calc(env(safe-area-inset-left) + 10vw));
+      //     padding-right: max(10vw, calc(env(safe-area-inset-right) + 10vw));
+      //   }
+      // }
     }
 
     // Landscape phones

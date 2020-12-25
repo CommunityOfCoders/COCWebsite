@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import './Description.scss';
-import image from 'assets/home/linkedin.jpg';
+// import image from 'assets/home/linkedin.jpg';
 
 const Description = (props) => {
   return (
@@ -10,11 +10,11 @@ const Description = (props) => {
         <h2 className="description-heading">Reach New Heights</h2>
         <OpeningParagraph width={props.width} />
         <div className="description-image-container">
-          <img
+          {/* <img
             className="description-image"
             src={image}
             alt="Club members visiting LinkedIn during a club company visit."
-          />
+          /> */}
         </div>
         {/* eslint-disable-next-line */}
         <div className="description-mission" role="text">

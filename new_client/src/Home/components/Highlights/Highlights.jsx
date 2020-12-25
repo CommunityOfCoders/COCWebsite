@@ -3,9 +3,9 @@ import React from 'react';
 import Highlight from './Highlight/';
 import './Highlights.scss';
 
-import learn from 'assets/home/highlights/learn.jpg';
-import collaborate from 'assets/home/highlights/collaborate.jpg';
-import network from 'assets/home/highlights/network.jpg';
+// import learn from 'assets/home/highlights/learn.jpg';
+// import collaborate from 'assets/home/highlights/collaborate.jpg';
+// import network from 'assets/home/highlights/network.jpg';
 
 const descriptions = [
   // Learn
@@ -37,7 +37,7 @@ const Highlights = () => {
         description={descriptions[0]}
         linkUrl="/events"
         linkText="Browse Events"
-        image={learn}
+        // image={learn}
         imageAlt="Learn"
         backgroundColor="#FFF9EE"
       />
@@ -49,7 +49,7 @@ const Highlights = () => {
         description={descriptions[1]}
         linkUrl="/about"
         linkText="See What We Do"
-        image={collaborate}
+        // image={collaborate}
         imageAlt="Collaborate"
         backgroundColor="#EEFFF0"
       />
@@ -61,7 +61,7 @@ const Highlights = () => {
         description={descriptions[2]}
         linkUrl="/join"
         linkText="Join The Community"
-        image={network}
+        // image={network}
         imageAlt="Network"
         backgroundColor="#EEF7FF"
       />

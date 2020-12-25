@@ -6,7 +6,7 @@ import configureStore from "./store/configureStore";
 
 // Components begin here
 import Header from "./components/Header";
-import Home from "./components/Home/home";
+import Home from "./Home";
 import Footer from "./components/Footer";
 import About from "./components/pages/About";
 import Glimpse from "./components/glimpses/Glimpse";

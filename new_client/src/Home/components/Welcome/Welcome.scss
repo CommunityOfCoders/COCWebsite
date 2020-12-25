@@ -25,7 +25,6 @@ section.Welcome {
       .Slogan {
         margin: 0;
         font-size: 1.875rem;
-        font-family: 'Raleway', sans-serif;
 
         .SloganBeginning {
           #welcome-typewriter-placeholder {
@@ -48,7 +47,6 @@ section.Welcome {
       .welcome-description {
         margin-top: 1rem;
         font-size: 1rem;
-        font-family: 'Nunito', sans-serif;
         line-height: 1.35;
       }
 
@@ -64,7 +62,6 @@ section.Welcome {
           text-align: center;
           text-decoration: none;
           font-size: 1.25rem;
-          font-family: 'Nunito', sans-serif;
           transition: 0.2s;
           transition-timing-function: ease-in-out;
           width: 95%;
@@ -73,12 +70,12 @@ section.Welcome {
         a.join-button {
           color: #fff;
           font-weight: bold;
-          background-color: #4d5eff;
+          background-color: #52B107;
           border-radius: 50px;
         }
 
         a.join-button:hover {
-          background-color: #5767fe;
+          background-color: #52b199;
           box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
 
@@ -90,14 +87,14 @@ section.Welcome {
         a.learn-more {
           cursor: pointer;
           margin-top: 1rem;
-          box-shadow: 0 0 0 2px #4d5eff inset;
+          box-shadow: 0 0 0 2px #52B107 inset;
           color: #4d5eff;
           border-radius: 50px;
           background-color: initial;
         }
 
         a.learn-more:hover {
-          box-shadow: 0 0 0 3px #4d5eff inset;
+          box-shadow: 0 0 0 3px #52B107 inset;
         }
 
         a.learn-more:active {
@@ -112,7 +109,7 @@ section.Welcome {
 
       img {
         height: auto;
-        width: 100%;
+        width: 75%;
         box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
         border-radius: 10px;
       }
@@ -164,13 +161,13 @@ section.Welcome {
 
       padding: 0 5vw;
 
-      // Landscape iPhones with notch
-      @supports (padding: max(0px)) {
-        @media screen and (orientation: landscape) {
-          padding-left: max(5vw, calc(env(safe-area-inset-left) + 1rem));
-          padding-right: max(5vw, calc(env(safe-area-inset-right) + 1rem));
-        }
-      }
+      // // Landscape iPhones with notch
+      // @supports (padding: max(0px)) {
+      //   @media screen and (orientation: landscape) {
+      //     padding-left: max(5vw, calc(env(safe-area-inset-left) + 1rem));
+      //     padding-right: max(5vw, calc(env(safe-area-inset-right) + 1rem));
+      //   }
+      // }
 
       // Increase heading and paragraph size more
       .welcome-content {

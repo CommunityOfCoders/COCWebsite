@@ -54,12 +54,12 @@
       padding: 0 5vw;
 
       // Padding for landscape iPhones with notch
-      @supports (padding: max(0px)) {
-        @media screen and (orientation: landscape) {
-          padding-left: max(5vw, calc(env(safe-area-inset-left) + 1rem));
-          padding-right: max(5vw, calc(env(safe-area-inset-right) + 1rem));
-        }
-      }
+      // @supports (padding: max(0px)) {
+      //   @media screen and (orientation: landscape) {
+      //     padding-left: max(5vw, calc(env(safe-area-inset-left) + 1rem));
+      //     padding-right: max(5vw, calc(env(safe-area-inset-right) + 1rem));
+      //   }
+      // }
 
       align-items: center;
       justify-content: space-between;

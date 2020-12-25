@@ -15,11 +15,11 @@ const Highlight = (props) => {
           <p>{props.description}</p>
           <Link to={props.linkUrl}>{props.linkText} →</Link>
         </div>
-        <img
+        {/* <img
           className="highlight-image"
           src={props.image}
           alt={props.imageAlt}
-        />
+        /> */}
       </div>
     </div>
   );
