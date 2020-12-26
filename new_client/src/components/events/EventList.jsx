@@ -25,7 +25,7 @@ const EventList = (props) => {
         setEvents(res.data.sort((a, b) => new Date(b.date) - new Date(a.date)));
         setIsLoading(false);
       })
-      .catch((error) => { 
+      .catch((error) => {
         console.log(error);
         setIsLoading(false);
       });
@@ -105,8 +105,10 @@ const EventList = (props) => {
 
   return (
     <Container>
-      {isLoading ? <Spinner /> : null}
-      {events.length ? (
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        events.length > 0 &&
         events.map((article) => (
           <IndividualEvent
             key={article._id}
@@ -115,8 +117,6 @@ const EventList = (props) => {
             handleDelete={handleDelete}
           />
         ))
-      ) : (
-        <div>OOOPSY: NO EVENTS REGISTERED</div>
       )}
       {addEventFab}
       <AlertUtility
