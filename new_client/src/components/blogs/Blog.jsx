@@ -44,6 +44,7 @@ const Blogs = (props) => {
   const [isDeleted, setIsDeleted] = useState(false);
   const [isError, setIsError] = useState(false);
   const [counter, setCounter] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   
 	useEffect(() => {
 	  axios
@@ -51,6 +52,7 @@ const Blogs = (props) => {
 		.then((res) => res.data.blogs)
 		.then((res) => {
 		  setPosts(res.sort((a, b) => b.date - a.date));
+		  setIsLoading(false);
 		})
 		.catch((error) => console.log(error));
 	}, [counter]);
