@@ -1,5 +1,6 @@
 // @flow
 import React, { useEffect, useState } from 'react';
+import Banner from './components/Banner'
 import Welcome from './components/Welcome';
 import Description from './components/Description';
 import Highlights from './components/Highlights';
@@ -22,6 +23,7 @@ const Home = () => {
   return (
     <div className="Home">
       <article>
+        <Banner width={width} />
         <Welcome width={width} />
         <Description width={width} />
         <Highlights />
