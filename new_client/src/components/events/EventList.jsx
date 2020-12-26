@@ -7,8 +7,8 @@ import { connect } from "react-redux";
 import axios from "axios";
 import AddIcon from "@material-ui/icons/Add";
 import AlertUtility from "../Utilities/Alert";
+import Spinner from '../spinner/Spinner';
 import IndividualEvent from "./IndividualEvent";
-import Spinner from "../spinner/Spinner";
 
 const EventList = (props) => {
   const [isMember, setIsMember] = useState(false);
@@ -105,8 +105,10 @@ const EventList = (props) => {
 
   return (
     <Container>
-      {isLoading ? <Spinner /> : null}
-      {events.length ? (
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        events.length > 0 &&
         events.map((article) => (
           <IndividualEvent
             key={article._id}
@@ -115,8 +117,6 @@ const EventList = (props) => {
             handleDelete={handleDelete}
           />
         ))
-      ) : (
-        <div>OOOPSY: NO EVENTS REGISTERED</div>
       )}
       {addEventFab}
       <AlertUtility
