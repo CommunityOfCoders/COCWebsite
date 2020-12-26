@@ -7,8 +7,8 @@ import { connect } from "react-redux";
 import axios from "axios";
 import AddIcon from "@material-ui/icons/Add";
 import AlertUtility from "../Utilities/Alert";
+import Spinner from '../spinner/Spinner';
 import IndividualEvent from "./IndividualEvent";
-import Spinner from "../spinner/Spinner";
 
 const EventList = (props) => {
   const [isMember, setIsMember] = useState(false);
