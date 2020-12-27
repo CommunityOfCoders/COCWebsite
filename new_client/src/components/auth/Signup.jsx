@@ -1,12 +1,65 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Paper, Grid, TextField, Button, Typography } from '@material-ui/core';
-import { Link } from "react-router-dom"
+import React, {useState, useEffect} from "react";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import { Link } from "react-router-dom";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import InputAdornment from '@material-ui/core/InputAdornment'
+import {AccountCircle} from '@material-ui/icons'
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import { Paper } from "@material-ui/core";
+import coc from './coc.png'
+import bg from './bg_signup.png'
+import { createMuiTheme } from '@material-ui/core/styles'
+import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+
 import { connect } from "react-redux";
 import { register } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
 import "./Error.css";
 
-function Signup(props) {
+const useStyles = makeStyles((theme) => ({
+	paper: {
+	  marginTop: theme.spacing(4),
+	  marginBottom: theme.spacing(1),
+	  display: "flex",
+	  flexDirection: "column",
+	  alignItems: "center",
+	  backgroundColor:'#000'
+	},
+	form: {
+	  width: "100%", // Fix IE 11 issue.
+	  marginTop: theme.spacing(1),
+	  justifyContent:'center',
+	  backgroundColor:'#f8f8f8'
+	},
+	formInner: {
+	  padding:'20px'
+	},
+	submit: {
+	  margin: theme.spacing(3, 0, 2),
+	  color:'white'
+	},
+	image: {
+	  backgroundImage: `url(${bg})`,
+	  backgroundRepeat: 'no-repeat',
+	  /* backgroundSize: 'cover', */
+	  backgroundPosition: 'center',
+	},
+  }));
+  
+  const theme1 = createMuiTheme({
+	palette:{
+	  primary: {
+		main: "#52b107"
+	  },
+  }})
+  
+function Signup(props)
+{
 
 	const { isAuthenticated, error, register, clearErrors, history } = props;
 
@@ -122,14 +175,16 @@ function Signup(props) {
 	}
 
 	function handleClick(event) {
+		event.preventDefault()
 		if (isFormValid()) {
-			event.preventDefault()
+			//event.preventDefault()
 			const user = {
 				username,
 				password,
 				email,
 				graduationYear
 			};
+			console.log(user)
 			register(user);
 		}
 		else {
@@ -150,85 +205,100 @@ function Signup(props) {
 		}
 	}, [error, isAuthenticated]);
 
+	const classes = useStyles();
 	return (
-		<Container maxWidth="sm">
-
-			<h1 className="heading"> SIGN UP </h1>
-			<Paper style={{ padding: 16 }} id="from_style">
-				<Grid container alignItems="flex-start" spacing={2}>
-					<Grid item xs={12}>
-						<TextField
-							fullWidth
-							required
-							name="username"
-							type="text"
-							placeholder="Username"
-							onChange={handleChangeUsername}
-						/>
-						<div className="errorMsg">{errors.username}</div>
-					</Grid>
-
-					<Grid item xs={12}>
-						<TextField
-							fullWidth
-							required
-							name="email"
-							type="email"
-							placeholder="Email"
-							onChange={handleChangeEmail}
-						/>
-						<div className="errorMsg">{errors.email}</div>
-					</Grid>
-
-					<Grid item xs={12}>
-						<TextField
-							fullWidth
-							required
-							name="password"
-							type="password"
-							placeholder="Password"
-							onChange={handleChangePassword}
-						/>
-						<div className="errorMsg">{errors.password}</div>
-					</Grid>
-
-					<Grid item xs={12}>
-						<TextField
-							fullWidth
-							required
-							name="graduationYear"
-							type="text"
-							inputProps={{
-								maxLength: 4
-							}}
-							placeholder="Graduation Year"
-							onChange={handleChangeGraduationYear}
-						/>
-						<div className="errorMsg">{errors.graduationYear}</div>
-					</Grid>
-
-					<Grid item xs={12}>
-						<div>
-							<Button
-								variant="contained"
-								color="secondary"
-								onClick={handleClick}
-							>
-								Submit
-              </Button>
-						</div>
-					</Grid>
-
-					<Grid item xs={12}>
-						<Typography>
-							Already an user ? <Link to="/signin">Sign In</Link> instead.
-						</Typography>
-					</Grid>
+		<ThemeProvider theme={theme1}>
+		  <Grid container style={{height:'87vh'}}>
+		  <Grid item sm={false} md={7} className={classes.image} />    
+			<Grid item sm={12} md={5}>
+		<Container component="main" maxWidth="xs">
+		  <Paper className={classes.paper} elevation={3}>
+		  <img style={{marginTop:20,height:'90%',width:'90%'}} src={coc}/>{/* //"https://www.pinclipart.com/picdir/big/4-41731_lernen-clipart.png" alt="logo" width={200}/> */}
+	
+			<Typography style={{color:'#fff'}} component="h1" variant="h5">
+			  Sign Up
+			</Typography>
+			<form className={classes.form} noValidate>
+			  <div className={classes.formInner}>
+			  <TextField
+				margin="normal"
+				fullWidth
+				required
+				label="Username"
+				name="username"
+				style={{color:'#52b107',borderColor:'#52b107'}}
+				onChange={handleChangeUsername}
+		  autoFocus
+		  InputProps = {{startAdornment: <InputAdornment position="start"><AccountCircle/></InputAdornment>}}
+			  />
+			  <div style={{fontSize:15}} className="errorMsg">{errors.username}</div>
+			  <TextField
+				margin="normal"
+				fullWidth
+				color='#52b107'
+				required
+				id="email"
+				label="Email Address"
+				name="email"
+				autoComplete="email"
+				style={{color:'#52b107',borderColor:'#52b107'}}
+				onChange={handleChangeEmail}
+		  autoFocus
+		  InputProps = {{startAdornment: <InputAdornment position="start"><AlternateEmailIcon/></InputAdornment>}}
+			  />
+			  <div style={{fontSize:15}} className="errorMsg">{errors.email}</div>
+			  <TextField
+				margin="normal"
+				fullWidth
+				required
+				name="password"
+				label="Password"
+				type="password"
+				autoComplete="current-password"
+				InputProps = {{startAdornment: <InputAdornment position="start"><VpnKeyIcon/></InputAdornment>}}
+				style={{color:'#52b107'}}
+				onChange={handleChangePassword}
+			  />
+			  <div style={{fontSize:15}} className="errorMsg">{errors.password}</div>
+				<TextField
+				margin="normal"
+				fullWidth
+				color='#52b107'
+				required
+				id="graduation"
+				label="Graduation Year"
+				name="graduation year"
+				style={{color:'#52b107',borderColor:'#52b107'}}
+				  autoFocus
+				  onChange={handleChangeGraduationYear}
+		  		InputProps = {{maxLength:4, startAdornment: <InputAdornment position="start"><CalendarTodayIcon/></InputAdornment>}}
+			  />
+			  <div style={{fontSize:15}} className="errorMsg">{errors.graduationYear}</div>
+			  <Button
+				type="submit"
+				fullWidth
+				variant="contained"
+				className={classes.submit}
+				size='large'
+				onClick={handleClick}
+				style={{backgroundColor:'#52b107'}}>
+				Sign Up
+			  </Button>
+				<Grid container item>
+				  <Typography>
+				  <Link style={{color:'#52b107',fontSize:15}} to="/signin">
+					{"Have Account? Sign In"}
+				  </Link>
+				  </Typography>
 				</Grid>
-			</Paper>
-		</Container >
-
-	)
+			  </div>
+			</form>
+		  </Paper>
+		</Container>
+		</Grid>
+		</Grid>
+		</ThemeProvider>
+	  );
 }
 
 const mapStateToProps = (state) => ({
