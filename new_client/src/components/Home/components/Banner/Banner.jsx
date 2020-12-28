@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
 import "./Banner.scss";
-import photo from "../assets/banner.jpeg";
+import COC from "../assets/COC.png";
 
 const Banner = () => {
   return (
@@ -9,10 +9,12 @@ const Banner = () => {
       <div className="banner-photo">
         <div className="parallax"></div>
         {/* <img className="photo" src={photo} alt="photo" /> */}
-        <div className="banner-center">Community of Coders</div>
+        <div className="banner-center">
+          <img src={COC} style={{ width: 60, height: 60 }} alt="COC Logo PNG" />{" "}
+          Community of Coders
+        </div>
         <div className="banner-text">
-          {" "}
-          | &nbsp; IMAGINE &nbsp; | &nbsp; BELIEVE &nbsp; | &nbsp; | ACHIEVE &nbsp; |
+          &nbsp; IMAGINE &nbsp; | &nbsp; BELIEVE &nbsp; | ACHIEVE &nbsp;
         </div>
       </div>
     </section>
