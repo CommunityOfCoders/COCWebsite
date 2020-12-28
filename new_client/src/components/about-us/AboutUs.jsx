@@ -1,9 +1,4 @@
-import {
-  Box,
-  Grid,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
+import { Box, Grid, makeStyles, Typography } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
 import COC from "../Utilities/COC";
@@ -15,8 +10,8 @@ import Projects from "./Tips-for-Making-Side-Projects.png";
 import C_WS from "./C_WS.jpg";
 import CP from "./CP.jpg";
 import Inheritance from "./Inheritance.jpg";
-import AboutUsBanner from "./about.jpeg";
 import GenericDetails from "./GenericDetails";
+import "./AboutUs.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,19 +29,7 @@ export default function AboutUs() {
 
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          overflow: "hidden",
-        }}
-      >
-        <img
-          src={AboutUsBanner}
-          style={{ objectFit: "fill", width: "100%", margin: "10px" }}
-        />
-      </div>
+      <div className="about-us-parallax" />
       <Box className={classes.root}>
         <Grid container spacing={2} alignContent="center" justify="center">
           <Grid item xs={12}>
@@ -131,17 +114,17 @@ export default function AboutUs() {
                 </p>
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
-                <h5>Interactive Workshops</h5>
+                <h5>Engaging Discussions</h5>
                 <br />
                 <p className={classes.paragraph}>
-                  The workshops conducted by <COC /> are great starters for
-                  learning something new. The community always comes up with
-                  initiatives to help novices of the field to gain confidence to
-                  face the competitive world of programming. The seniors are
-                  always there to hold the hands of their juniors - especially
-                  freshers - and pave the way for them by providing a very
-                  friendly environment to learn and grow, through various
-                  workshops, events, and seminars.
+                  At <COC />, we have always relied on the concept of teamwork.
+                  It is our strong belief that together, we can achieve
+                  anything. A bunch of people with different ideas can come
+                  together to discuss the limitless possibilites that they can
+                  achieve. Discussions are a strong point to engage the mind. We
+                  are sure, that at <COC />, you will always find people who
+                  will listen to you, and correct you if you tread the wring
+                  path.
                 </p>
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
@@ -154,17 +137,19 @@ export default function AboutUs() {
                 <GenericCard imgSrc={Projects} title={"Project building"} />
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
-                <h5>Interactive Workshops</h5>
+                <h5>Project Building</h5>
                 <br />
                 <p className={classes.paragraph}>
-                  The workshops conducted by <COC /> are great starters for
-                  learning something new. The community always comes up with
-                  initiatives to help novices of the field to gain confidence to
-                  face the competitive world of programming. The seniors are
-                  always there to hold the hands of their juniors - especially
-                  freshers - and pave the way for them by providing a very
-                  friendly environment to learn and grow, through various
-                  workshops, events, and seminars.
+                  A Software Engineer needs to learn several things in their
+                  lifetime, but how can <b>YOU</b>, who knows a lot about
+                  something, show it to others? Through your{" "}
+                  <code>projects</code>. Only when people build stuff do they
+                  realize the significance of learning stuff, and project
+                  building is the place where theory meets practice. <COC />{" "}
+                  hosts a plethora of workshops, like the{" "}
+                  <b>Web Development Workshop</b>, or the <b>Cloud Workshop</b>,
+                  that give you a hands-on approach to the theoretical
+                  knowledge.
                 </p>
               </Grid>
             </Grid>
