@@ -12,7 +12,7 @@ const Banner = () => {
         <div className="banner-center">Community of Coders</div>
         <div className="banner-text">
           {" "}
-          IMAGINE &nbsp; &nbsp; BELIEVE &nbsp; &nbsp; ACHIEVE
+          | &nbsp; IMAGINE &nbsp; | &nbsp; BELIEVE &nbsp; | &nbsp; | ACHIEVE &nbsp; |
         </div>
       </div>
     </section>
