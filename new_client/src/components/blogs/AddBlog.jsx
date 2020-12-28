@@ -12,6 +12,7 @@ import Editor from "./Editor";
 import axios from "axios";
 import AlertUtility from "../Utilities/Alert";
 import { useParams } from "react-router-dom";
+import SidebySide from "./SidebySide";
 
 function AddBlog(props) {
   const id = useParams().id;
@@ -122,14 +123,14 @@ function AddBlog(props) {
   }, [id]);
 
   return (
-    <Container maxWidth="md" style={{ backgroundColor: "white" }}>
+    <Container maxWidth="lg" style={{ backgroundColor: "white", padding: "10px 40px" }}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-            <TextField
-              label="Date"
-              value={selectedDate.toDateString()}
-              disabled
-            />
+          <TextField
+            label="Date"
+            value={selectedDate.toDateString()}
+            disabled
+          />
         </Grid>
         <Grid item xs={12}>
           <TextField
@@ -147,9 +148,9 @@ function AddBlog(props) {
             onChange={(e) => setBlogTitle(e.target.value)}
           />
         </Grid>
-        <Grid item xs={12}>
-          <Editor content={blogContent} setContent={setBlogContent} />
-        </Grid>
+        {/* <Grid item xs={12}> */}
+          <SidebySide />
+        {/* </Grid> */}
         <Grid item xs={12}>
           <Button
             variant="contained"
@@ -175,6 +176,7 @@ function AddBlog(props) {
         message="Oops! An error occurred. Please try again."
       />
     </Container>
+    // <SidebySide />
   );
 }
 
