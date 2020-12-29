@@ -15,7 +15,7 @@ module.exports = {
     */
     try{
       const body = req.body;
-      const imageUrl = body['Profile Image'][0].replace('/open?','/uc?');
+      const imageUrl = body['Profile Image'][0].replace('/open?','/uc?export=view&amp;');
       const alumnus = {
         fullName: body['Full Name'][0],
         email: body['Email Address'][0],
