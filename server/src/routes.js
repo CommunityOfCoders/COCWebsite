@@ -9,6 +9,7 @@ const upload = require('./middleware/upload')
 const auth = require('./middleware/auth')
 const blog = require('./middleware/blog')
 const user = require('./middleware/user')
+const ResourcesController = require('./controllers/ResourcesController')
 
 module.exports = (app) => {
     app.get('/api/hello', (req,res) => {res.json('Hello World')}) // Very hard to test and change
@@ -61,4 +62,16 @@ module.exports = (app) => {
     app.get('/api/projects/:id', ProjectController.viewProjectById); // Tested
     app.post('/api/projects/new', auth.loginRequired, user.isMember, ProjectController.createProject); // Tested
     app.delete('/api/projects/delete/:id', auth.loginRequired, user.isMember, ProjectController.deleteProjectById); // Tested
+
+    // Resources
+    app.get('/api/resource', ResourcesController.getAllResources);
+    app.get('/api/resource/:id', ResourcesController.getResourceById);
+    app.get('/api/resource/bytopic/:id', ResourcesController.getResourcesByTopicId);
+    app.get('/api/topic/:id', ResourcesController.getTopicById);
+    app.post('/api/resource/add', ResourcesController.addResource);
+    app.post('/api/topic/add', ResourcesController.addTopic);
+    app.put('/api/resource/edit/:id', ResourcesController.updateResourceById);
+    app.put('/api/topic/edit/:id', ResourcesController.updateTopicById);
+    app.delete('/api/resource/delete/:id', ResourcesController.deleteResourceById);
+    app.delete('/api/topic/delete/:id', ResourcesController.deleteTopicById);
 }
