@@ -1,6 +1,5 @@
-// @flow
 import React from "react";
-import Highlight from "./Highlight";
+import Highlight from "./Highlight/Highlight";
 import "./Highlights.scss";
 
 import learn from '../assets/learn.jpg';

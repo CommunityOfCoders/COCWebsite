@@ -1,9 +1,8 @@
-// @flow
 import React, { useEffect, useState } from 'react';
-import Banner from './components/Banner'
-import Welcome from './components/Welcome';
-import Description from './components/Description';
-import Highlights from './components/Highlights';
+import Banner from './components/Banner/Banner'
+import Welcome from './components/Welcome/Welcome';
+import Description from './components/Description/Description';
+import Highlights from './components/Highlights/Highlights';
 
 const Home = () => {
   const [width, setWidth] = useState(window.innerWidth);

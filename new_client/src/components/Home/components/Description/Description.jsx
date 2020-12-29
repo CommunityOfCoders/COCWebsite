@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import "./Description.scss";
 // import image from 'assets/home/linkedin.jpg';
