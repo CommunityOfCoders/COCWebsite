@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 	  backgroundColor:'#000'
 	},
 	form: {
-	  width: "100%", // Fix IE 11 issue.
+	  width: "100%",
 	  marginTop: theme.spacing(1),
 	  justifyContent:'center',
 	  backgroundColor:'#f8f8f8'
@@ -46,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
 	image: {
 	  backgroundImage: `url(${bg})`,
 	  backgroundRepeat: 'no-repeat',
-	  /* backgroundSize: 'cover', */
 	  backgroundPosition: 'center',
 	},
   }));
@@ -213,7 +212,7 @@ function Signup(props)
 			<Grid item sm={12} md={5}>
 		<Container component="main" maxWidth="xs">
 		  <Paper className={classes.paper} elevation={3}>
-		  <img style={{marginTop:20,height:'90%',width:'90%'}} src={coc}/>{/* //"https://www.pinclipart.com/picdir/big/4-41731_lernen-clipart.png" alt="logo" width={200}/> */}
+		  <img style={{marginTop:20,height:'90%',width:'90%'}} src={coc}/>
 	
 			<Typography style={{color:'#fff'}} component="h1" variant="h5">
 			  Sign Up
