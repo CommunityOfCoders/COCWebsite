@@ -56,7 +56,7 @@ module.exports = (app) => {
     app.put('/api/domains/edit/:id', auth.loginRequired, user.isMember, DomainController.editDomainById); // Tested
     app.delete('/api/domains/delete/:id', auth.loginRequired, user.isMember, DomainController.deleteDomainById); // Tested
 
-    // projects
+    // Projects
     app.get('/api/projects', ProjectController.allProjects); // Tested
     app.get('/api/projects/filter/:id', ProjectController.viewProjectsByDomain); // Tested
     app.get('/api/projects/:id', ProjectController.viewProjectById); // Tested
@@ -64,5 +64,6 @@ module.exports = (app) => {
     app.delete('/api/projects/delete/:id', auth.loginRequired, user.isMember, ProjectController.deleteProjectById); // Tested
 
     // Alumni
-    app.post('/alumni', AlumniController.getAlumniDetails);
+    app.get('/api/alumni', AlumniController.allAlumni); // Tested
+    app.post('/api/alumni', AlumniController.createAlumnus); // Tested
 }

@@ -1,5 +1,7 @@
+const Alumnus = require('../models/Alumnus');
+
 module.exports = {
-  getAlumniDetails(req, res) {
+  async createAlumnus(req, res) {
     // Shape of Data
     /*
     {
@@ -11,7 +13,31 @@ module.exports = {
       'Graduation Year': [ '2022' ]
     }
     */
-    console.log(req.body);
-    res.status(200).json({ Status: "OK" });
+    try{
+      const body = req.body;
+      const alumnus = {
+        fullName: body['Full Name'][0],
+        email: body['Email Address'][0],
+        city: body['Current Work City'][0],
+        graduationYear: body['Graduation Year'][0],
+        profileUrl: body['Profile URL (social media, portfolio, etc)'][0],
+        company: body['Current Company/Institute Name'][0],
+        professionalTitle: body['Current Professional Title'][0],
+      }
+      await Alumnus.create(alumnus);
+      // console.log(req.body);
+      res.status(200).json({ Status: "OK" });
+    } catch(e){
+      return res.status(500).json({ error: e.message });
+    }
+
   },
+  async allAlumni(_,res){
+    try{
+      const alumni = await Alumnus.find({});
+      return res.status(200).json({ alumni });
+    } catch(e){
+      return res.status(500).json({ error: e.message });
+    }
+  }
 };
