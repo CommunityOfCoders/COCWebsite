@@ -9,6 +9,7 @@ const upload = require('./middleware/upload')
 const auth = require('./middleware/auth')
 const blog = require('./middleware/blog')
 const user = require('./middleware/user')
+const AlumniController = require('./controllers/AlumniController')
 
 module.exports = (app) => {
     app.get('/api/hello', (req,res) => {res.json('Hello World')}) // Very hard to test and change
@@ -61,4 +62,7 @@ module.exports = (app) => {
     app.get('/api/projects/:id', ProjectController.viewProjectById); // Tested
     app.post('/api/projects/new', auth.loginRequired, user.isMember, ProjectController.createProject); // Tested
     app.delete('/api/projects/delete/:id', auth.loginRequired, user.isMember, ProjectController.deleteProjectById); // Tested
+
+    // Alumni
+    app.post('/alumni', AlumniController.getAlumniDetails);
 }
