@@ -38,11 +38,11 @@ export default function Topic({ name, resources, color }) {
         </Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-        <Grid container justify="space-around" spacing={4}>
-          {resources &&
+        <Grid container justify="space-between" spacing={0}>
+          {resources.length > 0 ?
             resources.map((resource, index) => (
-              <Resource key={index} name={resource.name} link={resource.link} />
-            ))}
+              <Resource key={index} title={resource.title} description={resource.description} link={resource.link} />
+            )) : <Grid item><p>No resources have been added for this topic yet.</p></Grid>}
         </Grid>
       </ExpansionPanelDetails>
     </ExpansionPanel>

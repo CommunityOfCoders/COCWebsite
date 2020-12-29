@@ -10,7 +10,7 @@ const useResourceStyles = makeStyles({
     cursor: "pointer",
     transition: "transform .2s",
     "&:hover, &:focus": {
-      transform: "scale(1.15)",
+      transform: "scale(1.10)",
     },
   },
   resourceText: {
@@ -20,7 +20,7 @@ const useResourceStyles = makeStyles({
   },
 });
 
-export default function Resource({ name, link }) {
+export default function Resource({ title, link, description }) {
   const classes = useResourceStyles();
   return (
     <Grid
@@ -35,7 +35,8 @@ export default function Resource({ name, link }) {
       onClick={() => window.open(link)}
     >
       <Grid item>
-        <Typography className={classes.resourceText}>{name}</Typography>
+        <Typography variant="h5" className={classes.resourceText}>{title}</Typography>
+        <Typography variant="subtitle2" className={classes.resourceText} noWrap>{description}</Typography>
       </Grid>
     </Grid>
   );

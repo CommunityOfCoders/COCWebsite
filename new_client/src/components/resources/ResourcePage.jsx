@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import axios from "axios";
 import {
   Box,
   Container,
@@ -10,154 +11,6 @@ import {
 } from "@material-ui/core";
 
 import Topic from "./Topic";
-
-const topics = [
-  {
-    name: "Data Structures and Algorithms",
-    resources: [
-      {
-        name: "ABC",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "DEF",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "GHI",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "ABC",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "ABC",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "ABC",
-        link: "https://www.geeksforgeeks.org/",
-      },
-    ],
-  },
-  {
-    name: "Web Development",
-    resources: [
-      {
-        name: "ABC",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "DEF",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "GHI",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "ABC",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "ABC",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "ABC",
-        link: "https://www.geeksforgeeks.org/",
-      },
-    ],
-  },
-  {
-    name: "App Development",
-    resources: [
-      {
-        name: "ABC",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "DEF",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "GHI",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "ABC",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "ABC",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "ABC",
-        link: "https://www.geeksforgeeks.org/",
-      },
-    ],
-  },
-  {
-    name: "Introduction to Cloud",
-    resources: [
-      {
-        name: "ABC",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "DEF",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "GHI",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "ABC",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "ABC",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "ABC",
-        link: "https://www.geeksforgeeks.org/",
-      },
-    ],
-  },
-  {
-    name: "Data Science",
-    resources: [
-      {
-        name: "ABC",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "DEF",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "GHI",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "ABC",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "ABC",
-        link: "https://www.geeksforgeeks.org/",
-      },
-      {
-        name: "ABC",
-        link: "https://www.geeksforgeeks.org/",
-      },
-    ],
-  },
-];
 
 const colors = [
   "rgba(188, 51, 51, 1)",
@@ -171,9 +24,22 @@ const colors = [
 const responsiveFonts = responsiveFontSizes(createMuiTheme());
 
 export default function ResourcePage() {
+  const [topics, setTopics] = useState([]);
+  useEffect(() => {
+    const getTopics = async () => {
+      try {
+        let {data: topics} = await axios.get(process.env.REACT_APP_API + "/topic");
+        setTopics(topics);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getTopics();
+  }, [])
+  
   return (
     <ThemeProvider theme={responsiveFonts}>
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <Typography align="center" variant="h2" component="h2" gutterBottom>
           Resources
         </Typography>

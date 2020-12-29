@@ -2,12 +2,12 @@ const { Resource, Topic } = require("../models/Resources");
 
 module.exports = {
   /**
-   * @route GET api/resource
+   * @route GET api/topic
    * @description Retrieve all resources grouped by topics
    * @param {Object} req The request
    * @param {Object} res The response
    */
-  getAllResources: async (req, res) => {
+  getAllTopics: async (req, res) => {
     try {
       const topicsAndResources = await Topic.find({}).populate("resources");
       res.status(200).json(topicsAndResources);

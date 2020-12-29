@@ -64,14 +64,14 @@ module.exports = (app) => {
     app.delete('/api/projects/delete/:id', auth.loginRequired, user.isMember, ProjectController.deleteProjectById); // Tested
 
     // Resources
-    app.get('/api/resource', ResourcesController.getAllResources);
+    app.get('/api/topic', ResourcesController.getAllTopics);
     app.get('/api/resource/:id', ResourcesController.getResourceById);
     app.get('/api/resource/bytopic/:id', ResourcesController.getResourcesByTopicId);
     app.get('/api/topic/:id', ResourcesController.getTopicById);
-    app.post('/api/resource/add', ResourcesController.addResource);
-    app.post('/api/topic/add', ResourcesController.addTopic);
-    app.put('/api/resource/edit/:id', ResourcesController.updateResourceById);
-    app.put('/api/topic/edit/:id', ResourcesController.updateTopicById);
-    app.delete('/api/resource/delete/:id', ResourcesController.deleteResourceById);
-    app.delete('/api/topic/delete/:id', ResourcesController.deleteTopicById);
+    app.post('/api/resource/add', auth.loginRequired, user.isMember, ResourcesController.addResource);
+    app.post('/api/topic/add', auth.loginRequired, user.isMember, ResourcesController.addTopic);
+    app.put('/api/resource/edit/:id', auth.loginRequired, user.isMember, ResourcesController.updateResourceById);
+    app.put('/api/topic/edit/:id', auth.loginRequired, user.isMember, ResourcesController.updateTopicById);
+    app.delete('/api/resource/delete/:id', auth.loginRequired, user.isMember, ResourcesController.deleteResourceById);
+    app.delete('/api/topic/delete/:id', auth.loginRequired, user.isMember, ResourcesController.deleteTopicById);
 }
