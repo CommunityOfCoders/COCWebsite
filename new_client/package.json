@@ -17,6 +17,7 @@
     "bootstrap": "^4.4.1",
     "clsx": "^1.1.1",
     "date-fns": "^2.15.0",
+    "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
     "react-confirm-alert": "^2.6.1",
@@ -55,8 +56,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "node-sass": "^4.14.1"
   }
 }
