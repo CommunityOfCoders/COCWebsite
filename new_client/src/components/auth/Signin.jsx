@@ -6,10 +6,11 @@ import { connect } from "react-redux";
 import { login } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
 import { LOGIN_FAIL } from "../../actions/types";
+import Spinner from "../spinner/Spinner";
 
 function Signin(props) {
 
-	const { isAuthenticated, error, login, clearErrors, history } = props; 
+	const { isAuthenticated, error, login, clearErrors, history, isLoading } = props; 
 
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
@@ -100,13 +101,18 @@ function Signin(props) {
 					</Grid>
 
 					<Grid item xs={12}>
-						<Button
-							variant="contained"
-							color="secondary"
-							onClick={handleClick}
-						>
-							Submit
-                </Button>
+						<div>
+							{isLoading ? ( 
+								<Spinner /> 
+							) : ( 
+								<Button
+									variant="contained"
+									color="secondary"
+									onClick={handleClick}>
+									Submit
+								</Button>
+							)}
+						</div>
 					</Grid>
 
 					<Grid item xs={12}>
@@ -123,7 +129,8 @@ function Signin(props) {
 
 const mapStateToProps = (state) => ({
 	isAuthenticated : state.auth.isAuthenticated,
-	error : state.error
+	error : state.error,
+	isLoading: state.auth.isLoading
 });
 
 export default connect(mapStateToProps, { login, clearErrors })(Signin);
