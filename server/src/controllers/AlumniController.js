@@ -15,12 +15,14 @@ module.exports = {
     */
     try{
       const body = req.body;
+      const imageUrl = body['Profile Image'][0].replace('/open?','/uc?');
       const alumnus = {
         fullName: body['Full Name'][0],
         email: body['Email Address'][0],
         city: body['Current Work City'][0],
         graduationYear: body['Graduation Year'][0],
         profileUrl: body['Profile URL (social media, portfolio, etc)'][0],
+        imageUrl: imageUrl,
         company: body['Current Company/Institute Name'][0],
         professionalTitle: body['Current Professional Title'][0],
       }

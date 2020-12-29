@@ -22,6 +22,9 @@ const alumnus = new mongoose.Schema({
     required: false,
     default: ''
   },
+  imageUrl: {
+    type: String,
+  },
   company: {
     type: String,
     required: true
