@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 
 import Topic from "./Topic";
+import Spinner from "../spinner/Spinner";
 
 const colors = [
   "rgba(188, 51, 51, 1)",
@@ -25,11 +26,14 @@ const responsiveFonts = responsiveFontSizes(createMuiTheme());
 
 export default function ResourcePage() {
   const [topics, setTopics] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const getTopics = async () => {
       try {
         let {data: topics} = await axios.get(process.env.REACT_APP_API + "/topic");
         setTopics(topics);
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -43,6 +47,8 @@ export default function ResourcePage() {
         <Typography align="center" variant="h2" component="h2" gutterBottom>
           Resources
         </Typography>
+        {isLoading ?
+        <Spinner /> :
         <Box p={4}>
           <Grid container spacing={8}>
             {topics
@@ -56,7 +62,7 @@ export default function ResourcePage() {
                 ))
               : "Your mind, and your calm"}
           </Grid>
-        </Box>
+        </Box>}
       </Container>
     </ThemeProvider>
   );
