@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import InputAdornment from '@material-ui/core/InputAdornment'
-import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
+import EmailIcon from '@material-ui/icons/Email';
 import { Paper } from "@material-ui/core";
 import coc from './coc.png'
 import bg from './bg_signin.png'
@@ -76,7 +76,7 @@ function ResetPw() {
 	function handleClick(event) {
 		event.preventDefault();
 		if (isFormValid()) {
-            //VALID DATA ENTRY, CONNECTION TO REDUX
+            //CONNECTION TO REDUX
             alert('E-mail sent with password reset link');
 
 		}
@@ -107,9 +107,9 @@ function ResetPw() {
             style={{color:'#52b107',borderColor:'#52b107'}}
             onChange={handleEmail}
       autoFocus
-      InputProps = {{startAdornment: <InputAdornment position="start"><AlternateEmailIcon/></InputAdornment>}}
+      InputProps = {{startAdornment: <InputAdornment position="start"><EmailIcon/></InputAdornment>}}
           />
-          
+          <div style={{fontSize:15}} className="errorMsg">{errors.email}</div>
           <Button
             type="submit"
             fullWidth

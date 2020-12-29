@@ -21,6 +21,7 @@ import { connect } from "react-redux";
 import { login } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
 import { LOGIN_FAIL } from "../../actions/types";
+import Spinner from "../spinner/Spinner";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor:'#000'
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: "100%",  
     marginTop: theme.spacing(1),
     justifyContent:'center',
     backgroundColor:'#f8f8f8'
@@ -59,7 +60,7 @@ const theme1 = createMuiTheme({
 }})
 
 function SignIn(props) {
-  const { isAuthenticated, error, login, clearErrors, history } = props; 
+  const { isAuthenticated, error, login, clearErrors, history, isLoading } = props; 
 
 	const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -101,7 +102,6 @@ function SignIn(props) {
 		event.preventDefault();
 		if (isFormValid()) {
       const user = { username, password };
-      alert(`${username},${password}`)
 			login(user);
 		}
 		else {
@@ -149,6 +149,7 @@ function SignIn(props) {
       autoFocus
       InputProps = {{startAdornment: <InputAdornment position="start"><AccountCircle/></InputAdornment>}}
           />
+          <div style={{fontSize:15}} className="errorMsg">{errors.username}</div>
           <TextField
             margin="normal"
             fullWidth
@@ -162,11 +163,16 @@ function SignIn(props) {
             style={{color:'#52b107'}}
             onChange={handlePassword}
           />
+          <div style={{fontSize:15}} className="errorMsg">{errors.password}</div>
           
           <FormControlLabel
               control={<Checkbox value="remember" color="primary" checked={rememberme} onChange={handleRememberme}/>}
               label="Remember me"
             />
+            <div>
+							{isLoading ? ( 
+								<Spinner /> 
+							) : ( 
           <Button
             type="submit"
             fullWidth
@@ -178,15 +184,17 @@ function SignIn(props) {
           >
             Sign In
           </Button>
+          )}
+          </div>
           <Grid container>
             <Grid item xs>
-              <Link style={{color:'#0d0d0d',fontSize:15}} to='/reset'>
+              <Link style={{color:'#52b107',fontSize:15}} to='/reset'>
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
               <Typography>
-              <Link style={{color:'#0d0d0d',fontSize:15}} to="/signup">
+              <Link style={{color:'#52b107',fontSize:15}} to="/signup">
                 {"New User? Sign Up"}
               </Link>
               </Typography>

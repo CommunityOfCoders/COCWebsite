@@ -53,7 +53,7 @@ const theme1 = createMuiTheme({
 
 function NewPw() 
 {
-    const token = useParams().token;// HASH TOKEN GENERATED
+    const token = useParams().token;
 	const [password, setPassword] = useState('');
 	const handlePassword= (e) => setPassword(e.target.value);
     const [errors, updateErrors] = useState({
@@ -85,8 +85,7 @@ function NewPw()
 	function handleClick(event) {
 		event.preventDefault();
 		if (isFormValid()) {
-            //VALID DATA ENTRY, CONNECTION TO REDUX
-            alert(`Valid New Password! ${password}`);//TO BE REMOVED
+            //CONNECTION TO REDUX
 
 		}
 		else {
@@ -120,7 +119,7 @@ function NewPw()
             style={{color:'#52b107'}}
             onChange={handlePassword}
           />
-          
+          <div style={{fontSize:15}} className="errorMsg">{errors.password}</div>
           <Button
             type="submit"
             fullWidth

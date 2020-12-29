@@ -13,7 +13,7 @@ import { Paper } from "@material-ui/core";
 import coc from './coc.png'
 import bg from './bg_signup.png'
 import { createMuiTheme } from '@material-ui/core/styles'
-import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
+import EmailIcon from '@material-ui/icons/Email';
 import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 
 import { connect } from "react-redux";
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
 function Signup(props)
 {
 
-	const { isAuthenticated, error, register, clearErrors, history } = props;
+	const { isAuthenticated, error, register, clearErrors, history, isLoading } = props;
 
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
@@ -113,7 +113,6 @@ function Signup(props)
 		}
 
 		if (email) {
-			// /^[a-zA-Z0-9_+&*-] + (?:\\.[a-zA-Z0-9_+&*-]+ )*@(?:[a-zA-Z0-9-]+\\.) + [a-zA-Z]{2, 7}/
 			let pattern = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/);
 			if (!pattern.test(email)) {
 				formIsValid = false;
@@ -176,7 +175,6 @@ function Signup(props)
 	function handleClick(event) {
 		event.preventDefault()
 		if (isFormValid()) {
-			//event.preventDefault()
 			const user = {
 				username,
 				password,
@@ -242,7 +240,7 @@ function Signup(props)
 				style={{color:'#52b107',borderColor:'#52b107'}}
 				onChange={handleChangeEmail}
 		  autoFocus
-		  InputProps = {{startAdornment: <InputAdornment position="start"><AlternateEmailIcon/></InputAdornment>}}
+		  InputProps = {{startAdornment: <InputAdornment position="start"><EmailIcon/></InputAdornment>}}
 			  />
 			  <div style={{fontSize:15}} className="errorMsg">{errors.email}</div>
 			  <TextField
@@ -272,6 +270,11 @@ function Signup(props)
 		  		InputProps = {{maxLength:4, startAdornment: <InputAdornment position="start"><CalendarTodayIcon/></InputAdornment>}}
 			  />
 			  <div style={{fontSize:15}} className="errorMsg">{errors.graduationYear}</div>
+
+			  <div>
+				{isLoading ? ( 
+					<Spinner /> 
+				) : ( 
 			  <Button
 				type="submit"
 				fullWidth
@@ -282,10 +285,12 @@ function Signup(props)
 				style={{backgroundColor:'#52b107'}}>
 				Sign Up
 			  </Button>
+			  )}
+			  </div>
 				<Grid container item>
 				  <Typography>
 				  <Link style={{color:'#52b107',fontSize:15}} to="/signin">
-					{"Have Account? Sign In"}
+					{"Have an Account? Sign In"}
 				  </Link>
 				  </Typography>
 				</Grid>
