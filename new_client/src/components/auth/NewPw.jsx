@@ -111,7 +111,8 @@ function NewPw()
             fullWidth
             required
             name="password"
-            label="Password"
+            label="New Password"
+            placeholder="Enter New Password"
             type="password"
             id="password"
             autoComplete="current-password"

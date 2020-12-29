@@ -62,11 +62,13 @@ function SignIn(props) {
   const { isAuthenticated, error, login, clearErrors, history } = props; 
 
 	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
+  const [password, setPassword] = useState('');
+  const [rememberme,setRememberme] = useState(false);
 	const [msg, setMsg] = useState(null);
 
 	const handleUsername= (e) => setUsername(e.target.value);
-	const handlePassword= (e) => setPassword(e.target.value);
+  const handlePassword= (e) => setPassword(e.target.value);
+  const handleRememberme = (e) => setRememberme(e.target.checked);
 
 	const [errors, updateErrors] = React.useState({
 		username: "",
@@ -98,7 +100,8 @@ function SignIn(props) {
 	function handleClick(event) {
 		event.preventDefault();
 		if (isFormValid()) {
-			const user = { username, password };
+      const user = { username, password };
+      alert(`${username},${password}`)
 			login(user);
 		}
 		else {
@@ -161,7 +164,7 @@ function SignIn(props) {
           />
           
           <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={<Checkbox value="remember" color="primary" checked={rememberme} onChange={handleRememberme}/>}
               label="Remember me"
             />
           <Button

@@ -183,7 +183,6 @@ function Signup(props)
 				email,
 				graduationYear
 			};
-			console.log(user)
 			register(user);
 		}
 		else {
