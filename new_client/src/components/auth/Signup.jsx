@@ -19,6 +19,7 @@ import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import { connect } from "react-redux";
 import { register } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
+import Spinner from "../spinner/Spinner";
 import "./Error.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -306,7 +307,8 @@ function Signup(props)
 
 const mapStateToProps = (state) => ({
 	isAuthenticated: state.auth.isAuthenticated,
-	error: state.error
+	error: state.error,
+	isLoading: state.auth.isLoading
 });
 
 export default connect(mapStateToProps, { register, clearErrors })(Signup);

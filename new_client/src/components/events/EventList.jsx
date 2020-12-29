@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import axios from "axios";
 import AddIcon from "@material-ui/icons/Add";
 import AlertUtility from "../Utilities/Alert";
+import Spinner from '../spinner/Spinner';
 import IndividualEvent from "./IndividualEvent";
 
 const EventList = (props) => {
@@ -14,6 +15,7 @@ const EventList = (props) => {
   const [events, setEvents] = useState([]);
   const [isDeleted, setIsDeleted] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const deletedEventID = useRef("");
 
   useEffect(() => {
@@ -21,8 +23,12 @@ const EventList = (props) => {
       .get(process.env.REACT_APP_API + "/events")
       .then((res) => {
         setEvents(res.data.sort((a, b) => new Date(b.date) - new Date(a.date)));
+        setIsLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
   }, []);
 
   useEffect(() => {
@@ -99,7 +105,10 @@ const EventList = (props) => {
 
   return (
     <Container>
-      {events.length ? (
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        events.length > 0 &&
         events.map((article) => (
           <IndividualEvent
             key={article._id}
@@ -108,8 +117,6 @@ const EventList = (props) => {
             handleDelete={handleDelete}
           />
         ))
-      ) : (
-        <div>OOOPSY: NO EVENTS REGISTERED</div>
       )}
       {addEventFab}
       <AlertUtility

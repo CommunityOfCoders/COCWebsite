@@ -23,7 +23,6 @@ import { clearErrors } from "../../actions/errorActions";
 import { LOGIN_FAIL } from "../../actions/types";
 import Spinner from "../spinner/Spinner";
 
-
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -122,6 +121,7 @@ function SignIn(props) {
 			history.push("/");
 		}
 	}, [error, isAuthenticated, history]);
+  
   const classes = useStyles();
   return (
     <ThemeProvider theme={theme1}>
@@ -212,7 +212,8 @@ function SignIn(props) {
 
 const mapStateToProps = (state) => ({
 	isAuthenticated : state.auth.isAuthenticated,
-	error : state.error
+	error : state.error,
+	isLoading: state.auth.isLoading
 });
 
 export default connect(mapStateToProps, { login, clearErrors })(SignIn);
