@@ -12,10 +12,10 @@ function connect() {
   let connectionString = "mongodb://localhost:27017/test";
 
   if (process.env.NODE_ENV !== "test") {
-    if (process.env.NODE_ENV === "development") {
-      connectionString = process.env.MONGO_URI;
-    } else {
+    if (process.env.NODE_ENV === "production") {
       connectionString = process.env.MONGO_URI_PROD;
+    } else {
+      connectionString = process.env.MONGO_URI;
     }
   }
   mongoose.connect(connectionString, mongooseOptions);
