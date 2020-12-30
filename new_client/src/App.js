@@ -21,6 +21,8 @@ import AddEvent from "./components/events/AddEvent";
 import EventList from "./components/events/EventList";
 import IndividualImageGalllery from "./components/glimpses/IndividualImageGalllery";
 
+import ResourcePage from "./components/resources/ResourcePage";
+
 function App() {
   const store = configureStore();
   const history = createBrowserHistory();
@@ -47,6 +49,7 @@ function App() {
             <Route path="/events" component={EventList} />
             <Route path="/addevent" component={AddEvent} />
             <Route path="/event/edit/:id" component={AddEvent} />
+            <Route path="/resources" component={ResourcePage} />
             {/* <Footer /> */}
           </Switch>
         </div>
