@@ -16,16 +16,21 @@ module.exports = {
     */
     try{
       const body = req.body;
-      const imageUrl = replaceDriveURL(body['Profile Image'][0]);
+      let imageUrl = "";
+      if (!!body['Profile Image'] && body['Profile Image'].length > 0) {
+        imageUrl = replaceDriveURL(body['Profile Image'][0]);
+      }
       const alumnus = {
         fullName: body['Full Name'][0],
         email: body['Email Address'][0],
         city: body['Current Work City'][0],
         graduationYear: body['Graduation Year'][0],
         profileUrl: body['Profile URL (social media, portfolio, etc)'][0],
-        imageUrl: imageUrl,
         company: body['Current Company/Institute Name'][0],
         professionalTitle: body['Current Professional Title'][0],
+      }
+      if (!!imageUrl) {
+        alumnus[imageUrl] = imageUrl;
       }
       await Alumnus.create(alumnus);
       // console.log(req.body);
