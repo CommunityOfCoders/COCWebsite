@@ -1,63 +1,54 @@
 import { Container, Badge, Grid, Box, TextField } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import { markdownRender, sanitizeHTML } from "./utils";
-let marked = require("marked");
 
-export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      markdown: "",
-    };
-  }
+function SideBySide() {
+  const [markdown, setMarkdown] = useState("");
 
-  updateMarkdown(markdown) {
-    this.setState({ markdown });
-  }
+  const updateMarkdown = (newMarkdown) => {
+    setMarkdown(newMarkdown);
+  };
 
-  render() {
-    var inputStyle = {
-      width: "40vw",
-      height: "67vh",
-      marginRight: "auto",
-      padding: "10px",
-    };
-    var outputStyle = {
-      width: "40vw",
-      height: "67vh",
-      backgroundColor: "#DCDCDC",
-      marginRight: "auto",
-      padding: "10px",
-      overflow: "scroll",
-    };
+  const inputStyle = {
+    width: "40vw",
+    height: "67vh",
+    marginRight: "auto",
+    padding: "10px",
+  };
+  const outputStyle = {
+    width: "40vw",
+    height: "67vh",
+    backgroundColor: "#DCDCDC",
+    marginRight: "auto",
+    padding: "10px",
+    overflow: "scroll",
+  };
 
-    return (
-      <Grid container>
-        <Grid item xs={12} md={6} lg={6} style={{ marginTop: "4" }}>
-          <h4 style={{ textAlign: "center" }}>Markdown Input</h4>
-          <Box style={inputStyle}>
-            <TextField
-              value={this.state.markdown}
-              onChange={(e) => {
-                this.updateMarkdown(e.target.value);
-              }}
-              fullWidth
-              multiline
-              variant="outlined"
-              rows={19}
-            />
-          </Box>
-        </Grid>
-        <Grid item xs={12} md={6} lg={6} style={{ marginTop: "4" }}>
-          <h4 style={{ textAlign: "center" }}>Markdown Preview</h4>
-          <div
-            style={outputStyle}
-            dangerouslySetInnerHTML={markdownRender(
-              sanitizeHTML(this.state.markdown)
-            )}
+  return (
+    <Grid container spacing={3}>
+      <Grid item xs={12} md={6} lg={6} style={{ marginTop: "4" }}>
+        <h4 style={{ textAlign: "center" }}>Markdown Input</h4>
+        <Box>
+          <TextField
+            value={markdown}
+            onChange={(e) => {
+              updateMarkdown(e.target.value);
+            }}
+            fullWidth
+            multiline
+            variant="outlined"
+            rows={19}
           />
-        </Grid>
+        </Box>
       </Grid>
-    );
-  }
+      <Grid item xs={12} md={6} lg={6} style={{ marginTop: "4" }}>
+        <h4 style={{ textAlign: "center" }}>Markdown Preview</h4>
+        <Box
+          dangerouslySetInnerHTML={markdownRender(sanitizeHTML(markdown))}
+        />
+      </Grid>
+    </Grid>
+  );
 }
+
+export default SideBySide;

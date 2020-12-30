@@ -3,7 +3,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import { connect } from "react-redux";
 import React, { useState, useEffect } from "react";
 import Container from "@material-ui/core/Container";
-import { TextField, Button, Grid } from "@material-ui/core";
+import { TextField, Button, Grid, Box } from "@material-ui/core";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -13,6 +13,7 @@ import axios from "axios";
 import AlertUtility from "../Utilities/Alert";
 import { useParams } from "react-router-dom";
 import SidebySide from "./SidebySide";
+import { markdownRender, sanitizeHTML } from "./utils";
 
 function AddBlog(props) {
   const id = useParams().id;
@@ -38,6 +39,10 @@ function AddBlog(props) {
   const handleClose = () => {
     setIsSubmitted(false);
     props.history.push("/blogs");
+  };
+
+  const updateMarkdown = (newMarkdown) => {
+    setBlogContent(newMarkdown);
   };
 
   const handleDataSubmit = async () => {
@@ -123,7 +128,10 @@ function AddBlog(props) {
   }, [id]);
 
   return (
-    <Container maxWidth="lg" style={{ backgroundColor: "white", padding: "10px 40px" }}>
+    <Container
+      maxWidth="lg"
+      style={{ backgroundColor: "white", padding: "10px 40px" }}
+    >
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <TextField
@@ -148,9 +156,29 @@ function AddBlog(props) {
             onChange={(e) => setBlogTitle(e.target.value)}
           />
         </Grid>
-        {/* <Grid item xs={12}> */}
-          <SidebySide />
-        {/* </Grid> */}
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6} lg={6} style={{ marginTop: "4" }}>
+            <h4 style={{ textAlign: "center" }}>Markdown Input</h4>
+            <Box>
+              <TextField
+                value={blogContent}
+                onChange={(e) => {
+                  updateMarkdown(e.target.value);
+                }}
+                fullWidth
+                multiline
+                variant="outlined"
+                rows={19}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={6} lg={6} style={{ marginTop: "4" }}>
+            <h4 style={{ textAlign: "center" }}>Markdown Preview</h4>
+            <Box
+              dangerouslySetInnerHTML={markdownRender(sanitizeHTML(blogContent))}
+            />
+          </Grid>
+        </Grid>
         <Grid item xs={12}>
           <Button
             variant="contained"
