@@ -5,12 +5,13 @@ const Register = require('./controllers/Register')
 const GlimpseController = require('./controllers/GlimpseController')
 const DomainController = require('./controllers/DomainController')
 const ProjectController = require('./controllers/ProjectController')
+const AlumniController = require('./controllers/AlumniController')
+const ResourcesController = require('./controllers/ResourcesController')
+const AchievementsController = require('./controllers/AchievementsController')
 const upload = require('./middleware/upload')
 const auth = require('./middleware/auth')
 const blog = require('./middleware/blog')
 const user = require('./middleware/user')
-const AlumniController = require('./controllers/AlumniController')
-const ResourcesController = require('./controllers/ResourcesController')
 
 module.exports = (app) => {
     app.get('/api/hello', (req,res) => {res.json('Hello World')}) // Very hard to test and change
@@ -67,7 +68,7 @@ module.exports = (app) => {
     // Alumni
     app.get('/api/alumni', AlumniController.allAlumni); // Tested
     app.post('/api/alumni', AlumniController.createAlumnus); // Tested
-    
+
     // Resources
     app.get('/api/topic', ResourcesController.getAllTopics);
     app.get('/api/resource/:id', ResourcesController.getResourceById);
@@ -78,4 +79,8 @@ module.exports = (app) => {
     app.put('/api/topic/edit/:id', auth.loginRequired, user.isMember, ResourcesController.updateTopicById);
     app.delete('/api/resource/delete/:id', auth.loginRequired, user.isMember, ResourcesController.deleteResourceById);
     app.delete('/api/topic/delete/:id', auth.loginRequired, user.isMember, ResourcesController.deleteTopicById);
+
+    // Achievements
+    app.get('/api/achievements', AchievementsController.allAchievements);
+    app.post('/api/achievements', AchievementsController.createAchievement);
 }
