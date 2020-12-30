@@ -11,7 +11,7 @@ const resource = new mongoose.Schema({
   },
   link: {
     type: String,
-    required: false,
+    required: true,
   },
 });
 
