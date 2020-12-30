@@ -5,9 +5,9 @@ module.exports = {
   async createAchievement(req,res){
     try{
       const body = req.body;
-      let imageUrl = "";
-      if (!!body['Achievement Image'] && body['Achievement Image'].length > 0) {
-        imageUrl = replaceDriveURL(body['Achievement Image'][0]);
+      let projectUrl = "";
+      if (!!body['Project URL (Optional)'] && body['Project URL (Optional)'].length > 0) {
+        projectUrl = body['Project URL (Optional)'][0];
       }
       const achievement = {
         title: body['Achievement Title'][0],
@@ -15,10 +15,10 @@ module.exports = {
           fullName: body['Full Name'][0],
           email: body['Email Address'][0]
         },
-        projectUrl: body['Project URL (Optional)'][0]
+        imageUrl: replaceDriveURL(body['Achievement Image'][0])
       }
-      if (!!imageUrl) {
-        achievement["imageUrl"] = imageUrl;
+      if (!!projectUrl) {
+        achievement["projectUrl"] = projectUrl;
       }
       await Achievement.create(achievement);
       res.status(200).json({ Status: "OK" });
@@ -28,7 +28,7 @@ module.exports = {
   },
   async allAchievements(_,res){
     try{
-      const achievements = await Alumnus.find({});
+      const achievements = await Achievement.find({});
       return res.status(200).json({ achievements });
     } catch(e){
       return res.status(500).json({ error: e.message });
