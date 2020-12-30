@@ -16,21 +16,6 @@ module.exports = {
     }
   },
   /**
-   * @route GET api/resource/bytopic/:id
-   * @description Retrieve all resources of a topic by its _id
-   * @param {Object} req The request
-   * @param {Object} res The response
-   * @param {String} req.params.id The _id of the topic
-   */
-  getResourcesByTopicId: async (req, res) => {
-    try {
-      const topics = await Topic.findById(req.params.id).populate("resources");
-      res.status(200).json(topics);
-    } catch (error) {
-      res.status(500).json({ error });
-    }
-  },
-  /**
    * @route GET api/topic/:id
    * @description Get a particular topic (and its resources) by its _id
    * @param {Object} req The request
@@ -80,7 +65,7 @@ module.exports = {
         link: req.body.link,
       });
       topic.resources.push(resource._id);
-      topic.save();
+      await topic.save();
       res.status(201).json(resource);
     } catch (error) {
       res.status(500).json({ error });
@@ -147,7 +132,7 @@ module.exports = {
   deleteResourceById: async (req, res) => {
     try {
       await Resource.findByIdAndDelete(req.params.id);
-      res.status(200).end();
+      res.status(204).json({});
     } catch (error) {
       res.status(500).json({ error });
     }
@@ -162,7 +147,7 @@ module.exports = {
   deleteTopicById: async (req, res) => {
     try {
       await Topic.findByIdAndDelete(req.params.id);
-      res.status(200).end();
+      res.status(204).json({});
     } catch (error) {
       res.status(500).json({ error });
     }

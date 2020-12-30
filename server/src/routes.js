@@ -66,7 +66,6 @@ module.exports = (app) => {
     // Resources
     app.get('/api/topic', ResourcesController.getAllTopics);
     app.get('/api/resource/:id', ResourcesController.getResourceById);
-    app.get('/api/resource/bytopic/:id', ResourcesController.getResourcesByTopicId);
     app.get('/api/topic/:id', ResourcesController.getTopicById);
     app.post('/api/resource/add', auth.loginRequired, user.isMember, ResourcesController.addResource);
     app.post('/api/topic/add', auth.loginRequired, user.isMember, ResourcesController.addTopic);

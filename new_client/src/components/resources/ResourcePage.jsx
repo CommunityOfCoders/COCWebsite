@@ -31,7 +31,7 @@ export default function ResourcePage() {
   useEffect(() => {
     const getTopics = async () => {
       try {
-        let {data: topics} = await axios.get(process.env.REACT_APP_API + "/topic");
+        const {data: topics} = await axios.get(process.env.REACT_APP_API + "/topic");
         setTopics(topics);
         setIsLoading(false);
       } catch (error) {
