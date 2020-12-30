@@ -30,7 +30,7 @@ module.exports = {
         professionalTitle: body['Current Professional Title'][0],
       }
       if (!!imageUrl) {
-        alumnus[imageUrl] = imageUrl;
+        alumnus["imageUrl"] = imageUrl;
       }
       await Alumnus.create(alumnus);
       // console.log(req.body);
