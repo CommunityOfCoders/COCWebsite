@@ -1,4 +1,5 @@
 const Alumnus = require('../models/Alumnus');
+const replaceDriveURL = require('../utility/replaceDriveURL');
 
 module.exports = {
   async createAlumnus(req, res) {
@@ -15,7 +16,7 @@ module.exports = {
     */
     try{
       const body = req.body;
-      const imageUrl = body['Profile Image'][0].replace('/open?','/uc?export=view&amp;');
+      const imageUrl = replaceDriveURL(body['Profile Image'][0]);
       const alumnus = {
         fullName: body['Full Name'][0],
         email: body['Email Address'][0],
