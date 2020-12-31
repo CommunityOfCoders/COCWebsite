@@ -34,7 +34,8 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "showdown": "^1.9.1",
-    "styled-components": "^5.1.0"
+    "styled-components": "^5.1.0",
+    "typewriter-effect": "^2.15.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -56,5 +57,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "node-sass": "^4.14.1"
   }
 }
