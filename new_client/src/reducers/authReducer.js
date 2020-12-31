@@ -11,7 +11,7 @@ import {
 
 const initialState = {
   token: localStorage.getItem("token"),
-  isAuthenticated: localStorage.getItem("token") !== "",
+  isAuthenticated: !!localStorage.getItem("token"),
   isLoading: null,
   userID: localStorage.getItem("userID") ? localStorage.getItem("userID") : "",
   username: localStorage.getItem("username") ? localStorage.getItem("username") : ""

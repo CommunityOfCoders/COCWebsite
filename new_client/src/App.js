@@ -6,7 +6,7 @@ import configureStore from "./store/configureStore";
 
 // Components begin here
 import Header from "./components/Header";
-import Home from "./components/Home/home";
+import Home from "./components/Home/Home";
 import Footer from "./components/Footer";
 import About from "./components/pages/About";
 import Glimpse from "./components/glimpses/Glimpse";
@@ -17,12 +17,13 @@ import IndividualBlog from "./components/blogs/IndividualBlog";
 
 import Signin from "./components/auth/Signin.jsx";
 import Signup from "./components/auth/Signup.jsx";
-import NewHome from "./components/Home/Newhome";
 import AddEvent from "./components/events/AddEvent";
 import EventList from "./components/events/EventList";
 import IndividualImageGalllery from "./components/glimpses/IndividualImageGalllery";
 import Projects from './components/projects/Projects'
 import ProjectList from './components/projects/ProjectList'
+
+import ResourcePage from "./components/resources/ResourcePage";
 
 function App() {
   const store = configureStore();
@@ -47,12 +48,12 @@ function App() {
               render={(prevProps) => <IndividualImageGalllery {...prevProps} />}
             />
             <Route path="/glimpse" component={Glimpse} />
-            <Route path="/newHome" component={NewHome} />
             <Route path="/events" component={EventList} />
             <Route path="/addevent" component={AddEvent} />
             <Route path="/event/edit/:id" component={AddEvent} />
             <Route path="/projects/:category" component={ProjectList} /> 
             <Route path="/projects" exact component={Projects} />
+            <Route path="/resources" component={ResourcePage} />
             {/* <Footer /> */}
           </Switch>
         </div>
