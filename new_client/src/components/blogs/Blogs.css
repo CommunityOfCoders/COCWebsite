@@ -1,0 +1,12 @@
+.blogs-parallax {
+    background-image: url("./Blog.jpeg");
+
+    /* Set a specific height */
+    min-height: 70vh;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

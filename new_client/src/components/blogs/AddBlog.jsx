@@ -1,19 +1,12 @@
-import "date-fns";
-import DateFnsUtils from "@date-io/date-fns";
 import { connect } from "react-redux";
 import React, { useState, useEffect } from "react";
 import Container from "@material-ui/core/Container";
 import { TextField, Button, Grid, Box } from "@material-ui/core";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
-import Editor from "./Editor";
 import axios from "axios";
 import AlertUtility from "../Utilities/Alert";
 import { useParams } from "react-router-dom";
-import SidebySide from "./SidebySide";
 import { markdownRender, sanitizeHTML } from "./utils";
+import "./AddBlog.css";
 
 function AddBlog(props) {
   const id = useParams().id;
@@ -31,10 +24,6 @@ function AddBlog(props) {
   const successString = isEditPage
     ? "Blog edited successfully!"
     : "Blog added successfully!";
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
 
   const handleClose = () => {
     setIsSubmitted(false);
@@ -110,7 +99,7 @@ function AddBlog(props) {
         })
         .catch((err) => console.log(err));
     }
-  });
+  }, [isEditPage]);
 
   useEffect(() => {
     if (isEditPage) {
@@ -142,7 +131,6 @@ function AddBlog(props) {
         </Grid>
         <Grid item xs={12}>
           <TextField
-            autoFocus
             label="Enter your username"
             value={blogAuthor}
             disabled
@@ -151,12 +139,13 @@ function AddBlog(props) {
         </Grid>
         <Grid item xs={12}>
           <TextField
+            autoFocus
             label="Enter a title"
             value={blogTitle}
             onChange={(e) => setBlogTitle(e.target.value)}
           />
         </Grid>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} className="markdown">
           <Grid item xs={12} md={6} lg={6} style={{ marginTop: "4" }}>
             <h4 style={{ textAlign: "center" }}>Markdown Input</h4>
             <Box>
@@ -175,7 +164,10 @@ function AddBlog(props) {
           <Grid item xs={12} md={6} lg={6} style={{ marginTop: "4" }}>
             <h4 style={{ textAlign: "center" }}>Markdown Preview</h4>
             <Box
-              dangerouslySetInnerHTML={markdownRender(sanitizeHTML(blogContent))}
+              dangerouslySetInnerHTML={markdownRender(
+                sanitizeHTML(blogContent)
+              )}
+              className="markdown-preview"
             />
           </Grid>
         </Grid>
@@ -204,7 +196,6 @@ function AddBlog(props) {
         message="Oops! An error occurred. Please try again."
       />
     </Container>
-    // <SidebySide />
   );
 }
 

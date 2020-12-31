@@ -11,9 +11,9 @@ import Footer from "./components/Footer";
 import About from "./components/pages/About";
 import Glimpse from "./components/glimpses/Glimpse";
 
-import Blogs from "./components/blogs/Blog";
+import Blogs from "./components/blogs/Blogs";
 import AddBlog from "./components/blogs/AddBlog";
-import IndividualBlog from "./components/blogs/IndividualBlog";
+import BlogPage from "./components/blogs/BlogPage";
 
 import Signin from "./components/auth/Signin.jsx";
 import Signup from "./components/auth/Signup.jsx";
@@ -37,7 +37,7 @@ function App() {
             <Route exact path="/blogs" render={() => <Blogs />} />
             <Route path="/signin" component={Signin} />
             <Route exact path="/addblog" component={AddBlog} />
-            <Route path="/blogs/:id" component={IndividualBlog} />
+            <Route path="/blogs/:id" component={BlogPage} />
             <Route path="/blog/edit/:id" component={AddBlog} />
             <Route path="/signup" component={Signup} />
             <Route

@@ -1,14 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
-import { Grid, Container, Tooltip, Fab } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Container } from "@material-ui/core";
 import { connect } from "react-redux";
 import axios from "axios";
-import AddIcon from "@material-ui/icons/Add";
 import AlertUtility from "../Utilities/Alert";
-import Spinner from '../spinner/Spinner';
+import Spinner from "../spinner/Spinner";
 import IndividualEvent from "./IndividualEvent";
+import FAB from "../Utilities/FAB";
 
 const EventList = (props) => {
   const [isMember, setIsMember] = useState(false);
@@ -87,22 +86,6 @@ const EventList = (props) => {
     );
   };
 
-  let addEventFab = <div></div>;
-
-  if (isMember) {
-    addEventFab = (
-      <Grid item style={{ position: "fixed", right: "50px", bottom: "25px" }}>
-        <Link to="/addevent" style={{ color: "white" }}>
-          <Tooltip title="Add Event" aria-label="add" arrow>
-            <Fab color="secondary">
-              <AddIcon />
-            </Fab>
-          </Tooltip>
-        </Link>
-      </Grid>
-    );
-  }
-
   return (
     <Container>
       {isLoading ? (
@@ -118,7 +101,11 @@ const EventList = (props) => {
           />
         ))
       )}
-      {addEventFab}
+      <FAB
+        gotoLink="/addevent"
+        tooltipTitle="Add Event"
+        isAuthenticated={isMember}
+      />
       <AlertUtility
         open={isDeleted}
         duration={1000}
