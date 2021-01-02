@@ -13,7 +13,7 @@ import {
 import { connect } from "react-redux";
 import AlertUtility from "../Utilities/Alert";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, withRouter } from "react-router-dom";
 
 function AddEvent(props) {
   const [eventName, setEventName] = useState("");
@@ -348,4 +348,4 @@ const mapStateToProps = state => ({
 	username: state.auth.username,
 });
 
-export default connect(mapStateToProps)(AddEvent);
+export default withRouter(connect(mapStateToProps)(AddEvent));
