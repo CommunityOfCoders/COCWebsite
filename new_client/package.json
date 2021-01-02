@@ -25,7 +25,6 @@
     "react-dom": "^16.13.1",
     "react-image-gallery": "^1.0.8",
     "react-markdown": "^4.3.1",
-    "react-mde": "^10.1.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.3",
