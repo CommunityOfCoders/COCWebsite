@@ -4,13 +4,13 @@ import { Modal, Button } from 'react-bootstrap';
 const ModalComp = props => {
 	return (
 		<Modal
-			size='lg'
+			size={props.size}
 			onHide={props.closeHandler}
 			show={props.show}
 			aria-labelledby='contained-modal-title-vcenter'
 			centered>
 			<Modal.Header closeButton>{props.header}</Modal.Header>
-			<Modal.Body>{props.body}</Modal.Body>
+			<Modal.Body>{props.children}</Modal.Body>
 			<Modal.Footer>
 				<Button
 					variant='outline-secondary'
