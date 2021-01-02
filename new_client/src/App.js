@@ -7,7 +7,7 @@ import configureStore from "./store/configureStore";
 // Components begin here
 import Header from "./components/Header";
 import Home from "./components/Home/Home";
-import Footer from "./components/Footer";
+import Footer from "./components/footer/Footer";
 import About from "./components/pages/About";
 import Glimpse from "./components/glimpses/Glimpse";
 
@@ -30,7 +30,14 @@ function App() {
   return (
     <Provider store={store}>
       <Router history={history}>
-        <div className="App">
+        <div
+          className="App"
+          style={{
+            position: "relative",
+            minHeight: "100vh",
+            paddingBottom: "250px",
+          }}
+        >
           <Header />
           <Switch>
             <Route exact path="/" component={Home} />
@@ -50,8 +57,8 @@ function App() {
             <Route path="/addevent" component={AddEvent} />
             <Route path="/event/edit/:id" component={AddEvent} />
             <Route path="/resources" component={ResourcePage} />
-            {/* <Footer /> */}
           </Switch>
+          <Footer />
         </div>
       </Router>
     </Provider>
