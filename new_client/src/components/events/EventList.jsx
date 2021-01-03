@@ -129,13 +129,16 @@ const EventList = (props) => {
         size='lg'
         show={showModal} 
         header='Add New Event' 
+        hasCloseBtn
         closeHandler={handleModalClose}>
-        <AddEvent />
+        <AddEvent closeModal={() => setShowModal(false)} />
       </Modal>
       <Modal 
         size='sm'
+        keyboard={false}
         show={isModalClosing}
         header='Close form' 
+        backdrop='static'
         closeHandler={() => {
           setShowModal(false)
           setIsModalClosing(false);

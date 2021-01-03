@@ -176,14 +176,15 @@ function AddEvent(props) {
             setIsSubmitted(true);
           } else {
             setIsError(true);
-		  }
-		  setIsLoading(false);
+		      }
+          setIsLoading(false);
         })
         .catch((err) => {
-		  setIsError(true);
-		  setIsLoading(false);
+		      setIsError(true);
+		      setIsLoading(false);
           console.log(err);
         });
+      props.closeModal();
     }
   };
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import './Modal.css';
 
 const ModalComp = props => {
 	return (
@@ -7,9 +8,13 @@ const ModalComp = props => {
 			size={props.size}
 			onHide={props.closeHandler}
 			show={props.show}
+			backdrop={props.backdrop}
+			keyboard={props.keyboard}
 			aria-labelledby='contained-modal-title-vcenter'
 			centered>
-			<Modal.Header closeButton>{props.header}</Modal.Header>
+			<Modal.Header closeButton={props.hasCloseBtn}>
+				{props.header}
+			</Modal.Header>
 			<Modal.Body>{props.children}</Modal.Body>
 			<Modal.Footer>
 				<Button
