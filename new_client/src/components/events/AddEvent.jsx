@@ -191,7 +191,7 @@ function AddEvent(props) {
   return (
     <div>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <div className="jumbotron" style={{ margin: "20px 150px" }}>
+        <div className="jumbotron" style={{ margin: "20px 50px" }}>
           <form onSubmit={isEditPage ? handleEditEvent : handleAddEvent}>
             <div className="form-group">
               <Grid container>

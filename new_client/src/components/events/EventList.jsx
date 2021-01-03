@@ -126,7 +126,7 @@ const EventList = (props) => {
       )}
       {addEventFab}
       <Modal
-        size='lg'
+        size='xl'
         show={showModal} 
         header='Add New Event' 
         hasCloseBtn
