@@ -127,8 +127,8 @@ function AddEvent(props) {
       formData.append("description", eventDescription);
       formData.append("date", eventDate);
       formData.append("venue", eventVenue);
-	  formData.append("graduationYear", eventGraduationYear);
-	  setIsLoading(true);
+	    formData.append("graduationYear", eventGraduationYear);
+	    setIsLoading(true);
       axios
         .post(process.env.REACT_APP_API + "/events", formData, {
           headers: {
@@ -138,14 +138,15 @@ function AddEvent(props) {
         .then((res) => {
           if (res.status === 200) {
             setIsSubmitted(true);
+            props.closeModal();
           } else {
             setIsError(true);
-		  }
-		  setIsLoading(false);
+		      }
+          setIsLoading(false);
         })
         .catch((err) => {
-		  setIsError(true);
-		  setIsLoading(false);
+		      setIsError(true);
+          setIsLoading(false);
           console.log(err);
         });
     } else {
@@ -163,8 +164,8 @@ function AddEvent(props) {
       formData.append("description", eventDescription);
       formData.append("date", eventDate);
       formData.append("venue", eventVenue);
-	  formData.append("graduationYear", eventGraduationYear);
-	  setIsLoading(true);
+      formData.append("graduationYear", eventGraduationYear);
+      setIsLoading(true);
       axios
         .put(process.env.REACT_APP_API + `/events/${eventID}`, formData, {
           headers: {
@@ -184,7 +185,6 @@ function AddEvent(props) {
 		      setIsLoading(false);
           console.log(err);
         });
-      props.closeModal();
     }
   };
 
