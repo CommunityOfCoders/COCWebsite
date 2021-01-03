@@ -7,6 +7,7 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   LOGOUT_SUCCESS,
+  NEW_PASSWORD_SUCCESS,
 } from "../actions/types";
 
 const initialState = {
@@ -14,7 +15,10 @@ const initialState = {
   isAuthenticated: localStorage.getItem("token") !== "",
   isLoading: null,
   userID: localStorage.getItem("userID") ? localStorage.getItem("userID") : "",
-  username: localStorage.getItem("username") ? localStorage.getItem("username") : ""
+  username: localStorage.getItem("username")
+    ? localStorage.getItem("username")
+    : "",
+  newPassword: false,
 };
 
 export default function authReducer(state = initialState, action) {
@@ -40,6 +44,12 @@ export default function authReducer(state = initialState, action) {
         ...action.payload,
         isAuthenticated: true,
         isLoading: false,
+      };
+    case NEW_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        newPassword: true,
+        isAuthenticated: false
       };
     case AUTH_ERROR:
     case LOGIN_FAIL:

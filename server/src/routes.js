@@ -18,6 +18,8 @@ module.exports = (app) => {
     app.post('/api/login',AuthController.login) // Tested
     app.post('/api/verify-token',AuthController.verifyToken) // Tested
     app.post('/api/user',AuthController.getUser) // Tested
+    app.post('/api/forgot-password', AuthController.forgotPassword);
+    app.post('/api/new-password', AuthController.newPassword);
 
     //Events Paths
     app.get('/api/events', Events.getEvents); // Tested

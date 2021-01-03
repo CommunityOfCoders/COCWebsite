@@ -2,6 +2,8 @@ const User = require("../models/User");
 const passwordhasher = require("password-hasher");
 const jwt = require("jsonwebtoken");
 const config = require("../config");
+const crypto = require("crypto");
+const sendEmail = require("../utility/sendEmail");
 
 function passwordHash(password) {
   const hash = passwordhasher.createHash(
@@ -106,14 +108,13 @@ module.exports = {
 
   async getUser(req, res) {
     try {
-
       let userID = "";
       let username = "";
       if (!!req.body.userID) {
         userID = req.body.userID;
       }
       if (!!req.body.username) {
-        username = req.body.username
+        username = req.body.username;
       }
 
       let user;
@@ -135,6 +136,53 @@ module.exports = {
       res.status(400).json({
         error: e.message,
       });
+    }
+  },
+
+  async forgotPassword(req, res) {
+    try {
+      const { email } = req.body;
+      let user = await User.findOne({ email });
+      if (user) {
+        const buffer = crypto.randomBytes(32);
+        const token = buffer.toString("hex");
+        user.passwordResetToken = token;
+        user.passwordResetTokenTime = Date.now() + 60 * 60 * 1000;
+        await user.save();
+        const emailMessage = `
+      <p>It seems that you have forgotten your password. Don't worry, happens to the best of us.</p>
+      <br />
+      <p>Click on this <a href="http://localhost:3000/newpass/${token}">link</a> to reset your password</p>
+      `;
+        await sendEmail(user.email, "Password Confirmation", emailMessage);
+        return res.status(200).json({ message: "Email sent" });
+      } else {
+        return res.status(404).json({ error: "User does not exist!" });
+      }
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  },
+
+  async newPassword(req, res) {
+    try {
+      const { newPassword, token } = req.body;
+      let user = await User.findOne({
+        passwordResetToken: token,
+        passwordResetTokenTime: { $gt: Date.now() },
+      });
+      if (user) {
+        const hashedPassword = passwordHash(newPassword);
+        user.password = hashedPassword;
+        user.passwordResetToken = undefined;
+        user.passwordResetTokenTime = undefined;
+        await user.save();
+        return res.status(200).json({ message: "New password updated" });
+      } else {
+        return res.status(400).json({ error: "Link expired!" });
+      }
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
     }
   },
 };
