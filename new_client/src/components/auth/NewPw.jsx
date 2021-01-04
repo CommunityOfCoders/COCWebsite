@@ -94,17 +94,11 @@ function NewPw(props) {
     history.push("/signin");
   }
 
-  useEffect(() => {
-    if (props.newPassword) {
-      setIsSubmitted(true);
-    }
-  }, [props.newPassword]);
-
   function handleClick(event) {
     event.preventDefault();
     if (isFormValid()) {
-      console.log("Here")
-      newPassword({ newPassword: password, token });
+      props.newPassword({ newPassword: password, token });
+      setIsSubmitted(true);
     } else {
       alert("There are errors in your form !");
     }
@@ -177,7 +171,7 @@ function NewPw(props) {
 }
 
 const mapStateToProps = (state) => ({
-  newPassword: state.newPassword,
+  newPassword: state.auth.newPassword,
 });
 
-export default connect(mapStateToProps)(NewPw);
+export default connect(mapStateToProps, { newPassword })(NewPw);
