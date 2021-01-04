@@ -1,11 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 
 export default makeStyles(() => ({
-  footer: {
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
-  },
   footerContent: {
     padding: "1rem",
     backgroundColor: "#111111",
