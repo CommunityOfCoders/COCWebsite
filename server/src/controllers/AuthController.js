@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 const config = require("../config");
 const crypto = require("crypto");
 const sendEmail = require("../utility/sendEmail");
+const ejs = require("ejs");
+const path = require("path");
 
 function passwordHash(password) {
   const hash = passwordhasher.createHash(
@@ -149,13 +151,25 @@ module.exports = {
         user.passwordResetToken = token;
         user.passwordResetTokenTime = Date.now() + 60 * 60 * 1000;
         await user.save();
-        const emailMessage = `
-      <p>It seems that you have forgotten your password. Don't worry, happens to the best of us.</p>
-      <br />
-      <p>Click on this <a href="http://localhost:3000/newpass/${token}">link</a> to reset your password</p>
-      `;
-        await sendEmail(user.email, "Password Confirmation", emailMessage);
-        return res.status(200).json({ message: "Email sent" });
+        try {
+          const baseURL =
+            process.env.NODE_ENV === "production"
+              ? "https://coc-vjti.herokuapp.com"
+              : "http://localhost:3000";
+          const data = await ejs.renderFile(
+            path.join(__dirname, "../views/forgotPassword.ejs"),
+            {
+              username: user.username,
+              link: `${baseURL}/newpass/${token}`,
+            }
+          );
+          await sendEmail(user.email, "Password Reset", data);
+          return res.status(200).json({ message: "Email sent" });
+        } catch (error) {
+          return res
+            .status(500)
+            .json({ error: "Unable to send email : " + error.message });
+        }
       } else {
         return res.status(404).json({ error: "User does not exist!" });
       }
