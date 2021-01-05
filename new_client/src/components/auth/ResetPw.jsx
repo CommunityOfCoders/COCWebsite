@@ -115,7 +115,6 @@ function ResetPw() {
                 margin="normal"
                 fullWidth
                 color="#52b107"
-                required
                 label="Email ID"
                 placeholder="Enter registered Email ID"
                 name="username"

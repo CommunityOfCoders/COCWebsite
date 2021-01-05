@@ -22,6 +22,7 @@ import { login } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
 import { LOGIN_FAIL } from "../../actions/types";
 import Spinner from "../spinner/Spinner";
+import PasswordField from "./PasswordField";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -167,24 +168,7 @@ function SignIn(props) {
                   <div style={{ fontSize: 15 }} className="errorMsg">
                     {errors.username}
                   </div>
-                  <TextField
-                    margin="normal"
-                    fullWidth
-                    required
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <VpnKeyIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-                    onChange={handlePassword}
-                  />
+                  <PasswordField handlePassword={handlePassword} />
                   <div style={{ fontSize: 15 }} className="errorMsg">
                     {errors.password}
                   </div>

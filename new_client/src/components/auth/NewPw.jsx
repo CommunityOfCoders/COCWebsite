@@ -16,6 +16,7 @@ import "./Error.css";
 import { newPassword } from "../../actions/authActions";
 import AlertUtility from "../Utilities/Alert";
 import { connect } from "react-redux";
+import PasswordField from "./PasswordField";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -59,8 +60,12 @@ function NewPw(props) {
 
   const [password, setPassword] = useState("");
   const handlePassword = (e) => setPassword(e.target.value);
+
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const handleConfirmPassword = (e) => setConfirmPassword(e.target.value);
   const [errors, updateErrors] = useState({
     password: "",
+    confirmPassword: "",
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -86,6 +91,22 @@ function NewPw(props) {
         });
       }
     }
+    if (!confirmPassword) {
+      formIsValid = false;
+      updateErrors((prevState) => ({
+        ...prevState,
+        confirmPassword: "*Please enter your password to confirm",
+      }));
+    } else {
+      if (confirmPassword !== password) {
+        formIsValid = false;
+        updateErrors((prevState) => ({
+          ...prevState,
+          confirmPassword: "*Passwords don't match!",
+        }));
+      }
+    }
+
     return formIsValid;
   }
 
@@ -119,28 +140,17 @@ function NewPw(props) {
           </Typography>
           <form className={classes.form} noValidate>
             <div className={classes.formInner}>
-              <TextField
-                margin="normal"
-                fullWidth
-                required
-                name="password"
-                label="New Password"
-                placeholder="Enter New Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <VpnKeyIcon />
-                    </InputAdornment>
-                  ),
-                }}
-                style={{ color: "#52b107" }}
-                onChange={handlePassword}
-              />
+              <PasswordField handlePassword={handlePassword} isNew />
               <div style={{ fontSize: 15 }} className="errorMsg">
                 {errors.password}
+              </div>
+              <PasswordField
+                handlePassword={handleConfirmPassword}
+                name="confirm password"
+                isNew
+              />
+              <div style={{ fontSize: 15 }} className="errorMsg">
+                {errors.confirmPassword}
               </div>
               <Button
                 type="submit"
