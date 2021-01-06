@@ -60,6 +60,7 @@ function AddEvent(props) {
 
   const handleClose = () => {
     setIsSubmitted(false);
+    props.closeModal();
     props.history.push("/events");
   };
 
@@ -138,7 +139,6 @@ function AddEvent(props) {
         .then((res) => {
           if (res.status === 200) {
             setIsSubmitted(true);
-            props.closeModal();
           } else {
             setIsError(true);
 		      }
@@ -335,7 +335,10 @@ function AddEvent(props) {
       <AlertUtility
         open={isError}
         duration={1000}
-        onCloseHandler={() => setIsError(false)}
+        onCloseHandler={() => {
+          setIsError(false);
+          props.closeModal();
+        }}
         severity="error"
         message="Oops! An error occurred. Please try again."
       />
