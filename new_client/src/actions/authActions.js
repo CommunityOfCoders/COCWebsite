@@ -57,13 +57,13 @@ export const register = ({ username, email, password, graduationYear }) => (disp
 
 }
 
-export const login = ({ username, password }) => (dispatch) => {
+export const login = ({ username, password, rememberme }) => (dispatch) => {
   const config = {
     headers: {
       "Content-Type": "application/json"
     }
   };
-  const body = JSON.stringify({ username, password });
+  const body = JSON.stringify({ username, password, rememberme });
 
   axios
     .post(process.env.REACT_APP_API + "/login", body, config)

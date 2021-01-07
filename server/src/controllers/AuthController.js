@@ -55,7 +55,7 @@ module.exports = {
 
   async login(req, res) {
     try {
-      const { username, password } = req.body;
+      const { username, password,rememberme } = req.body;
 
       const user = await User.findOne({
         username: username,
@@ -85,6 +85,7 @@ module.exports = {
         username: user.username,
         token: token,
         userID: user._id,
+        rememberme: rememberme
       });
     } catch (error) {
       return res.status(500).json({

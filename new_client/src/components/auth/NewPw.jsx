@@ -11,11 +11,13 @@ import coc from "./coc.png";
 import bg from "./bg_signin.png";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { useHistory, useParams } from "react-router-dom";
+import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import {NEW_PASSWORD_SUCCESS,NEW_PASSWORD_FAIL} from '../../actions/types' 
+import { returnErrors } from "../../actions/errorActions";
 
 import "./Error.css";
-import { newPassword } from "../../actions/authActions";
 import AlertUtility from "../Utilities/Alert";
-import { connect } from "react-redux";
 import PasswordField from "./PasswordField";
 
 const useStyles = makeStyles((theme) => ({
@@ -57,6 +59,8 @@ const theme1 = createMuiTheme({
 function NewPw(props) {
   const token = useParams().token;
   const history = useHistory();
+  const dispatch = useDispatch()
+
 
   const [password, setPassword] = useState("");
   const handlePassword = (e) => setPassword(e.target.value);
@@ -69,6 +73,7 @@ function NewPw(props) {
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   function isFormValid() {
     let formIsValid = true;
@@ -115,11 +120,40 @@ function NewPw(props) {
     history.push("/signin");
   }
 
-  function handleClick(event) {
+  function handleClick(event){
     event.preventDefault();
     if (isFormValid()) {
-      props.newPassword({ newPassword: password, token });
-      setIsSubmitted(true);
+      const config = {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      };
+      const body = JSON.stringify({ newPassword: password, token });
+      axios
+        .post(process.env.REACT_APP_API + "/new-password", body, config)
+        .then(res => {
+          if(res.status===200)
+          {
+            setIsSubmitted(true)
+            dispatch({
+              type: NEW_PASSWORD_SUCCESS,
+              payload: res.data
+            });
+          }
+          else
+            setIsError(true)
+          
+        })
+        .catch(err => {
+          setIsError(true)
+          dispatch(
+            returnErrors(err.response.data, err.response.status, NEW_PASSWORD_FAIL)
+          );
+          dispatch({
+            type: NEW_PASSWORD_FAIL
+          })
+        });
+
     } else {
       alert("There are errors in your form !");
     }
@@ -176,12 +210,15 @@ function NewPw(props) {
           "Password reset successful! You will be redirected to login screen"
         }
       />
+      <AlertUtility
+        open={isError}
+        duration={3000}
+        onCloseHandler={() => setIsError(false)}
+        severity="error"
+        message="Oops! An error occurred. Please try again."
+      />
     </ThemeProvider>
   );
 }
 
-const mapStateToProps = (state) => ({
-  newPassword: state.auth.newPassword,
-});
-
-export default connect(mapStateToProps, { newPassword })(NewPw);
+export default NewPw;

@@ -70,6 +70,7 @@ function SignIn(props) {
     isLoading,
   } = props;
 
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberme, setRememberme] = useState(false);
@@ -110,7 +111,7 @@ function SignIn(props) {
   function handleClick(event) {
     event.preventDefault();
     if (isFormValid()) {
-      const user = { username, password };
+      const user = { username, password, rememberme};
       login(user);
     } else {
       alert("There are errors in your form !");
