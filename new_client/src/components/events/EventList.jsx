@@ -9,6 +9,8 @@ import AddIcon from "@material-ui/icons/Add";
 import AlertUtility from "../Utilities/Alert";
 import Spinner from '../spinner/Spinner';
 import IndividualEvent from "./IndividualEvent";
+import Modal from '../Modal/Modal';
+import AddEvent from './AddEvent';
 
 const EventList = (props) => {
   const [isMember, setIsMember] = useState(false);
@@ -16,6 +18,8 @@ const EventList = (props) => {
   const [isDeleted, setIsDeleted] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [isModalClosing, setIsModalClosing] = useState(false);
   const deletedEventID = useRef("");
 
   useEffect(() => {
@@ -47,6 +51,10 @@ const EventList = (props) => {
       })
       .catch((err) => console.log(err));
   }, [props.userID]);
+
+  const handleModalClose = () => {
+    setIsModalClosing(true);
+  }
 
   const handleDelete = (eventId) => {
     confirmAlert({
@@ -92,13 +100,11 @@ const EventList = (props) => {
   if (isMember) {
     addEventFab = (
       <Grid item style={{ position: "fixed", right: "50px", bottom: "25px" }}>
-        <Link to="/addevent" style={{ color: "white" }}>
-          <Tooltip title="Add Event" aria-label="add" arrow>
-            <Fab color="secondary">
-              <AddIcon />
-            </Fab>
-          </Tooltip>
-        </Link>
+        <Tooltip title="Add Event" aria-label="add" arrow>
+          <Fab onClick={() => setShowModal(true)} color="secondary">
+            <AddIcon />
+          </Fab>
+        </Tooltip>
       </Grid>
     );
   }
@@ -119,6 +125,29 @@ const EventList = (props) => {
         ))
       )}
       {addEventFab}
+      <Modal
+        size='xl'
+        show={showModal} 
+        header='Add New Event' 
+        hasCloseBtn
+        closeHandler={handleModalClose}>
+        <AddEvent closeModal={() => setShowModal(false)} />
+      </Modal>
+      <Modal 
+        size='sm'
+        keyboard={false}
+        show={isModalClosing}
+        header='Close form' 
+        backdrop='static'
+        closeHandler={() => {
+          setShowModal(false)
+          setIsModalClosing(false);
+        }}
+        hasBtn
+        btnText='Cancel'
+        btnClickHandler={() => setIsModalClosing(false)}>
+        <p>All form data will be lost</p>
+      </Modal>
       <AlertUtility
         open={isDeleted}
         duration={1000}

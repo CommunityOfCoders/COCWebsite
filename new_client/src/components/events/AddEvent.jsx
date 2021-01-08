@@ -13,7 +13,7 @@ import {
 import { connect } from "react-redux";
 import AlertUtility from "../Utilities/Alert";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, withRouter } from "react-router-dom";
 
 function AddEvent(props) {
   const [eventName, setEventName] = useState("");
@@ -60,6 +60,7 @@ function AddEvent(props) {
 
   const handleClose = () => {
     setIsSubmitted(false);
+    props.closeModal();
     props.history.push("/events");
   };
 
@@ -127,8 +128,8 @@ function AddEvent(props) {
       formData.append("description", eventDescription);
       formData.append("date", eventDate);
       formData.append("venue", eventVenue);
-	  formData.append("graduationYear", eventGraduationYear);
-	  setIsLoading(true);
+	    formData.append("graduationYear", eventGraduationYear);
+	    setIsLoading(true);
       axios
         .post(process.env.REACT_APP_API + "/events", formData, {
           headers: {
@@ -140,12 +141,12 @@ function AddEvent(props) {
             setIsSubmitted(true);
           } else {
             setIsError(true);
-		  }
-		  setIsLoading(false);
+		      }
+          setIsLoading(false);
         })
         .catch((err) => {
-		  setIsError(true);
-		  setIsLoading(false);
+		      setIsError(true);
+          setIsLoading(false);
           console.log(err);
         });
     } else {
@@ -163,8 +164,8 @@ function AddEvent(props) {
       formData.append("description", eventDescription);
       formData.append("date", eventDate);
       formData.append("venue", eventVenue);
-	  formData.append("graduationYear", eventGraduationYear);
-	  setIsLoading(true);
+      formData.append("graduationYear", eventGraduationYear);
+      setIsLoading(true);
       axios
         .put(process.env.REACT_APP_API + `/events/${eventID}`, formData, {
           headers: {
@@ -176,12 +177,12 @@ function AddEvent(props) {
             setIsSubmitted(true);
           } else {
             setIsError(true);
-		  }
-		  setIsLoading(false);
+		      }
+          setIsLoading(false);
         })
         .catch((err) => {
-		  setIsError(true);
-		  setIsLoading(false);
+		      setIsError(true);
+		      setIsLoading(false);
           console.log(err);
         });
     }
@@ -190,7 +191,7 @@ function AddEvent(props) {
   return (
     <div>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <div className="jumbotron" style={{ margin: "20px 150px" }}>
+        <div className="jumbotron" style={{ margin: "20px 50px" }}>
           <form onSubmit={isEditPage ? handleEditEvent : handleAddEvent}>
             <div className="form-group">
               <Grid container>
@@ -334,7 +335,10 @@ function AddEvent(props) {
       <AlertUtility
         open={isError}
         duration={1000}
-        onCloseHandler={() => setIsError(false)}
+        onCloseHandler={() => {
+          setIsError(false);
+          props.closeModal();
+        }}
         severity="error"
         message="Oops! An error occurred. Please try again."
       />
@@ -348,4 +352,4 @@ const mapStateToProps = state => ({
 	username: state.auth.username,
 });
 
-export default connect(mapStateToProps)(AddEvent);
+export default withRouter(connect(mapStateToProps)(AddEvent));

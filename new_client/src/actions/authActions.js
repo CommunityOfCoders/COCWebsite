@@ -6,7 +6,9 @@ import {
   LOGIN_FAIL,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  LOGOUT_SUCCESS
+  LOGOUT_SUCCESS,
+  NEW_PASSWORD_SUCCESS,
+  NEW_PASSWORD_FAIL
 } from "./types";
 import axios from "axios";
 import { returnErrors } from "./errorActions";
@@ -55,13 +57,13 @@ export const register = ({ username, email, password, graduationYear }) => (disp
 
 }
 
-export const login = ({ username, password }) => (dispatch) => {
+export const login = ({ username, password, rememberme }) => (dispatch) => {
   const config = {
     headers: {
       "Content-Type": "application/json"
     }
   };
-  const body = JSON.stringify({ username, password });
+  const body = JSON.stringify({ username, password, rememberme });
 
   axios
     .post(process.env.REACT_APP_API + "/login", body, config)
@@ -80,6 +82,34 @@ export const login = ({ username, password }) => (dispatch) => {
         type: LOGIN_FAIL
       })
     });
+}
+
+export const newPassword = ({ newPassword, token }) => (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+  const body = JSON.stringify({ newPassword, token });
+  axios
+    .post(process.env.REACT_APP_API + "/new-password", body, config)
+    .then(res => {
+      console.log(res.data);
+      dispatch({
+        type: NEW_PASSWORD_SUCCESS,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch(
+        returnErrors(err.response.data, err.response.status, NEW_PASSWORD_FAIL)
+      );
+      dispatch({
+        type: NEW_PASSWORD_FAIL
+      })
+    });
+
 }
 
 export const logout = () => (dispatch) => {
