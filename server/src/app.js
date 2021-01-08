@@ -11,6 +11,8 @@ const app = express();
 app.use(express.json({ limit: "10mb" }));
 app.use(cors());
 
+app.set("view engine", "ejs");
+
 if (process.env.NODE_ENV !== "test") {
   app.use(morgan("combined"));
 }
