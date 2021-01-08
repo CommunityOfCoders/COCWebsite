@@ -7,7 +7,7 @@ import configureStore from "./store/configureStore";
 // Components begin here
 import Header from "./components/Header";
 import Home from "./components/Home/Home";
-import Footer from "./components/Footer";
+import Footer from "./components/footer/Footer";
 import About from "./components/pages/About";
 import Glimpse from "./components/glimpses/Glimpse";
 
@@ -21,6 +21,8 @@ import AddEvent from "./components/events/AddEvent";
 import EventList from "./components/events/EventList";
 import IndividualImageGalllery from "./components/glimpses/IndividualImageGalllery";
 
+import ResetPw from './components/auth/ResetPw'
+import NewPw from './components/auth/NewPw'
 import ResourcePage from "./components/resources/ResourcePage";
 
 function App() {
@@ -30,13 +32,24 @@ function App() {
   return (
     <Provider store={store}>
       <Router history={history}>
-        <div className="App">
+        <div
+          className="App"
+          style={{
+            position: "relative",
+            minHeight: "100vh",
+            paddingBottom: "250px",
+          }}
+        >
           <Header />
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />
             <Route exact path="/blogs" render={() => <Blogs />} />
             <Route path="/signin" component={Signin} />
+
+            <Route path='/reset' component={ResetPw} />
+            <Route path='/newpass/:token' component={NewPw} />
+
             <Route exact path="/addblog" component={AddBlog} />
             <Route path="/blogs/:id" component={IndividualBlog} />
             <Route path="/blog/edit/:id" component={AddBlog} />
@@ -50,8 +63,8 @@ function App() {
             <Route path="/addevent" component={AddEvent} />
             <Route path="/event/edit/:id" component={AddEvent} />
             <Route path="/resources" component={ResourcePage} />
-            {/* <Footer /> */}
           </Switch>
+          <Footer />
         </div>
       </Router>
     </Provider>
