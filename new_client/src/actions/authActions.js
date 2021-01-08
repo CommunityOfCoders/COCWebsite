@@ -85,7 +85,6 @@ export const login = ({ username, password, rememberme }) => (dispatch) => {
 }
 
 export const newPassword = ({ newPassword, token }) => (dispatch) => {
-  console.log(newPassword, token);
   const config = {
     headers: {
       "Content-Type": "application/json"
