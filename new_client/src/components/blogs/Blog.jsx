@@ -170,6 +170,12 @@ const Blogs = (props) => {
                       Estimated reading time - {" "}
                       {calculateReadingTime(article.blogContent)}
                     </p>
+					<p>Tags - </p>
+					<ul style={{ marginBottom: 0, marginLeft: 0, display: "inline-flex" }}>
+						{article.tags.map(t => (
+							<li key={t}>{t}</li>
+						))}
+					</ul>
                   </Typography>
                 </CardContent>
                 <CardActions>
