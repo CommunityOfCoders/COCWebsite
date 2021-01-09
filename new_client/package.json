@@ -21,6 +21,7 @@
     "react-bootstrap": "^1.0.1",
     "react-confirm-alert": "^2.6.1",
     "react-dom": "^16.13.1",
+    "react-helmet": "^6.1.0",
     "react-image-gallery": "^1.0.8",
     "react-markdown": "^4.3.1",
     "react-mde": "^10.1.0",
