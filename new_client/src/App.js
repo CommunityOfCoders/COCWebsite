@@ -21,6 +21,8 @@ import AddEvent from "./components/events/AddEvent";
 import EventList from "./components/events/EventList";
 import IndividualImageGalllery from "./components/glimpses/IndividualImageGalllery";
 
+import ResetPw from './components/auth/ResetPw'
+import NewPw from './components/auth/NewPw'
 import ResourcePage from "./components/resources/ResourcePage";
 
 function App() {
@@ -44,6 +46,10 @@ function App() {
             <Route path="/about" component={About} />
             <Route exact path="/blogs" render={() => <Blogs />} />
             <Route path="/signin" component={Signin} />
+
+            <Route path='/reset' component={ResetPw} />
+            <Route path='/newpass/:token' component={NewPw} />
+
             <Route exact path="/addblog" component={AddBlog} />
             <Route path="/blogs/:id" component={IndividualBlog} />
             <Route path="/blog/edit/:id" component={AddBlog} />
