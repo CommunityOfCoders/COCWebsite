@@ -35,34 +35,7 @@ export default function Header(props) {
 	}
 	function currPageChange(clickedPage) {
 		// console.log(`Curr page changed to ${clickedPage}`);
-		switch (clickedPage) {
-			case "home":
-				setCurrPage("home");
-				break;
-			case "about":
-				setCurrPage("about");
-				break;
-			case "events":
-				setCurrPage("events");
-				break;
-			case "glimpse":
-				setCurrPage("glimpse");
-				break;
-			case "blogs":
-				setCurrPage("blogs");
-				break;
-			case "resources":
-				setCurrPage("resources");
-				break;
-			case "projects":
-				setCurrPage("projects");
-				break;
-			case "login":
-				setCurrPage("login");
-				break;
-			default:
-				break;
-		}
+		setCurrPage(clickedPage);
 	}
 
 	return (
