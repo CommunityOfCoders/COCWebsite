@@ -5,6 +5,8 @@ import "./Header.css";
 export default function Header(props) {
 	const [isDesktop, setisDesktop] = useState(window.innerWidth > 1080);
 	const [navOpen, setnavOpen] = useState(false);
+	// const [currPage, setCurrPage] = useState("home");
+
 	useEffect(() => {
 		function navToggle() {
 			setnavOpen((navPrevState) => {
@@ -21,6 +23,7 @@ export default function Header(props) {
 				.removeEventListener("click", navToggle);
 		};
 	}, []);
+	let navItemClass = isDesktop ? "nav-item-desk" : "nav-item-mob";
 
 	return (
 		<div className={isDesktop ? "navbar-custom-desk" : "navbar-custom-mob"}>
@@ -36,64 +39,49 @@ export default function Header(props) {
 					(navOpen ? " nav-mob-open" : " nav-mob-close")
 				}
 			>
-				<Link to="/" className={isDesktop ? "nav-item-desk" : "nav-item-mob"}>
+				<Link to="/" className={navItemClass}>
 					<div className="nav-item-cont-wrapper curr-page">
 						Home
 						<i class="fa fa-home" aria-hidden="true"></i>
 					</div>
 				</Link>
-				<Link
-					to="/about"
-					className={isDesktop ? "nav-item-desk" : "nav-item-mob"}
-				>
+				<Link to="/about" className={navItemClass}>
 					<div className="nav-item-cont-wrapper">
 						About Us
 						<i class="fa fa-info-circle" aria-hidden="true"></i>
 					</div>
 				</Link>
-				<Link
-					to="/events"
-					className={isDesktop ? "nav-item-desk" : "nav-item-mob"}
-				>
+				<Link to="/events" className={navItemClass}>
 					<div className="nav-item-cont-wrapper">
 						Events
 						<i class="fa fa-calendar" aria-hidden="true"></i>
 					</div>
 				</Link>
-				<Link
-					to="/glimpse"
-					className={isDesktop ? "nav-item-desk" : "nav-item-mob"}
-				>
+				<Link to="/glimpse" className={navItemClass}>
 					<div className="nav-item-cont-wrapper">
 						Glimpses
 						<i class="fa fa-eye" aria-hidden="true"></i>
 					</div>
 				</Link>
-				<Link
-					to="/blogs"
-					className={isDesktop ? "nav-item-desk" : "nav-item-mob"}
-				>
+				<Link to="/blogs" className={navItemClass}>
 					<div className="nav-item-cont-wrapper">
 						Blogs
 						<i class="fa fa-pencil" aria-hidden="true"></i>
 					</div>
 				</Link>
-				<Link to="/" className={isDesktop ? "nav-item-desk" : "nav-item-mob"}>
+				<Link to="/" className={navItemClass}>
 					<div className="nav-item-cont-wrapper">
 						Resources
 						<i class="fa fa-cog" aria-hidden="true"></i>
 					</div>
 				</Link>
-				<Link to="/" className={isDesktop ? "nav-item-desk" : "nav-item-mob"}>
+				<Link to="/" className={navItemClass}>
 					<div className="nav-item-cont-wrapper">
 						Projects
 						<i class="fa fa-code" aria-hidden="true"></i>
 					</div>
 				</Link>
-				<Link
-					to="/signin"
-					className={isDesktop ? "nav-item-desk" : "nav-item-mob"}
-				>
+				<Link to="/signin" className={navItemClass}>
 					<div className="nav-item-cont-wrapper">
 						{props.loggedIn ? "Logout" : "Login"}
 						<i class="fa fa-sign-in" aria-hidden="true"></i>
