@@ -33,6 +33,7 @@
 	/* font-weight: 300; */
 }
 .nav-item-cont-wrapper {
+	width: max-content;
 	transition: transform 0.3s;
 	clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
 	animation: navitemsappear 1s 0.8s forwards;
@@ -152,6 +153,7 @@
 }
 .curr-page {
 	font-weight: bold;
+	border-bottom: 1px solid rgb(1, 248, 42);
 }
 
 .nav-item-mob:hover {

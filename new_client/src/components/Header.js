@@ -15,6 +15,11 @@ export default function Header(props) {
 			setisDesktop(window.innerWidth > 1080);
 		});
 		document.getElementById("nav-toggler").addEventListener("click", navToggle);
+		return () => {
+			document
+				.getElementById("nav-toggler")
+				.removeEventListener("click", navToggle);
+		};
 	}, []);
 
 	return (
@@ -31,13 +36,8 @@ export default function Header(props) {
 					(navOpen ? " nav-mob-open" : " nav-mob-close")
 				}
 			>
-				<Link
-					to="/"
-					className={
-						(isDesktop ? "nav-item-desk" : "nav-item-mob") + " curr-page"
-					}
-				>
-					<div className="nav-item-cont-wrapper">
+				<Link to="/" className={isDesktop ? "nav-item-desk" : "nav-item-mob"}>
+					<div className="nav-item-cont-wrapper curr-page">
 						Home
 						<i class="fa fa-home" aria-hidden="true"></i>
 					</div>
