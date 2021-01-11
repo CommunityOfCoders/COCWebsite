@@ -41,7 +41,7 @@ function AddBlog(props) {
   };
 
   const handleDataSubmit = async () => {
-    const tags = tagString.replace(/\s/g, '').split(',').filter((value, index, self) => {
+    const tags = tagString.replace(/\s/g, '').toLowerCase().split(',').filter((value, index, self) => {
       return self.indexOf(value) === index;
     }); // This replaces all white spaces then splits across ',' and then filters out repeat values
     const blog = {
@@ -70,9 +70,13 @@ function AddBlog(props) {
   };
 
   const handleDataEdit = async () => {
+    const tags = tagString.replace(/\s/g, '').toLowerCase().split(',').filter((value, index, self) => {
+      return self.indexOf(value) === index;
+    }); // This replaces all white spaces then splits across ',' and then filters out repeat values
     const blog = {
       blogTitle: blogTitle,
       blogContent: blogContent,
+      tags: tags
     };
     const res = await axios.put(
       process.env.REACT_APP_API + `/blogs/edit/${id}`,

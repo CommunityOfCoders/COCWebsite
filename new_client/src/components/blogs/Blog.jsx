@@ -1,7 +1,7 @@
 import "date-fns";
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import axios from "axios";
 import {
 	Button,
@@ -39,6 +39,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Blogs = (props) => {
+  const params = new URLSearchParams(props.location.search);
+  const tag = params.get("tag");
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
   const [isDeleted, setIsDeleted] = useState(false);
@@ -47,14 +49,26 @@ const Blogs = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   
 	useEffect(() => {
-	  axios
-		.get(process.env.REACT_APP_API + "/blogs")
-		.then((res) => res.data.blogs)
-		.then((res) => {
-		  setPosts(res.sort((a, b) => b.date - a.date));
-		  setIsLoading(false);
-		})
-		.catch((error) => console.log(error));
+    console.log(tag);
+	  if(tag) {
+      axios
+      .get(process.env.REACT_APP_API + `/blogs/tag/${tag}`)
+      .then((res) => res.data.blogs)
+      .then((res) => {
+        setPosts(res.sort((a, b) => b.date - a.date));
+        setIsLoading(false);
+      })
+      .catch((error) => console.log(error));
+    } else {
+      axios
+      .get(process.env.REACT_APP_API + "/blogs")
+      .then((res) => res.data.blogs)
+      .then((res) => {
+        setPosts(res.sort((a, b) => b.date - a.date));
+        setIsLoading(false);
+      })
+      .catch((error) => console.log(error));
+    }
 	}, [counter]);
   
 	const calculateReadingTime = (content) => {
@@ -170,19 +184,36 @@ const Blogs = (props) => {
                       Estimated reading time - {" "}
                       {calculateReadingTime(article.blogContent)}
                     </p>
-					<p>Tags - </p>
-					<ul style={{ marginBottom: 0, marginLeft: 0, display: "inline-flex" }}>
-						{article.tags.map(t => (
-							<li key={t}>{t}</li>
-						))}
-					</ul>
+                    <span>Tags - </span>
+                    <ul 
+                    style={{ 
+                      display: "inline-flex", 
+                      listStyleType:"none",
+                    }}>
+                      {article.tags.length !== 0 ? article.tags.map(t => (
+                        <li
+                          key={t}
+                          style={{
+                            padding: `2px 6px`,
+                            marginRight: `5px`,
+                            cursor: `pointer`,
+                          }}
+                          onClick={e =>
+                            props.history.push(
+                              `/blogs?tag=${t}`
+                            )
+                          }>
+                          {t}
+                        </li>
+                      )) : <li>No Tags</li>}
+                    </ul>
                   </Typography>
                 </CardContent>
                 <CardActions>
                   <Grid container spacing={4} justify="flex-end">
                     <Grid item xs={spanSize}>
                       <Button color="primary">
-                        <Link to={`blogs/${article._id}`}>Read More</Link>
+                        <Link to={`blog/${article._id}`}>Read More</Link>
                       </Button>
                     </Grid>
                   </Grid>
@@ -224,4 +255,4 @@ const mapStateToProps = (state) => ({
   token: state.auth.token
 });
 
-export default connect(mapStateToProps)(Blogs);
+export default withRouter(connect(mapStateToProps)(Blogs));

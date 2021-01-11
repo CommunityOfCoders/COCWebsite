@@ -44,15 +44,16 @@ function App() {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route path="/about" component={About} />
-            <Route exact path="/blogs" render={() => <Blogs />} />
+            <Route exact path="/blogs" render={() => <Blogs key={window.location} />} />
             <Route path="/signin" component={Signin} />
 
             <Route path='/reset' component={ResetPw} />
             <Route path='/newpass/:token' component={NewPw} />
 
             <Route exact path="/addblog" component={AddBlog} />
-            <Route path="/blogs/:id" component={IndividualBlog} />
+            <Route path="/blog/:id" component={IndividualBlog} />
             <Route path="/blog/edit/:id" component={AddBlog} />
+            <Route path='/blogs?tag=:tag' render={() => <Blogs key={window.location} />} />
             <Route path="/signup" component={Signup} />
             <Route
               path="/glimpse/:header"
