@@ -31,6 +31,20 @@ module.exports = {
     }
   },
 
+  async viewBlogsByTag(req, res) {
+    try {
+      const tag = req.params.tag;
+      let blogs = await Blog.find({tags: {$in: [tag]}})
+      blogs = blogs.sort((a, b) => {
+        if (Date(b.date) > Date(a.date)) return 1;
+        else return -1;
+      });
+      res.status(200).json({ blogs });
+    } catch (e) {
+      res.status(500).json({ error: e.message });
+    }
+  },
+
   async uploadBlog(req, res) {
     try {
       // Assumed that req.body already has required fields
