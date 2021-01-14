@@ -10,7 +10,7 @@ const dbconnect = require("./config/dbconnect");
 
 const app = express();
 
-app.use(helmet());
+// app.use(helmet());
 app.use(express.json({ limit: "10mb" }));
 app.use(cors());
 
