@@ -3,6 +3,7 @@ import { Router, Route, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { Provider } from "react-redux";
 import configureStore from "./store/configureStore";
+import { Box } from "@material-ui/core";
 
 // Components begin here
 import Header from "./components/Header";
@@ -32,40 +33,49 @@ function App() {
   return (
     <Provider store={store}>
       <Router history={history}>
-        <div
+        <Box
+          display="flex"
+          flexDirection="column"
           className="App"
           style={{
             position: "relative",
             minHeight: "100vh",
-            paddingBottom: "250px",
           }}
         >
-          <Header />
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/about" component={About} />
-            <Route exact path="/blogs" render={() => <Blogs />} />
-            <Route path="/signin" component={Signin} />
+          <Box>
+            <Header />
+          </Box>
 
-            <Route path='/reset' component={ResetPw} />
-            <Route path='/newpass/:token' component={NewPw} />
+          <Box flexGrow={1} style={{ marginBottom: "auto", minHeight: "80vh" }}>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/about" component={About} />
+              <Route exact path="/blogs" render={() => <Blogs />} />
+              <Route path="/signin" component={Signin} />
+              <Route path='/reset' component={ResetPw} />
+              <Route path='/newpass/:token' component={NewPw} />
+              <Route exact path="/addblog" component={AddBlog} />
+              <Route path="/blogs/:id" component={IndividualBlog} />
+              <Route path="/blog/edit/:id" component={AddBlog} />
+              <Route path="/signup" component={Signup} />
+              <Route
+                path="/glimpse/:header"
+                render={(prevProps) => (
+                  <IndividualImageGalllery {...prevProps} />
+                )}
+              />
+              <Route path="/glimpse" component={Glimpse} />
+              <Route path="/events" component={EventList} />
+              <Route path="/addevent" component={AddEvent} />
+              <Route path="/event/edit/:id" component={AddEvent} />
+              <Route path="/resources" component={ResourcePage} />
+            </Switch>
+          </Box>
 
-            <Route exact path="/addblog" component={AddBlog} />
-            <Route path="/blogs/:id" component={IndividualBlog} />
-            <Route path="/blog/edit/:id" component={AddBlog} />
-            <Route path="/signup" component={Signup} />
-            <Route
-              path="/glimpse/:header"
-              render={(prevProps) => <IndividualImageGalllery {...prevProps} />}
-            />
-            <Route path="/glimpse" component={Glimpse} />
-            <Route path="/events" component={EventList} />
-            <Route path="/addevent" component={AddEvent} />
-            <Route path="/event/edit/:id" component={AddEvent} />
-            <Route path="/resources" component={ResourcePage} />
-          </Switch>
-          <Footer />
-        </div>
+          <Box>
+            <Footer />
+          </Box>
+        </Box>
       </Router>
     </Provider>
   );

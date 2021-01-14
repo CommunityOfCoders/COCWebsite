@@ -334,10 +334,9 @@ function AddEvent(props) {
       />
       <AlertUtility
         open={isError}
-        duration={1000}
+        duration={2000}
         onCloseHandler={() => {
           setIsError(false);
-          props.closeModal();
         }}
         severity="error"
         message="Oops! An error occurred. Please try again."
