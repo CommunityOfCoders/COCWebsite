@@ -27,6 +27,13 @@ function AddBlog(props) {
 
   const isEditPage = !!id;
 
+  const extractTags = (tagValue) => {
+    const tags = tagValue.replace(/\s/g, '').toLowerCase().split(',').filter((value, index, self) => {
+      return self.indexOf(value) === index;
+    }); // This replaces all white spaces then splits across ',' and then filters out repeat values
+    return tags;
+  }
+
   const successString = isEditPage
     ? "Blog edited successfully!"
     : "Blog added successfully!";
@@ -41,9 +48,7 @@ function AddBlog(props) {
   };
 
   const handleDataSubmit = async () => {
-    const tags = tagString.replace(/\s/g, '').toLowerCase().split(',').filter((value, index, self) => {
-      return self.indexOf(value) === index;
-    }); // This replaces all white spaces then splits across ',' and then filters out repeat values
+    const tags = extractTags(tagString);
     const blog = {
       blogTitle: blogTitle,
       blogContent: blogContent,
@@ -70,9 +75,7 @@ function AddBlog(props) {
   };
 
   const handleDataEdit = async () => {
-    const tags = tagString.replace(/\s/g, '').toLowerCase().split(',').filter((value, index, self) => {
-      return self.indexOf(value) === index;
-    }); // This replaces all white spaces then splits across ',' and then filters out repeat values
+    const tags = extractTags(tagString);
     const blog = {
       blogTitle: blogTitle,
       blogContent: blogContent,

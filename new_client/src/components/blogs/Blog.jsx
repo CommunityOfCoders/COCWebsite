@@ -1,7 +1,7 @@
 import "date-fns";
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Link, withRouter } from "react-router-dom";
+import { Link, withRouter, useLocation } from "react-router-dom";
 import axios from "axios";
 import {
 	Button,
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Blogs = (props) => {
-  const params = new URLSearchParams(props.location.search);
+  const params = new URLSearchParams(useLocation().search);
   const tag = params.get("tag");
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
@@ -49,7 +49,6 @@ const Blogs = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   
 	useEffect(() => {
-    console.log(tag);
 	  if(tag) {
       axios
       .get(process.env.REACT_APP_API + `/blogs/tag/${tag}`)
@@ -69,7 +68,7 @@ const Blogs = (props) => {
       })
       .catch((error) => console.log(error));
     }
-	}, [counter]);
+	}, [counter, tag]);
   
 	const calculateReadingTime = (content) => {
 	  const wordsPerMinute = 228;
@@ -184,29 +183,35 @@ const Blogs = (props) => {
                       Estimated reading time - {" "}
                       {calculateReadingTime(article.blogContent)}
                     </p>
-                    <span>Tags - </span>
-                    <ul 
-                    style={{ 
-                      display: "inline-flex", 
-                      listStyleType:"none",
-                    }}>
-                      {article.tags.length !== 0 ? article.tags.map(t => (
-                        <li
-                          key={t}
-                          style={{
-                            padding: `2px 6px`,
-                            marginRight: `5px`,
-                            cursor: `pointer`,
-                          }}
-                          onClick={e =>
-                            props.history.push(
-                              `/blogs?tag=${t}`
-                            )
-                          }>
-                          {t}
-                        </li>
-                      )) : <li>No Tags</li>}
-                    </ul>
+                    {article.tags.length !== 0 ?
+						(
+							<>
+							<span>Tags - </span>
+							<ul 
+							style={{ 
+							display: "inline-flex", 
+							listStyleType:"none",
+							}}>
+								{article.tags.map(t => (
+									<li
+									key={t}
+									style={{
+										padding: `2px 6px`,
+										marginRight: `5px`,
+										cursor: `pointer`,
+									}}
+									onClick={e =>
+										props.history.push(
+										`/blogs?tag=${t}`
+										)
+									}>
+									{t}
+									</li>
+								))}
+							</ul>
+							</> 
+						) : null
+					}
                   </Typography>
                 </CardContent>
                 <CardActions>
