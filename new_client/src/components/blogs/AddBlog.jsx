@@ -182,6 +182,7 @@ function AddBlog(props) {
             label="Enter a title"
             value={blogTitle}
             onChange={(e) => setBlogTitle(e.target.value)}
+            required
           />
         </Grid>
         <Grid container spacing={3} className="markdown">

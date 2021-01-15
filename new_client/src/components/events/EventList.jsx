@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
-import { Container } from "@material-ui/core";
+import { Container, Grid, Tooltip, Fab } from "@material-ui/core";
 import { connect } from "react-redux";
 import axios from "axios";
 import AlertUtility from "../Utilities/Alert";
@@ -9,6 +9,7 @@ import Spinner from "../spinner/Spinner";
 import IndividualEvent from "./IndividualEvent";
 import Modal from '../Modal/Modal';
 import AddEvent from './AddEvent';
+import AddIcon from "@material-ui/icons/Add";
 
 const EventList = (props) => {
   const [isMember, setIsMember] = useState(false);

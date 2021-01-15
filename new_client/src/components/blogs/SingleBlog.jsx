@@ -22,7 +22,7 @@ export default function SingleBlog({
   handleDelete,
 }) {
   return (
-    <Grid item xs={12}>
+    <Grid item xs={12} md={6}>
       <Card>
         <CardHeader
           title={article.blogTitle}

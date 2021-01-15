@@ -25,6 +25,7 @@ import IndividualImageGalllery from "./components/glimpses/IndividualImageGallle
 import ResetPw from './components/auth/ResetPw'
 import NewPw from './components/auth/NewPw'
 import ResourcePage from "./components/resources/ResourcePage";
+import IndividualBlog from "./components/blogs/BlogPage";
 
 function App() {
   const store = configureStore();
