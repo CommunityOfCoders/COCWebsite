@@ -218,7 +218,7 @@ function Signup(props) {
   const classes = useStyles();
   return (
     <ThemeProvider theme={theme1}>
-      <Grid container style={{ maxHeight: "87vh" }}>
+      <Grid container>
         <Grid item sm={false} md={7} className={classes.image} />
         <Grid item sm={12} md={5}>
           <Container component="main" maxWidth={isSmOrDown ? "md" : "xs"}>
