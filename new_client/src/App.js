@@ -25,6 +25,7 @@ import IndividualImageGalllery from "./components/glimpses/IndividualImageGallle
 import ResetPw from './components/auth/ResetPw'
 import NewPw from './components/auth/NewPw'
 import ResourcePage from "./components/resources/ResourcePage";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   const store = configureStore();
@@ -54,9 +55,9 @@ function App() {
               <Route path="/signin" component={Signin} />
               <Route path='/reset' component={ResetPw} />
               <Route path='/newpass/:token' component={NewPw} />
-              <Route exact path="/addblog" component={AddBlog} />
+              <ProtectedRoute exact path="/addblog" component={AddBlog} />
               <Route path="/blogs/:id" component={IndividualBlog} />
-              <Route path="/blog/edit/:id" component={AddBlog} />
+              <ProtectedRoute path="/blog/edit/:id" component={AddBlog} />
               <Route path="/signup" component={Signup} />
               <Route
                 path="/glimpse/:header"
@@ -66,8 +67,8 @@ function App() {
               />
               <Route path="/glimpse" component={Glimpse} />
               <Route path="/events" component={EventList} />
-              <Route path="/addevent" component={AddEvent} />
-              <Route path="/event/edit/:id" component={AddEvent} />
+              <ProtectedRoute path="/addevent" component={AddEvent} />
+              <ProtectedRoute path="/event/edit/:id" component={AddEvent} />
               <Route path="/resources" component={ResourcePage} />
             </Switch>
           </Box>
