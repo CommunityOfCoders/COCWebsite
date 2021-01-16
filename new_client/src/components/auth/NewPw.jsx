@@ -7,8 +7,8 @@ import Container from "@material-ui/core/Container";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { Paper } from "@material-ui/core";
-import coc from "./coc.png";
-import bg from "./bg_signin.png";
+import coc from "../assets/COC_Full.webp";
+import bg from "../assets/bg_signin.webp";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { useHistory, useParams } from "react-router-dom";
 import axios from 'axios'
@@ -40,11 +40,6 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
     color: "white",
-  },
-  image: {
-    backgroundImage: `url(${bg})`,
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center",
   },
 }));
 

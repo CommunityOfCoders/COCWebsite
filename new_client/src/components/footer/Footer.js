@@ -13,7 +13,7 @@ import {
   YouTube,
 } from "@material-ui/icons";
 
-import COC from "../assets/COC.png";
+import COC from "../assets/COC.webp";
 import "./Footer.css";
 import footerStyle from "./footerStyle";
 
