@@ -7,8 +7,7 @@ import Container from "@material-ui/core/Container";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import EmailIcon from "@material-ui/icons/Email";
 import { Paper } from "@material-ui/core";
-import coc from "./coc.png";
-import bg from "./bg_signin.png";
+import coc from "../assets/COC_Full.webp";
 import { createMuiTheme } from "@material-ui/core/styles";
 import axios from "axios";
 import AlertUtility from "../Utilities/Alert";
@@ -35,11 +34,6 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
     color: "white",
-  },
-  image: {
-    backgroundImage: `url(${bg})`,
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center",
   },
 }));
 

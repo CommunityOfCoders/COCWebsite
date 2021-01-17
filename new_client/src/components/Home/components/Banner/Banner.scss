@@ -1,7 +1,7 @@
 @font-face {
   font-family: "Recharge Bold";
   src: local("Recharge Bold"),
-    url("../assets/recharge.bold.ttf") format("truetype");
+    url("../../../assets/recharge.bold.ttf") format("truetype");
 }
 
 section.Banner {
@@ -11,7 +11,7 @@ section.Banner {
 
   .parallax {
     /* The image used */
-    background-image: url("../assets/banner.jpeg");
+    background-image: url("../../../assets/banner.webp");
 
     /* Set a specific height */
     min-height: 100vh;

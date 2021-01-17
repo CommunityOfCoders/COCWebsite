@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Typewriter from "typewriter-effect";
 import "./Welcome.scss";
-import COC from "../assets/coc.jpeg";
+import COC from "../../../assets/coc_dark.webp";
 
 const Welcome = (props) => {
   return (
