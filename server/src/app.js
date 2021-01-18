@@ -6,6 +6,7 @@ const helmet = require("helmet");
 const routes = require("./routes");
 const config = require("./config");
 const path = require("path");
+const compression = require("compression");
 const dbconnect = require("./config/dbconnect");
 
 const app = express();
@@ -25,6 +26,7 @@ routes(app);
 dbconnect();
 
 app.use(express.static(path.join(__dirname, "../../new_client/build")));
+app.use(compression());
 
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "../../new_client/build/index.html"));
