@@ -26,6 +26,7 @@ import { format } from "date-fns";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import AlertUtility from "../Utilities/Alert";
+import './Blogs.css'
 
 const useStyles = makeStyles((theme) => ({
   // root: {
@@ -183,40 +184,37 @@ const Blogs = (props) => {
                       Estimated reading time - {" "}
                       {calculateReadingTime(article.blogContent)}
                     </p>
-                    {article.tags.length !== 0 ?
-						(
-							<>
-							<span>Tags - </span>
-							<ul 
-							style={{ 
-							display: "inline-flex", 
-							listStyleType:"none",
-							}}>
-								{article.tags.map(t => (
-									<li
-									key={t}
-									style={{
-										padding: `2px 6px`,
-										marginRight: `5px`,
-										cursor: `pointer`,
-									}}
-									onClick={e =>
-										props.history.push(
-										`/blogs?tag=${t}`
-										)
-									}>
-									{t}
-									</li>
-								))}
-							</ul>
-							</> 
-						) : null
-					}
                   </Typography>
                 </CardContent>
                 <CardActions>
+                  <Grid container justify="flex-start">
+                    <Grid item xs={6}>
+                      {article.tags.length !== 0 ?
+                        (
+                          <ul 
+                          style={{ 
+                          display: "inline-flex", 
+                          listStyleType:"none",
+                          }}>
+                            {article.tags.map(t => (
+                              <li
+                              key={t}
+                              className="tag"
+                              onClick={e =>
+                                props.history.push(
+                                `/blogs?tag=${t}`
+                                )
+                              }>
+                              {t}
+                              </li>
+                            ))}
+                          </ul>
+                        ) : null
+                      }
+                    </Grid>
+                  </Grid>
                   <Grid container spacing={4} justify="flex-end">
-                    <Grid item xs={spanSize}>
+                    <Grid item xs={6}>
                       <Button color="primary">
                         <Link to={`blog/${article._id}`}>Read More</Link>
                       </Button>
