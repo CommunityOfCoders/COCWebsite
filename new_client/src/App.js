@@ -30,6 +30,9 @@ const LazyEventList = lazy(() => import("./components/events/EventList"));
 const LazyResourcePage = lazy(() =>
   import("./components/resources/ResourcePage")
 );
+const LazyProjectList = lazy(() => import("./components/projects/ProjectList"))
+const LazyProjects = lazy(() => import("./components/projects/Projects"))
+
 
 function App() {
   const store = configureStore();
@@ -75,6 +78,8 @@ function App() {
                 <ProtectedRoute path="/addevent" component={AddEvent} />
                 <ProtectedRoute path="/event/edit/:id" component={AddEvent} />
                 <Route path="/resources" component={LazyResourcePage} />
+                <Route path="/projects/:id" component={LazyProjectList} /> 
+              <Route path="/projects" component={LazyProjects} />
               </Switch>
             </Suspense>
           </Box>
