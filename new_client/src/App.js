@@ -26,6 +26,7 @@ import ResetPw from './components/auth/ResetPw'
 import NewPw from './components/auth/NewPw'
 import ResourcePage from "./components/resources/ResourcePage";
 import ProtectedRoute from "./ProtectedRoute";
+import AlumniPage from "./components/alumni/AlumniPage";
 
 function App() {
   const store = configureStore();
@@ -70,6 +71,7 @@ function App() {
               <ProtectedRoute path="/addevent" component={AddEvent} />
               <ProtectedRoute path="/event/edit/:id" component={AddEvent} />
               <Route path="/resources" component={ResourcePage} />
+              <Route path="/alumni" component={AlumniPage} />
             </Switch>
           </Box>
 
