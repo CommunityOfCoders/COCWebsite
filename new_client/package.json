@@ -15,6 +15,7 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.21.1",
     "bootstrap": "^4.4.1",
+    "cloudinary-react": "^1.6.8",
     "clsx": "^1.1.1",
     "date-fns": "^2.15.0",
     "react": "^16.13.1",
