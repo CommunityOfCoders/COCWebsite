@@ -19,9 +19,9 @@ const Projects = () => {
         <Container maxWidth="lg">
         <Grid container spacing={1}>
         <Grid item xs={12}>
-        <Typography align="center" variant="h4" gutterBottom="true"> Project Categories </Typography>
+        <Typography align="center" variant="h4" gutterBottom> Project Categories </Typography>
         </Grid>
-        {domains.map((group) => (
+        {domains.length && domains.map((group) => (
             <Grid item xs={12} md={4} key={group.id}>
                 <ProjectGroup 
                     id = {group._id}

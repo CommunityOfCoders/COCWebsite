@@ -34,7 +34,7 @@ const ProjectList = () => {
         <Container maxWidth="lg">
         <Grid container spacing={1}>
         <Grid item xs={12}>
-        <Typography align="center" variant="h4" gutterBottom="true"> {`${domain} projects`} </Typography>
+        <Typography align="center" variant="h4" gutterBottom> {`${domain} projects`} </Typography>
         </Grid>
         {projects.map((project) => (
             <Grid item xs={6} md={4} key={project['_id']}>

@@ -3,11 +3,12 @@ import { Router, Route, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { Provider } from "react-redux";
 import configureStore from "./store/configureStore";
+import { Box } from "@material-ui/core";
 
 // Components begin here
 import Header from "./components/Header";
 import Home from "./components/Home/Home";
-import Footer from "./components/Footer";
+import Footer from "./components/footer/Footer";
 import About from "./components/pages/About";
 import Glimpse from "./components/glimpses/Glimpse";
 
@@ -23,7 +24,10 @@ import IndividualImageGalllery from "./components/glimpses/IndividualImageGallle
 import Projects from './components/projects/Projects'
 import ProjectList from './components/projects/ProjectList'
 
+import ResetPw from './components/auth/ResetPw'
+import NewPw from './components/auth/NewPw'
 import ResourcePage from "./components/resources/ResourcePage";
+import ProtectedRoute from "./ProtectedRoute";
 
 function App() {
   const store = configureStore();
@@ -32,31 +36,51 @@ function App() {
   return (
     <Provider store={store}>
       <Router history={history}>
-        <div className="App">
-          <Header />
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/about" component={About} />
-            <Route exact path="/blogs" render={() => <Blogs />} />
-            <Route path="/signin" component={Signin} />
-            <Route exact path="/addblog" component={AddBlog} />
-            <Route path="/blogs/:id" component={IndividualBlog} />
-            <Route path="/blog/edit/:id" component={AddBlog} />
-            <Route path="/signup" component={Signup} />
-            <Route
-              path="/glimpse/:header"
-              render={(prevProps) => <IndividualImageGalllery {...prevProps} />}
-            />
-            <Route path="/glimpse" component={Glimpse} />
-            <Route path="/events" component={EventList} />
-            <Route path="/addevent" component={AddEvent} />
-            <Route path="/event/edit/:id" component={AddEvent} />
-            <Route path="/projects/:id" component={ProjectList} /> 
-            <Route path="/projects" component={Projects} />
-            <Route path="/resources" component={ResourcePage} />
-            {/* <Footer /> */}
-          </Switch>
-        </div>
+        <Box
+          display="flex"
+          flexDirection="column"
+          className="App"
+          style={{
+            position: "relative",
+            minHeight: "100vh",
+          }}
+        >
+          <Box>
+            <Header />
+          </Box>
+
+          <Box flexGrow={1} style={{ marginBottom: "auto", minHeight: "80vh" }}>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/about" component={About} />
+              <Route exact path="/blogs" render={() => <Blogs />} />
+              <Route path="/signin" component={Signin} />
+              <Route path='/reset' component={ResetPw} />
+              <Route path='/newpass/:token' component={NewPw} />
+              <ProtectedRoute exact path="/addblog" component={AddBlog} />
+              <Route path="/blogs/:id" component={IndividualBlog} />
+              <ProtectedRoute path="/blog/edit/:id" component={AddBlog} />
+              <Route path="/signup" component={Signup} />
+              <Route
+                path="/glimpse/:header"
+                render={(prevProps) => (
+                  <IndividualImageGalllery {...prevProps} />
+                )}
+              />
+              <Route path="/glimpse" component={Glimpse} />
+              <Route path="/events" component={EventList} />
+              <ProtectedRoute path="/addevent" component={AddEvent} />
+              <ProtectedRoute path="/event/edit/:id" component={AddEvent} />
+              <Route path="/projects/:id" component={ProjectList} /> 
+              <Route path="/projects" component={Projects} />
+              <Route path="/resources" component={ResourcePage} />
+            </Switch>
+          </Box>
+
+          <Box>
+            <Footer />
+          </Box>
+        </Box>
       </Router>
     </Provider>
   );
