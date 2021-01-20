@@ -8,8 +8,11 @@ const Projects = () => {
 
     useEffect(() => {
         axios
-            .get(process.env.REACT_APP_API + "/projects")
-            .then((res) => setDomains(res.data));
+            .get(process.env.REACT_APP_API + "/domains")
+            .then((res) => {
+                const domainList = res.data['domains'];
+                setDomains(domainList);
+            });
     }, [])
 
     return (
@@ -21,9 +24,10 @@ const Projects = () => {
         {domains.map((group) => (
             <Grid item xs={12} md={4} key={group.id}>
                 <ProjectGroup 
-                    imageURL={group.url}
-                    title={group.title}
-                    description={group.descr}
+                    id = {group._id}
+                    imageURL={group.imageUrl}
+                    title={group.domainName}
+                    description={group.domainDescription}
                 />
             </Grid>
         ))}

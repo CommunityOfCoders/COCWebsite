@@ -27,12 +27,16 @@ const useStyles = makeStyles(() => ({
 export default function IndividualProjectCard({
   imgSrc,
   title,
-  domain,
+  domains,
   shortDesc,
   linkToRepo
 }) {
   const classes = useStyles();
-  
+  let domainNames = [];
+  domains.map((domain) => {
+    domainNames.push(domain['domainName']);
+  })
+
   return (
     <Card className={classes.root} variant="outlined">
       <CardContent>
@@ -40,7 +44,7 @@ export default function IndividualProjectCard({
           {title}
       </Typography>
       <Typography variant="subtitle" component="h5" align='center'>
-          {domain}
+          {domainNames.join(',')}
       </Typography>
       {imgSrc.length ? 
           (

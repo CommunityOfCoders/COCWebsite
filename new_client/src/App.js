@@ -51,8 +51,8 @@ function App() {
             <Route path="/events" component={EventList} />
             <Route path="/addevent" component={AddEvent} />
             <Route path="/event/edit/:id" component={AddEvent} />
-            <Route path="/projects/:category" component={ProjectList} /> 
-            <Route path="/projects" exact component={Projects} />
+            <Route path="/projects/:id" component={ProjectList} /> 
+            <Route path="/projects" component={Projects} />
             <Route path="/resources" component={ResourcePage} />
             {/* <Footer /> */}
           </Switch>

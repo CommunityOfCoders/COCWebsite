@@ -25,7 +25,7 @@ const useStyles = makeStyles(() => ({
     }
   }));
 
-export default function ProjectGroup({imageURL, title, description}){
+export default function ProjectGroup({id, imageURL, title, description}){
     const classes = useStyles();
     return (
         <Card className={classes.root} variant="outlined">
@@ -51,7 +51,7 @@ export default function ProjectGroup({imageURL, title, description}){
             </Typography>
             </CardContent>
             <CardActions>
-                <Link to={`projects/${title.replace(/\s/g, "_")}`}><Button size="small">View projects</Button></Link>
+                <Link to={`projects/${id}`}><Button size="small">View projects</Button></Link>
             </CardActions>
         </Card>
         );

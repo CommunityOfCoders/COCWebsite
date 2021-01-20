@@ -6,31 +6,44 @@ import { useParams } from "react-router-dom";
 
 const ProjectList = () => {
     const [projects, setProjects] = useState([]);
-    const category = useParams().category;
+    const [domain, setDomain] = useState([]);
+    const id = useParams().id;
 
     useEffect(() => {
         axios
-            .get(process.env.REACT_APP_API + `/projects/${category}`)
+            .get(process.env.REACT_APP_API + `/projects/filter/${id}`)
             .then((res) => {
-                if(res.status == 200)
-                    setProjects(res.data);
+                if(res.status == 200){
+                    const projectsList = res.data.projects;
+                    setProjects(projectsList);
+                }
             });
+    }, [])
+
+    useEffect(() => {
+        axios
+            .get(process.env.REACT_APP_API + `/domains/${id}`)
+            .then((res) => {
+                if(res.status == 200){
+                    setDomain(res.data.domainName);
+                }
+            })
     }, [])
 
     return (
         <Container maxWidth="lg">
         <Grid container spacing={1}>
         <Grid item xs={12}>
-        <Typography align="center" variant="h4" gutterBottom="true"> {`${category} projects`} </Typography>
+        <Typography align="center" variant="h4" gutterBottom="true"> {`${domain} projects`} </Typography>
         </Grid>
         {projects.map((project) => (
-            <Grid item xs={6} md={4} key={project['id']['$oid']}>
+            <Grid item xs={6} md={4} key={project['_id']}>
                 <IndividualProjectCard 
-                    imgSrc={project.image}
-                    title={project.title}
-                    domain={project.domain}
-                    shortDesc={project.shortDesc}
-                    linkToRepo={project.linkToRepo}
+                    imgSrc={project.imageUrl}
+                    title={project.projectTitle}
+                    domains={project.domains}
+                    shortDesc={project.projectDescription}
+                    linkToRepo={project.projectUrl}
                 />
             </Grid>
         ))}
