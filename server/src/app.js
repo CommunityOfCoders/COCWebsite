@@ -6,7 +6,6 @@ const morgan = require("morgan");
 const path = require("path")
 const routes = require("./routes");
 const config = require("./config");
-const path = require("path");
 const compression = require("compression");
 const dbconnect = require("./config/dbconnect");
 
