@@ -3,18 +3,21 @@ const Blog = require("../models/Blog");
 const redis_client = require("../config/redis");
 
 module.exports = {
-
   async allBlogs(_req, res) {
-    try{
-      const blogs = await Blog.find();
-      res.status(200).json({blogs});
-    }catch(e){
-      res.status(400).json({error:e.message});
+    try {
+      let blogs = await Blog.find();
+      blogs = blogs.sort((a, b) => {
+        if (Date(b.date) > Date(a.date)) return 1;
+        else return -1;
+      });
+      res.status(200).json({ blogs });
+    } catch (e) {
+      res.status(400).json({ error: e.message });
     }
   },
 
   async viewBlogById(req, res) {
-    try{
+    try {
       const blogId = req.params.id;
       const blog = await Blog.findById(blogId);
       if (blog) {
@@ -26,8 +29,8 @@ module.exports = {
           error: "The requested blog doesn't exist",
         });
       }
-    }catch(e){
-      res.status(500).json({error:e.message})
+    } catch (e) {
+      res.status(500).json({ error: e.message });
     }
   },
 
@@ -39,13 +42,13 @@ module.exports = {
         id: blog._id,
       });
     } catch (error) {
-      // console.log(error);
-      res.status(500).json({error:error.message});
+      res.status(500).json({
+        error,
+      });
     }
   },
 
   async editBlogById(req, res) {
-    // TODO: add isBlogAuthorized middleware
     try {
       // Assumed that req.body already has required fields
       const blog = await Blog.findByIdAndUpdate(req.params.id, req.body, {
@@ -56,7 +59,7 @@ module.exports = {
         blogTitle: blog.blogTitle,
       });
     } catch (error) {
-        res.status(400).json({
+      res.status(400).json({
         error: error.message,
       });
     }
