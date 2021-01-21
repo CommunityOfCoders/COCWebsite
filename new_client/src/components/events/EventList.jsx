@@ -127,7 +127,7 @@ function EventList(props) {
     >
         {events.length > 0 &&
         events.map((article) => {
-          if(isFuture(new Date(article.date)))
+          if(isFuture(new Date(article.date)) && article.image) //displaying only events with images
           return (
           <IndividualEvent
             key={article._id}
@@ -150,7 +150,7 @@ function EventList(props) {
     >
         {events.length > 0 &&
         events.map((article) => {
-          if(!isFuture(new Date(article.date)))
+          if(!isFuture(new Date(article.date)) && article.image)//displaying only events with images
           return (
           <IndividualEvent
             key={article._id}
