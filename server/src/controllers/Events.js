@@ -9,6 +9,7 @@ cloudinary.config({
 });
 const Event = require("../models/Event");
 const mongoose = require("mongoose");
+const redis_client = require("../config/redis");
 
 const getNotificationDate = (eventDate) => {
   return new Date(
