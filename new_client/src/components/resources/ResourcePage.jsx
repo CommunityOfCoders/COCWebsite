@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Box,
@@ -31,38 +31,42 @@ export default function ResourcePage() {
   useEffect(() => {
     const getTopics = async () => {
       try {
-        const {data: topics} = await axios.get(process.env.REACT_APP_API + "/topic");
+        const { data: topics } = await axios.get(
+          process.env.REACT_APP_API + "/topics"
+        );
         setTopics(topics);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
-    }
+    };
     getTopics();
-  }, [])
-  
+  }, []);
+
   return (
     <ThemeProvider theme={responsiveFonts}>
       <Container maxWidth="lg">
         <Typography align="center" variant="h2" component="h2" gutterBottom>
           Resources
         </Typography>
-        {isLoading ?
-        <Spinner /> :
-        <Box p={4}>
-          <Grid container spacing={8}>
-            {topics
-              ? topics.map((topic, index) => (
-                  <Topic
-                    key={index}
-                    name={topic.name}
-                    resources={topic.resources}
-                    color={colors[index % colors.length]}
-                  />
-                ))
-              : "Your mind, and your calm"}
-          </Grid>
-        </Box>}
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <Box p={4}>
+            <Grid container spacing={8}>
+              {topics
+                ? topics.map((topic, index) => (
+                    <Topic
+                      key={index}
+                      name={topic.name}
+                      resources={topic.resources}
+                      color={colors[index % colors.length]}
+                    />
+                  ))
+                : "Your mind, and your calm"}
+            </Grid>
+          </Box>
+        )}
       </Container>
     </ThemeProvider>
   );

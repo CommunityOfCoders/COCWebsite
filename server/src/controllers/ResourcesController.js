@@ -1,8 +1,23 @@
 const { Resource, Topic } = require("../models/Resources");
+const redis_client = require("../config/redis");
+
+/* 
+  Topics and resources behave a bit differently when it comes to endpoints. The delete cache
+  middleware does a path lookup, but we need to update the "topics" values, even if 
+  there is a change in resources. So, a function that does the same tasks, but exclusively for topics.
+*/
+function deleteCache(req, res) {
+  redis_client.get("topics", (error, reply) => {
+    if (error) {
+      return res.status(500).json({ error });
+    }
+    redis_client.del("topics");
+  });
+}
 
 module.exports = {
   /**
-   * @route GET api/topic
+   * @route GET api/topics
    * @description Retrieve all resources grouped by topics
    * @param {Object} req The request
    * @param {Object} res The response
@@ -10,13 +25,14 @@ module.exports = {
   getAllTopics: async (req, res) => {
     try {
       const topicsAndResources = await Topic.find({}).populate("resources");
+      redis_client.setex("topics", 3600, topicsAndResources);
       res.status(200).json(topicsAndResources);
     } catch (error) {
       res.status(500).json({ error });
     }
   },
   /**
-   * @route GET api/topic/:id
+   * @route GET api/topics/:id
    * @description Get a particular topic (and its resources) by its _id
    * @param {Object} req The request
    * @param {Object} res The response
@@ -31,7 +47,7 @@ module.exports = {
     }
   },
   /**
-   * @route GET api/resource/:id
+   * @route GET api/resources/:id
    * @description Get a particular resource by its _id
    * @param {Object} req The request
    * @param {Object} res The response
@@ -47,7 +63,7 @@ module.exports = {
   },
 
   /**
-   * @route POST api/resource/add
+   * @route POST api/resources/add
    * @description Add a new resource
    * @param {Object} req The request
    * @param {Object} res The response
@@ -65,6 +81,7 @@ module.exports = {
         link: req.body.link,
       });
       topic.resources.push(resource._id);
+      deleteCache(req, res);
       await topic.save();
       res.status(201).json(resource);
     } catch (error) {
@@ -72,7 +89,7 @@ module.exports = {
     }
   },
   /**
-   * @route POST api/topic/add
+   * @route POST api/topics/add
    * @description Add a new topic
    * @param {Object} req The request
    * @param {Object} res The response
@@ -88,7 +105,7 @@ module.exports = {
     }
   },
   /**
-   * @route PUT api/resource/edit/:id
+   * @route PUT api/resources/edit/:id
    * @description Update a resource
    * @param {Object} req The request
    * @param {Object} res The response
@@ -101,13 +118,14 @@ module.exports = {
         req.params.id,
         req.body
       );
+      deleteCache(req, res);
       res.status(201).json({ id: resource._id });
     } catch (error) {
       res.status(500).json({ error });
     }
   },
   /**
-   * @route PUT api/topic/edit/:id
+   * @route PUT api/topics/edit/:id
    * @description Update a topic
    * @param {Object} req The request
    * @param {Object} res The response
@@ -123,7 +141,7 @@ module.exports = {
     }
   },
   /**
-   * @route DELETE api/resource/delete/:id
+   * @route DELETE api/resources/delete/:id
    * @description Delete a resource
    * @param {Object} req The request
    * @param {Object} res The response
@@ -132,13 +150,14 @@ module.exports = {
   deleteResourceById: async (req, res) => {
     try {
       await Resource.findByIdAndDelete(req.params.id);
+      deleteCache(req, res);
       res.status(204).json({});
     } catch (error) {
       res.status(500).json({ error });
     }
   },
   /**
-   * @route DELETE api/topic/delete/:id
+   * @route DELETE api/topics/delete/:id
    * @description Delete a topic
    * @param {Object} req The request
    * @param {Object} res The response

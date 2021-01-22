@@ -80,7 +80,7 @@ module.exports = (app) => {
 
   // Blogs
   app.get("/api/blogs", Blogs.allBlogs); // Tested
-  app.get("/api/blogs/:id", cache.checkCache, Blogs.viewBlogById);
+  app.get("/api/blogs/:id", Blogs.viewBlogById);
   app.post(
     "/api/blogs/new",
     auth.loginRequired,
@@ -116,90 +116,106 @@ module.exports = (app) => {
   ); // Tested
 
   // Project Domains
-  app.get("/api/domains", DomainController.allDomains); // Tested
+  app.get("/api/domains", cache.checkCache, DomainController.allDomains); // Tested
   app.get("/api/domains/:id", DomainController.viewDomainById); // Tested
   app.post(
     "/api/domains/new",
     auth.loginRequired,
     user.isMember,
+    cache.deleteCache,
     DomainController.createDomain
   ); // Tested
   app.put(
     "/api/domains/edit/:id",
     auth.loginRequired,
     user.isMember,
+    cache.deleteCache,
     DomainController.editDomainById
   ); // Tested
   app.delete(
     "/api/domains/delete/:id",
     auth.loginRequired,
     user.isMember,
+    cache.deleteCache,
     DomainController.deleteDomainById
   ); // Tested
 
   // Projects
-  app.get("/api/projects", ProjectController.allProjects); // Tested
+  app.get("/api/projects", cache.checkCache, ProjectController.allProjects); // Tested
   app.get("/api/projects/filter/:id", ProjectController.viewProjectsByDomain); // Tested
   app.get("/api/projects/:id", ProjectController.viewProjectById); // Tested
   app.post(
     "/api/projects/new",
     auth.loginRequired,
     user.isMember,
+    cache.deleteCache,
     ProjectController.createProject
   ); // Tested
   app.delete(
     "/api/projects/delete/:id",
     auth.loginRequired,
     user.isMember,
+    cache.deleteCache,
     ProjectController.deleteProjectById
   ); // Tested
 
   // Alumni
-  app.get("/api/alumni", AlumniController.allAlumni); // Tested
-  app.post("/api/alumni", AlumniController.createAlumnus); // Tested
+  app.get("/api/alumni", cache.checkCache, AlumniController.allAlumni); // Tested
+  app.post("/api/alumni", cache.deleteCache, AlumniController.createAlumnus); // Tested
 
   // Resources
-  app.get("/api/topic", ResourcesController.getAllTopics);
-  app.get("/api/resource/:id", ResourcesController.getResourceById);
-  app.get("/api/topic/:id", ResourcesController.getTopicById);
+  app.get("/api/topics", cache.checkCache, ResourcesController.getAllTopics);
+  app.get("/api/resources/:id", ResourcesController.getResourceById);
+  app.get("/api/topics/:id", ResourcesController.getTopicById);
   app.post(
-    "/api/resource/add",
+    "/api/resources/add",
     auth.loginRequired,
     user.isMember,
     ResourcesController.addResource
   );
   app.post(
-    "/api/topic/add",
+    "/api/topics/add",
     auth.loginRequired,
     user.isMember,
+    cache.deleteCache,
     ResourcesController.addTopic
   );
   app.put(
-    "/api/resource/edit/:id",
+    "/api/resources/edit/:id",
     auth.loginRequired,
     user.isMember,
     ResourcesController.updateResourceById
   );
   app.put(
-    "/api/topic/edit/:id",
+    "/api/topics/edit/:id",
     auth.loginRequired,
     user.isMember,
+    cache.deleteCache,
     ResourcesController.updateTopicById
   );
   app.delete(
-    "/api/resource/delete/:id",
+    "/api/resources/delete/:id",
     auth.loginRequired,
     user.isMember,
     ResourcesController.deleteResourceById
   );
   app.delete(
-    "/api/topic/delete/:id",
+    "/api/topics/delete/:id",
     auth.loginRequired,
     user.isMember,
+    cache.deleteCache,
     ResourcesController.deleteTopicById
   );
 
   // Achievements
-  app.get("/api/achievements", AchievementsController.allAchievements);
-  app.post("/api/achievements", AchievementsController.createAchievement);
+  app.get(
+    "/api/achievements",
+    cache.checkCache,
+    AchievementsController.allAchievements
+  );
+  app.post(
+    "/api/achievements",
+    cache.deleteCache,
+    AchievementsController.createAchievement
+  );
 };

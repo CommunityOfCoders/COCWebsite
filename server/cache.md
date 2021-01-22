@@ -26,6 +26,5 @@ Ideally the flow should be:
 | ------ | ---------- | ----------------------------------------------------------------------- |
 | GET    | `/api/all` | Choose wisely                                                           |
 | GET    | `/api/one` | If in cache, return from store. Else return from DB and store in cache. |
-| POST   | `/api/one` | Update cache.                                                           |
 | PUT    | `/api/one` | Update cache.                                                           |
 | DELETE | `/api/one` | Remove from cache.                                                      |
