@@ -4,10 +4,13 @@ Since we have a lot of end points, we decided that it is better we introduce som
 
 ## What we decided to cache
 
-This is a curated list of points where we decided to cache our results
+This is a curated list of points where we decided to cache our results.
 
-1. `/api/blogs`
-2. `/aoi/blogs/:id`
+1. `/api/domains`
+2. `/api/projects`
+3. `/api/alumni`
+4. `/api/topics`
+5. `/api/achievements`
 
 ## Stuff required for cache
 
@@ -23,8 +26,9 @@ GET requests can be easily cached and attended to, but we need to take care of w
 Ideally the flow should be:
 
 | Method | Route      | Decision                                                                |
-| ------ | ---------- | ----------------------------------------------------------------------- |
-| GET    | `/api/all` | Choose wisely                                                           |
-| GET    | `/api/one` | If in cache, return from store. Else return from DB and store in cache. |
+| ------ | ---------- | ----------------------------------------------------------------------- | --- |
+| GET    | `/api/all` | If in cache, return from store. Else return from DB and store in cache. |     |
+| GET    | `/api/one` | No need                                                                 |
+| POST   | `/api/one` | Update cache.                                                           |
 | PUT    | `/api/one` | Update cache.                                                           |
-| DELETE | `/api/one` | Remove from cache.                                                      |
+| DELETE | `/api/one` | Update cache.                                                           |
