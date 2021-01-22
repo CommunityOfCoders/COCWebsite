@@ -9,6 +9,7 @@ cloudinary.config({
 });
 const Event = require("../models/Event");
 const mongoose = require("mongoose");
+const User = require("../models/User");
 
 const getNotificationDate = (eventDate) => {
   return new Date(
@@ -21,14 +22,26 @@ const getNotificationDate = (eventDate) => {
 
 module.exports = {
   async getEvents(_req, res) {
-    const events = await Event.find().sort("-date");
+    let events = await Event.find()
+      .populate({
+        path: "users",
+        select: ["_id"],
+      })
+      .sort("-date");
+    events.forEach((event) => {
+      event = { ...event, count: event.users.length };
+    });
     res.status(200).json(events);
   },
 
   async getEventById(req, res) {
     try {
       const eventId = req.params.id;
-      const event = await Event.findById(eventId);
+      let event = await Event.findById(eventId).populate({
+        path: "users",
+        select: "_id",
+      });
+      event = { ...event, count: event.users.length };
       res.status(200).json(event);
     } catch (err) {
       res.status(400).json({
@@ -170,6 +183,26 @@ module.exports = {
       res.status(200).json({ mssg: "Successfully cancelled reminder" });
     } catch (error) {
       res.status(400).json({ error: error.message });
+    }
+  },
+  async registerUser(req, res) {
+    try {
+      const { userId, eventId } = req.body;
+      const event = await Event.findById(eventId).populate({
+        path: "users",
+        select: ["_id"],
+      });
+      if (!event) {
+        return res.status(404).json({ error: "Requested event not found" });
+      }
+      const user = await User.exists({ _id: userId });
+      if (!user) {
+        return res.status(404).json({ error: "Requested user not found" });
+      }
+      event.users.push(userId);
+      await event.save();
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
     }
   },
 };
