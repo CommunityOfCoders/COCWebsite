@@ -187,8 +187,8 @@ const Blogs = (props) => {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Grid container justify="flex-start">
-                    <Grid item xs={6}>
+                  <Grid container spacing={4} justify="flex-end">
+                    <Grid item xs={8}>
                       {article.tags.length !== 0 ?
                         (
                           <ul 
@@ -212,9 +212,7 @@ const Blogs = (props) => {
                         ) : null
                       }
                     </Grid>
-                  </Grid>
-                  <Grid container spacing={4} justify="flex-end">
-                    <Grid item xs={6}>
+                    <Grid item xs={4}>
                       <Button color="primary">
                         <Link to={`blog/${article._id}`}>Read More</Link>
                       </Button>
