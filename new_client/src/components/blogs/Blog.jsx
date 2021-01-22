@@ -171,7 +171,7 @@ const Blogs = (props) => {
 						<Grid container spacing={4} justify='flex-end'>
 							<Grid item xs={spanSize}>
 								<Button color='primary'>
-									<Link to={`blogs/${article._id}`}>Read More</Link>
+									<Link to={`blogs/${article._id}`}>Read</Link>
 								</Button>
 							</Grid>
 						</Grid>
