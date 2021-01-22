@@ -1,29 +1,28 @@
 .navbar {
-  overflow: hidden;
-  background-color: #0d0d0d;
+	overflow: hidden;
+	background-color: #0d0d0d;
 }
 
 .navbar a {
-  float: left;
-  color: #f2f2f2;
-  font-family: 'Titillium Web', sans-serif;
-  text-align: center;
-  padding: 15px 16px;
-  text-decoration: none;
-  font-size: 20px;
+	float: left;
+	color: #f2f2f2;
+	font-family: 'Titillium Web', sans-serif;
+	text-align: center;
+	padding: 15px 16px;
+	text-decoration: none;
+	font-size: 20px;
 }
 
 .navbar a:hover {
-  background-color: green;
-  color: black;
+	background-color: green;
+	color: black;
 }
 
 .navbar a.active {
-  background-color:  #333333;
-  color: white;
+	background-color: #333333;
+	color: white;
 }
 
 .navbar-right {
-  float: right;
+	float: right;
 }
-
