@@ -1,4 +1,4 @@
-import {IconButton,Card,CardActionArea,CardMedia,CardContent,Typography,CardActions,Button,Grid,makeStyles} from "@material-ui/core";
+import {IconButton,Card,Divider,CardMedia,CardContent,Typography,CardActions,Grid,makeStyles} from "@material-ui/core";
 import {format } from "date-fns";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -17,7 +17,16 @@ const useStyles = makeStyles((theme) => ({
   },
   media: {
     height: "auto",
-    paddingTop: "56.25%", // 16:9
+    paddingTop:"100%"//"56.25%", // 16:9
+  },
+  section1:{
+    margin: theme.spacing(1, 2)
+  },
+  section2:{
+    margin: theme.spacing(2)
+  },
+  section3:{
+    margin: theme.spacing(2, 2)
   },
 }));
 
@@ -31,21 +40,25 @@ export default function IndividualEvent({ article, isMember, handleDelete }) {
         <CardMedia className={classes.media} image={article.image.url} />
       )}
         <CardContent>
-          <Typography gutterBottom variant="h6" component="h2">
+
+          <Typography className={classes.section1} gutterBottom variant="h6" component="h2">
             {article.eventName}
-          </Typography><br/>
-          <Typography variant="body2" color="textSecondary" component="p">
+          </Typography>
+          <Divider />
+          <Typography className={classes.section2} variant="body2" color="textSecondary" component="p">
           <EventIcon style={{color:'#52b107'}}/> {format(new Date(article.date), "EEEE, do MMMM, yyyy")}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
+          <Typography className={classes.section2} variant="body2" color="textSecondary" component="p">
           <RoomOutlinedIcon style={{color:'#52b107'}}/>
             {" " + article.venue}
-          </Typography><br/>
-          <Typography variant="body2" color="textSecondary" component="p">
+          </Typography>
+          <Typography className={classes.section3} variant="body2" color="textSecondary" component="p">
           {article.description}
           </Typography>
         </CardContent>
       {isMember && (
+        <>
+        <Divider variant="middle"/>
       <CardActions disableSpacing='true'>
         <Link to={`event/edit/${article._id}`}>
       <IconButton>
@@ -56,6 +69,7 @@ export default function IndividualEvent({ article, isMember, handleDelete }) {
         <DeleteOutlinedIcon style={{ color: red[400] }} />
       </IconButton>
       </CardActions>
+      </>
       )}
           </Card>
       </Grid>
