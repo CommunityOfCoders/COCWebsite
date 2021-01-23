@@ -2,8 +2,8 @@ import React from "react";
 import Highlight from "./Highlight/Highlight";
 import "./Highlights.scss";
 
-import learn from '../../../assets/learn.webp';
-import collaborate from '../../../assets/collaborate.webp';
+import learn from "../../../assets/learn.webp";
+import collaborate from "../../../assets/collaborate.webp";
 // import network from 'assets/home/highlights/network.jpg';
 
 const descriptions = [
