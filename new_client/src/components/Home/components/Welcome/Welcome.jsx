@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Typewriter from "typewriter-effect";
 import "./Welcome.scss";
-import COC from "../assets/coc.jpeg";
+import COC from "../../../assets/coc_dark.webp";
 
 const Welcome = (props) => {
   return (
@@ -21,7 +21,11 @@ const Welcome = (props) => {
               {/* <Link className="join-button" to="/join">
                 Join&nbsp;the&nbsp;Club
               </Link> */}
-              <Link className="learn-more" style={{color: "black"}} to="/about">
+              <Link
+                className="learn-more"
+                style={{ color: "black" }}
+                to="/about"
+              >
                 Learn More
               </Link>
             </div>

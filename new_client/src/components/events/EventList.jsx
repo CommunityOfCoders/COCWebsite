@@ -1,15 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
-import { Container, Grid, Tooltip, Fab } from "@material-ui/core";
+import { Grid, Container, Tooltip, Fab } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
+import AddIcon from "@material-ui/icons/Add";
 import AlertUtility from "../Utilities/Alert";
 import Spinner from "../spinner/Spinner";
 import IndividualEvent from "./IndividualEvent";
-import Modal from '../Modal/Modal';
-import AddEvent from './AddEvent';
-import AddIcon from "@material-ui/icons/Add";
+import Modal from "../Modal/Modal";
+import AddEvent from "./AddEvent";
 
 const EventList = (props) => {
   const [isMember, setIsMember] = useState(false);
@@ -53,7 +54,7 @@ const EventList = (props) => {
 
   const handleModalClose = () => {
     setIsModalClosing(true);
-  }
+  };
 
   const handleDelete = (eventId) => {
     confirmAlert({
@@ -125,26 +126,28 @@ const EventList = (props) => {
       )}
       {addEventFab}
       <Modal
-        size='xl'
-        show={showModal} 
-        header='Add New Event' 
+        size="xl"
+        show={showModal}
+        header="Add New Event"
         hasCloseBtn
-        closeHandler={handleModalClose}>
+        closeHandler={handleModalClose}
+      >
         <AddEvent closeModal={() => setShowModal(false)} />
       </Modal>
-      <Modal 
-        size='sm'
+      <Modal
+        size="sm"
         keyboard={false}
         show={isModalClosing}
-        header='Close form' 
-        backdrop='static'
+        header="Close form"
+        backdrop="static"
         closeHandler={() => {
-          setShowModal(false)
+          setShowModal(false);
           setIsModalClosing(false);
         }}
         hasBtn
-        btnText='Cancel'
-        btnClickHandler={() => setIsModalClosing(false)}>
+        btnText="Cancel"
+        btnClickHandler={() => setIsModalClosing(false)}
+      >
         <p>All form data will be lost</p>
       </Modal>
       <AlertUtility
