@@ -1,5 +1,5 @@
 @font-face {
-	font-family: 'Recharge Bold';
-	src: local('Recharge Bold'),
-		url('../assets/recharge.bold.ttf') format('truetype');
+  font-family: "Recharge Bold";
+  src: local("Recharge Bold"),
+    url("../assets/recharge.bold.ttf") format("truetype");
 }
