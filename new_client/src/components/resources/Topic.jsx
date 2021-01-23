@@ -39,10 +39,20 @@ export default function Topic({ name, resources, color }) {
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
         <Grid container justify="space-between" spacing={0}>
-          {resources.length > 0 ?
+          {resources.length > 0 ? (
             resources.map((resource, index) => (
-              <Resource key={index} title={resource.title} description={resource.description} link={resource.link} />
-            )) : <Grid item><p>No resources have been added for this topic yet.</p></Grid>}
+              <Resource
+                key={index}
+                title={resource.title}
+                description={resource.description}
+                link={resource.link}
+              />
+            ))
+          ) : (
+            <Grid item>
+              <p>No resources have been added for this topic yet.</p>
+            </Grid>
+          )}
         </Grid>
       </ExpansionPanelDetails>
     </ExpansionPanel>
