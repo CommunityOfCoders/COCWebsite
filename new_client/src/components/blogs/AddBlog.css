@@ -1,0 +1,15 @@
+.markdown-preview {
+  height: 65vh;
+  padding: 20px;
+  overflow-y: scroll;
+  border: 1px solid grey;
+}
+
+.markdown-preview:focus {
+  border: 1px solid black;
+}
+
+.markdown {
+  margin-top: 15px;
+  padding-top: 15px;
+}

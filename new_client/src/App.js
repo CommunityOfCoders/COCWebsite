@@ -10,7 +10,11 @@ import ProtectedRoute from "./ProtectedRoute";
 import Header from "./components/Header";
 import Footer from "./components/footer/Footer";
 import Glimpse from "./components/glimpses/Glimpse";
+
+import Blogs from "./components/blogs/Blogs";
 import AddBlog from "./components/blogs/AddBlog";
+import BlogPage from "./components/blogs/BlogPage";
+
 import Signin from "./components/auth/Signin.jsx";
 import Signup from "./components/auth/Signup.jsx";
 import AddEvent from "./components/events/AddEvent";

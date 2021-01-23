@@ -1,20 +1,48 @@
-import "date-fns";
-import DateFnsUtils from "@date-io/date-fns";
 import { connect } from "react-redux";
 import React, { useState, useEffect } from "react";
 import Container from "@material-ui/core/Container";
-import { TextField, Button, Grid } from "@material-ui/core";
 import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
-import Editor from "./Editor";
+  TextField,
+  Button,
+  Grid,
+  Box,
+  useTheme,
+  useMediaQuery,
+  Tabs,
+  Tab,
+} from "@material-ui/core";
 import axios from "axios";
 import AlertUtility from "../Utilities/Alert";
 import { useParams } from "react-router-dom";
+import { markdownRender, sanitizeHTML } from "./utils";
+import "./AddBlog.css";
+
+const InputField = ({ blogContent, updateMarkdown }) => (
+  <Box>
+    <TextField
+      value={blogContent}
+      onChange={(e) => {
+        updateMarkdown(e.target.value);
+      }}
+      fullWidth
+      multiline
+      variant="outlined"
+      rows={19}
+    />
+  </Box>
+);
+
+const OutputField = ({ dangerouslySetInnerHTML }) => (
+  <Box
+    dangerouslySetInnerHTML={dangerouslySetInnerHTML}
+    className="markdown-preview"
+  />
+);
 
 function AddBlog(props) {
   const id = useParams().id;
+  const theme = useTheme();
+  const isSmOrDown = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [blogTitle, setBlogTitle] = useState("");
   const [blogAuthor, setBlogAuthor] = useState("");
@@ -24,19 +52,25 @@ function AddBlog(props) {
   const [isError, setIsError] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  const [value, setValue] = useState(0);
+
+  const handleTabChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   const isEditPage = !!id;
 
   const successString = isEditPage
     ? "Blog edited successfully!"
     : "Blog added successfully!";
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
-
   const handleClose = () => {
     setIsSubmitted(false);
     props.history.push("/blogs");
+  };
+
+  const updateMarkdown = (newMarkdown) => {
+    setBlogContent(newMarkdown);
   };
 
   const handleDataSubmit = async () => {
@@ -104,7 +138,7 @@ function AddBlog(props) {
         })
         .catch((err) => console.log(err));
     }
-  });
+  }, [isEditPage]);
 
   useEffect(() => {
     if (isEditPage) {
@@ -122,7 +156,10 @@ function AddBlog(props) {
   }, [id]);
 
   return (
-    <Container maxWidth="md" style={{ backgroundColor: "white" }}>
+    <Container
+      maxWidth="lg"
+      style={{ backgroundColor: "white", padding: "10px 40px" }}
+    >
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <TextField
@@ -133,7 +170,6 @@ function AddBlog(props) {
         </Grid>
         <Grid item xs={12}>
           <TextField
-            autoFocus
             label="Enter your username"
             value={blogAuthor}
             disabled
@@ -142,13 +178,63 @@ function AddBlog(props) {
         </Grid>
         <Grid item xs={12}>
           <TextField
+            autoFocus
             label="Enter a title"
             value={blogTitle}
             onChange={(e) => setBlogTitle(e.target.value)}
+            required
           />
         </Grid>
-        <Grid item xs={12}>
-          <Editor content={blogContent} setContent={setBlogContent} />
+        <Grid container spacing={3} className="markdown">
+          {isSmOrDown ? (
+            <Grid item xs={12} md={10} lg={10}>
+              <Tabs
+                value={value}
+                indicatorColor="primary"
+                textColor="primary"
+                onChange={handleTabChange}
+                aria-label="disabled tabs example"
+                width="100vw"
+              >
+                <Tab label="Edit" />
+                <Tab label="Preview" />
+              </Tabs>
+              {value === 0 ? (
+                <Grid item style={{ marginTop: "4" }}>
+                  <InputField
+                    blogContent={blogContent}
+                    updateMarkdown={updateMarkdown}
+                  />
+                </Grid>
+              ) : (
+                <Grid item style={{ marginTop: "4" }}>
+                  <OutputField
+                    dangerouslySetInnerHTML={markdownRender(
+                      sanitizeHTML(blogContent)
+                    )}
+                  />
+                </Grid>
+              )}
+            </Grid>
+          ) : (
+            <>
+              <Grid item xs={12} md={6} lg={6} style={{ marginTop: "4" }}>
+                <h4 style={{ textAlign: "center" }}>Markdown Input</h4>
+                <InputField
+                  blogContent={blogContent}
+                  updateMarkdown={updateMarkdown}
+                />
+              </Grid>
+              <Grid item xs={12} md={6} lg={6} style={{ marginTop: "4" }}>
+                <h4 style={{ textAlign: "center" }}>Markdown Preview</h4>
+                <OutputField
+                  dangerouslySetInnerHTML={markdownRender(
+                    sanitizeHTML(blogContent)
+                  )}
+                />
+              </Grid>
+            </>
+          )}
         </Grid>
         <Grid item xs={12}>
           <Button
