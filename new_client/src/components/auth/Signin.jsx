@@ -10,8 +10,8 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import { AccountCircle } from "@material-ui/icons";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { Paper, useMediaQuery } from "@material-ui/core";
-import coc from "./coc.png";
-import bg from "./bg_signin.png";
+import coc from "../assets/COC_Full.webp";
+import bg from "../assets/bg_signin.webp";
 import { createMuiTheme } from "@material-ui/core/styles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -70,7 +70,6 @@ function SignIn(props) {
     isLoading,
   } = props;
 
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberme, setRememberme] = useState(false);
@@ -111,7 +110,7 @@ function SignIn(props) {
   function handleClick(event) {
     event.preventDefault();
     if (isFormValid()) {
-      const user = { username, password, rememberme};
+      const user = { username, password, rememberme };
       login(user);
     } else {
       alert("There are errors in your form !");
@@ -134,7 +133,7 @@ function SignIn(props) {
   const classes = useStyles();
   return (
     <ThemeProvider theme={theme1}>
-      <Grid container style={{ maxHeight: "87vh" }}>
+      <Grid container>
         <Grid item sm={false} md={7} className={classes.image} />
         <Grid item sm={12} md={5}>
           <Container component="main" maxWidth={isSmOrDown ? "md" : "xs"}>

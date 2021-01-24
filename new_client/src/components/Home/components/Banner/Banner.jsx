@@ -1,6 +1,6 @@
 import React from "react";
 import "../../../Utilities/Banner.scss";
-import COC from "../assets/COC.png";
+import COC from "../../../assets/COC.webp";
 
 const Banner = () => {
   return (

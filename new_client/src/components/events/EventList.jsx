@@ -4,22 +4,21 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import { connect } from "react-redux";
 import axios from "axios";
 import AlertUtility from "../Utilities/Alert";
-import Spinner from '../spinner/Spinner';
-import Modal from '../Modal/Modal';
-import AddEvent from './AddEvent';
-import {Container, Typography} from "@material-ui/core";
+import Spinner from "../spinner/Spinner";
+import Modal from "../Modal/Modal";
+import AddEvent from "./AddEvent";
+import { Container, Typography } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import IndividualEvent from './IndividualEvent'
-import Banner from './Banner'
-import {isFuture} from "date-fns";
-
+import IndividualEvent from "./IndividualEvent";
+import Banner from "./Banner";
+import { isFuture } from "date-fns";
 
 const useStyles = makeStyles({
   gridContainer: {
     paddingLeft: "40px",
-    paddingRight: "40px"
-  }
+    paddingRight: "40px",
+  },
 });
 
 function EventList(props) {
@@ -64,7 +63,7 @@ function EventList(props) {
 
   const handleModalClose = () => {
     setIsModalClosing(true);
-  }
+  };
 
   const handleDelete = (eventId) => {
     confirmAlert({
@@ -112,78 +111,90 @@ function EventList(props) {
         <Spinner />
       ) : (
         <React.Fragment>
-      <Banner isMember={isMember} setShowModal={setShowModal}/>
-    <Container>
-      <Grid className={classes.gridContainer} style={{paddingTop:'20px'}}>
-      <Typography variant="h4" style={{color:'#52b107'}}>
-        Upcoming Events
-      </Typography>
-      </Grid>
-    <Grid
-    style={{paddingTop:'10px'}}
-      container
-      spacing={4}
-      className={classes.gridContainer}
-    >
-        {events.length > 0 &&
-        events.map((article) => {
-          if(isFuture(new Date(article.date)) && article.image) //displaying only events with images
-          return (
-          <IndividualEvent
-            key={article._id}
-            article={article}
-            isMember={isMember}
-            handleDelete={handleDelete}
-          />
-        )})}
-    </Grid>
-    <Grid className={classes.gridContainer} style={{paddingTop:'25px'}}>
-    <Typography variant="h4" style={{color:'#52b107'}}>
-        Past Events
-      </Typography>
-      </Grid>
-    <Grid
-    style={{paddingTop:'10px', paddingBottom:'20px'}}
-      container
-      spacing={4}
-      className={classes.gridContainer}
-    >
-        {events.length > 0 &&
-        events.map((article) => {
-          if(!isFuture(new Date(article.date)) && article.image)//displaying only events with images
-          return (
-          <IndividualEvent
-            key={article._id}
-            article={article}
-            isMember={isMember}
-            handleDelete={handleDelete}
-          />
-        )})}
-    </Grid>
-    </Container>
-    </React.Fragment>
-    )}
-    <Modal
-        size='xl'
-        show={showModal} 
-        header='Add New Event' 
+          <Banner isMember={isMember} setShowModal={setShowModal} />
+          <Container>
+            <Grid
+              className={classes.gridContainer}
+              style={{ paddingTop: "20px" }}
+            >
+              <Typography variant="h4" style={{ color: "#52b107" }}>
+                Upcoming Events
+              </Typography>
+            </Grid>
+            <Grid
+              style={{ paddingTop: "10px" }}
+              container
+              spacing={4}
+              className={classes.gridContainer}
+            >
+              {events.length > 0 &&
+                events.map((article) => {
+                  if (isFuture(new Date(article.date)) && article.image)
+                    //displaying only events with images
+                    return (
+                      <IndividualEvent
+                        key={article._id}
+                        article={article}
+                        isMember={isMember}
+                        handleDelete={handleDelete}
+                      />
+                    );
+                })}
+            </Grid>
+            <Grid
+              className={classes.gridContainer}
+              style={{ paddingTop: "25px" }}
+            >
+              <Typography variant="h4" style={{ color: "#52b107" }}>
+                Past Events
+              </Typography>
+            </Grid>
+            <Grid
+              style={{ paddingTop: "10px", paddingBottom: "20px" }}
+              container
+              spacing={4}
+              className={classes.gridContainer}
+            >
+              {events.length > 0 &&
+                events.map((article) => {
+                  if (!isFuture(new Date(article.date)) && article.image)
+                    //displaying only events with images
+                    return (
+                      <IndividualEvent
+                        key={article._id}
+                        article={article}
+                        isMember={isMember}
+                        handleDelete={handleDelete}
+                      />
+                    );
+                })}
+            </Grid>
+          </Container>
+        </React.Fragment>
+      )}
+      <Modal
+        size="xl"
+        show={showModal}
+        header="Add New Event"
         hasCloseBtn
-        closeHandler={handleModalClose}>
+        closeHandler={handleModalClose}
+      >
         <AddEvent closeModal={() => setShowModal(false)} />
       </Modal>
-      <Modal 
-        size='sm'
+      <Modal
+        size="sm"
         keyboard={false}
         show={isModalClosing}
-        header='Close form' 
-        backdrop='static'
+        header="Close form"
+        backdrop="static"
         closeHandler={() => {
-          setShowModal(false)
+          setShowModal(false);
           setIsModalClosing(false);
         }}
         hasBtn
-        btnText='Cancel'
-        btnClickHandler={() => setIsModalClosing(false)}>
+        btnText="Cancel"
+        btnClickHandler={() => setIsModalClosing(false)}
+      >
         <p>All form data will be lost</p>
       </Modal>
       <AlertUtility

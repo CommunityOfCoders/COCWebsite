@@ -10,8 +10,8 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import { AccountCircle } from "@material-ui/icons";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { Paper, useMediaQuery } from "@material-ui/core";
-import coc from "./coc.png";
-import bg from "./bg_signup.png";
+import coc from "../assets/COC_Full.webp";
+import bg from "../assets/bg_signup.webp";
 import { createMuiTheme } from "@material-ui/core/styles";
 import EmailIcon from "@material-ui/icons/Email";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
@@ -218,7 +218,7 @@ function Signup(props) {
   const classes = useStyles();
   return (
     <ThemeProvider theme={theme1}>
-      <Grid container style={{ maxHeight: "87vh" }}>
+      <Grid container>
         <Grid item sm={false} md={7} className={classes.image} />
         <Grid item sm={12} md={5}>
           <Container component="main" maxWidth={isSmOrDown ? "md" : "xs"}>
