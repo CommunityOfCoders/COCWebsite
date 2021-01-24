@@ -29,6 +29,7 @@ function EventList(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [isModalClosing, setIsModalClosing] = useState(false);
+  const [isRegisterSuccess, setIsRegisterSuccess] = useState(false);
   const deletedEventID = useRef("");
 
   useEffect(() => {
@@ -104,6 +105,31 @@ function EventList(props) {
     );
   };
 
+  const handleRSVP = async (eventId) => {
+    try {
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + props.token,
+        },
+        body: JSON.stringify({ eventId, userId: props.userID }),
+      };
+      const response = await fetch(
+        process.env.REACT_APP_API + "/events/register",
+        requestOptions
+      );
+      if (response.status === 201) {
+        setIsRegisterSuccess(true);
+      } else {
+        setIsError(true);
+      }
+    } catch (error) {
+      console.error(error);
+      setIsError(true);
+    }
+  };
+
   const classes = useStyles();
   return (
     <article>
@@ -137,6 +163,7 @@ function EventList(props) {
                         article={article}
                         isMember={isMember}
                         handleDelete={handleDelete}
+                        handleRSVP={handleRSVP}
                       />
                     );
                 })}
@@ -165,6 +192,7 @@ function EventList(props) {
                         article={article}
                         isMember={isMember}
                         handleDelete={handleDelete}
+                        handleRSVP={handleRSVP}
                       />
                     );
                 })}
@@ -210,6 +238,13 @@ function EventList(props) {
         onCloseHandler={() => setIsError(false)}
         severity="error"
         message="Oops! An error occurred. Please try again."
+      />
+      <AlertUtility
+        open={isRegisterSuccess}
+        duration={1000}
+        onCloseHandler={() => setIsRegisterSuccess(false)}
+        severity="success"
+        message="Registered Successfully! See you soon..."
       />
     </article>
   );

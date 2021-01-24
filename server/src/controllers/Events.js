@@ -204,6 +204,7 @@ module.exports = {
         path: "users",
         select: ["_id"],
       });
+      console.log(event);
       if (!event) {
         return res.status(404).json({ error: "Requested event not found" });
       }
@@ -211,8 +212,9 @@ module.exports = {
       if (!user) {
         return res.status(404).json({ error: "Requested user not found" });
       }
-      event.users.push(userId);
+      event.registeredUsers.push(userId);
       await event.save();
+      return res.status(201).json({ data: "User registered!" });
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
