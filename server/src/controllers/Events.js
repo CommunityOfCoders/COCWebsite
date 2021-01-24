@@ -20,28 +20,40 @@ const getNotificationDate = (eventDate) => {
   ); // Sends notification at 09:00 at the day of the event
 };
 
+// Utility function to ensure some value is always returned
+const numUsers = (event) => {
+  if (!!event.users) {
+    return event.users.length;
+  }
+  return 0;
+};
+
 module.exports = {
   async getEvents(_req, res) {
-    let events = await Event.find()
+    const events = await Event.find()
       .populate({
         path: "users",
         select: ["_id"],
       })
-      .sort("-date");
-    events.forEach((event) => {
-      event = { ...event, count: event.users.length };
-    });
-    res.status(200).json(events);
+      .sort("-date")
+      .lean();
+    const countAddedEvents = events.map((event) => ({
+      ...event,
+      count: numUsers(event),
+    }));
+    res.status(200).json(countAddedEvents);
   },
 
   async getEventById(req, res) {
     try {
       const eventId = req.params.id;
-      let event = await Event.findById(eventId).populate({
-        path: "users",
-        select: "_id",
-      });
-      event = { ...event, count: event.users.length };
+      let event = await Event.findById(eventId)
+        .populate({
+          path: "users",
+          select: "_id",
+        })
+        .lean();
+      event = { ...event, count: numUsers(event) };
       res.status(200).json(event);
     } catch (err) {
       res.status(400).json({
