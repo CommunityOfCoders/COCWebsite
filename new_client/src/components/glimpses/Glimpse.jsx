@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Container, Grid } from "@material-ui/core";
 import IndividualGlimpse from "./IndividualGlimpse";
-import Spinner from '../spinner/Spinner';
+import Spinner from "../spinner/Spinner";
 
 const Glimpse = () => {
   const [glimpses, setGlimpses] = useState([]);

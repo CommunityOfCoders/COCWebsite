@@ -1,7 +1,7 @@
 import "date-fns";
 import React, { Component } from "react";
 import axios from "axios";
-import Spinner from '../spinner/Spinner';
+import Spinner from "../spinner/Spinner";
 import "../auth/Error.css";
 import { useState } from "react";
 import { Button, Grid, TextField } from "@material-ui/core";
@@ -27,8 +27,8 @@ function AddEvent(props) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-	const eventID = useParams().id;
-	const isEditPage = !!eventID;
+  const eventID = useParams().id;
+  const isEditPage = !!eventID;
 
   const successString = isEditPage
     ? "Event edited successfully! "
@@ -128,8 +128,8 @@ function AddEvent(props) {
       formData.append("description", eventDescription);
       formData.append("date", eventDate);
       formData.append("venue", eventVenue);
-	    formData.append("graduationYear", eventGraduationYear);
-	    setIsLoading(true);
+      formData.append("graduationYear", eventGraduationYear);
+      setIsLoading(true);
       axios
         .post(process.env.REACT_APP_API + "/events", formData, {
           headers: {
@@ -141,11 +141,11 @@ function AddEvent(props) {
             setIsSubmitted(true);
           } else {
             setIsError(true);
-		      }
+          }
           setIsLoading(false);
         })
         .catch((err) => {
-		      setIsError(true);
+          setIsError(true);
           setIsLoading(false);
           console.log(err);
         });
@@ -177,12 +177,12 @@ function AddEvent(props) {
             setIsSubmitted(true);
           } else {
             setIsError(true);
-		      }
+          }
           setIsLoading(false);
         })
         .catch((err) => {
-		      setIsError(true);
-		      setIsLoading(false);
+          setIsError(true);
+          setIsLoading(false);
           console.log(err);
         });
     }
@@ -296,19 +296,20 @@ function AddEvent(props) {
 
             <Grid container spacing={1}>
               <Grid item>
-				{isLoading ? (
-				  <Spinner />
-				) : (
-				  <Button
-					type="submit"
-					variant="outlined"
-					color="primary"
-					className="btn btn-primary">
-					{btnText}
-				  </Button>
-				)}
-			  </Grid>
-			  <Grid item>
+                {isLoading ? (
+                  <Spinner />
+                ) : (
+                  <Button
+                    type="submit"
+                    variant="outlined"
+                    color="primary"
+                    className="btn btn-primary"
+                  >
+                    {btnText}
+                  </Button>
+                )}
+              </Grid>
+              <Grid item>
                 {isEditPage && (
                   <Button
                     type="submit"
@@ -345,10 +346,10 @@ function AddEvent(props) {
   );
 }
 
-const mapStateToProps = state => ({
-	userID: state.auth.userID,
-	token: state.auth.token,
-	username: state.auth.username,
+const mapStateToProps = (state) => ({
+  userID: state.auth.userID,
+  token: state.auth.token,
+  username: state.auth.username,
 });
 
 export default withRouter(connect(mapStateToProps)(AddEvent));

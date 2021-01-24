@@ -6,7 +6,7 @@
 .navbar a {
   float: left;
   color: #f2f2f2;
-  font-family: 'Titillium Web', sans-serif;
+  font-family: "Titillium Web", sans-serif;
   text-align: center;
   padding: 15px 16px;
   text-decoration: none;
@@ -19,11 +19,10 @@
 }
 
 .navbar a.active {
-  background-color:  #333333;
+  background-color: #333333;
   color: white;
 }
 
 .navbar-right {
   float: right;
 }
-

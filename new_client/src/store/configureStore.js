@@ -3,9 +3,9 @@ import rootReducer from "../reducers";
 import thunk from "redux-thunk";
 
 export default function configureStore(initialState) {
-
   const middleware = [thunk];
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const composeEnhancers =
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
   const store = createStore(
     rootReducer,
@@ -14,10 +14,10 @@ export default function configureStore(initialState) {
   );
 
   if (module.hot) {
-    module.hot.accept('../reducers', () => {
-      const nextRootReducer = require('../reducers').default;
+    module.hot.accept("../reducers", () => {
+      const nextRootReducer = require("../reducers").default;
       store.replaceReducer(nextRootReducer);
-    })
+    });
   }
 
   return store;
