@@ -1,12 +1,12 @@
 const Domain = require('../models/Domain.js');
-const redis_client = require("../config/redis");
 
 module.exports = {
-  async allDomains(_req,res){
+  async allDomains(_req,res, next){
     try{
       const domains = await Domain.find();
-      redis_client.setex("domains", 3600, domains);
       res.status(200).json({ domains });
+      res.cache = domains;
+      next();
     } catch(e){
       res.status(500).json({ error: e.message });
     }

@@ -9,7 +9,6 @@ cloudinary.config({
 });
 const Event = require("../models/Event");
 const mongoose = require("mongoose");
-const redis_client = require("../config/redis");
 
 const getNotificationDate = (eventDate) => {
   return new Date(
@@ -21,19 +20,17 @@ const getNotificationDate = (eventDate) => {
 };
 
 module.exports = {
-  async getEvents(_req, res) {
+  async getEvents(_req, res, next) {
     const events = await Event.find().sort("-date");
     res.status(200).json(events);
+    res.cache = events;
+    next();
   },
 
   async getEventById(req, res) {
     try {
       const eventId = req.params.id;
       const event = await Event.findById(eventId);
-
-      // Store into cache
-      redis_client.setex(`events/${eventId}`, 3600, JSON.stringify(event));
-
       res.status(200).json(event);
     } catch (err) {
       res.status(400).json({

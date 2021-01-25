@@ -1,16 +1,16 @@
 const Domain = require('../models/Domain.js');
 const Project = require('../models/Project.js');
-const redis_client = require("../config/redis");
 
 module.exports = {
-  async allProjects(_req,res){
+  async allProjects(_req,res, next){
     try{
       const projects = await Project.find().populate({
         path: 'domains',
         select: ['_id', 'domainName']
       }).exec();
-      redis_client.setex("projects", 3600, projects);
+      res.cache = projects;
       res.status(200).json({ projects });
+      next();
     } catch(e){
       res.status(500).json({ error: e.message });
     }

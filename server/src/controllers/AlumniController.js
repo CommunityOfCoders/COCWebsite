@@ -1,6 +1,5 @@
 const Alumnus = require('../models/Alumnus');
 const replaceDriveURL = require('../utility/replaceDriveURL');
-const redis_client = require("../config/redis");
 
 module.exports = {
   async createAlumnus(req, res) {
@@ -41,11 +40,12 @@ module.exports = {
     }
 
   },
-  async allAlumni(_,res){
+  async allAlumni(_,res, next){
     try{
       const alumni = await Alumnus.find({});
-      redis_client.setex("alumni", 3600, alumni);
-      return res.status(200).json({ alumni });
+      res.cache = alumni;
+      res.status(200).json({ alumni });
+      next();
     } catch(e){
       return res.status(500).json({ error: e.message });
     }

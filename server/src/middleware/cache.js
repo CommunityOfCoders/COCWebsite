@@ -1,14 +1,11 @@
 const redis_client = require("../config/redis");
 
 module.exports = {
-  checkCache(req, res, next) {
+  getFromCache(req, res, next) {
     const type = req.path.split("/")[2]; // returns blogs, events, etc.
     redis_client.get(type, (err, data) => {
       if (err) {
-        console.log(err);
-        res.status(500).json({
-          err,
-        });
+        next();
       }
 
       if (data != null) {
@@ -31,4 +28,9 @@ module.exports = {
       }
     });
   },
+
+  setCache(req, res) {
+    const type = req.path.split("/")[2];
+    redis_client.set(type, JSON.stringify(res.cache))
+  }
 };

@@ -21,12 +21,14 @@ module.exports = {
    * @description Retrieve all resources grouped by topics
    * @param {Object} req The request
    * @param {Object} res The response
+   * @param {Function} next The callback function in case of a successful response.
    */
-  getAllTopics: async (req, res) => {
+  getAllTopics: async (req, res, next) => {
     try {
       const topicsAndResources = await Topic.find({}).populate("resources");
-      redis_client.setex("topics", 3600, topicsAndResources);
+      res.cache = topicsAndResources;
       res.status(200).json(topicsAndResources);
+      next();
     } catch (error) {
       res.status(500).json({ error });
     }
