@@ -10,8 +10,8 @@ import {
   makeStyles,
   Button,
 } from "@material-ui/core";
-import { format } from "date-fns";
-import React from "react";
+import { format, isFuture } from "date-fns";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import EventIcon from "@material-ui/icons/Event";
 import RoomOutlinedIcon from "@material-ui/icons/RoomOutlined";
@@ -45,7 +45,13 @@ export default function IndividualEvent({
   isMember,
   handleDelete,
   handleRSVP,
+  userID,
 }) {
+  const [isUserRegistered, setIsUserRegistered] = useState(
+    article.registeredUsers && article.registeredUsers.includes(userID)
+  );
+
+  if (!!article.registeredUsers) console.log(article);
   const classes = useStyles();
   return (
     <Grid item xs={12} sm={6} md={4}>
@@ -107,13 +113,18 @@ export default function IndividualEvent({
                   <DeleteOutlinedIcon style={{ color: red[400] }} />
                 </IconButton>
               </div>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => handleRSVP(article._id)}
-              >
-                Register
-              </Button>
+              {isFuture(new Date(article.date)) && (
+                <Button
+                  variant="contained"
+                  color={!isUserRegistered ? "primary" : "secondary"}
+                  onClick={() => {
+                    handleRSVP(article._id, isUserRegistered);
+                    setIsUserRegistered(!isUserRegistered);
+                  }}
+                >
+                  {!isUserRegistered ? "Register" : "Unregister"}
+                </Button>
+              )}
             </CardActions>
           </>
         )}

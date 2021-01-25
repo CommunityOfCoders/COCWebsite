@@ -58,6 +58,7 @@ module.exports = (app) => {
     Events.deleteEvent
   ); // Tested
   app.post("/api/events/register", auth.loginRequired, Events.registerUser);
+  app.post("/api/events/unregister", auth.loginRequired, Events.unregisterUser);
 
   // Registration
   app.post("/api/reg-form", Register.regForm); // Incomplete controller
