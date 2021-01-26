@@ -1,18 +1,27 @@
 import React, { useEffect, useState, useRef } from "react";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
-import { Grid, Container, Tooltip, Fab } from "@material-ui/core";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
-import AddIcon from "@material-ui/icons/Add";
 import AlertUtility from "../Utilities/Alert";
-import Spinner from '../spinner/Spinner';
+import Spinner from "../spinner/Spinner";
+import Modal from "../Modal/Modal";
+import AddEvent from "./AddEvent";
+import { Container, Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import IndividualEvent from "./IndividualEvent";
-import Modal from '../Modal/Modal';
-import AddEvent from './AddEvent';
+import Banner from "./Banner";
+import { isFuture } from "date-fns";
 
-const EventList = (props) => {
+const useStyles = makeStyles({
+  gridContainer: {
+    paddingLeft: "40px",
+    paddingRight: "40px",
+  },
+});
+
+function EventList(props) {
   const [isMember, setIsMember] = useState(false);
   const [events, setEvents] = useState([]);
   const [isDeleted, setIsDeleted] = useState(false);
@@ -54,7 +63,7 @@ const EventList = (props) => {
 
   const handleModalClose = () => {
     setIsModalClosing(true);
-  }
+  };
 
   const handleDelete = (eventId) => {
     confirmAlert({
@@ -95,57 +104,97 @@ const EventList = (props) => {
     );
   };
 
-  let addEventFab = <div></div>;
-
-  if (isMember) {
-    addEventFab = (
-      <Grid item style={{ position: "fixed", right: "50px", bottom: "25px" }}>
-        <Tooltip title="Add Event" aria-label="add" arrow>
-          <Fab onClick={() => setShowModal(true)} color="secondary">
-            <AddIcon />
-          </Fab>
-        </Tooltip>
-      </Grid>
-    );
-  }
-
+  const classes = useStyles();
   return (
-    <Container>
+    <article>
       {isLoading ? (
         <Spinner />
       ) : (
-        events.length > 0 &&
-        events.map((article) => (
-          <IndividualEvent
-            key={article._id}
-            article={article}
-            isMember={isMember}
-            handleDelete={handleDelete}
-          />
-        ))
+        <React.Fragment>
+          <Banner isMember={isMember} setShowModal={setShowModal} />
+          <Container>
+            <Grid
+              className={classes.gridContainer}
+              style={{ paddingTop: "20px" }}
+            >
+              <Typography variant="h4" style={{ color: "#52b107" }}>
+                Upcoming Events
+              </Typography>
+            </Grid>
+            <Grid
+              style={{ paddingTop: "10px" }}
+              container
+              spacing={4}
+              className={classes.gridContainer}
+            >
+              {events.length > 0 &&
+                events.map((article) => {
+                  if (isFuture(new Date(article.date)) && article.image)
+                    //displaying only events with images
+                    return (
+                      <IndividualEvent
+                        key={article._id}
+                        article={article}
+                        isMember={isMember}
+                        handleDelete={handleDelete}
+                      />
+                    );
+                })}
+            </Grid>
+            <Grid
+              className={classes.gridContainer}
+              style={{ paddingTop: "25px" }}
+            >
+              <Typography variant="h4" style={{ color: "#52b107" }}>
+                Past Events
+              </Typography>
+            </Grid>
+            <Grid
+              style={{ paddingTop: "10px", paddingBottom: "20px" }}
+              container
+              spacing={4}
+              className={classes.gridContainer}
+            >
+              {events.length > 0 &&
+                events.map((article) => {
+                  if (!isFuture(new Date(article.date)) && article.image)
+                    //displaying only events with images
+                    return (
+                      <IndividualEvent
+                        key={article._id}
+                        article={article}
+                        isMember={isMember}
+                        handleDelete={handleDelete}
+                      />
+                    );
+                })}
+            </Grid>
+          </Container>
+        </React.Fragment>
       )}
-      {addEventFab}
       <Modal
-        size='xl'
-        show={showModal} 
-        header='Add New Event' 
+        size="xl"
+        show={showModal}
+        header="Add New Event"
         hasCloseBtn
-        closeHandler={handleModalClose}>
+        closeHandler={handleModalClose}
+      >
         <AddEvent closeModal={() => setShowModal(false)} />
       </Modal>
-      <Modal 
-        size='sm'
+      <Modal
+        size="sm"
         keyboard={false}
         show={isModalClosing}
-        header='Close form' 
-        backdrop='static'
+        header="Close form"
+        backdrop="static"
         closeHandler={() => {
-          setShowModal(false)
+          setShowModal(false);
           setIsModalClosing(false);
         }}
         hasBtn
-        btnText='Cancel'
-        btnClickHandler={() => setIsModalClosing(false)}>
+        btnText="Cancel"
+        btnClickHandler={() => setIsModalClosing(false)}
+      >
         <p>All form data will be lost</p>
       </Modal>
       <AlertUtility
@@ -162,9 +211,9 @@ const EventList = (props) => {
         severity="error"
         message="Oops! An error occurred. Please try again."
       />
-    </Container>
+    </article>
   );
-};
+}
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,

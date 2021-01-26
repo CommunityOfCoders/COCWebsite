@@ -15,13 +15,13 @@ const useStyles = makeStyles(() => ({
     padding: 12,
   },
   media: {
-      height: 0,
-      paddingTop: '56.25%', // 16:9
-      borderRadius: 16 ,
+    height: 0,
+    paddingTop: "56.25%", // 16:9
+    borderRadius: 16,
   },
   font: {
-      alignContent: 'center', 
-  }
+    alignContent: "center",
+  },
 }));
 
 export default function IndividualProjectCard({
@@ -29,43 +29,39 @@ export default function IndividualProjectCard({
   title,
   domains,
   shortDesc,
-  linkToRepo
+  linkToRepo,
 }) {
   const classes = useStyles();
   let domainNames = [];
   domains.map((domain) => {
-    domainNames.push(domain['domainName']);
-  })
+    domainNames.push(domain["domainName"]);
+  });
 
   return (
     <Card className={classes.root} variant="outlined">
       <CardContent>
-      <Typography variant="h5" component="h2" align='center'>
+        <Typography variant="h5" component="h2" align="center">
           {title}
-      </Typography>
-      <Typography variant="subtitle" component="h5" align='center'>
-          {domainNames.join(',')}
-      </Typography>
-      {imgSrc.length ? 
-          (
+        </Typography>
+        <Typography variant="subtitle" component="h5" align="center">
+          {domainNames.join(",")}
+        </Typography>
+        {imgSrc.length ? (
           <React.Fragment>
-              <br />  
-              <CardMedia 
-              className={classes.media} 
-              image={imgSrc}
-              title={title}
-              />
-          </React.Fragment>) 
-          : (null)
-      }
-      <br />
-      <Typography variant="body" component="p" align='center'>
+            <br />
+            <CardMedia className={classes.media} image={imgSrc} title={title} />
+          </React.Fragment>
+        ) : null}
+        <br />
+        <Typography variant="body" component="p" align="center">
           {shortDesc}
-      </Typography>
+        </Typography>
       </CardContent>
       <CardActions>
-        <a href={linkToRepo} target="_blank" rel="noopener noreferrer"><Button size="small">View project</Button></a>
+        <a href={linkToRepo} target="_blank" rel="noopener noreferrer">
+          <Button size="small">View project</Button>
+        </a>
       </CardActions>
-  </Card>
+    </Card>
   );
 }
