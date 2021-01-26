@@ -6,13 +6,8 @@ const redis_client = require("../config/redis");
   middleware does a path lookup, but we need to update the "topics" values, even if 
   there is a change in resources. So, a function that does the same tasks, but exclusively for topics.
 */
-function deleteCache(req, res) {
-  redis_client.get("topics", (error, reply) => {
-    if (error) {
-      return res.status(500).json({ error });
-    }
-    redis_client.del("topics");
-  });
+function deleteFromCache() {
+  redis_client.del("topics");
 }
 
 module.exports = {
@@ -83,7 +78,7 @@ module.exports = {
         link: req.body.link,
       });
       topic.resources.push(resource._id);
-      deleteCache(req, res);
+      deleteFromCache();
       await topic.save();
       res.status(201).json(resource);
     } catch (error) {
@@ -97,11 +92,12 @@ module.exports = {
    * @param {Object} res The response
    * @param {String} req.body.name
    */
-  addTopic: async (req, res) => {
+  addTopic: async (req, res, next) => {
     console.log(req.body);
     try {
       const topic = await Topic.create({ name: req.body.name });
       res.status(201).json(topic);
+      next();
     } catch (error) {
       res.status(500).json({ error });
     }
@@ -120,7 +116,7 @@ module.exports = {
         req.params.id,
         req.body
       );
-      deleteCache(req, res);
+      deleteFromCache();
       res.status(201).json({ id: resource._id });
     } catch (error) {
       res.status(500).json({ error });
@@ -134,10 +130,11 @@ module.exports = {
    * @param {Object} req.body Update fields
    * @param {String} req.params.id The _id of the topic
    */
-  updateTopicById: async (req, res) => {
+  updateTopicById: async (req, res, next) => {
     try {
       const topic = await Topic.findByIdAndUpdate(req.params.id, req.body);
       res.status(201).json({ id: topic._id });
+      next();
     } catch (error) {
       res.status(500).json({ error });
     }
@@ -152,7 +149,7 @@ module.exports = {
   deleteResourceById: async (req, res) => {
     try {
       await Resource.findByIdAndDelete(req.params.id);
-      deleteCache(req, res);
+      deleteFromCache();
       res.status(204).json({});
     } catch (error) {
       res.status(500).json({ error });
@@ -165,10 +162,11 @@ module.exports = {
    * @param {Object} res The response
    * @param {String} req.params.id The _id of the topic
    */
-  deleteTopicById: async (req, res) => {
+  deleteTopicById: async (req, res, next) => {
     try {
       await Topic.findByIdAndDelete(req.params.id);
       res.status(204).json({});
+      next();
     } catch (error) {
       res.status(500).json({ error });
     }

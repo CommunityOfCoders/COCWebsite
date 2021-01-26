@@ -23,26 +23,29 @@ module.exports = {
       res.status(500).json({ error: e.message });
     }
   },
-  async createDomain(req,res){
+  async createDomain(req,res, next){
     try{
       const domain = await Domain.create(req.body);
       res.status(201).json({ id: domain._id });
+      next();
     }catch(e){
       res.status(500).json({ error: e.message });
     }
   },
-  async editDomainById(req,res){
+  async editDomainById(req,res, next){
     try{
       const domain = await Domain.findByIdAndUpdate(req.params.id, req.body,{
         new: true
       });
       res.status(200).json(domain);
+      next();
     }catch(e){
       res.status(500).json({ error: e.message });
     }
   },
-  async deleteDomainById(req,res){
+  async deleteDomainById(req,res, next){
     await Domain.findByIdAndRemove(req.params.id);
     res.status(204).json({});
+    next();
   }
 }

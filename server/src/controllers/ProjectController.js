@@ -48,7 +48,7 @@ module.exports = {
       res.status(500).json({ error: e.message });
     }
   },
-  async createProject(req,res){
+  async createProject(req,res, next){
     try{
       // assumes that domain of the project already exists
       const project = await Project.create(req.body);
@@ -58,11 +58,12 @@ module.exports = {
         await domain.save();
       }
       res.status(201).json({ id: project._id });
+      next();
     }catch(e){
       res.status(500).json({ error: e.message });
     }
   },
-  async deleteProjectById(req,res){
+  async deleteProjectById(req,res, next){
     try{
       const projectId = req.params.id;
       const project = await Project.findById(projectId);
@@ -76,6 +77,7 @@ module.exports = {
       }
       await Project.findByIdAndRemove(projectId);
       res.status(204).json({});
+      next();
     }catch(e){
       res.status(500).json({ error: e.message });
     }

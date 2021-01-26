@@ -38,7 +38,7 @@ module.exports = {
       });
     }
   },
-  async uploadEvent(req, res) {
+  async uploadEvent(req, res, next) {
     try {
       const file = req.file;
       const { graduationYear } = req.body;
@@ -61,13 +61,14 @@ module.exports = {
       res.status(200).json({
         id: event._id,
       });
+      next();
     } catch (err) {
-      res.status(500).json({
+      return res.status(500).json({
         error: err.message,
       });
     }
   },
-  async updateEvent(req, res) {
+  async updateEvent(req, res, next) {
     try {
       const eventId = req.params.id;
       const file = req.file;
@@ -102,7 +103,8 @@ module.exports = {
           public_id: image.public_id,
         };
       }
-      res.json(event);
+      res.status(200).json(event);
+      next();
     } catch (err) {
       res.status(400).json({
         error: err.message,
@@ -110,7 +112,7 @@ module.exports = {
     }
   },
 
-  async deleteEvent(req, res) {
+  async deleteEvent(req, res, next) {
     const eventId = req.params.id;
     scheduler.removeNotification({ substring: eventId });
     const event = await Event.findByIdAndDelete(eventId);
@@ -125,6 +127,7 @@ module.exports = {
       }
     } catch (error) {}
     res.status(204).json({});
+    next();
   },
 
   async addForm(req, res) {

@@ -17,16 +17,9 @@ module.exports = {
     });
   },
 
-  deleteCache(req, res, next) {
+  deleteCache(req, res) {
     const type = req.path.split("/")[2]; // returns blogs, events, etc.
-    redis_client.get(type, (err, reply) => {
-      if (err) {
-        return res.status(500).json({ error: err });
-      } else {
-        redis_client.del(type);
-        next();
-      }
-    });
+    redis_client.del(type);
   },
 
   setCache(req, res) {
