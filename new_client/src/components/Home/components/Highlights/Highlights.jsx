@@ -4,7 +4,23 @@ import "./Highlights.scss";
 
 import learn from "../../../assets/learn.webp";
 import collaborate from "../../../assets/collaborate.webp";
+import {Image, Placeholder} from 'cloudinary-react';
 // import network from 'assets/home/highlights/network.jpg';
+
+const highlightImage = () => {
+	return (
+		<Image 
+			cloudName="coc-vjti" 
+			publicId="https://res.cloudinary.com/coc-vjti/image/upload/v1611151382/collaborate_qrongk.webp"
+			dpr="auto"
+			responsive
+			width="auto"
+			crop="scale"
+			responsiveUseBreakpoints="true">
+			<Placeholder type="pixelate" />
+		</Image>
+	)
+}
 
 const descriptions = [
   // Learn
@@ -26,43 +42,31 @@ const descriptions = [
 
 const Highlights = () => {
   return (
-    <section className="Highlights">
-      {/* Learn */}
-      <Highlight
-        containerClass="highlight-learn"
-        title="Learn"
-        description={descriptions[0]}
-        linkUrl="/events"
-        linkText="Browse Events"
-        image={learn}
-        imageAlt="Learn"
-        backgroundColor="#FFF9EE"
-      />
+	<section className="Highlights">
+	  {/* Learn */}
+	  <Highlight
+		containerClass="highlight-learn"
+		title="Learn"
+		description={descriptions[0]}
+		linkUrl="/events"
+		linkText="Browse Events"
+		image={learn}
+		imageAlt="Learn"
+		backgroundColor="#FFF9EE"
+	  />
 
-      {/* Collaborate */}
-      <Highlight
-        containerClass="highlight-collaborate"
-        title="Collaborate"
-        description={descriptions[1]}
-        linkUrl="/about"
-        linkText="See What We Do"
-        image={collaborate}
-        imageAlt="Collaborate"
-        backgroundColor="#EEFFF0"
-      />
-
-      {/* Network */}
-      {/* <Highlight
-        containerClass="highlight-network"
-        title="Network"
-        description={descriptions[2]}
-        linkUrl="/join"
-        linkText="Join The Community"
-        // image={network}
-        imageAlt="Network"
-        backgroundColor="#EEF7FF"
-      /> */}
-    </section>
+	  {/* Collaborate */}
+	  <Highlight
+		containerClass="highlight-collaborate"
+		title="Collaborate"
+		description={descriptions[1]}
+		linkUrl="/about"
+		linkText="See What We Do"
+		image={highlightImage}
+		imageAlt="Collaborate"
+		backgroundColor="#EEFFF0"
+	  />
+	</section>
   );
 };
 
