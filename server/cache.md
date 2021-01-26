@@ -11,6 +11,7 @@ This is a curated list of points where we decided to cache our results.
 3. `/api/alumni`
 4. `/api/topics`
 5. `/api/achievements`
+6. `/api/events`
 
 ## Stuff required for cache
 
