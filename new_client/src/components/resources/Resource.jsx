@@ -35,8 +35,12 @@ export default function Resource({ title, link, description }) {
       onClick={() => window.open(link)}
     >
       <Grid item>
-        <Typography variant="h5" className={classes.resourceText}>{title}</Typography>
-        <Typography variant="subtitle2" className={classes.resourceText} noWrap>{description}</Typography>
+        <Typography variant="h5" className={classes.resourceText}>
+          {title}
+        </Typography>
+        <Typography variant="subtitle2" className={classes.resourceText} noWrap>
+          {description}
+        </Typography>
       </Grid>
     </Grid>
   );

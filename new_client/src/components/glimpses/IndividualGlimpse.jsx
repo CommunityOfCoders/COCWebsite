@@ -23,11 +23,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export default function IndividualGlimpse({
-  imgSrc,
-  title,
-  albumPath,
-}) {
+export default function IndividualGlimpse({ imgSrc, title, albumPath }) {
   const styles = useStyles();
   const mediaStyles = useFourThreeCardMediaStyles();
   const shadowStyles = useOverShadowStyles({ inactive: true });

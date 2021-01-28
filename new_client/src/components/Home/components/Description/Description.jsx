@@ -6,12 +6,12 @@ const Description = (props) => {
   return (
     <section className="Description">
       {/* <div className="parallax"> */}
-        <div className="description-top">
-          <div className="description-mission" role="text">
-            <h3 className="description-mission-heading">Our Mission</h3>
-            <MissionContent width={props.width} />
-          </div>
+      <div className="description-top">
+        <div className="description-mission" role="text">
+          <h3 className="description-mission-heading">Our Mission</h3>
+          <MissionContent width={props.width} />
         </div>
+      </div>
       {/* </div> */}
     </section>
   );
