@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   Grid,
@@ -9,23 +10,14 @@ import {
   makeStyles,
   responsiveFontSizes,
   createMuiTheme,
-  useMediaQuery
+  useMediaQuery,
 } from "@material-ui/core";
-import React from "react";
 import PropTypes from "prop-types";
 
-import AlumniCard from "./AlumniCard";
-import MobileMenu from './MobileMenu'
+import AlumnusCard from "./AlumnusCard";
+import MobileMenu from "./MobileMenu";
 
 const responsiveFonts = responsiveFontSizes(createMuiTheme());
-
-const imgMasks = {
-  circle: "circle(50% at 50% 50%)",
-  bevel:
-    "polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%)",
-  leftPoint: "polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%)",
-  rightPoint: "polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%)",
-};
 
 const years = [2020, 2019, 2018, 2017, 2016];
 
@@ -72,21 +64,33 @@ const useStyles = makeStyles((theme) => ({
     borderRight: `1px solid ${theme.palette.divider}`,
   },
   tab: {
-    '&:hover': {
+    "&:hover": {
       color: theme.palette.secondary.dark,
       opacity: 1,
     },
-    '&$selected': {
+    "&$selected": {
       fontWeight: theme.typography.fontWeightMedium,
     },
-    '&:focus': {
+    "&:focus": {
       color: theme.palette.secondary.dark,
     },
   },
   tabLabel: {
-    fontSize: theme.typography.h5.fontSize
-  }
+    fontSize: theme.typography.h5.fontSize,
+  },
 }));
+
+const dummyAlumni = [];
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) =>
+  dummyAlumni.push({
+    fullName: "Patrick Jane",
+    professionalTitle: "Consultant",
+    company: "FBI",
+    imageUrl: "https://randomuser.me/api/portraits/men/67.jpg",
+    profileUrl: "https://github.com/",
+    graduationYear: 2017 + Math.ceil(i / 4),
+  })
+);
 
 export default function AlumniPage() {
   const classes = useStyles();
@@ -115,31 +119,43 @@ export default function AlumniPage() {
               className={classes.tabs}
             >
               {years.map((year, index) => (
-                <Tab key={index} className={classes.tab} label={<span className={classes.tabLabel}>{year}</span>} {...a11yProps(year)} />
+                <Tab
+                  key={index}
+                  className={classes.tab}
+                  label={<span className={classes.tabLabel}>{year}</span>}
+                  {...a11yProps(year)}
+                />
               ))}
             </Tabs>
           </Grid>
         ) : (
-          <MobileMenu value={value} setValue={setValue} options={years} label={"Year"} />
+          <MobileMenu
+            value={value}
+            setValue={setValue}
+            options={years}
+            label={"Year"}
+          />
         )}
 
         <Grid item xs={10}>
-          {years.map((_, index) => (
-            <TabPanel key={index} value={value} index={index}>
-              <Grid container justify="center" spacing={3}>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, index) => (
-                  <Slide
-                    key={index}
-                    direction="up"
-                    in={true}
-                    mountOnEnter
-                    unmountOnExit
-                  >
-                    <Grid item>
-                      <AlumniCard mask={imgMasks.circle} />
-                    </Grid>
-                  </Slide>
-                ))}
+          {years.map((year, index) => (
+            <TabPanel key={year} value={value} index={index}>
+              <Grid container justify="space-evenly" spacing={4}>
+                {dummyAlumni
+                  .filter((alumnus) => alumnus.graduationYear == year)
+                  .map((alumnus, index) => (
+                    <Slide
+                      key={index}
+                      direction="up"
+                      in={true}
+                      mountOnEnter
+                      unmountOnExit
+                    >
+                      <Grid item>
+                        <AlumnusCard alumnus={alumnus} />
+                      </Grid>
+                    </Slide>
+                  ))}
               </Grid>
             </TabPanel>
           ))}

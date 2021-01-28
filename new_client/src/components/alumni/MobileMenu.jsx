@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   Grid,
   List,
@@ -10,29 +10,28 @@ import {
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   menuItem: {
-    width: "100vw",
+    width: "90vw",
     justifyContent: "center",
-    '&:hover': {
+    "&:hover": {
       color: theme.palette.secondary.dark,
       opacity: 1,
     },
-    '&$selected': {
+    "&$selected": {
       fontWeight: theme.typography.fontWeightMedium,
-      color: theme.palette.secondary.dark
+      color: theme.palette.secondary.dark,
     },
-    '&:focus': {
+    "&:focus": {
       color: theme.palette.secondary.dark,
     },
   },
   listItem: {
     textAlign: "center",
   },
-}))
+}));
 
-
-export default function MobileMenu({value, setValue, options, label}) {
+function MobileMenu({ value, setValue, options, label }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClickListItem = (event) => {
@@ -50,49 +49,51 @@ export default function MobileMenu({value, setValue, options, label}) {
 
   return (
     <Grid item xs={12}>
-            <List component="nav" aria-label={`Select ${label}`}>
-              <ListItem
-                button
-                aria-haspopup="true"
-                aria-controls="lock-menu"
-                aria-label={label}
-                onClick={handleClickListItem}
-              >
-                <ListItemText
-                  primary={options[value]}
-                  primaryTypographyProps={{
-                    variant: "h4",
-                  }}
-                  secondary={label}
-                  className={classes.listItem}
-                />
-              </ListItem>
-            </List>
-            <Menu
-              id="lock-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleMenuClose}
-            >
-              {options.map((option, index) => (
-                <MenuItem
-                  key={index}
-                  selected={index === value}
-                  onClick={(event) => handleMenuItemClick(event, index)}
-                  className={classes.menuItem}
-                >
-                  {option}
-                </MenuItem>
-              ))}
-            </Menu>
-          </Grid>
-  )
+      <List component="nav" aria-label={`Select ${label}`}>
+        <ListItem
+          button
+          aria-haspopup="true"
+          aria-controls="lock-menu"
+          aria-label={label}
+          onClick={handleClickListItem}
+        >
+          <ListItemText
+            primary={options[value]}
+            primaryTypographyProps={{
+              variant: "h4",
+            }}
+            secondary={label}
+            className={classes.listItem}
+          />
+        </ListItem>
+      </List>
+      <Menu
+        id="lock-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+      >
+        {options.map((option, index) => (
+          <MenuItem
+            key={index}
+            selected={index === value}
+            onClick={(event) => handleMenuItemClick(event, index)}
+            className={classes.menuItem}
+          >
+            {option}
+          </MenuItem>
+        ))}
+      </Menu>
+    </Grid>
+  );
 }
 
 MobileMenu.propTypes = {
   value: PropTypes.number.isRequired,
   setValue: PropTypes.func.isRequired,
   options: PropTypes.array.isRequired,
-  label: PropTypes.string
-}
+  label: PropTypes.string,
+};
+
+export default MobileMenu;
