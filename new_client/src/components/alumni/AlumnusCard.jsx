@@ -60,10 +60,10 @@ function AlumnusCardFront({ mask, alumnus }) {
         alt="User Image"
         className={classes.img}
       />
-      <Typography align="center" variant="h5">
+      <Typography component="span" align="center" variant="h5">
         {alumnus.fullName}
       </Typography>
-      <Typography align="center" variant="subtitle1">
+      <Typography component="span" align="center" variant="subtitle1">
         {alumnus.professionalTitle} at {alumnus.company}
       </Typography>
     </Card>
@@ -81,10 +81,10 @@ function AlumnusCardBack({ alumnus }) {
       }}
     >
       <div className={classes.backCardContent}>
-        <Typography align="center" variant="h4">
+        <Typography component="span" align="center" variant="h4">
           {alumnus.fullName}
         </Typography>
-        <Typography align="center" variant="subtitle1">
+        <Typography component="span" align="center" variant="subtitle1">
           {alumnus.professionalTitle} at {alumnus.company}
         </Typography>
         <a href={alumnus.profileUrl} target="_blank" rel="noopener noreferrer">

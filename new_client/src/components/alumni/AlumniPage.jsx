@@ -6,7 +6,6 @@ import {
   Tabs,
   Tab,
   ThemeProvider,
-  Typography,
   makeStyles,
   responsiveFontSizes,
   createMuiTheme,
@@ -32,11 +31,7 @@ function TabPanel(props) {
       aria-labelledby={`vertical-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box p={3}>{children}</Box>}
     </div>
   );
 }
@@ -142,7 +137,7 @@ export default function AlumniPage() {
             <TabPanel key={year} value={value} index={index}>
               <Grid container justify="space-evenly" spacing={4}>
                 {dummyAlumni
-                  .filter((alumnus) => alumnus.graduationYear == year)
+                  .filter((alumnus) => alumnus.graduationYear === year)
                   .map((alumnus, index) => (
                     <Slide
                       key={index}
