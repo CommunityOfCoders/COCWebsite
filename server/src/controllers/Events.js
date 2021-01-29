@@ -147,7 +147,7 @@ module.exports = {
     try {
       const eventId = req.body.id;
       const userEmail = req.body.email;
-      const event = await Event.findById(eventId).select({"eventName":1}).lean();
+      const event = await Event.findById(eventId).select({"eventName":1, "date":1}).lean();
       const eventDate = event.date.split("-");
       const notificationDate = getNotificationDate(eventDate);
       const data = {
