@@ -125,11 +125,11 @@ function AddBlog(props) {
     <Container maxWidth="md" style={{ backgroundColor: "white" }}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-            <TextField
-              label="Date"
-              value={selectedDate.toDateString()}
-              disabled
-            />
+          <TextField
+            label="Date"
+            value={selectedDate.toDateString()}
+            disabled
+          />
         </Grid>
         <Grid item xs={12}>
           <TextField

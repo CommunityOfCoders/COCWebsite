@@ -7,7 +7,7 @@ const CodeBlock = ({ language, value }) => {
     <SyntaxHighlighter language={language} style={coy}>
       {value}
     </SyntaxHighlighter>
-  )
-}
+  );
+};
 
 export default CodeBlock;
