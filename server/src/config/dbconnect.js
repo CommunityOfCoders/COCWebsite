@@ -7,7 +7,7 @@ function connect() {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
-    autoIndex: false
+    autoIndex: process.env.NODE_ENV !== "production"
   };
 
   let connectionString = "mongodb://localhost:27017/test";
