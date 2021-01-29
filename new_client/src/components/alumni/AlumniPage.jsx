@@ -60,14 +60,15 @@ const useStyles = makeStyles((theme) => ({
   },
   tab: {
     "&:hover": {
-      color: theme.palette.secondary.dark,
+      color: "#3B377C",
       opacity: 1,
     },
     "&$selected": {
       fontWeight: theme.typography.fontWeightMedium,
+      color: "#3B377C",
     },
     "&:focus": {
-      color: theme.palette.secondary.dark,
+      color: "#3B377C",
     },
   },
   tabLabel: {
@@ -82,7 +83,14 @@ const dummyAlumni = [];
     professionalTitle: "Consultant",
     company: "FBI",
     imageUrl: "https://randomuser.me/api/portraits/men/67.jpg",
-    profileUrl: "https://github.com/",
+    socialUrls: new Map([
+      ["personal", "https://www.google.com/"],
+      ["facebook", "https://www.facebook.com/"],
+      ["github", "https://github.com"],
+      ["instagram", "https://www.instagram.com/?hl=en"],
+      ["linkedin", "https://www.linkedin.com/"],
+      ["twitter", "https://twitter.com/?lang=en"],
+    ]),
     graduationYear: 2017 + Math.ceil(i / 4),
   })
 );
@@ -112,6 +120,7 @@ export default function AlumniPage() {
               onChange={handleChange}
               aria-label="Year of Graduation"
               className={classes.tabs}
+              indicatorColor="primary"
             >
               {years.map((year, index) => (
                 <Tab

@@ -15,15 +15,15 @@ const useStyles = makeStyles((theme) => ({
     width: "90vw",
     justifyContent: "center",
     "&:hover": {
-      color: theme.palette.secondary.dark,
+      color: "#3B377C",
       opacity: 1,
     },
     "&$selected": {
       fontWeight: theme.typography.fontWeightMedium,
-      color: theme.palette.secondary.dark,
+      color: "#3B377C",
     },
     "&:focus": {
-      color: theme.palette.secondary.dark,
+      color: "#3B377C",
     },
   },
   listItem: {

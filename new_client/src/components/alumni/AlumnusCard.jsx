@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { Button, Card, Typography, makeStyles } from "@material-ui/core";
+import { Card, Typography, makeStyles } from "@material-ui/core";
 import ReactCardFlip from "react-card-flip";
 import PropTypes from "prop-types";
 
+import SocialsArray from "./SocialsArray";
 /*
   alumnus: {
     fullName,
     professionalTitle,
     company,
     imageUrl,
-    profileUrl,
+    socialsUrl,
     graduationYear
   }
 */
@@ -37,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "rgba(81, 176, 7, 0.75)",
     height: "100%",
     color: "#fff",
-    padding: "2rem 0",
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
@@ -84,12 +84,10 @@ function AlumnusCardBack({ alumnus }) {
         <Typography component="span" align="center" variant="h4">
           {alumnus.fullName}
         </Typography>
-        <Typography component="span" align="center" variant="subtitle1">
+        <Typography component="span" align="center" variant="h5">
           {alumnus.professionalTitle} at {alumnus.company}
         </Typography>
-        <a href={alumnus.profileUrl} target="_blank" rel="noopener noreferrer">
-          <Button>View Profile</Button>
-        </a>
+        <SocialsArray socialUrls={alumnus.socialUrls} />
       </div>
     </Card>
   );
