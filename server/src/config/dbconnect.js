@@ -7,6 +7,7 @@ function connect() {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
+    autoIndex: false
   };
 
   let connectionString = "mongodb://localhost:27017/test";
