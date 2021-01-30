@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Box,
   Grid,
@@ -13,12 +14,11 @@ import {
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 
+import Spinner from "../spinner/Spinner";
 import AlumnusCard from "./AlumnusCard";
 import MobileMenu from "./MobileMenu";
 
 const responsiveFonts = responsiveFontSizes(createMuiTheme());
-
-const years = [2020, 2019, 2018, 2017, 2016];
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -76,95 +76,103 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const dummyAlumni = [];
-[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) =>
-  dummyAlumni.push({
-    fullName: "Patrick Jane",
-    professionalTitle: "Consultant",
-    company: "FBI",
-    imageUrl: "https://randomuser.me/api/portraits/men/67.jpg",
-    socialUrls: new Map([
-      ["personal", "https://www.google.com/"],
-      ["facebook", "https://www.facebook.com/"],
-      ["github", "https://github.com"],
-      ["instagram", "https://www.instagram.com/?hl=en"],
-      ["linkedin", "https://www.linkedin.com/"],
-      ["twitter", "https://twitter.com/?lang=en"],
-    ]),
-    graduationYear: 2017 + Math.ceil(i / 4),
-  })
-);
-
 export default function AlumniPage() {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [alumni, setAlumni] = useState([]);
+  const [years, setYears] = useState([]);
+  const [value, setValue] = useState(0);
   const largerScreen = useMediaQuery("(min-width:600px)");
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  useEffect(() => {
+    const getAlumni = async () => {
+      try {
+        const { data: alumni } = await axios.get(
+          process.env.REACT_APP_API + "/alumni"
+        );
+        setAlumni(alumni);
+        let years = new Set();
+        alumni.forEach((alumnus) =>
+          years.add(parseInt(alumnus.graduationYear))
+        );
+        setYears(Array.from(years).sort((a, b) => b - a));
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAlumni();
+  }, []);
+
   return (
     <ThemeProvider theme={responsiveFonts}>
-      <Grid
-        container
-        direction="row"
-        className={classes.root}
-        justify="space-evenly"
-      >
-        {largerScreen ? (
-          <Grid item xs={2}>
-            <Tabs
-              orientation="vertical"
-              variant="scrollable"
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <Grid
+          container
+          direction="row"
+          className={classes.root}
+          justify="space-evenly"
+        >
+          {largerScreen ? (
+            <Grid item xs={2}>
+              <Tabs
+                orientation="vertical"
+                variant="scrollable"
+                value={value}
+                onChange={handleChange}
+                aria-label="Year of Graduation"
+                className={classes.tabs}
+                indicatorColor="primary"
+              >
+                {years.map((year, index) => (
+                  <Tab
+                    key={index}
+                    className={classes.tab}
+                    label={<span className={classes.tabLabel}>{year}</span>}
+                    {...a11yProps(year)}
+                  />
+                ))}
+              </Tabs>
+            </Grid>
+          ) : (
+            <MobileMenu
               value={value}
-              onChange={handleChange}
-              aria-label="Year of Graduation"
-              className={classes.tabs}
-              indicatorColor="primary"
-            >
-              {years.map((year, index) => (
-                <Tab
-                  key={index}
-                  className={classes.tab}
-                  label={<span className={classes.tabLabel}>{year}</span>}
-                  {...a11yProps(year)}
-                />
-              ))}
-            </Tabs>
-          </Grid>
-        ) : (
-          <MobileMenu
-            value={value}
-            setValue={setValue}
-            options={years}
-            label={"Year"}
-          />
-        )}
+              setValue={setValue}
+              options={years}
+              label={"Year"}
+            />
+          )}
 
-        <Grid item xs={10}>
-          {years.map((year, index) => (
-            <TabPanel key={year} value={value} index={index}>
-              <Grid container justify="space-evenly" spacing={4}>
-                {dummyAlumni
-                  .filter((alumnus) => alumnus.graduationYear === year)
-                  .map((alumnus, index) => (
-                    <Slide
-                      key={index}
-                      direction="up"
-                      in={true}
-                      mountOnEnter
-                      unmountOnExit
-                    >
-                      <Grid item>
-                        <AlumnusCard alumnus={alumnus} />
-                      </Grid>
-                    </Slide>
-                  ))}
-              </Grid>
-            </TabPanel>
-          ))}
+          <Grid item xs={10}>
+            {years.map((year, index) => (
+              <TabPanel key={year} value={value} index={index}>
+                <Grid container justify="space-evenly" spacing={4}>
+                  {alumni
+                    .filter((alumnus) => alumnus.graduationYear === year)
+                    .map((alumnus, index) => (
+                      <Slide
+                        key={index}
+                        direction="up"
+                        in={true}
+                        mountOnEnter
+                        unmountOnExit
+                      >
+                        <Grid item>
+                          <AlumnusCard alumnus={alumnus} />
+                        </Grid>
+                      </Slide>
+                    ))}
+                </Grid>
+              </TabPanel>
+            ))}
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </ThemeProvider>
   );
 }

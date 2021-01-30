@@ -18,8 +18,12 @@ const alumnus = new mongoose.Schema({
     required: true
   },
   socialUrls: {
-    type: Map,
-    of: String
+    personal: String,
+    facebook: String,
+    github: String,
+    instagram: String,
+    linkedin: String,
+    twitter: String,
   },
   imageUrl: {
     type: String,

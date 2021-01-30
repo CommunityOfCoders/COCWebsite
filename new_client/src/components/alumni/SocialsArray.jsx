@@ -34,10 +34,10 @@ function SocialsArray({ socialUrls }) {
 
   return (
     <div className={classes.array}>
-      {[...socialUrls.keys()].map((key) => (
+      {Object.keys(socialUrls).map((key) => (
         <a
           key={key}
-          href={socialUrls.get(key)}
+          href={socialUrls[key]}
           target="_blank"
           rel="noopener noreferrer"
         >
