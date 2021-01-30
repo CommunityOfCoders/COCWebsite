@@ -17,8 +17,8 @@ module.exports = {
 
   async isBlogWritten(req, res, next) {
     const { id } = req.params;
-    const blog = await Blog.findById(id);
-    if (blog.authorID === req.userID) {
+    const blog = await Blog.findById(id).select({"authorID":1}).lean();
+    if (blog.authorID.toString() === req.userID) {
       next();
     } else {
       return res.status(403).json({ error: "You have not written this blog!" });

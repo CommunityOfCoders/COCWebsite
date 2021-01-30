@@ -21,7 +21,11 @@ const Welcome = (props) => {
               {/* <Link className="join-button" to="/join">
                 Join&nbsp;the&nbsp;Club
               </Link> */}
-              <Link className="learn-more" style={{color: "black"}} to="/about">
+              <Link
+                className="learn-more"
+                style={{ color: "black" }}
+                to="/about"
+              >
                 Learn More
               </Link>
             </div>

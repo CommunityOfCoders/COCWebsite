@@ -9,7 +9,7 @@ module.exports = {
    */
   getAllTopics: async (req, res) => {
     try {
-      const topicsAndResources = await Topic.find({}).populate("resources");
+      const topicsAndResources = await Topic.find({}).populate("resources").lean();
       res.status(200).json(topicsAndResources);
     } catch (error) {
       res.status(500).json({ error });
@@ -24,7 +24,7 @@ module.exports = {
    */
   getTopicById: async (req, res) => {
     try {
-      const topic = await Topic.findById(req.params.id).populate("resources");
+      const topic = await Topic.findById(req.params.id).populate("resources").lean();
       res.status(200).json(topic);
     } catch (error) {
       res.status(500).json({ error });
@@ -39,7 +39,7 @@ module.exports = {
    */
   getResourceById: async (req, res) => {
     try {
-      const resource = await Resource.findById(req.params.id);
+      const resource = await Resource.findById(req.params.id).lean();
       res.status(200).json(resource);
     } catch (error) {
       res.status(500).json({ error });
@@ -99,8 +99,9 @@ module.exports = {
     try {
       const resource = await Resource.findByIdAndUpdate(
         req.params.id,
-        req.body
-      );
+        req.body,
+        { new: true }
+      ).select({"_id":1}).lean();
       res.status(201).json({ id: resource._id });
     } catch (error) {
       res.status(500).json({ error });
@@ -116,7 +117,11 @@ module.exports = {
    */
   updateTopicById: async (req, res) => {
     try {
-      const topic = await Topic.findByIdAndUpdate(req.params.id, req.body);
+      const topic = await Topic.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true }
+      ).select({"_id":1}).lean();
       res.status(201).json({ id: topic._id });
     } catch (error) {
       res.status(500).json({ error });
@@ -131,7 +136,7 @@ module.exports = {
    */
   deleteResourceById: async (req, res) => {
     try {
-      await Resource.findByIdAndDelete(req.params.id);
+      await Resource.findByIdAndDelete(req.params.id).lean();
       res.status(204).json({});
     } catch (error) {
       res.status(500).json({ error });
@@ -146,7 +151,7 @@ module.exports = {
    */
   deleteTopicById: async (req, res) => {
     try {
-      await Topic.findByIdAndDelete(req.params.id);
+      await Topic.findByIdAndDelete(req.params.id).lean();
       res.status(204).json({});
     } catch (error) {
       res.status(500).json({ error });

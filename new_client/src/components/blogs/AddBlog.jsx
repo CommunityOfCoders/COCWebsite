@@ -20,7 +20,7 @@ function AddBlog(props) {
   const [blogAuthor, setBlogAuthor] = useState("");
   const [blogContent, setBlogContent] = useState("**Hello world!!!**");
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [tagString, setTagString] = useState('');
+  const [tagString, setTagString] = useState("");
 
   const [isError, setIsError] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -28,11 +28,15 @@ function AddBlog(props) {
   const isEditPage = !!id;
 
   const extractTags = (tagValue) => {
-    const tags = tagValue.replace(/\s/g, '').toLowerCase().split(',').filter((value, index, self) => {
-      return self.indexOf(value) === index;
-    }); // This replaces all white spaces then splits across ',' and then filters out repeat values
+    const tags = tagValue
+      .replace(/\s/g, "")
+      .toLowerCase()
+      .split(",")
+      .filter((value, index, self) => {
+        return self.indexOf(value) === index;
+      }); // This replaces all white spaces then splits across ',' and then filters out repeat values
     return tags;
-  }
+  };
 
   const successString = isEditPage
     ? "Blog edited successfully!"
@@ -79,7 +83,7 @@ function AddBlog(props) {
     const blog = {
       blogTitle: blogTitle,
       blogContent: blogContent,
-      tags: tags
+      tags: tags,
     };
     const res = await axios.put(
       process.env.REACT_APP_API + `/blogs/edit/${id}`,
@@ -137,11 +141,11 @@ function AddBlog(props) {
     <Container maxWidth="md" style={{ backgroundColor: "white" }}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-            <TextField
-              label="Date"
-              value={selectedDate.toDateString()}
-              disabled
-            />
+          <TextField
+            label="Date"
+            value={selectedDate.toDateString()}
+            disabled
+          />
         </Grid>
         <Grid item xs={12}>
           <TextField
@@ -160,7 +164,7 @@ function AddBlog(props) {
           />
         </Grid>
         <Grid item xs={12}>
-          <TextField 
+          <TextField
             label="Tags (Separate tags by commas)"
             fullWidth
             value={tagString}

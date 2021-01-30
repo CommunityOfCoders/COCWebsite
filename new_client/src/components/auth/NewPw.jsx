@@ -11,9 +11,9 @@ import coc from "../assets/COC_Full.webp";
 import bg from "../assets/bg_signin.webp";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { useHistory, useParams } from "react-router-dom";
-import axios from 'axios'
-import { useDispatch } from 'react-redux'
-import {NEW_PASSWORD_SUCCESS,NEW_PASSWORD_FAIL} from '../../actions/types' 
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { NEW_PASSWORD_SUCCESS, NEW_PASSWORD_FAIL } from "../../actions/types";
 import { returnErrors } from "../../actions/errorActions";
 
 import "./Error.css";
@@ -54,8 +54,7 @@ const theme1 = createMuiTheme({
 function NewPw(props) {
   const token = useParams().token;
   const history = useHistory();
-  const dispatch = useDispatch()
-
+  const dispatch = useDispatch();
 
   const [password, setPassword] = useState("");
   const handlePassword = (e) => setPassword(e.target.value);
@@ -115,40 +114,39 @@ function NewPw(props) {
     history.push("/signin");
   }
 
-  function handleClick(event){
+  function handleClick(event) {
     event.preventDefault();
     if (isFormValid()) {
       const config = {
         headers: {
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       };
       const body = JSON.stringify({ newPassword: password, token });
       axios
         .post(process.env.REACT_APP_API + "/new-password", body, config)
-        .then(res => {
-          if(res.status===200)
-          {
-            setIsSubmitted(true)
+        .then((res) => {
+          if (res.status === 200) {
+            setIsSubmitted(true);
             dispatch({
               type: NEW_PASSWORD_SUCCESS,
-              payload: res.data
+              payload: res.data,
             });
-          }
-          else
-            setIsError(true)
-          
+          } else setIsError(true);
         })
-        .catch(err => {
-          setIsError(true)
+        .catch((err) => {
+          setIsError(true);
           dispatch(
-            returnErrors(err.response.data, err.response.status, NEW_PASSWORD_FAIL)
+            returnErrors(
+              err.response.data,
+              err.response.status,
+              NEW_PASSWORD_FAIL
+            )
           );
           dispatch({
-            type: NEW_PASSWORD_FAIL
-          })
+            type: NEW_PASSWORD_FAIL,
+          });
         });
-
     } else {
       alert("There are errors in your form !");
     }

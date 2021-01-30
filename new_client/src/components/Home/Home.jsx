@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import Banner from './components/Banner/Banner'
-import Welcome from './components/Welcome/Welcome';
-import Description from './components/Description/Description';
-import Highlights from './components/Highlights/Highlights';
+import React, { useEffect, useState } from "react";
+import Banner from "./components/Banner/Banner";
+import Welcome from "./components/Welcome/Welcome";
+import Description from "./components/Description/Description";
+import Highlights from "./components/Highlights/Highlights";
 
 const Home = () => {
   const [width, setWidth] = useState(window.innerWidth);
 
   useEffect(() => {
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
