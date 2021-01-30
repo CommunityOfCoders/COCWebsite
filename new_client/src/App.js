@@ -5,33 +5,41 @@ import { Provider } from "react-redux";
 import configureStore from "./store/configureStore";
 import { Box } from "@material-ui/core";
 import ProtectedRoute from "./ProtectedRoute";
-
-// Components begin here
 import Header from "./components/Header";
 import Footer from "./components/footer/Footer";
-import Glimpse from "./components/glimpses/Glimpse";
-import AddBlog from "./components/blogs/AddBlog";
-import Signin from "./components/auth/Signin.jsx";
-import Signup from "./components/auth/Signup.jsx";
-import AddEvent from "./components/events/AddEvent";
-import IndividualImageGalllery from "./components/glimpses/IndividualImageGalllery";
-import ResetPw from "./components/auth/ResetPw";
-import NewPw from "./components/auth/NewPw";
 import Spinner from "./components/spinner/Spinner";
 
+// To be removed.
+import Glimpse from "./components/glimpses/Glimpse";
+import IndividualImageGalllery from "./components/glimpses/IndividualImageGalllery";
+
 // Lazy components start here
+
+// Auth
+const LazySignin = import("./components/auth/Signin.jsx");
+const LazySignup = import("./components/auth/Signup.jsx");
+const LazyResetPw = import("./components/auth/ResetPw");
+const LazyNewPw = import("./components/auth/NewPw");
+
+// Pages
 const LazyHome = lazy(() => import("./components/Home/Home"));
 const LazyAbout = lazy(() => import("./components/pages/About"));
-const LazyBlogs = lazy(() => import("./components/blogs/Blog"));
-const LazyIndividualBlog = lazy(() =>
-  import("./components/blogs/IndividualBlog")
-);
-const LazyEventList = lazy(() => import("./components/events/EventList"));
 const LazyResourcePage = lazy(() =>
   import("./components/resources/ResourcePage")
 );
 const LazyProjectList = lazy(() => import("./components/projects/ProjectList"));
 const LazyProjects = lazy(() => import("./components/projects/Projects"));
+
+// Blogs
+const LazyBlogs = lazy(() => import("./components/blogs/Blog"));
+const LazyIndividualBlog = lazy(() =>
+  import("./components/blogs/IndividualBlog")
+);
+const LazyAddBlog = lazy(() => import("./components/blogs/AddBlog"));
+
+// Events
+const LazyEventList = lazy(() => import("./components/events/EventList"));
+const LazyAddEvent = import("./components/events/AddEvent");
 
 function App() {
   const store = configureStore();
@@ -59,13 +67,13 @@ function App() {
                 <Route exact path="/" component={LazyHome} />
                 <Route path="/about" component={LazyAbout} />
                 <Route exact path="/blogs" render={() => <LazyBlogs />} />
-                <Route path="/signin" component={Signin} />
-                <Route path="/reset" component={ResetPw} />
-                <Route path="/newpass/:token" component={NewPw} />
-                <ProtectedRoute exact path="/addblog" component={AddBlog} />
+                <Route path="/signin" component={LazySignin} />
+                <Route path="/reset" component={LazyResetPw} />
+                <Route path="/newpass/:token" component={LazyNewPw} />
+                <ProtectedRoute exact path="/addblog" component={LazyAddBlog} />
                 <Route path="/blogs/:id" component={LazyIndividualBlog} />
-                <ProtectedRoute path="/blog/edit/:id" component={AddBlog} />
-                <Route path="/signup" component={Signup} />
+                <ProtectedRoute path="/blog/edit/:id" component={LazyAddBlog} />
+                <Route path="/signup" component={LazySignup} />
                 <Route
                   path="/glimpse/:header"
                   render={(prevProps) => (
@@ -74,8 +82,11 @@ function App() {
                 />
                 <Route path="/glimpse" component={Glimpse} />
                 <Route path="/events" component={LazyEventList} />
-                <ProtectedRoute path="/addevent" component={AddEvent} />
-                <ProtectedRoute path="/event/edit/:id" component={AddEvent} />
+                <ProtectedRoute path="/addevent" component={LazyAddEvent} />
+                <ProtectedRoute
+                  path="/event/edit/:id"
+                  component={LazyAddEvent}
+                />
                 <Route path="/resources" component={LazyResourcePage} />
                 <Route path="/projects/:id" component={LazyProjectList} />
                 <Route path="/projects" component={LazyProjects} />
