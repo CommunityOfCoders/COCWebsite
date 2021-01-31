@@ -8,7 +8,7 @@ module.exports = {
       const projects = await Project.find().populate({
         path: 'domains',
         select: ['_id', 'domainName']
-      }).exec();
+      }).lean().exec();
       res.status(200).json({ projects });
     } catch(e){
       res.status(500).json({ error: e.message });
@@ -22,7 +22,7 @@ module.exports = {
           path: 'domains',
           select: ['_id', 'domainName']
         }
-      }).exec();
+      }).select({"projects":1}).lean().exec();
       if(domain){
         res.status(200).json({ projects: domain.projects });
       }else{
@@ -37,7 +37,7 @@ module.exports = {
       const project = await Project.findById(req.params.id).populate({
         path: 'domains',
         select: ['_id', 'domainName']
-      }).exec();
+      }).lean().exec();
       if(project){
         res.status(200).json(project);
       }else{
@@ -73,7 +73,7 @@ module.exports = {
         });
         await domain.save();
       }
-      await Project.findByIdAndRemove(projectId);
+      await Project.findByIdAndRemove(projectId).lean();
       res.status(204).json({});
     }catch(e){
       res.status(500).json({ error: e.message });

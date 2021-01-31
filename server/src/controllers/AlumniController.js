@@ -42,7 +42,7 @@ module.exports = {
   },
   async allAlumni(_,res){
     try{
-      const alumni = await Alumnus.find({});
+      const alumni = await Alumnus.find({}).lean();
       return res.status(200).json({ alumni });
     } catch(e){
       return res.status(500).json({ error: e.message });
