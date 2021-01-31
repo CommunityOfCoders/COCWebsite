@@ -29,7 +29,7 @@ module.exports = {
   },
   async allAchievements(_,res, next){
     try{
-      const achievements = await Achievement.find({});
+      const achievements = await Achievement.find({}).lean();
       res.locals.cache = achievements;
       res.status(200).json({ achievements });
       next();

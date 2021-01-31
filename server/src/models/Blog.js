@@ -23,7 +23,8 @@ const blog = new mongoose.Schema({
         required: true
     },
     authorID: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users',
         required: true
     }
 });

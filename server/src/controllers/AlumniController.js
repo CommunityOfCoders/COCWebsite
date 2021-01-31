@@ -43,7 +43,7 @@ module.exports = {
   },
   async allAlumni(_,res, next){
     try{
-      const alumni = await Alumnus.find({});
+      const alumni = await Alumnus.find({}).lean();
       res.locals.cache = alumni;
       res.status(200).json({ alumni });
       next();
