@@ -32,6 +32,7 @@ const LazyResourcePage = lazy(() =>
 );
 const LazyProjectList = lazy(() => import("./components/projects/ProjectList"));
 const LazyProjects = lazy(() => import("./components/projects/Projects"));
+const LazyAlumniPage = lazy(() => import("./components/alumni/AlumniPage"));
 
 function App() {
   const store = configureStore();
@@ -79,6 +80,7 @@ function App() {
                 <Route path="/resources" component={LazyResourcePage} />
                 <Route path="/projects/:id" component={LazyProjectList} />
                 <Route path="/projects" component={LazyProjects} />
+                <Route path="/alumni" component={LazyAlumniPage} />
               </Switch>
             </Suspense>
           </Box>

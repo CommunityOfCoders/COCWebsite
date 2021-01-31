@@ -28,7 +28,7 @@ module.exports = {
   },
   async allAchievements(_,res){
     try{
-      const achievements = await Achievement.find({});
+      const achievements = await Achievement.find({}).lean();
       return res.status(200).json({ achievements });
     } catch(e){
       return res.status(500).json({ error: e.message });
