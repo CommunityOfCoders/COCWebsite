@@ -1,10 +1,12 @@
 const Domain = require('../models/Domain.js');
 
 module.exports = {
-  async allDomains(_req,res){
+  async allDomains(_req,res, next){
     try{
       const domains = await Domain.find().lean();
       res.status(200).json({ domains });
+      res.locals.cache = domains;
+      next();
     } catch(e){
       res.status(500).json({ error: e.message });
     }
@@ -21,20 +23,22 @@ module.exports = {
       res.status(500).json({ error: e.message });
     }
   },
-  async createDomain(req,res){
+  async createDomain(req,res, next){
     try{
       const domain = await Domain.create(req.body);
       res.status(201).json({ id: domain._id });
+      next();
     }catch(e){
       res.status(500).json({ error: e.message });
     }
   },
-  async editDomainById(req,res){
+  async editDomainById(req,res, next){
     try{
       const domain = await Domain.findByIdAndUpdate(req.params.id, req.body,{
         new: true
       }).lean();
       res.status(200).json(domain);
+      next();
     }catch(e){
       res.status(500).json({ error: e.message });
     }
@@ -42,5 +46,6 @@ module.exports = {
   async deleteDomainById(req,res){
     await Domain.findByIdAndRemove(req.params.id).lean();
     res.status(204).json({});
+    next();
   }
 }

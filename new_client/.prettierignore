@@ -6,3 +6,4 @@ node_modules
 .gitignore
 .prettierignore
 src/components/assets
+src/components/Home/components/assets
