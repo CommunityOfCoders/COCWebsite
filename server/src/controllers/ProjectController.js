@@ -8,7 +8,7 @@ module.exports = {
         path: 'domains',
         select: ['_id', 'domainName']
       }).exec();
-      res.cache = projects;
+      res.locals.cache = projects;
       res.status(200).json({ projects });
       next();
     } catch(e){

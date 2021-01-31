@@ -21,7 +21,7 @@ module.exports = {
   getAllTopics: async (req, res, next) => {
     try {
       const topicsAndResources = await Topic.find({}).populate("resources");
-      res.cache = topicsAndResources;
+      res.locals.cache = topicsAndResources;
       res.status(200).json(topicsAndResources);
       next();
     } catch (error) {

@@ -24,6 +24,6 @@ module.exports = {
 
   setCache(req, res) {
     const type = req.path.split("/")[2];
-    redis_client.set(type, JSON.stringify(res.cache))
+    redis_client.set(type, JSON.stringify(res.locals.cache))
   }
 };

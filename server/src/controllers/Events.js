@@ -23,7 +23,7 @@ module.exports = {
   async getEvents(_req, res, next) {
     const events = await Event.find().sort("-date");
     res.status(200).json(events);
-    res.cache = events;
+    res.locals.cache = events;
     next();
   },
 

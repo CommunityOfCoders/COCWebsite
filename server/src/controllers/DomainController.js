@@ -5,7 +5,7 @@ module.exports = {
     try{
       const domains = await Domain.find();
       res.status(200).json({ domains });
-      res.cache = domains;
+      res.locals.cache = domains;
       next();
     } catch(e){
       res.status(500).json({ error: e.message });
