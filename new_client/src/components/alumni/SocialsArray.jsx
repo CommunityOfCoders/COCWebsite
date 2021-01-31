@@ -1,5 +1,5 @@
 import React from "react";
-import { ThemeProvider, createMuiTheme, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import PersonIcon from "@material-ui/icons/Person";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import FacebookIcon from "@material-ui/icons/Facebook";
@@ -34,18 +34,20 @@ function SocialsArray({ socialUrls }) {
 
   return (
     <div className={classes.array}>
-      {Object.keys(socialUrls).map((key) => (
-        <a
-          key={key}
-          href={socialUrls[key]}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <IconButton className={classes.iconButton}>
-            {socialIcons[key]}
-          </IconButton>
-        </a>
-      ))}
+      {Object.keys(socialUrls)
+        .filter((key) => socialUrls[key] !== "")
+        .map((key) => (
+          <a
+            key={key}
+            href={socialUrls[key]}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <IconButton className={classes.iconButton}>
+              {socialIcons[key]}
+            </IconButton>
+          </a>
+        ))}
     </div>
   );
 }

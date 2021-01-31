@@ -10,7 +10,7 @@ import SocialsArray from "./SocialsArray";
     professionalTitle,
     company,
     imageUrl,
-    socialsUrl,
+    socialUrls,
     graduationYear
   }
 */
