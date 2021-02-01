@@ -1,22 +1,35 @@
 const { Resource, Topic } = require("../models/Resources");
+const redis_client = require("../config/redis");
+
+/* 
+  Topics and resources behave a bit differently when it comes to endpoints. The delete cache
+  middleware does a path lookup, but we need to update the "topics" values, even if 
+  there is a change in resources. So, a function that does the same tasks, but exclusively for topics.
+*/
+function deleteFromCache() {
+  redis_client.del("topics");
+}
 
 module.exports = {
   /**
-   * @route GET api/topic
+   * @route GET api/topics
    * @description Retrieve all resources grouped by topics
    * @param {Object} req The request
    * @param {Object} res The response
+   * @param {Function} next The callback function in case of a successful response.
    */
-  getAllTopics: async (req, res) => {
+  getAllTopics: async (req, res, next) => {
     try {
       const topicsAndResources = await Topic.find({}).populate("resources").lean();
+      res.locals.cache = topicsAndResources;
       res.status(200).json(topicsAndResources);
+      next();
     } catch (error) {
       res.status(500).json({ error });
     }
   },
   /**
-   * @route GET api/topic/:id
+   * @route GET api/topics/:id
    * @description Get a particular topic (and its resources) by its _id
    * @param {Object} req The request
    * @param {Object} res The response
@@ -31,7 +44,7 @@ module.exports = {
     }
   },
   /**
-   * @route GET api/resource/:id
+   * @route GET api/resources/:id
    * @description Get a particular resource by its _id
    * @param {Object} req The request
    * @param {Object} res The response
@@ -47,7 +60,7 @@ module.exports = {
   },
 
   /**
-   * @route POST api/resource/add
+   * @route POST api/resources/add
    * @description Add a new resource
    * @param {Object} req The request
    * @param {Object} res The response
@@ -65,6 +78,7 @@ module.exports = {
         link: req.body.link,
       });
       topic.resources.push(resource._id);
+      deleteFromCache();
       await topic.save();
       res.status(201).json(resource);
     } catch (error) {
@@ -72,23 +86,24 @@ module.exports = {
     }
   },
   /**
-   * @route POST api/topic/add
+   * @route POST api/topics/add
    * @description Add a new topic
    * @param {Object} req The request
    * @param {Object} res The response
    * @param {String} req.body.name
    */
-  addTopic: async (req, res) => {
+  addTopic: async (req, res, next) => {
     console.log(req.body);
     try {
       const topic = await Topic.create({ name: req.body.name });
       res.status(201).json(topic);
+      next();
     } catch (error) {
       res.status(500).json({ error });
     }
   },
   /**
-   * @route PUT api/resource/edit/:id
+   * @route PUT api/resources/edit/:id
    * @description Update a resource
    * @param {Object} req The request
    * @param {Object} res The response
@@ -102,20 +117,21 @@ module.exports = {
         req.body,
         { new: true }
       ).select({"_id":1}).lean();
+      deleteFromCache();
       res.status(201).json({ id: resource._id });
     } catch (error) {
       res.status(500).json({ error });
     }
   },
   /**
-   * @route PUT api/topic/edit/:id
+   * @route PUT api/topics/edit/:id
    * @description Update a topic
    * @param {Object} req The request
    * @param {Object} res The response
    * @param {Object} req.body Update fields
    * @param {String} req.params.id The _id of the topic
    */
-  updateTopicById: async (req, res) => {
+  updateTopicById: async (req, res, next) => {
     try {
       const topic = await Topic.findByIdAndUpdate(
         req.params.id,
@@ -123,12 +139,13 @@ module.exports = {
         { new: true }
       ).select({"_id":1}).lean();
       res.status(201).json({ id: topic._id });
+      next();
     } catch (error) {
       res.status(500).json({ error });
     }
   },
   /**
-   * @route DELETE api/resource/delete/:id
+   * @route DELETE api/resources/delete/:id
    * @description Delete a resource
    * @param {Object} req The request
    * @param {Object} res The response
@@ -137,22 +154,24 @@ module.exports = {
   deleteResourceById: async (req, res) => {
     try {
       await Resource.findByIdAndDelete(req.params.id).lean();
+      deleteFromCache();
       res.status(204).json({});
     } catch (error) {
       res.status(500).json({ error });
     }
   },
   /**
-   * @route DELETE api/topic/delete/:id
+   * @route DELETE api/topics/delete/:id
    * @description Delete a topic
    * @param {Object} req The request
    * @param {Object} res The response
    * @param {String} req.params.id The _id of the topic
    */
-  deleteTopicById: async (req, res) => {
+  deleteTopicById: async (req, res, next) => {
     try {
       await Topic.findByIdAndDelete(req.params.id).lean();
       res.status(204).json({});
+      next();
     } catch (error) {
       res.status(500).json({ error });
     }

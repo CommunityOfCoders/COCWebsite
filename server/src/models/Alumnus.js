@@ -17,10 +17,13 @@ const alumnus = new mongoose.Schema({
     type: String,
     required: true
   },
-  profileUrl: {
-    type: String,
-    required: false,
-    default: ''
+  socialUrls: {
+    personal: String,
+    facebook: String,
+    github: String,
+    instagram: String,
+    linkedin: String,
+    twitter: String,
   },
   imageUrl: {
     type: String,

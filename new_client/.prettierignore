@@ -5,5 +5,5 @@ package-lock.json
 node_modules
 .gitignore
 .prettierignore
-*.webp
 src/components/assets
+src/components/Home/components/assets

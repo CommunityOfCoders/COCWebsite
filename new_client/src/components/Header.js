@@ -21,6 +21,9 @@ function Header({ isAuthenticated, logout }) {
         <Link to="/glimpse">
           <i className="fa fa-fw fa-info"></i>GLIMPSES
         </Link>
+        <Link to="/alumni">
+          <i className="fa fa-fw fa-graduation-cap"></i>ALUMNI
+        </Link>
         <Link to="/blogs">
           <i className="fa fa-fw fa-pencil"></i>BLOGS
         </Link>
