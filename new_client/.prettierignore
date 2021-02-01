@@ -7,3 +7,4 @@ node_modules
 .prettierignore
 *.webp
 src/components/assets
+src/components/Home/components/assets
