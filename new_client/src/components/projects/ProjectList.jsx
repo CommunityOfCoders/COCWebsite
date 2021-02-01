@@ -13,20 +13,20 @@ const ProjectList = () => {
     axios
       .get(process.env.REACT_APP_API + `/projects/filter/${id}`)
       .then((res) => {
-        if (res.status == 200) {
+        if (res.status === 200) {
           const projectsList = res.data.projects;
           setProjects(projectsList);
         }
       });
-  }, []);
+  });
 
   useEffect(() => {
     axios.get(process.env.REACT_APP_API + `/domains/${id}`).then((res) => {
-      if (res.status == 200) {
+      if (res.status === 200) {
         setDomain(res.data.domainName);
       }
     });
-  }, []);
+  });
 
   return (
     <Container maxWidth="lg">

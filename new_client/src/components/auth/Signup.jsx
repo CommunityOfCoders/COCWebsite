@@ -8,13 +8,13 @@ import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { AccountCircle } from "@material-ui/icons";
-import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { Paper, useMediaQuery } from "@material-ui/core";
 import coc from "../assets/COC_Full.webp";
 import bg from "../assets/bg_signup.webp";
 import { createMuiTheme } from "@material-ui/core/styles";
 import EmailIcon from "@material-ui/icons/Email";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import AlertUtility from "../Utilities/Alert";
 
 import { connect } from "react-redux";
 import { register } from "../../actions/authActions";
@@ -61,20 +61,14 @@ const theme1 = createMuiTheme({
 });
 
 function Signup(props) {
-  const {
-    isAuthenticated,
-    error,
-    register,
-    clearErrors,
-    history,
-    isLoading,
-  } = props;
+  const { isAuthenticated, error, register, history, isLoading } = props;
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [graduationYear, setGraduationYear] = useState(null);
   const [msg, setMsg] = useState(null);
+  const [isError, setIsError] = useState(false);
 
   const handleChangeUsername = (e) => setUsername(e.target.value);
   const handleChangePassword = (e) => setPassword(e.target.value);
@@ -205,7 +199,8 @@ function Signup(props) {
 
   useEffect(() => {
     if (error.id === "REGISTER_FAIL") {
-      setMsg(error.msg.msg);
+      setMsg(error.msg.error);
+      setIsError(true);
     } else {
       setMsg(null);
     }
@@ -213,7 +208,7 @@ function Signup(props) {
       // TODO: something here after auth
       history.push("/");
     }
-  }, [error, isAuthenticated]);
+  }, [error, isAuthenticated, history]);
 
   const classes = useStyles();
   return (
@@ -226,6 +221,7 @@ function Signup(props) {
               <img
                 style={{ marginTop: 20, height: "90%", width: "90%" }}
                 src={coc}
+                alt="COC Logo"
               />
 
               <Typography style={{ color: "#fff" }} component="h1" variant="h5">
@@ -282,7 +278,6 @@ function Signup(props) {
                   <TextField
                     margin="normal"
                     fullWidth
-                    color="#52b107"
                     required
                     id="graduation"
                     label="Graduation Year"
@@ -336,6 +331,13 @@ function Signup(props) {
           </Container>
         </Grid>
       </Grid>
+      <AlertUtility
+        open={isError}
+        duration={3000}
+        onCloseHandler={() => setIsError(false)}
+        severity="error"
+        message={`Error: ${msg}. Please try again`}
+      />
     </ThemeProvider>
   );
 }

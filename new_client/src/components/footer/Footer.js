@@ -24,7 +24,7 @@ export default function Footer() {
   return (
     <ThemeProvider theme={responsiveFonts}>
       <div className={classes.footerContent}>
-        <img src={COC} width="75rem" height="75rem" />
+        <img src={COC} width="75rem" height="75rem" alt="COC Logo" />
         <Typography variant="h4" className={classes.name} align="center">
           <span className={classes.cocGreen}>C</span>ommunity{" "}
           <span className={classes.cocGreen}>o</span>f{" "}

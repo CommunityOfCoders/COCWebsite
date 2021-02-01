@@ -58,7 +58,7 @@ function AlumnusCardFront({ mask, alumnus }) {
           clipPath: mask || "circle(50% at 50% 50%)",
         }}
         src={alumnus.imageUrl}
-        alt="User Image"
+        alt="User"
         className={classes.img}
       />
       <Typography component="span" align="center" variant="h5">

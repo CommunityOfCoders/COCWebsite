@@ -1,5 +1,5 @@
 import "date-fns";
-import React, { Component } from "react";
+import React from "react";
 import axios from "axios";
 import Spinner from "../spinner/Spinner";
 import "../auth/Error.css";
@@ -56,7 +56,7 @@ function AddEvent(props) {
         })
         .catch((err) => console.log(err));
     }
-  }, []);
+  });
 
   const handleClose = () => {
     setIsSubmitted(false);
