@@ -26,6 +26,7 @@ import { format } from "date-fns";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import AlertUtility from "../Utilities/Alert";
+import Search from "../Utilities/Search";
 import "./Blogs.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -44,10 +45,12 @@ const Blogs = (props) => {
   const tag = params.get("tag");
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
   const [isDeleted, setIsDeleted] = useState(false);
   const [isError, setIsError] = useState(false);
   const [counter, setCounter] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
     if (tag) {
@@ -118,6 +121,44 @@ const Blogs = (props) => {
     });
   };
 
+  const handleSearch = (e) => {
+    const filteredPosts = posts.filter((article) => {
+      const blogTitleArray = article.blogTitle.toLowerCase().split(" ");
+      const searchValueArray = e.target.value.trim().toLowerCase().split(" ");
+      let flag = false;
+      flag = blogTitleArray.some((r) => {
+        let val = false;
+        for (let i = 0; i < searchValueArray.length; i++) {
+          if (r.startsWith(searchValueArray[i])) {
+            val = true;
+            break;
+          }
+        }
+        return val;
+      });
+      if (!flag) {
+        flag = searchValueArray.some((val) => {
+          return val.startsWith(article.author.toLowerCase());
+        });
+      }
+      if (!flag) {
+        flag = article.tags.some((r) => {
+          let val = false;
+          for (let i = 0; i < searchValueArray.length; i++) {
+            if (r.startsWith(searchValueArray[i])) {
+              val = true;
+              break;
+            }
+          }
+          return val;
+        });
+      }
+      return flag;
+    });
+    setSearchValue(e.target.value);
+    setFilteredPosts(filteredPosts);
+  };
+
   // TODO :- Change this to increase it to 12 if user isn't signed in.
   const spanSize = 4;
 
@@ -150,7 +191,8 @@ const Blogs = (props) => {
   let blogComponent = <Spinner />;
 
   if (!isLoading) {
-    blogComponent = posts.map((article) => (
+    const postArray = searchValue.length === 0 ? posts : filteredPosts;
+    blogComponent = postArray.map((article) => (
       <Grid item xs={6} key={article._id}>
         <Card>
           <CardHeader
@@ -217,6 +259,11 @@ const Blogs = (props) => {
 
   return (
     <div className={classes.root}>
+      <Search
+        placeholder="Search by Blog name or Author or Tags"
+        value={searchValue}
+        onSearch={handleSearch}
+      />
       <Container maxWidth="md">
         <Grid container spacing={3}>
           {blogComponent}
