@@ -66,6 +66,10 @@ function App() {
                 <ProtectedRoute exact path="/addblog" component={AddBlog} />
                 <Route path="/blogs/:id" component={LazyIndividualBlog} />
                 <ProtectedRoute path="/blog/edit/:id" component={AddBlog} />
+                <Route
+                  path="/blogs?tag=:tag"
+                  render={() => <LazyBlogs key={window.location} />}
+                />
                 <Route path="/signup" component={Signup} />
                 <Route
                   path="/glimpse/:header"
