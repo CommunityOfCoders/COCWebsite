@@ -45,20 +45,22 @@ function EventList(props) {
   }, []);
 
   useEffect(() => {
-    axios
-      .post(
-        process.env.REACT_APP_API + "/user",
-        JSON.stringify({ userID: props.userID }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((res) => {
-        setIsMember(res.data.isMember);
-      })
-      .catch((err) => console.log(err));
+    if (props.userID) {
+      axios
+        .post(
+          process.env.REACT_APP_API + "/user",
+          JSON.stringify({ userID: props.userID }),
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          setIsMember(res.data.isMember);
+        })
+        .catch((err) => console.log(err));
+    }
   }, [props.userID]);
 
   const handleModalClose = () => {
