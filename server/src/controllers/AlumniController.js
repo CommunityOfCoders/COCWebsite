@@ -41,12 +41,12 @@ module.exports = {
     }
 
   },
-  async allAlumni(_,res, next){
+  async allAlumni(_,res){
     try{
       const alumni = await Alumnus.find({}).lean();
       res.locals.cache = alumni;
       res.status(200).json({ alumni });
-      next();
+      // next();
     } catch(e){
       return res.status(500).json({ error: e.message });
     }

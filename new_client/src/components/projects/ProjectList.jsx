@@ -3,6 +3,7 @@ import axios from "axios";
 import { Container, Grid, Typography } from "@material-ui/core";
 import IndividualProjectCard from "./IndividualProjectCard";
 import { useParams } from "react-router-dom";
+import { overflowEllipsis } from "../Utilities/overflowEllipsis";
 
 const ProjectList = () => {
   const [projects, setProjects] = useState([]);
@@ -43,7 +44,7 @@ const ProjectList = () => {
               imgSrc={project.imageUrl}
               title={project.projectTitle}
               domains={project.domains}
-              shortDesc={project.projectDescription}
+              shortDesc={overflowEllipsis(project.projectDescription)}
               linkToRepo={project.projectUrl}
             />
           </Grid>
