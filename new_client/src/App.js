@@ -11,10 +11,10 @@ import Spinner from "./components/spinner/Spinner";
 
 // Lazy components start here
 // Auth
-const LazySignin = import("./components/auth/Signin.jsx");
-const LazySignup = import("./components/auth/Signup.jsx");
-const LazyResetPw = import("./components/auth/ResetPw");
-const LazyNewPw = import("./components/auth/NewPw");
+const LazySignin = lazy(() => import("./components/auth/Signin"));
+const LazySignup = lazy(() => import("./components/auth/Signup"));
+const LazyResetPw = lazy(() => import("./components/auth/ResetPw"));
+const LazyNewPw = lazy(() => import("./components/auth/NewPw"));
 
 // Pages
 const LazyHome = lazy(() => import("./components/Home/Home"));
@@ -35,7 +35,7 @@ const LazyAddBlog = lazy(() => import("./components/blogs/AddBlog"));
 
 // Events
 const LazyEventList = lazy(() => import("./components/events/EventList"));
-const LazyAddEvent = import("./components/events/AddEvent");
+const LazyAddEvent = lazy(() => import("./components/events/AddEvent"));
 
 function App() {
   const store = configureStore();
