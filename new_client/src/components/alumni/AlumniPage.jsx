@@ -90,12 +90,11 @@ export default function AlumniPage() {
   useEffect(() => {
     const getAlumni = async () => {
       try {
-        const { data: alumni } = await axios.get(
-          process.env.REACT_APP_API + "/alumni"
-        );
-        setAlumni(alumni);
+        const { data } = await axios.get(process.env.REACT_APP_API + "/alumni");
+        // console.log(data.alumni);
+        setAlumni(data.alumni);
         let years = new Set();
-        alumni.forEach((alumnus) =>
+        data.alumni.forEach((alumnus) =>
           years.add(parseInt(alumnus.graduationYear))
         );
         setYears(Array.from(years).sort((a, b) => b - a));
@@ -155,7 +154,9 @@ export default function AlumniPage() {
                 <TabPanel key={year} value={value} index={index}>
                   <Grid container justify="space-evenly" spacing={4}>
                     {alumni
-                      .filter((alumnus) => alumnus.graduationYear === year)
+                      .filter(
+                        (alumnus) => alumnus.graduationYear === year.toString()
+                      )
                       .map((alumnus, index) => (
                         <Slide
                           key={index}
