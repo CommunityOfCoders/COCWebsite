@@ -19,6 +19,7 @@
     "date-fns": "^2.15.0",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
+    "react-card-flip": "^1.0.11",
     "react-confirm-alert": "^2.6.1",
     "react-dom": "^16.13.1",
     "react-image-gallery": "^1.0.8",
