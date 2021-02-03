@@ -16,7 +16,9 @@ const insertDomains = async () => {
     await mongoose.connect(process.env.MONGO_URI);
     let projects = await project.find({})
     for (let i = 0; i < projects.length; i++) {
-        projects[i].domains = [projects[i].domains]
+        if (!Array.isArray(projects[i].domains)) {
+            projects[i].domains = [projects[i].domains]
+        }
         await projects[i].save();
     }
     console.log("Done...")
