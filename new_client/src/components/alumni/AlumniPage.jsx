@@ -157,22 +157,19 @@ export default function AlumniPage() {
                       .filter(
                         (alumnus) => alumnus.graduationYear === year.toString()
                       )
-                      .map((alumnus, index) => {
-                        console.log(alumnus);
-                        return (
-                          <Slide
-                            key={index}
-                            direction="up"
-                            in={true}
-                            mountOnEnter
-                            unmountOnExit
-                          >
-                            <Grid item>
-                              <AlumnusCard alumnus={alumnus} />
-                            </Grid>
-                          </Slide>
-                        );
-                      })}
+                      .map((alumnus, index) => (
+                        <Slide
+                          key={index}
+                          direction="up"
+                          in={true}
+                          mountOnEnter
+                          unmountOnExit
+                        >
+                          <Grid item>
+                            <AlumnusCard alumnus={alumnus} />
+                          </Grid>
+                        </Slide>
+                      ))}
                   </Grid>
                 </TabPanel>
               ))}
