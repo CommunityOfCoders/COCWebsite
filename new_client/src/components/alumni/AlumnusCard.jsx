@@ -88,7 +88,9 @@ function AlumnusCardBack({ alumnus }) {
         <Typography component="span" align="center" variant="h5">
           {alumnus.professionalTitle} at {alumnus.company}
         </Typography>
-        <SocialsArray socialUrls={alumnus.socialUrls} />
+        {!!alumnus.socialUrls && (
+          <SocialsArray socialUrls={alumnus.socialUrls} />
+        )}
       </div>
     </Card>
   );
