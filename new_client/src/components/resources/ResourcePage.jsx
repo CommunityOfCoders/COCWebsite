@@ -32,7 +32,7 @@ export default function ResourcePage() {
     const getTopics = async () => {
       try {
         const { data: topics } = await axios.get(
-          process.env.REACT_APP_API + "/topic"
+          process.env.REACT_APP_API + "/topics"
         );
         setTopics(topics);
         setIsLoading(false);

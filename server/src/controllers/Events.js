@@ -23,6 +23,8 @@ module.exports = {
   async getEvents(_req, res) {
     const events = await Event.find().sort("-date").lean();
     res.status(200).json(events);
+    res.locals.cache = events;
+    // next();
   },
 
   async getEventById(req, res) {
@@ -59,8 +61,9 @@ module.exports = {
       res.status(200).json({
         id: event._id,
       });
+      // next();
     } catch (err) {
-      res.status(500).json({
+      return res.status(500).json({
         error: err.message,
       });
     }
@@ -100,7 +103,8 @@ module.exports = {
           public_id: image.public_id,
         };
       }
-      res.json(event);
+      res.status(200).json(event);
+      // next();
     } catch (err) {
       res.status(400).json({
         error: err.message,
@@ -123,6 +127,7 @@ module.exports = {
       }
     } catch (error) {}
     res.status(204).json({});
+    // next();
   },
 
   async addForm(req, res) {

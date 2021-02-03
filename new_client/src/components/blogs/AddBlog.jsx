@@ -20,11 +20,23 @@ function AddBlog(props) {
   const [blogAuthor, setBlogAuthor] = useState("");
   const [blogContent, setBlogContent] = useState("**Hello world!!!**");
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [tagString, setTagString] = useState("");
 
   const [isError, setIsError] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const isEditPage = !!id;
+
+  const extractTags = (tagValue) => {
+    const tags = tagValue
+      .replace(/\s/g, "")
+      .toLowerCase()
+      .split(",")
+      .filter((value, index, self) => {
+        return self.indexOf(value) === index;
+      }); // This replaces all white spaces then splits across ',' and then filters out repeat values
+    return tags;
+  };
 
   const successString = isEditPage
     ? "Blog edited successfully!"
@@ -40,11 +52,13 @@ function AddBlog(props) {
   };
 
   const handleDataSubmit = async () => {
+    const tags = extractTags(tagString);
     const blog = {
       blogTitle: blogTitle,
       blogContent: blogContent,
       date: selectedDate,
       author: blogAuthor,
+      tags: tags,
       authorID: props.userID,
     };
     axios
@@ -65,9 +79,11 @@ function AddBlog(props) {
   };
 
   const handleDataEdit = async () => {
+    const tags = extractTags(tagString);
     const blog = {
       blogTitle: blogTitle,
       blogContent: blogContent,
+      tags: tags,
     };
     const res = await axios.put(
       process.env.REACT_APP_API + `/blogs/edit/${id}`,
@@ -145,6 +161,14 @@ function AddBlog(props) {
             label="Enter a title"
             value={blogTitle}
             onChange={(e) => setBlogTitle(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            label="Tags (Separate tags by commas)"
+            fullWidth
+            value={tagString}
+            onChange={(e) => setTagString(e.target.value)}
           />
         </Grid>
         <Grid item xs={12}>

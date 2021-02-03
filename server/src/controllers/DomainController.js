@@ -5,6 +5,8 @@ module.exports = {
     try{
       const domains = await Domain.find().lean();
       res.status(200).json({ domains });
+      res.locals.cache = domains;
+      // next();
     } catch(e){
       res.status(500).json({ error: e.message });
     }
@@ -25,6 +27,7 @@ module.exports = {
     try{
       const domain = await Domain.create(req.body);
       res.status(201).json({ id: domain._id });
+      // next();
     }catch(e){
       res.status(500).json({ error: e.message });
     }
@@ -35,6 +38,7 @@ module.exports = {
         new: true
       }).lean();
       res.status(200).json(domain);
+      // next();
     }catch(e){
       res.status(500).json({ error: e.message });
     }
@@ -42,5 +46,6 @@ module.exports = {
   async deleteDomainById(req,res){
     await Domain.findByIdAndRemove(req.params.id).lean();
     res.status(204).json({});
+    // next();
   }
 }

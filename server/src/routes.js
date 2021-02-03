@@ -12,9 +12,10 @@ const upload = require('./middleware/upload')
 const auth = require('./middleware/auth')
 const blog = require('./middleware/blog')
 const user = require('./middleware/user')
+const cache = require('./middleware/cache');
 
 module.exports = (app) => {
-    app.get('/api/hello', (req,res) => {res.json('Hello World')}) // Very hard to test and change
+    app.get('/api/hello', (req,res) => {res.json("Hello World")}); // Very hard to test and change
 
     // Auth
     app.post('/api/register',AuthController.register) // Tested
@@ -34,7 +35,6 @@ module.exports = (app) => {
     app.delete('/api/events/reminder/:id', Events.cancelReminder);
     app.delete('/api/events/:id', auth.loginRequired, user.isMember, Events.deleteEvent); // Tested
 
-
     // Registration
     app.post('/api/reg-form', Register.regForm); // Incomplete controller
 
@@ -49,6 +49,7 @@ module.exports = (app) => {
     // Blogs
     app.get('/api/blogs', Blogs.allBlogs); // Tested
     app.get('/api/blogs/:id', Blogs.viewBlogById); // Tested
+    app.get('/api/blogs/tag/:tag', Blogs.viewBlogsByTag);
     app.post('/api/blogs/new', auth.loginRequired, Blogs.uploadBlog); // Tested
     app.put('/api/blogs/edit/:id', auth.loginRequired, blog.isBlogWritten, Blogs.editBlogById); // Tested
     app.delete('/api/blogs/delete/:id', auth.loginRequired, blog.isBlogWritten, Blogs.deleteBlogById); // Tested
@@ -72,15 +73,15 @@ module.exports = (app) => {
     app.post('/api/alumni', AlumniController.createAlumnus); // Tested
 
     // Resources
-    app.get('/api/topic', ResourcesController.getAllTopics);
-    app.get('/api/resource/:id', ResourcesController.getResourceById);
-    app.get('/api/topic/:id', ResourcesController.getTopicById);
-    app.post('/api/resource/add', auth.loginRequired, user.isMember, ResourcesController.addResource);
-    app.post('/api/topic/add', auth.loginRequired, user.isMember, ResourcesController.addTopic);
-    app.put('/api/resource/edit/:id', auth.loginRequired, user.isMember, ResourcesController.updateResourceById);
-    app.put('/api/topic/edit/:id', auth.loginRequired, user.isMember, ResourcesController.updateTopicById);
-    app.delete('/api/resource/delete/:id', auth.loginRequired, user.isMember, ResourcesController.deleteResourceById);
-    app.delete('/api/topic/delete/:id', auth.loginRequired, user.isMember, ResourcesController.deleteTopicById);
+    app.get('/api/topics', ResourcesController.getAllTopics);
+    app.get('/api/resources/:id', ResourcesController.getResourceById);
+    app.get('/api/topics/:id', ResourcesController.getTopicById);
+    app.post('/api/resources/add', auth.loginRequired, user.isMember, ResourcesController.addResource);
+    app.post('/api/topics/add', auth.loginRequired, user.isMember, ResourcesController.addTopic);
+    app.put('/api/resources/edit/:id', auth.loginRequired, user.isMember, ResourcesController.updateResourceById);
+    app.put('/api/topics/edit/:id', auth.loginRequired, user.isMember, ResourcesController.updateTopicById);
+    app.delete('/api/resources/delete/:id', auth.loginRequired, user.isMember, ResourcesController.deleteResourceById);
+    app.delete('/api/topics/delete/:id', auth.loginRequired, user.isMember, ResourcesController.deleteTopicById);
 
     // Achievements
     app.get('/api/achievements', AchievementsController.allAchievements);
