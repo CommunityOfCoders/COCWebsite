@@ -78,7 +78,7 @@ module.exports = {
         link: req.body.link,
       });
       topic.resources.push(resource._id);
-      deleteFromCache();
+      // deleteFromCache();
       await topic.save();
       res.status(201).json(resource);
     } catch (error) {
@@ -116,8 +116,8 @@ module.exports = {
         req.params.id,
         req.body,
         { new: true }
-      ).select({"_id":1}).lean();
-      deleteFromCache();
+      ).select({ "_id": 1 }).lean();
+      // deleteFromCache();
       res.status(201).json({ id: resource._id });
     } catch (error) {
       res.status(500).json({ error });
@@ -137,7 +137,7 @@ module.exports = {
         req.params.id,
         req.body,
         { new: true }
-      ).select({"_id":1}).lean();
+      ).select({ "_id": 1 }).lean();
       res.status(201).json({ id: topic._id });
       next();
     } catch (error) {
@@ -154,7 +154,7 @@ module.exports = {
   deleteResourceById: async (req, res) => {
     try {
       await Resource.findByIdAndDelete(req.params.id).lean();
-      deleteFromCache();
+      // deleteFromCache();
       res.status(204).json({});
     } catch (error) {
       res.status(500).json({ error });
