@@ -52,6 +52,12 @@ export default function Header(props) {
 					(navOpen ? " nav-mob-open" : " nav-mob-close")
 				}
 			>
+				<div id="coclogonav" className={navItemClass}>
+					<img
+						src="https://res.cloudinary.com/coc-vjti/image/upload/v1611151381/coc_dark_ukajqb.webp"
+						alt=""
+					/>
+				</div>
 				<Link
 					to="/"
 					className={navItemClass}
