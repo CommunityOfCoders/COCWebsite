@@ -23,7 +23,7 @@ module.exports = {
 
       const user1 = await User.findOne({
         username: username,
-      }).lean().select({"username":1});
+      }).lean().select({ "username": 1 });
 
       /* If user exists, return 422 -
       visit https://stackoverflow.com/questions/3825990/http-response-code-for-post-when-resource-already-exists for more details
@@ -64,17 +64,17 @@ module.exports = {
 
   async login(req, res) {
     try {
-      const { username, password,rememberme } = req.body;
+      const { username, password, rememberme } = req.body;
 
       const user = await User.findOne({
         username: username,
       }).select({
-        "_id":1,
-        "username":1,
-        "email":1,
-        "password":1,
-        "isMember":1,
-        "isBlogAuthorized":1
+        "_id": 1,
+        "username": 1,
+        "email": 1,
+        "password": 1,
+        "isMember": 1,
+        "isBlogAuthorized": 1
       }).lean();
 
       // User not found, return 400
@@ -129,6 +129,7 @@ module.exports = {
     try {
       let userID = "";
       let username = "";
+      console.log(req.body);
       if (!!req.body.userID) {
         userID = req.body.userID;
       }
@@ -145,9 +146,8 @@ module.exports = {
         user = await User.findOne({
           username: username,
         }).lean();
+        user.password = null;
       }
-
-      user.password = null;
 
       res.status(200).json(user);
     } catch (e) {
