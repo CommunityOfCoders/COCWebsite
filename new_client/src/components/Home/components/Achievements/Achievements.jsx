@@ -34,7 +34,7 @@ const Achievements = (props) => {
     axios.get(process.env.REACT_APP_API + "/achievements").then((res) => {
       setAchievements(res.data["achievements"]);
     });
-  }, [achievements]);
+  }, []);
 
   const classes = useStyles();
 
@@ -74,7 +74,11 @@ const Item = (props) => {
         <Typography gutterBottom variant="h5" component="h2">
           {props.item.title}
         </Typography>
-        <Typography variant="body" color="textSecondary" component="h4">
+        <Typography variant="body" color="textPrimary" component="h5">
+          {props.item.description}
+        </Typography>
+        <br />
+        <Typography variant="body" color="textPrimary" component="p">
           By: <br />
           {props.item.owner.fullName}
         </Typography>
@@ -82,14 +86,25 @@ const Item = (props) => {
 
       <CardActions className={classes.actions}>
         <a
-          href={props.item.projectUrl}
+          href={"mailto:" + props.item.owner.email}
           target="_blank"
           rel="noopener noreferrer"
         >
           <Button size="small" color="primary">
-            Learn more
+            Contact me
           </Button>
         </a>
+        {props.item.projectUrl ? (
+          <a
+            href={props.item.projectUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button size="small" color="primary">
+              Learn more
+            </Button>
+          </a>
+        ) : null}
       </CardActions>
     </Card>
   );

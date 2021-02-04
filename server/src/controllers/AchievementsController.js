@@ -47,16 +47,18 @@ module.exports = {
           email: 'guy@gmail.com'
         },
         imageUrl: 'https://dealersupport.co.uk/wp-content/uploads/2020/03/iStock-659111108-587x381.jpg',
-        projectUrl: 'https://github.com/CommunityOfCoders/COCWebsite'
+        projectUrl: 'https://github.com/CommunityOfCoders/COCWebsite',
+        description: 'First in national hackathon with over 200 teams. Won in problem statement that implemented a basic crypto system.'
       },
       {
         title: 'First in ACM-ICPC',
         owner: {
-          fullName: 'Second smartest guy',
+          fullName: 'Super smart guy',
           email: 'guy2@gmail.com'
         },
         imageUrl: 'https://image.freepik.com/free-vector/winner_23-2147506357.jpg?2',
-        projectUrl: 'https://github.com/CommunityOfCoders/COCWebsite'
+        projectUrl: 'https://github.com/CommunityOfCoders/COCWebsite',
+        description: 'Won the Olympics of competitive coding globally. '
       },
       {
         title: 'Google internship',
@@ -65,7 +67,7 @@ module.exports = {
           email: 'richguy@gmail.com'
         },
         imageUrl: 'https://image.freepik.com/free-vector/winner_23-2147506357.jpg?2',
-        projectUrl: 'https://github.com/CommunityOfCoders/COCWebsite'
+        description: 'Do I really need to explain that?'
       }
     ]
     return res.status(200).json({ achievements })
