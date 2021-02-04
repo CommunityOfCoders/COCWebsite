@@ -129,7 +129,6 @@ module.exports = {
     try {
       let userID = "";
       let username = "";
-      console.log(req.body);
       if (!!req.body.userID) {
         userID = req.body.userID;
       }
