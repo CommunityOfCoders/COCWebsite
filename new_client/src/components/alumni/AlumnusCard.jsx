@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   card: {
     display: "flex",
     flexDirection: "column",
-    justify: "center",
+    justifyContent: "center",
     textDecoration: "none",
     height: "27rem",
     width: "20rem",
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   frontCard: {
     backgroundColor: theme.palette.background.paper,
-    padding: "2rem 1rem 2rem 1rem",
+    padding: "1rem 0rem 1rem 0rem",
   },
   backCard: {
     padding: 0,
@@ -45,7 +45,12 @@ const useStyles = makeStyles((theme) => ({
   },
   img: {
     width: "100%",
-    marginBottom: "1rem",
+    height: "80%",
+    objectFit: "cover",
+    margin: "0 1rem 1rem 1rem",
+    alignSelf: "center",
+    textAlign: "center",
+    lineHeight: "25rem",
   },
 }));
 
@@ -58,7 +63,7 @@ function AlumnusCardFront({ mask, alumnus }) {
           clipPath: mask || "circle(50% at 50% 50%)",
         }}
         src={alumnus.imageUrl}
-        alt="User"
+        alt="Alumnus"
         className={classes.img}
       />
       <Typography component="span" align="center" variant="h5">
@@ -88,7 +93,9 @@ function AlumnusCardBack({ alumnus }) {
         <Typography component="span" align="center" variant="h5">
           {alumnus.professionalTitle} at {alumnus.company}
         </Typography>
-        <SocialsArray socialUrls={alumnus.socialUrls} />
+        {!!alumnus.socialUrls && (
+          <SocialsArray socialUrls={alumnus.socialUrls} />
+        )}
       </div>
     </Card>
   );

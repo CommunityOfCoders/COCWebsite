@@ -1,0 +1,20 @@
+.tag {
+  padding: 0.4em 0.5em;
+  margin: 2px 2px 2px 0;
+  cursor: pointer;
+  color: #39739d;
+  background-color: #e1ecf4;
+  border-color: #00000000;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  text-align: center;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+.tag:hover {
+  background-color: #bfe3fd;
+}
