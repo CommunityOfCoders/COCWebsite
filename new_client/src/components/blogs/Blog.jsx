@@ -20,7 +20,7 @@ import {
 import AddIcon from "@material-ui/icons/Add";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
-import { green, red, grey } from "@material-ui/core/colors";
+import { green, red } from "@material-ui/core/colors";
 import Spinner from "../spinner/Spinner";
 import { format } from "date-fns";
 import { confirmAlert } from "react-confirm-alert";
@@ -172,7 +172,7 @@ const Blogs = (props) => {
             subheader={`by ${article.author}`}
           />
           <CardContent>
-            <Typography>
+            <Typography component={"span"}>
               <p>Date - {format(new Date(article.date), "do MMMM, yyyy")}</p>{" "}
               {/* <p>Written by : {article.author}</p> */}
               <p>

@@ -45,20 +45,22 @@ function EventList(props) {
   }, []);
 
   useEffect(() => {
-    axios
-      .post(
-        process.env.REACT_APP_API + "/user",
-        JSON.stringify({ userID: props.userID }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((res) => {
-        setIsMember(res.data.isMember);
-      })
-      .catch((err) => console.log(err));
+    if (props.userID) {
+      axios
+        .post(
+          process.env.REACT_APP_API + "/user",
+          JSON.stringify({ userID: props.userID }),
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          setIsMember(res.data.isMember);
+        })
+        .catch((err) => console.log(err));
+    }
   }, [props.userID]);
 
   const handleModalClose = () => {
@@ -128,8 +130,12 @@ function EventList(props) {
               className={classes.gridContainer}
             >
               {events.length > 0 &&
-                events.map((article) => {
-                  if (isFuture(new Date(article.date)) && article.image)
+                events
+                  .filter(
+                    (article) =>
+                      isFuture(new Date(article.date)) && article.image
+                  )
+                  .map((article) => {
                     //displaying only events with images
                     return (
                       <IndividualEvent
@@ -139,7 +145,7 @@ function EventList(props) {
                         handleDelete={handleDelete}
                       />
                     );
-                })}
+                  })}
             </Grid>
             <Grid
               className={classes.gridContainer}
@@ -156,8 +162,12 @@ function EventList(props) {
               className={classes.gridContainer}
             >
               {events.length > 0 &&
-                events.map((article) => {
-                  if (!isFuture(new Date(article.date)) && article.image)
+                events
+                  .filter(
+                    (article) =>
+                      !isFuture(new Date(article.date)) && article.image
+                  )
+                  .map((article) => {
                     //displaying only events with images
                     return (
                       <IndividualEvent
@@ -167,7 +177,7 @@ function EventList(props) {
                         handleDelete={handleDelete}
                       />
                     );
-                })}
+                  })}
             </Grid>
           </Container>
         </React.Fragment>

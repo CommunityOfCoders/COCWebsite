@@ -21,9 +21,13 @@ const getNotificationDate = (eventDate) => {
 
 module.exports = {
   async getEvents(_req, res) {
-    const events = await Event.find().sort("-date").lean();
-    res.status(200).json(events);
-    res.locals.cache = events;
+    try {
+      const events = await Event.find().sort("-date").lean();
+      res.status(200).json(events);
+      res.locals.cache = events;
+    } catch (error) {
+      res.status(500).json({ error: error.message })
+    }
     // next();
   },
 
@@ -56,7 +60,7 @@ module.exports = {
           event._id,
           { image: { url: image.secure_url, public_id: image.public_id } },
           { new: true }
-        ).select({"_id":1}).lean();
+        ).select({ "_id": 1 }).lean();
       }
       res.status(200).json({
         id: event._id,
@@ -92,7 +96,7 @@ module.exports = {
           } catch (error) {
             res.status(500).json({});
           }
-        } catch (error) {}
+        } catch (error) { }
         const image = await cloudinary.v2.uploader.upload(file.path, {
           public_id: eventId,
           tags: ["event"],
@@ -125,7 +129,7 @@ module.exports = {
           error: error.message,
         });
       }
-    } catch (error) {}
+    } catch (error) { }
     res.status(204).json({});
     // next();
   },
@@ -152,7 +156,7 @@ module.exports = {
     try {
       const eventId = req.body.id;
       const userEmail = req.body.email;
-      const event = await Event.findById(eventId).select({"eventName":1, "date":1}).lean();
+      const event = await Event.findById(eventId).select({ "eventName": 1, "date": 1 }).lean();
       const eventDate = event.date.split("-");
       const notificationDate = getNotificationDate(eventDate);
       const data = {
