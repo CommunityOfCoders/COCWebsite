@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import "./Header.css";
 
 export default function Header(props) {
+	let location = useLocation();
+	console.log(location);
 	const [isDesktop, setisDesktop] = useState(window.innerWidth > 1080);
 	const [navOpen, setnavOpen] = useState(false);
-	const [currPage, setCurrPage] = useState("home");
+	const [currPage, setCurrPage] = useState(
+		location.pathname.slice(1) ? location.pathname.slice(1) : "home"
+	);
 
 	useEffect(() => {
 		function navToggle() {
