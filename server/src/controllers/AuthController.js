@@ -145,9 +145,10 @@ module.exports = {
         user = await User.findOne({
           username: username,
         }).lean();
+      }
+      if (!!user) {
         user.password = null;
       }
-
       res.status(200).json(user);
     } catch (e) {
       console.log(e.message);
