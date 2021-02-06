@@ -1,13 +1,8 @@
 import "date-fns";
-import DateFnsUtils from "@date-io/date-fns";
 import { connect } from "react-redux";
 import React, { useState, useEffect } from "react";
 import Container from "@material-ui/core/Container";
 import { TextField, Button, Grid } from "@material-ui/core";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
 import Editor from "./Editor";
 import axios from "axios";
 import AlertUtility from "../Utilities/Alert";
@@ -41,10 +36,6 @@ function AddBlog(props) {
   const successString = isEditPage
     ? "Blog edited successfully!"
     : "Blog added successfully!";
-
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
 
   const handleClose = () => {
     setIsSubmitted(false);

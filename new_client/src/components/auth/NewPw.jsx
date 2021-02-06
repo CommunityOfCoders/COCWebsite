@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { Paper } from "@material-ui/core";
 import coc from "../assets/COC_Full.webp";
-import bg from "../assets/bg_signin.webp";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
@@ -160,6 +156,7 @@ function NewPw(props) {
           <img
             style={{ marginTop: 20, height: "90%", width: "90%" }}
             src={coc}
+            alt="COC Logo"
           />
 
           <Typography style={{ color: "#fff" }} component="h1" variant="h5">

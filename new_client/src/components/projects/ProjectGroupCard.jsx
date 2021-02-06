@@ -44,7 +44,7 @@ export default function ProjectGroup({ id, imageURL, title, description }) {
           </React.Fragment>
         ) : null}
         <br />
-        <Typography variant="body" component="p" align="center">
+        <Typography variant="body1" component="p" align="center">
           {description}
         </Typography>
       </CardContent>

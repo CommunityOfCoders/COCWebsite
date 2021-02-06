@@ -8,11 +8,10 @@ const Projects = () => {
 
   useEffect(() => {
     axios.get(process.env.REACT_APP_API + "/domains").then((res) => {
-      const domainList = res.data["domains"];
+      const domainList = res.data;
       setDomains(domainList);
     });
-  }, []);
-
+  });
   return (
     <Container maxWidth="lg">
       <Grid container spacing={1}>
@@ -24,7 +23,7 @@ const Projects = () => {
         </Grid>
         {domains.length &&
           domains.map((group) => (
-            <Grid item xs={12} md={4} key={group.id}>
+            <Grid item xs={12} md={4} key={group._id}>
               <ProjectGroup
                 id={group._id}
                 imageURL={group.imageUrl}

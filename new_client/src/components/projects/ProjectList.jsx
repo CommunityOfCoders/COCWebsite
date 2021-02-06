@@ -16,7 +16,7 @@ const ProjectList = () => {
     axios
       .get(process.env.REACT_APP_API + `/projects/filter/${id}`)
       .then((res) => {
-        if (res.status == 200) {
+        if (res.status === 200) {
           const projectsList = res.data.projects;
           setProjects(projectsList);
         }
@@ -26,7 +26,7 @@ const ProjectList = () => {
         console.log(err);
         setIsLoading(false);
       });
-  }, []);
+  });
 
   useEffect(() => {
     setIsLoading(true);

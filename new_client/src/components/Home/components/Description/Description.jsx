@@ -4,10 +4,10 @@ import "./Description.scss";
 
 const Description = (props) => {
   return (
-    <section className="Description">
+    <section className="Description" ref={props.scrollToRef}>
       {/* <div className="parallax"> */}
       <div className="description-top">
-        <div className="description-mission" role="text">
+        <div className="description-mission" role="textbox">
           <h3 className="description-mission-heading">Our Mission</h3>
           <MissionContent width={props.width} />
         </div>

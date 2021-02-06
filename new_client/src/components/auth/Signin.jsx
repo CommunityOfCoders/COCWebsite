@@ -8,13 +8,13 @@ import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { AccountCircle } from "@material-ui/icons";
-import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { Paper, useMediaQuery } from "@material-ui/core";
 import coc from "../assets/COC_Full.webp";
 import bg from "../assets/bg_signin.webp";
 import { createMuiTheme } from "@material-ui/core/styles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import AlertUtility from "../Utilities/Alert";
 
 import "./Error.css";
 import { connect } from "react-redux";
@@ -61,19 +61,13 @@ const theme1 = createMuiTheme({
 });
 
 function SignIn(props) {
-  const {
-    isAuthenticated,
-    error,
-    login,
-    clearErrors,
-    history,
-    isLoading,
-  } = props;
+  const { isAuthenticated, error, login, history, isLoading } = props;
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberme, setRememberme] = useState(false);
   const [msg, setMsg] = useState(null);
+  const [isError, setIsError] = useState(false);
 
   const handleUsername = (e) => setUsername(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
@@ -119,11 +113,11 @@ function SignIn(props) {
 
   useEffect(() => {
     if (error.id === LOGIN_FAIL) {
-      setMsg(error.msg.msg);
+      setMsg(error.msg.error);
+      setIsError(true);
     } else {
       setMsg(null);
     }
-
     if (isAuthenticated) {
       // Work here if auth is successful
       history.push("/");
@@ -141,6 +135,7 @@ function SignIn(props) {
               <img
                 style={{ marginTop: 20, height: "90%", width: "90%" }}
                 src={coc}
+                alt="COC Logo"
               />
 
               <Typography style={{ color: "#fff" }} component="h1" variant="h5">
@@ -227,6 +222,13 @@ function SignIn(props) {
           </Container>
         </Grid>
       </Grid>
+      <AlertUtility
+        open={isError}
+        duration={3000}
+        onCloseHandler={() => setIsError(false)}
+        severity="error"
+        message={`Error: ${msg}. Please try again`}
+      />
     </ThemeProvider>
   );
 }

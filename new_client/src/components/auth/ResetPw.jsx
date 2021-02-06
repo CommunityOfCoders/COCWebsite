@@ -99,6 +99,7 @@ function ResetPw() {
           <img
             style={{ marginTop: 20, height: "90%", width: "90%" }}
             src={coc}
+            alt="COC Logo"
           />
           <Typography style={{ color: "#fff" }} component="h1" variant="h5">
             Reset Password

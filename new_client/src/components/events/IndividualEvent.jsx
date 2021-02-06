@@ -87,7 +87,7 @@ export default function IndividualEvent({ article, isMember, handleDelete }) {
         {isMember && (
           <>
             <Divider variant="middle" />
-            <CardActions disableSpacing="true">
+            <CardActions disableSpacing={true}>
               <Link to={`event/edit/${article._id}`}>
                 <IconButton>
                   <EditOutlinedIcon style={{ color: green[500] }} />
