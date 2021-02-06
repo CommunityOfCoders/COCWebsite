@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import Typewriter from "typewriter-effect";
 import "./Welcome.scss";
 import COC from "../../../assets/coc_dark.webp";
+import { Button } from "@material-ui/core";
 
 const Welcome = (props) => {
+  const executeScroll = () => props.scrollToRef.current.scrollIntoView();
+
   return (
     <section className="Welcome">
       <div className="welcome-background-container">
@@ -17,17 +20,8 @@ const Welcome = (props) => {
               welcomes you, regardless of your programming experience or your
               skill set.
             </p>
-            <div className="welcome-action-buttons">
-              {/* <Link className="join-button" to="/join">
-                Join&nbsp;the&nbsp;Club
-              </Link> */}
-              <Link
-                className="learn-more"
-                style={{ color: "black" }}
-                to="/about"
-              >
-                Learn More
-              </Link>
+            <div className="welcome-action-buttons" onClick={executeScroll}>
+              <a className="learn-more">Learn More</a>
             </div>
           </div>
 
