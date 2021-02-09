@@ -23,4 +23,11 @@ jobs:
           npm i
           npm run build
         env:
-          CI: false 
+          CI: false
+      - name: Upload build folder
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: new_client/build
+          retention-days: 5   
+          
