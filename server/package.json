@@ -4,7 +4,7 @@
   "description": "Server for front end",
   "main": "src/app.js",
   "scripts": {
-    "start": "node src/app",
+    "start": "NODE_ENV=production node src/app",
     "pretest": "eslint --ignore-path .gitignore . ",
     "test": "NODE_ENV=test mocha --recursive --timeout 120000 --exit",
     "serve": "nodemon src/app",
