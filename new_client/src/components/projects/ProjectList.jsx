@@ -26,7 +26,7 @@ const ProjectList = () => {
         console.log(err);
         setIsLoading(false);
       });
-  });
+  }, [id]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -42,7 +42,7 @@ const ProjectList = () => {
         console.error(err);
         setIsLoading(false);
       });
-  }, []);
+  }, [id]);
 
   return (
     <Container maxWidth="lg">
