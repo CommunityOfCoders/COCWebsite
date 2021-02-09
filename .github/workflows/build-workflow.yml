@@ -22,3 +22,5 @@ jobs:
           cd new_client
           npm i
           npm run build
+        env:
+          CI: false 
