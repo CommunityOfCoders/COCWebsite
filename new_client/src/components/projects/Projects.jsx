@@ -11,7 +11,7 @@ const Projects = () => {
       const domainList = res.data;
       setDomains(domainList);
     });
-  });
+  }, []);
   return (
     <Container maxWidth="lg">
       <Grid container spacing={1}>
