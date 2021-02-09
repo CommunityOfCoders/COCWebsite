@@ -2,7 +2,7 @@ name: React app build
 on:
   push:
     branches:
-      - build-workflow
+      - prod
 jobs:
   build:
     runs-on: ubuntu-18.04
@@ -29,5 +29,5 @@ jobs:
         with:
           name: build
           path: new_client/build
-          retention-days: 5   
+          retention-days: 3   
           
