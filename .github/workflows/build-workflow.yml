@@ -1,8 +1,8 @@
 name: React app build
 on:
   push:
-  branches:
-    - master
+    branches:
+      - build-workflow
 jobs:
   build:
     runs-on: ubuntu-18.04
