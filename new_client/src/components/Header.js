@@ -69,80 +69,80 @@ function Header(props) {
           className={navItemClass}
           onClick={() => currPageChange("home")}
         >
-          <div className={getNavItemContClass("home")}>
-            Home
-            <i class="fa fa-home" aria-hidden="true"></i>
-          </div>
+          <nav className={getNavItemContClass("home")}>HOME</nav>
         </Link>
         <Link
           to="/about"
           className={navItemClass}
           onClick={() => currPageChange("about")}
         >
-          <div className={getNavItemContClass("about")}>
-            About Us
-            <i class="fa fa-info-circle" aria-hidden="true"></i>
-          </div>
+          <nav className={getNavItemContClass("about")}>ABOUT US</nav>
         </Link>
         <Link
           to="/events"
           className={navItemClass}
           onClick={() => currPageChange("events")}
         >
-          <div className={getNavItemContClass("events")}>
-            Events
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-          </div>
+          <nav className={getNavItemContClass("events")}>EVENTS</nav>
         </Link>
         <Link
           to="/alumni"
           className={navItemClass}
           onClick={() => currPageChange("alumni")}
         >
-          <div className={getNavItemContClass("alumni")}>
-            Alumni
-            <i class="fa faw fa-graduation-cap" aria-hidden="true"></i>
-          </div>
+          <nav className={getNavItemContClass("alumni")}>ALUMNI</nav>
         </Link>
         {/* <Link
 					to="/blogs"
 					className={navItemClass}
 					onClick={() => currPageChange("blogs")}
 				>
-					<div className={getNavItemContClass("blogs")}>
-						Blogs
-						<i class="fa fa-pencil" aria-hidden="true"></i>
-					</div>
+					<nav className={getNavItemContClass("blogs")}>
+						BLOGS
+					</nav>
 				</Link> */}
         {/* <Link
 					to="/resources"
 					className={navItemClass}
 					onClick={() => currPageChange("resources")}
 				>
-					<div className={getNavItemContClass("resources")}>
-						Resources
-						<i class="fa fa-cog" aria-hidden="true"></i>
-					</div>
+					<nav className={getNavItemContClass("resources")}>
+						RESOURCES
+					</nav>
 				</Link> */}
         <Link
           to="/projects"
           className={navItemClass}
           onClick={() => currPageChange("projects")}
         >
-          <div className={getNavItemContClass("projects")}>
-            Projects
-            <i class="fa fa-code" aria-hidden="true"></i>
-          </div>
+          <nav className={getNavItemContClass("projects")}>PROJECTS</nav>
         </Link>
-        <Link
-          to="/signin"
-          className={navItemClass}
-          onClick={() => currPageChange("login")}
-        >
-          <div className={getNavItemContClass("login")}>
-            {props.loggedIn ? "Logout" : "Login"}
-            <i class="fa fa-sign-in" aria-hidden="true"></i>
+        {props.isAuthenticated ? (
+          <div
+            className={navItemClass}
+            style={{ cursor: "pointer" }}
+            onClick={() => currPageChange("home")}
+          >
+            <nav className={getNavItemContClass("home")} onClick={props.logout}>
+              LOGOUT
+            </nav>
           </div>
+        ) : (
+          <Link
+            to="/signin"
+            className={navItemClass}
+            onClick={() => currPageChange("login")}
+          >
+            <nav className={getNavItemContClass("login")}>LOGIN</nav>
+          </Link>
+        )}
+
+        <Link
+          to="/signup"
+          className={navItemClass}
+          onClick={() => currPageChange("signup")}
+        >
+          <nav className={getNavItemContClass("signup")}>SIGNUP</nav>
         </Link>
       </div>
     </div>
