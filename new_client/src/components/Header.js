@@ -119,7 +119,9 @@ function Header(props) {
         </Link>
         {props.isAuthenticated ? (
           <div
-            className={navItemClass}
+            className={
+              isDesktop ? `${navItemClass} nav-item-right` : navItemClass
+            }
             style={{ cursor: "pointer" }}
             onClick={() => currPageChange("home")}
           >
@@ -130,7 +132,9 @@ function Header(props) {
         ) : (
           <Link
             to="/signin"
-            className={navItemClass}
+            className={
+              isDesktop ? `${navItemClass} nav-item-right` : navItemClass
+            }
             onClick={() => currPageChange("login")}
           >
             <nav className={getNavItemContClass("login")}>LOGIN</nav>
