@@ -199,7 +199,7 @@ export default function AboutUs() {
             {/* <Grid item xs={0} md={4} lg={4} /> */}
             <div style={{ textAlign: "center" }}>
               {/* <Grid item xs={12} md={6} lg={6}> */}
-              <img src={GSes} style={{ width: "50%" }} />
+              <img src={GSes} className="secretaries-image" />
               <br />
               <Typography variant="h5">
                 General Secretaries - Saif Kazi, Shubhankar Gupta
@@ -208,7 +208,7 @@ export default function AboutUs() {
             </div>
             <div style={{ textAlign: "center" }}>
               {/* <Grid item xs={12} md={6} lg={6}> */}
-              <img src={Members} style={{ width: "50%" }} />
+              <img src={Members} className="team-image" />
               <br />
               <Typography variant="h5">The Core Committee - 2020-21</Typography>
               {/* </Grid> */}

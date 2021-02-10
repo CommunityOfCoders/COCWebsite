@@ -14,3 +14,17 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.secretaries-image {
+  width: 50vw;
+}
+
+.team-image {
+  width: 80vw;
+}
+
+@media only screen and (max-width: 768px) {
+  .secretaries-image {
+    width: 80vw;
+  }
+}
