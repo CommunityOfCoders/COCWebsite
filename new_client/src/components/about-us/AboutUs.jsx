@@ -4,13 +4,16 @@ import { Link } from "react-router-dom";
 import COC from "../Utilities/COC";
 import Title from "../Utilities/Title";
 import GenericCard from "./GenericCard";
-import Workshops from "./photo_11.jpg";
-import Discussions from "./photo_12.jpg";
-import Projects from "./Tips-for-Making-Side-Projects.png";
-import C_WS from "./C_WS.jpg";
-import CP from "./CP.jpg";
-import Inheritance from "./Inheritance.jpg";
+import Workshops from "../assets/photo_11.webp";
+import Discussions from "../assets/photo_12.webp";
+import Projects from "../assets/Tips-for-Making-Side-Projects.webp";
+import C_WS from "../assets/C_WS.webp";
+import CP from "../assets/CP.webp";
+import Inheritance from "../assets/Inheritance.webp";
 import GenericDetails from "./GenericDetails";
+import GSes from "../assets/coc-gses.webp";
+import Members from "../assets/coc-members.webp";
+
 import "./AboutUs.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -192,6 +195,27 @@ export default function AboutUs() {
           </Grid>
           <Grid item xs={12}>
             <Title>Meet the Team</Title>
+            {/* <Grid container> */}
+            {/* <Grid item xs={0} md={4} lg={4} /> */}
+            <div style={{ textAlign: "center" }}>
+              {/* <Grid item xs={12} md={6} lg={6}> */}
+              <img src={GSes} style={{ width: "50%" }} />
+              <br />
+              <Typography variant="h5">
+                General Secretaries - Saif Kazi, Shubhankar Gupta
+              </Typography>
+              {/* </Grid> */}
+            </div>
+            <div style={{ textAlign: "center" }}>
+              {/* <Grid item xs={12} md={6} lg={6}> */}
+              <img src={Members} style={{ width: "50%" }} />
+              <br />
+              <Typography variant="h5">The Core Committee - 2020-21</Typography>
+              {/* </Grid> */}
+            </div>
+            {/* <Grid item xs={12} md={6} lg={6}><img src={Members} style={{ width: "90%" }} /></Grid> */}
+            {/* <img src={Members} /> */}
+            {/* </Grid> */}
           </Grid>
           <Grid item xs={12}>
             <Typography variant="h4">Sounds good?</Typography>
