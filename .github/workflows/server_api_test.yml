@@ -31,3 +31,5 @@ jobs:
         npm test
       env: 
         CI: true
+        ENCPASSWORD: ${{ secrets.ENCPASSWORD }}
+        CRYPTOKEY: ${{ secrets.CRYPTOKEY }}

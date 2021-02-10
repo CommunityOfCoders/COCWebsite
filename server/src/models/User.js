@@ -37,7 +37,17 @@ const user = new mongoose.Schema({
         contentType: String,
         default: ""
     },
+    passwordResetToken: {
+        type: String,
+        required: false
+    },
+    passwordResetTokenTime: {
+        type: Date,
+        required: false
+    }
 })
+
+user.index({ username: 1 })
 
 const User = mongoose.model('users', user)
 
