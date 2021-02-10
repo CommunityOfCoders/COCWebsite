@@ -4,7 +4,7 @@ on:
     branches:
       - prod
     paths:
-      - new-build/**
+      - new-client/**
 jobs:
   build:
     runs-on: ubuntu-18.04
