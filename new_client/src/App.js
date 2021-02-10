@@ -18,7 +18,7 @@ const LazyNewPw = lazy(() => import("./components/auth/NewPw"));
 
 // Pages
 const LazyHome = lazy(() => import("./components/Home/Home"));
-const LazyAbout = lazy(() => import("./components/pages/About"));
+const LazyAbout = lazy(() => import("./components/about-us/AboutUs"));
 const LazyResourcePage = lazy(() =>
   import("./components/resources/ResourcePage")
 );
