@@ -1,7 +1,7 @@
 import "date-fns";
-import React, { Component } from "react";
+import React from "react";
 import axios from "axios";
-
+import Spinner from "../spinner/Spinner";
 import "../auth/Error.css";
 import { useState } from "react";
 import { Button, Grid, TextField } from "@material-ui/core";
@@ -13,7 +13,7 @@ import {
 import { connect } from "react-redux";
 import AlertUtility from "../Utilities/Alert";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, withRouter } from "react-router-dom";
 
 function AddEvent(props) {
   const [eventName, setEventName] = useState("");
@@ -25,6 +25,7 @@ function AddEvent(props) {
 
   const [isError, setIsError] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const eventID = useParams().id;
   const isEditPage = !!eventID;
@@ -55,10 +56,11 @@ function AddEvent(props) {
         })
         .catch((err) => console.log(err));
     }
-  }, []);
+  });
 
   const handleClose = () => {
     setIsSubmitted(false);
+    props.closeModal();
     props.history.push("/events");
   };
 
@@ -127,6 +129,7 @@ function AddEvent(props) {
       formData.append("date", eventDate);
       formData.append("venue", eventVenue);
       formData.append("graduationYear", eventGraduationYear);
+      setIsLoading(true);
       axios
         .post(process.env.REACT_APP_API + "/events", formData, {
           headers: {
@@ -139,9 +142,11 @@ function AddEvent(props) {
           } else {
             setIsError(true);
           }
+          setIsLoading(false);
         })
         .catch((err) => {
           setIsError(true);
+          setIsLoading(false);
           console.log(err);
         });
     } else {
@@ -160,6 +165,7 @@ function AddEvent(props) {
       formData.append("date", eventDate);
       formData.append("venue", eventVenue);
       formData.append("graduationYear", eventGraduationYear);
+      setIsLoading(true);
       axios
         .put(process.env.REACT_APP_API + `/events/${eventID}`, formData, {
           headers: {
@@ -172,9 +178,11 @@ function AddEvent(props) {
           } else {
             setIsError(true);
           }
+          setIsLoading(false);
         })
         .catch((err) => {
           setIsError(true);
+          setIsLoading(false);
           console.log(err);
         });
     }
@@ -183,7 +191,7 @@ function AddEvent(props) {
   return (
     <div>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <div className="jumbotron" style={{ margin: "20px 150px" }}>
+        <div className="jumbotron" style={{ margin: "20px 50px" }}>
           <form onSubmit={isEditPage ? handleEditEvent : handleAddEvent}>
             <div className="form-group">
               <Grid container>
@@ -288,14 +296,18 @@ function AddEvent(props) {
 
             <Grid container spacing={1}>
               <Grid item>
-                <Button
-                  type="submit"
-                  variant="outlined"
-                  color="primary"
-                  className="btn btn-primary"
-                >
-                  {btnText}
-                </Button>
+                {isLoading ? (
+                  <Spinner />
+                ) : (
+                  <Button
+                    type="submit"
+                    variant="outlined"
+                    color="primary"
+                    className="btn btn-primary"
+                  >
+                    {btnText}
+                  </Button>
+                )}
               </Grid>
               <Grid item>
                 {isEditPage && (
@@ -323,8 +335,10 @@ function AddEvent(props) {
       />
       <AlertUtility
         open={isError}
-        duration={1000}
-        onCloseHandler={() => setIsError(false)}
+        duration={2000}
+        onCloseHandler={() => {
+          setIsError(false);
+        }}
         severity="error"
         message="Oops! An error occurred. Please try again."
       />
@@ -338,4 +352,4 @@ const mapStateToProps = (state) => ({
   username: state.auth.username,
 });
 
-export default connect(mapStateToProps)(AddEvent);
+export default withRouter(connect(mapStateToProps)(AddEvent));

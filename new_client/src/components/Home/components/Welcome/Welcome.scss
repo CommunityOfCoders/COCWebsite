@@ -1,0 +1,294 @@
+// Welcome section of the homepage.
+
+section.Welcome {
+  // Mobile styles
+
+  margin-top: 0;
+
+  .welcome-background-container {
+    background-color: #f8eeff;
+    padding: 6.25vw 0;
+  }
+
+  .welcome-container {
+    margin: 0 auto;
+    padding: 0 6.25vw;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-between;
+    align-items: center;
+    justify-items: center;
+
+    .welcome-content {
+      .Slogan {
+        margin: 0;
+        font-size: 1.875rem;
+
+        .SloganBeginning {
+          #welcome-typewriter-placeholder {
+            font-weight: bold;
+          }
+
+          font-size: inherit;
+          font-weight: 400;
+        }
+
+        .Typewriter {
+          display: inline-block;
+
+          .Typewriter__wrapper {
+            font-weight: bold;
+          }
+        }
+      }
+
+      .welcome-description {
+        margin-top: 1rem;
+        font-size: 1rem;
+        line-height: 1.35;
+      }
+
+      .welcome-action-buttons {
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+
+        a {
+          padding: 1rem;
+          text-align: center;
+          text-decoration: none;
+          font-size: 1.25rem;
+          transition: 0.2s;
+          transition-timing-function: ease-in-out;
+          width: 95%;
+        }
+
+        a.join-button {
+          color: #fff;
+          font-weight: bold;
+          background-color: #52b107;
+          border-radius: 50px;
+        }
+
+        a.join-button:hover {
+          background-color: #52b199;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        a.join-button:active {
+          background-color: #6574f7;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        a.learn-more {
+          cursor: pointer;
+          margin-top: 1rem;
+          box-shadow: 0 0 0 2px #52b107 inset;
+          border-radius: 50px;
+          background-color: initial;
+        }
+
+        a.learn-more:hover {
+          box-shadow: 0 0 0 3px #52b107 inset;
+        }
+
+        a.learn-more:active {
+          box-shadow: 0 0 0 2px #4d5eff inset;
+        }
+      }
+    }
+
+    .welcome-slideshow {
+      margin-top: 2rem;
+      max-width: 87.5vw;
+
+      img {
+        height: auto;
+        width: 75%;
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+      }
+    }
+  }
+
+  // 350px (medium phones)
+  // Increase heading and paragraph font size a little bit
+  @media screen and (min-width: 21.875rem) {
+    .welcome-container .welcome-content {
+      .Slogan {
+        font-size: 2.1rem;
+      }
+
+      .welcome-description {
+        font-size: 1.125rem;
+      }
+    }
+    .welcome-slideshow {
+      text-align: center;
+    }
+  }
+
+  // 370px (larger phones)
+  // Increase heading font a little bit
+  @media screen and (min-width: 23.125rem) {
+    .welcome-container .welcome-content {
+      .Slogan {
+        font-size: 2.2rem;
+      }
+    }
+  }
+
+  // Tablet and Desktop styles
+  // TODO: Make background look like prototype
+
+  // 700px (vertical tablets and horizontal phones)
+  // Use row format for content.
+  @media screen and (min-width: 43.75rem) {
+    .welcome-background-container {
+      padding: 5.5% 0;
+
+      // Landscape phones
+      @media screen and (orientation: landscape) {
+        padding: 4% 0;
+      }
+    }
+
+    // Convert from column flex-direction to row and center the contents
+    .welcome-container {
+      flex-direction: row;
+
+      padding: 0 5vw;
+
+      // // Landscape iPhones with notch
+      // @supports (padding: max(0px)) {
+      //   @media screen and (orientation: landscape) {
+      //     padding-left: max(5vw, calc(env(safe-area-inset-left) + 1rem));
+      //     padding-right: max(5vw, calc(env(safe-area-inset-right) + 1rem));
+      //   }
+      // }
+
+      // Increase heading and paragraph size more
+      .welcome-content {
+        max-width: 45%;
+
+        .Slogan {
+          font-size: 2.5rem;
+        }
+
+        .welcome-description {
+          font-size: 1.1rem;
+          line-height: 1.5;
+        }
+
+        .welcome-action-buttons {
+          margin-top: 1.25rem;
+
+          a {
+            font-size: 1.5rem;
+            width: 100%;
+          }
+        }
+      }
+
+      .welcome-slideshow {
+        margin-top: 0;
+        max-width: 50%;
+
+        img {
+          border-radius: 20px;
+        }
+      }
+    }
+  }
+
+  // 1024px (horizontal tablets)
+  // Use row format for buttons.
+  @media screen and (min-width: 64rem) {
+    .welcome-background-container {
+      padding: 4% 0;
+    }
+
+    .welcome-container {
+      .welcome-content {
+        // Change button layout from column to row
+        .welcome-action-buttons {
+          flex-direction: row;
+
+          a.join-button {
+            width: 55%;
+          }
+
+          a.learn-more {
+            margin-top: 0;
+            width: 45%;
+          }
+        }
+      }
+
+      .welcome-slideshow {
+        max-width: 46.875%;
+      }
+    }
+  }
+
+  // 1100px (small laptops)
+  // Set font size for all larger resolutions
+  @media screen and (min-width: 68.75rem) {
+    .welcome-container {
+      .welcome-content {
+        .Slogan {
+          font-size: 3rem;
+        }
+
+        .welcome-description {
+          font-size: 1.25rem;
+        }
+
+        .welcome-action-buttons {
+          a {
+            font-size: 1.75rem;
+          }
+        }
+      }
+    }
+  }
+
+  // 1280px (small - medium laptops)
+  // Shrink padding on top and bottom of welcome and adjust proportions of welcome container items for larger resolutions.
+  @media screen and (min-width: 80rem) {
+    .welcome-background-container {
+      padding: 3% 0;
+    }
+
+    .welcome-container {
+      .welcome-content {
+        max-width: 40%;
+      }
+
+      .welcome-slideshow {
+        max-width: 52.5%;
+      }
+    }
+  }
+
+  // 1366px (medium laptops)
+  // Increase margin on top and set max width for all larger resolutions
+  @media screen and (min-width: 85.375rem) {
+    margin-top: 2%;
+
+    .welcome-container {
+      max-width: 76.875rem;
+      padding: 0;
+    }
+  }
+
+  // 1920px and above (desktops)
+  // Increase margin on top
+  @media screen and (min-width: 120rem) {
+    margin-top: 4%;
+  }
+}

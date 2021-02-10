@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Container, Grid } from "@material-ui/core";
 import IndividualGlimpse from "./IndividualGlimpse";
+import Spinner from "../spinner/Spinner";
 
 const Glimpse = () => {
   const [glimpses, setGlimpses] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let shouldCancel = false;
@@ -20,6 +22,7 @@ const Glimpse = () => {
         console.log(e.message);
         setGlimpses([]);
       }
+      setIsLoading(false);
     };
     call();
     return () => (shouldCancel = true);
@@ -28,6 +31,7 @@ const Glimpse = () => {
   return (
     <Container maxWidth="lg">
       <Grid container spacing={4}>
+        {isLoading ? <Spinner /> : null}
         {glimpses.map((glimpse) => (
           <Grid item xs={6} md={6} lg={4} key={glimpse._id}>
             <IndividualGlimpse

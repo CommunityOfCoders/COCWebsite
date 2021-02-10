@@ -1,0 +1,33 @@
+name: React app build
+on:
+  push:
+    branches:
+      - prod
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    
+    strategy:
+      matrix:
+        node-version: [14.x]
+        
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Creating react static build
+        run: |
+          cd new_client
+          npm i
+          npm run build
+        env:
+          CI: false
+      - name: Upload build folder
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: new_client/build
+          retention-days: 3   
+          

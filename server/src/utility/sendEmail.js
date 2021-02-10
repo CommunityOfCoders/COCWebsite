@@ -13,7 +13,7 @@ const transport = nodemailer.createTransport({
 	},
 });
 
-module.exports = sendMail = (to, subject, message) => {
+module.exports = sendMail = async (to, subject, message) => {
 	const mailOptions = getMailOptions(to, subject, message);
 	transport.sendMail(mailOptions, error => {
 		if (error) {
