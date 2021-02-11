@@ -1,4 +1,12 @@
-import { Box, Grid, makeStyles, Typography } from "@material-ui/core";
+import {
+  Box,
+  Grid,
+  makeStyles,
+  createMuiTheme,
+  responsiveFontSizes,
+  ThemeProvider,
+  Typography,
+} from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
 import COC from "../Utilities/COC";
@@ -27,11 +35,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const theme = responsiveFontSizes(createMuiTheme());
+
 export default function AboutUs() {
   const classes = useStyles();
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <div className="about-us-parallax" />
       <Box className={classes.root}>
         <Grid container spacing={2} alignContent="center" justify="center">
@@ -39,14 +49,14 @@ export default function AboutUs() {
             <Title>Who we are</Title>
           </Grid>
           <Grid item xs={12}>
-            <p className={classes.paragraph}>
+            <Typography className={classes.paragraph}>
               For those who need mentoring and help, for those who need a
               collaborative environment where they can learn from friendly and
               familiar faces, and for those who want to be good software
               engineers and help others achieve the same, the Community of
               Coders was formed.
-            </p>
-            <p className={classes.paragraph}>
+            </Typography>
+            <Typography className={classes.paragraph}>
               {" "}
               Initially, there was no planned working model, no strategies and
               no blueprints to rely on. But there was a vision: to build a
@@ -55,8 +65,8 @@ export default function AboutUs() {
               connected. That's where the journey began, and since then it has
               been getting better, with the seniors always being there to help
               us grow.
-            </p>{" "}
-            <p className={classes.paragraph}>
+            </Typography>{" "}
+            <Typography className={classes.paragraph}>
               {" "}
               Currently in its fourth year, <COC /> is a student-run
               organization aimed at cultivating and nurturing talents in the
@@ -68,8 +78,8 @@ export default function AboutUs() {
               to explore different aspects of programming. We learnt from our
               experience in <COC /> that how and what we learn can also be
               shaped by the people we are surrounded by.
-            </p>
-            <p className={classes.paragraph}>
+            </Typography>
+            <Typography className={classes.paragraph}>
               The best and most innovative software engineers, data scientists,
               and Competitive Programming experts all started from somewhere! We
               welcome members of all skill levels and fields, ranging from
@@ -82,17 +92,17 @@ export default function AboutUs() {
               experience is or whether you’re planning on adopting a specific
               domain or not, there’s a place for you here at Community Of
               Coders.
-            </p>
+            </Typography>
           </Grid>
           <Grid item xs={12}>
             <Title>What we do</Title>
           </Grid>
           <Grid item xs={12}>
-            <p className={classes.paragraph}>
+            <Typography className={classes.paragraph}>
               We prepare all our juniors to face the challenges of the outside
               world, by introducing them to the necessities of the outside
               World. Have a look at some of the work that <COC /> does:
-            </p>
+            </Typography>
           </Grid>
           <Grid item xs={12}>
             <Grid container spacing={3}>
@@ -105,7 +115,7 @@ export default function AboutUs() {
               <Grid item xs={12} md={6} lg={6}>
                 <h5>Interactive Workshops</h5>
                 <br />
-                <p className={classes.paragraph}>
+                <Typography className={classes.paragraph}>
                   The workshops conducted by <COC /> are great starters for
                   learning something new. The community always comes up with
                   initiatives to help novices of the field to gain confidence to
@@ -114,12 +124,12 @@ export default function AboutUs() {
                   freshers - and pave the way for them by providing a very
                   friendly environment to learn and grow, through various
                   workshops, events, and seminars.
-                </p>
+                </Typography>
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
                 <h5>Engaging Discussions</h5>
                 <br />
-                <p className={classes.paragraph}>
+                <Typography className={classes.paragraph}>
                   At <COC />, we have always relied on the concept of teamwork.
                   It is our strong belief that together, we can achieve
                   anything. A bunch of people with different ideas can come
@@ -128,7 +138,7 @@ export default function AboutUs() {
                   are sure, that at <COC />, you will always find people who
                   will listen to you, and correct you if you tread the wring
                   path.
-                </p>
+                </Typography>
               </Grid>
               <Grid item xs={12} md={6} lg={6}>
                 <GenericCard
@@ -142,7 +152,7 @@ export default function AboutUs() {
               <Grid item xs={12} md={6} lg={6}>
                 <h5>Project Building</h5>
                 <br />
-                <p className={classes.paragraph}>
+                <Typography className={classes.paragraph}>
                   A Software Engineer needs to learn several things in their
                   lifetime, but how can <b>YOU</b>, who knows a lot about
                   something, show it to others? Through your{" "}
@@ -153,7 +163,7 @@ export default function AboutUs() {
                   <b>Web Development Workshop</b>, or the <b>Cloud Workshop</b>,
                   that give you a hands-on approach to the theoretical
                   knowledge.
-                </p>
+                </Typography>
               </Grid>
             </Grid>
           </Grid>
@@ -163,7 +173,7 @@ export default function AboutUs() {
             </Title>
           </Grid>
           <Grid item xs={12}>
-            <p className={classes.paragraph}>
+            <Typography className={classes.paragraph}>
               <span style={{ color: "#52B107" }}>C</span>ommunity Of{" "}
               <span style={{ color: "#52B107" }}>C</span>oders was founded in
               the year 2016, under the guidance of our veterans and the General
@@ -171,7 +181,7 @@ export default function AboutUs() {
               <b>Himanshu Maheshwari</b>. Since then, CoC is always committed to
               conducting workshops, organizing events and holding discussions
               solely aimed at improving our peers.
-            </p>
+            </Typography>
           </Grid>
           <Grid item xs={12}>
             <Title>Some of our flagship events are...</Title>
@@ -195,6 +205,7 @@ export default function AboutUs() {
           </Grid>
           <Grid item xs={12}>
             <Title>Meet the Team</Title>
+            <br />
             {/* <Grid container> */}
             {/* <Grid item xs={0} md={4} lg={4} /> */}
             <div style={{ textAlign: "center" }}>
@@ -204,6 +215,7 @@ export default function AboutUs() {
               <Typography variant="h5">
                 General Secretaries - Saif Kazi, Shubhankar Gupta
               </Typography>
+              <br />
               {/* </Grid> */}
             </div>
             <div style={{ textAlign: "center" }}>
@@ -226,6 +238,6 @@ export default function AboutUs() {
           </Grid>
         </Grid>
       </Box>
-    </>
+    </ThemeProvider>
   );
 }
