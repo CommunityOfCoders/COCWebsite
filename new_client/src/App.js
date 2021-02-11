@@ -66,13 +66,13 @@ function App() {
                 <Route path="/signin" component={LazySignin} />
                 <Route path="/reset" component={LazyResetPw} />
                 <Route path="/newpass/:token" component={LazyNewPw} />
-                <ProtectedRoute exact path="/addblog" component={LazyAddBlog} />
-                <Route path="/blogs/:id" component={LazyIndividualBlog} />
-                <Route
+                {/* <ProtectedRoute exact path="/addblog" component={LazyAddBlog} /> */}
+                {/* <Route path="/blogs/:id" component={LazyIndividualBlog} /> */}
+                {/* <Route
                   path="/blogs?tag=:tag"
                   render={() => <LazyBlogs key={window.location} />}
-                />
-                <ProtectedRoute path="/blog/edit/:id" component={LazyAddBlog} />
+                /> */}
+                {/* <ProtectedRoute path="/blog/edit/:id" component={LazyAddBlog} /> */}
                 <Route path="/signup" component={LazySignup} />
                 <Route path="/events" component={LazyEventList} />
                 <ProtectedRoute path="/addevent" component={LazyAddEvent} />
