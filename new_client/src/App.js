@@ -3,7 +3,12 @@ import { Router, Route, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { Provider } from "react-redux";
 import configureStore from "./store/configureStore";
-import { Box } from "@material-ui/core";
+import {
+  Box,
+  createMuiTheme,
+  responsiveFontSizes,
+  ThemeProvider,
+} from "@material-ui/core";
 import ProtectedRoute from "./ProtectedRoute";
 import Header from "./components/Header";
 import Footer from "./components/footer/Footer";
@@ -37,6 +42,8 @@ const LazyAddBlog = lazy(() => import("./components/blogs/AddBlog"));
 const LazyEventList = lazy(() => import("./components/events/EventList"));
 const LazyAddEvent = lazy(() => import("./components/events/AddEvent"));
 
+const theme = responsiveFontSizes(createMuiTheme());
+
 function App() {
   const store = configureStore();
   const history = createBrowserHistory();
@@ -56,38 +63,48 @@ function App() {
           <Box>
             <Header />
           </Box>
-
-          <Box flexGrow={1} style={{ marginBottom: "auto", minHeight: "80vh" }}>
-            <Suspense fallback={<Spinner />}>
-              <Switch>
-                <Route exact path="/" component={LazyHome} />
-                <Route path="/about" component={LazyAbout} />
-                <Route exact path="/blogs" render={() => <LazyBlogs />} />
-                <Route path="/signin" component={LazySignin} />
-                <Route path="/reset" component={LazyResetPw} />
-                <Route path="/newpass/:token" component={LazyNewPw} />
-                <ProtectedRoute exact path="/addblog" component={LazyAddBlog} />
-                <Route path="/blogs/:id" component={LazyIndividualBlog} />
-                <Route
-                  path="/blogs?tag=:tag"
-                  render={() => <LazyBlogs key={window.location} />}
-                />
-                <ProtectedRoute path="/blog/edit/:id" component={LazyAddBlog} />
-                <Route path="/signup" component={LazySignup} />
-                <Route path="/events" component={LazyEventList} />
-                <ProtectedRoute path="/addevent" component={LazyAddEvent} />
-                <ProtectedRoute
-                  path="/event/edit/:id"
-                  component={LazyAddEvent}
-                />
-                <Route path="/resources" component={LazyResourcePage} />
-                <Route path="/projects/:id" component={LazyProjectList} />
-                <Route path="/projects" component={LazyProjects} />
-                <Route path="/alumni" component={LazyAlumniPage} />
-              </Switch>
-            </Suspense>
-          </Box>
-
+          <ThemeProvider theme={theme}>
+            <Box
+              flexGrow={1}
+              style={{ marginBottom: "auto", minHeight: "80vh" }}
+            >
+              <Suspense fallback={<Spinner />}>
+                <Switch>
+                  <Route exact path="/" component={LazyHome} />
+                  <Route path="/about" component={LazyAbout} />
+                  <Route exact path="/blogs" render={() => <LazyBlogs />} />
+                  <Route path="/signin" component={LazySignin} />
+                  <Route path="/reset" component={LazyResetPw} />
+                  <Route path="/newpass/:token" component={LazyNewPw} />
+                  <ProtectedRoute
+                    exact
+                    path="/addblog"
+                    component={LazyAddBlog}
+                  />
+                  <Route path="/blogs/:id" component={LazyIndividualBlog} />
+                  <Route
+                    path="/blogs?tag=:tag"
+                    render={() => <LazyBlogs key={window.location} />}
+                  />
+                  <ProtectedRoute
+                    path="/blog/edit/:id"
+                    component={LazyAddBlog}
+                  />
+                  <Route path="/signup" component={LazySignup} />
+                  <Route path="/events" component={LazyEventList} />
+                  <ProtectedRoute path="/addevent" component={LazyAddEvent} />
+                  <ProtectedRoute
+                    path="/event/edit/:id"
+                    component={LazyAddEvent}
+                  />
+                  <Route path="/resources" component={LazyResourcePage} />
+                  <Route path="/projects/:id" component={LazyProjectList} />
+                  <Route path="/projects" component={LazyProjects} />
+                  <Route path="/alumni" component={LazyAlumniPage} />
+                </Switch>
+              </Suspense>
+            </Box>
+          </ThemeProvider>
           <Box>
             <Footer />
           </Box>
