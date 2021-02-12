@@ -116,6 +116,7 @@
   top: 5px;
   left: 5px;
   font-size: 1.5rem;
+  cursor: pointer;
 }
 .nav-burg-mob i {
   margin: 0.5em;

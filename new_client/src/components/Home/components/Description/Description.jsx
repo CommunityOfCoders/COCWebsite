@@ -22,16 +22,17 @@ const MissionContent = ({ width }) => {
   if (width < 720) {
     return (
       <p className="MissionContent">
-        To help students interested in the field of Computer Science to meet
-        other like&#8209;minded students and to help them advance their careers.
+        To help students interested in the field of development and programming
+        to meet other like&#8209;minded students and to help them advance their
+        careers.
       </p>
     );
   } else {
     return (
       // eslint-disable-next-line
       <p className="MissionContent" role="text">
-        To help students interested in the field of Computer Science to meet
-        other
+        To help students interested in the field of development and programming
+        to meet other
         <br />
         like&#8209;minded students and to help them advance their careers.
       </p>
