@@ -141,12 +141,7 @@ export default function AlumniPage() {
                 </Tabs>
               </Grid>
             ) : (
-              <MobileMenu
-                value={value}
-                setValue={setValue}
-                options={years}
-                label={"Year"}
-              />
+              <MobileMenu value={value} setValue={setValue} options={years} />
             )}
 
             <Grid item xs={10}>

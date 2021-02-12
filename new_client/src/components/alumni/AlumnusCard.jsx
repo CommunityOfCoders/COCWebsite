@@ -69,7 +69,12 @@ function AlumnusCardFront({ mask, alumnus }) {
       <Typography component="span" align="center" variant="h5">
         {alumnus.fullName}
       </Typography>
-      <Typography component="span" align="center" variant="subtitle1">
+      <Typography
+        component="span"
+        align="center"
+        variant="subtitle1"
+        style={{ padding: "0 0.25rem" }}
+      >
         {alumnus.professionalTitle} at {alumnus.company}
       </Typography>
     </Card>
