@@ -15,7 +15,8 @@ module.exports = {
           fullName: body['Full Name'][0],
           email: body['Email Address'][0]
         },
-        imageUrl: replaceDriveURL(body['Achievement Image'][0])
+        imageUrl: replaceDriveURL(body['Achievement Image'][0]),
+        description: body['Achievement Description'][0]
       }
       if (!!projectUrl) {
         achievement["projectUrl"] = projectUrl;
@@ -70,6 +71,6 @@ module.exports = {
         description: 'Do I really need to explain that?'
       }
     ]
-    return res.status(200).json({ achievements })
+    return res.status(200).json(achievements)
   }
 }
