@@ -100,9 +100,7 @@ const Item = (props) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Button size="small" color="primary">
-              Learn more
-            </Button>
+            Learn more
           </a>
         ) : null}
       </CardActions>
