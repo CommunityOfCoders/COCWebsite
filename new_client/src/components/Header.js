@@ -58,7 +58,6 @@ function Header(props) {
         className={isDesktop ? "nav-burg-desk" : "nav-burg-mob"}
         id="nav-toggler"
       >
-        {/* <i className="fa fa-bars"></i> */}
         {navOpen ? (
           <CloseIcon style={{ fontSize: "35px" }} />
         ) : (
