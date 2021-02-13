@@ -2,7 +2,7 @@ const Alumnus = require('../models/Alumnus');
 const replaceDriveURL = require('../utility/replaceDriveURL');
 
 module.exports = {
-  async createAlumnus(req, res) {
+  async createAlumnus(req, res, next) {
     // Shape of Data
     /*
     {
@@ -62,18 +62,18 @@ module.exports = {
       await Alumnus.create(alumnus);
       // console.log(req.body);
       res.status(200).json({ Status: "OK" });
-      // next();
+      next();
     } catch (e) {
       return res.status(500).json({ error: e.message });
     }
 
   },
-  async allAlumni(_, res) {
+  async allAlumni(_, res, next) {
     try {
       const alumni = await Alumnus.find({}).lean();
       res.locals.cache = alumni;
-      res.status(200).json({ alumni });
-      // next();
+      res.status(200).json(alumni);
+      next();
     } catch (e) {
       return res.status(500).json({ error: e.message });
     }

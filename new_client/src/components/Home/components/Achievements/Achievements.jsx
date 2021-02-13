@@ -32,7 +32,7 @@ const Achievements = (props) => {
 
   useEffect(() => {
     axios.get(process.env.REACT_APP_API + "/achievements").then((res) => {
-      setAchievements(res.data["achievements"]);
+      setAchievements(res.data);
     });
   }, []);
 

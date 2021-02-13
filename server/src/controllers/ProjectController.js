@@ -2,7 +2,7 @@ const Domain = require('../models/Domain.js');
 const Project = require('../models/Project.js');
 
 module.exports = {
-  async allProjects(_req, res) {
+  async allProjects(_req, res, next) {
     try {
       const projects = await Project.find().populate({
         path: 'domains',
@@ -10,7 +10,7 @@ module.exports = {
       }).lean().exec();
       res.locals.cache = projects;
       res.status(200).json({ projects });
-      // next();
+      next();
     } catch (e) {
       res.status(500).json({ error: e.message });
     }
@@ -49,7 +49,7 @@ module.exports = {
       res.status(500).json({ error: e.message });
     }
   },
-  async createProject(req, res) {
+  async createProject(req, res, next) {
     try {
       // assumes that domain of the project already exists
       const project = await Project.create(req.body);
@@ -59,12 +59,12 @@ module.exports = {
         await domain.save();
       }
       res.status(201).json({ id: project._id });
-      // next();
+      next();
     } catch (e) {
       res.status(500).json({ error: e.message });
     }
   },
-  async deleteProjectById(req, res) {
+  async deleteProjectById(req, res, next) {
     try {
       const projectId = req.params.id;
       const project = await Project.findById(projectId);
@@ -78,7 +78,7 @@ module.exports = {
       }
       await Project.findByIdAndRemove(projectId).lean();
       res.status(204).json({});
-      // next();
+      next();
     } catch (e) {
       res.status(500).json({ error: e.message });
     }
