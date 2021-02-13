@@ -1,0 +1,9 @@
+.prettierrc
+public
+package.json
+package-lock.json
+node_modules
+.gitignore
+.prettierignore
+*.webp
+*.ttf

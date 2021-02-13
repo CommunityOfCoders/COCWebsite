@@ -1,49 +1,34 @@
-import React, { Component } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
-import {
-  Paper,
-  makeStyles,
-  Button,
-  Grid,
-  Typography,
-  Card,
-  CardHeader,
-  CardContent,
-  CardActions,
-  Container,
-  Tooltip,
-  Fab,
-  CardMedia,
-} from "@material-ui/core";
-import { Link } from "react-router-dom";
-import { format } from "date-fns";
 import { connect } from "react-redux";
-import { useEffect } from "react";
 import axios from "axios";
-import { useState } from "react";
-import AddIcon from "@material-ui/icons/Add";
 import AlertUtility from "../Utilities/Alert";
-import { useRef } from "react";
+import Spinner from "../spinner/Spinner";
+import Modal from "../Modal/Modal";
+import AddEvent from "./AddEvent";
+import { Container, Typography } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import IndividualEvent from "./IndividualEvent";
+import Banner from "./Banner";
+import { isFuture } from "date-fns";
 
-const useStyles = makeStyles((theme) => ({
-  card: {
-    margin: "20px 100px",
-    backgroundColor: "white",
-    position: "relative",
+const useStyles = makeStyles({
+  gridContainer: {
+    paddingLeft: "40px",
+    paddingRight: "40px",
   },
-  media: {
-    height: "auto",
-    paddingTop: "56.25%", // 16:9
-  },
-}));
+});
 
-const EventList = (props) => {
-  const classes = useStyles();
+function EventList(props) {
   const [isMember, setIsMember] = useState(false);
   const [events, setEvents] = useState([]);
   const [isDeleted, setIsDeleted] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [isModalClosing, setIsModalClosing] = useState(false);
   const deletedEventID = useRef("");
 
   useEffect(() => {
@@ -51,26 +36,36 @@ const EventList = (props) => {
       .get(process.env.REACT_APP_API + "/events")
       .then((res) => {
         setEvents(res.data.sort((a, b) => new Date(b.date) - new Date(a.date)));
+        setIsLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
   }, []);
 
   useEffect(() => {
-    axios
-      .post(
-        process.env.REACT_APP_API + "/user",
-        JSON.stringify({ userID: props.userID }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((res) => {
-        setIsMember(res.data.isMember);
-      })
-      .catch((err) => console.log(err));
+    if (props.userID) {
+      axios
+        .post(
+          process.env.REACT_APP_API + "/user",
+          JSON.stringify({ userID: props.userID }),
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          setIsMember(res.data.isMember);
+        })
+        .catch((err) => console.log(err));
+    }
   }, [props.userID]);
+
+  const handleModalClose = () => {
+    setIsModalClosing(true);
+  };
 
   const handleDelete = (eventId) => {
     confirmAlert({
@@ -111,89 +106,107 @@ const EventList = (props) => {
     );
   };
 
-  let addEventFab = <div></div>;
-
-  if (isMember) {
-    addEventFab = (
-      <Grid item style={{ position: "fixed", right: "50px", bottom: "25px" }}>
-        <Link to="/addevent" style={{ color: "white" }}>
-          <Tooltip title="Add Event" aria-label="add" arrow>
-            <Fab color="secondary">
-              <AddIcon />
-            </Fab>
-          </Tooltip>
-        </Link>
-      </Grid>
-    );
-  }
-
+  const classes = useStyles();
   return (
-    <Container>
-      {events.length ? (
-        events.map((article) => (
-          <>
-            <Card className={classes.card}>
-              <CardHeader title={article.eventName} />{" "}
-              {!!article.image && (
-                <CardMedia
-                  className={classes.media}
-                  image={article.image.url}
-                />
-              )}
-              <CardContent>
-                <Typography>
-                  {" "}
-                  <p>{format(new Date(article.date), "dd/MM/yyyy")}</p>{" "}
-                  <small
-                    style={{
-                      position: "absolute",
-                      right: "20px",
-                    }}
-                  >
-                    Venue:
-                    {" " + article.venue}
-                  </small>
-                  {article.description}
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Grid container spacing={2} xs={6} justify="space-between">
-                  {isMember && (
-                    <>
-                      <Grid item xs={4}>
-                        <Button
-                          className="btn-outline-success"
-                          variant="outlined"
-                        >
-                          <Link
-                            to={`event/edit/${article._id}`}
-                            className="btn-outline-success"
-                          >
-                            Edit Event
-                          </Link>
-                        </Button>
-                      </Grid>
-                      <Grid item xs={4}>
-                        <Button
-                          className="btn-outline-danger"
-                          onClick={() => handleDelete(article._id)}
-                          color="secondary"
-                          variant="outlined"
-                        >
-                          Delete Event
-                        </Button>
-                      </Grid>
-                    </>
-                  )}
-                </Grid>
-              </CardActions>
-            </Card>
-          </>
-        ))
+    <article>
+      {isLoading ? (
+        <Spinner />
       ) : (
-        <div>OOOPSY: NO EVENTS REGISTERED</div>
+        <React.Fragment>
+          <Banner isMember={isMember} setShowModal={setShowModal} />
+          <Container>
+            <Grid
+              className={classes.gridContainer}
+              style={{ paddingTop: "20px" }}
+            >
+              <Typography variant="h4" style={{ color: "#52b107" }}>
+                Upcoming Events
+              </Typography>
+            </Grid>
+            <Grid
+              style={{ paddingTop: "10px" }}
+              container
+              spacing={4}
+              className={classes.gridContainer}
+            >
+              {events.length > 0 &&
+                events
+                  .filter(
+                    (article) =>
+                      isFuture(new Date(article.date)) && article.image
+                  )
+                  .map((article) => {
+                    //displaying only events with images
+                    return (
+                      <IndividualEvent
+                        key={article._id}
+                        article={article}
+                        isMember={isMember}
+                        handleDelete={handleDelete}
+                      />
+                    );
+                  })}
+            </Grid>
+            <Grid
+              className={classes.gridContainer}
+              style={{ paddingTop: "25px" }}
+            >
+              <Typography variant="h4" style={{ color: "#52b107" }}>
+                Past Events
+              </Typography>
+            </Grid>
+            <Grid
+              style={{ paddingTop: "10px", paddingBottom: "20px" }}
+              container
+              spacing={4}
+              className={classes.gridContainer}
+            >
+              {events.length > 0 &&
+                events
+                  .filter(
+                    (article) =>
+                      !isFuture(new Date(article.date)) && article.image
+                  )
+                  .map((article) => {
+                    //displaying only events with images
+                    return (
+                      <IndividualEvent
+                        key={article._id}
+                        article={article}
+                        isMember={isMember}
+                        handleDelete={handleDelete}
+                      />
+                    );
+                  })}
+            </Grid>
+          </Container>
+        </React.Fragment>
       )}
-      {addEventFab}
+      <Modal
+        size="xl"
+        show={showModal}
+        header="Add New Event"
+        hasCloseBtn
+        closeHandler={handleModalClose}
+      >
+        <AddEvent closeModal={() => setShowModal(false)} />
+      </Modal>
+      <Modal
+        size="sm"
+        keyboard={false}
+        show={isModalClosing}
+        header="Close form"
+        backdrop="static"
+        closeHandler={() => {
+          setShowModal(false);
+          setIsModalClosing(false);
+        }}
+        hasBtn
+        btnText="Cancel"
+        btnClickHandler={() => setIsModalClosing(false)}
+      >
+        <p>All form data will be lost</p>
+      </Modal>
       <AlertUtility
         open={isDeleted}
         duration={1000}
@@ -208,9 +221,9 @@ const EventList = (props) => {
         severity="error"
         message="Oops! An error occurred. Please try again."
       />
-    </Container>
+    </article>
   );
-};
+}
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,

@@ -20,15 +20,17 @@ const getNotificationDate = (eventDate) => {
 };
 
 module.exports = {
-  async getEvents(_req, res) {
-    const events = await Event.find().sort("-date");
+  async getEvents(_req, res, next) {
+    const events = await Event.find().sort("-date").lean();
     res.status(200).json(events);
+    res.locals.cache = events;
+    next();
   },
 
   async getEventById(req, res) {
     try {
       const eventId = req.params.id;
-      const event = await Event.findById(eventId);
+      const event = await Event.findById(eventId).lean();
       res.status(200).json(event);
     } catch (err) {
       res.status(400).json({
@@ -36,7 +38,7 @@ module.exports = {
       });
     }
   },
-  async uploadEvent(req, res) {
+  async uploadEvent(req, res, next) {
     try {
       const file = req.file;
       const { graduationYear } = req.body;
@@ -54,18 +56,19 @@ module.exports = {
           event._id,
           { image: { url: image.secure_url, public_id: image.public_id } },
           { new: true }
-        );
+        ).select({ "_id": 1 }).lean();
       }
       res.status(200).json({
         id: event._id,
       });
+      next();
     } catch (err) {
-      res.status(500).json({
+      return res.status(500).json({
         error: err.message,
       });
     }
   },
-  async updateEvent(req, res) {
+  async updateEvent(req, res, next) {
     try {
       const eventId = req.params.id;
       const file = req.file;
@@ -73,11 +76,11 @@ module.exports = {
       if (!!graduationYear && !graduationYear.match(/^[12]0[1-5]\d$/)) {
         return res.status(400).json({ error: "Graduation Year must be valid" });
       }
-      let event = await Event.updateOne(
-        { _id: mongoose.Types.ObjectId(eventId) },
-        req.body
-      );
-      event = await Event.findById(eventId);
+      const event = await Event.findByIdAndUpdate(
+        eventId,
+        req.body,
+        { new: true }
+      ).lean();
       const eventDate = event.date.split("-");
       const notificationDate = getNotificationDate(eventDate);
       scheduler.rescheduleNotification(notificationDate, { prefix: eventId });
@@ -89,7 +92,7 @@ module.exports = {
           } catch (error) {
             res.status(500).json({});
           }
-        } catch (error) {}
+        } catch (error) { }
         const image = await cloudinary.v2.uploader.upload(file.path, {
           public_id: eventId,
           tags: ["event"],
@@ -100,7 +103,8 @@ module.exports = {
           public_id: image.public_id,
         };
       }
-      res.json(event);
+      res.status(200).json(event);
+      next();
     } catch (err) {
       res.status(400).json({
         error: err.message,
@@ -108,10 +112,10 @@ module.exports = {
     }
   },
 
-  async deleteEvent(req, res) {
+  async deleteEvent(req, res, next) {
     const eventId = req.params.id;
     scheduler.removeNotification({ substring: eventId });
-    const event = await Event.findByIdAndDelete(eventId);
+    await Event.findByIdAndDelete(eventId).lean();
     try {
       await cloudinary.api.resource(eventId);
       try {
@@ -121,8 +125,9 @@ module.exports = {
           error: error.message,
         });
       }
-    } catch (error) {}
+    } catch (error) { }
     res.status(204).json({});
+    next();
   },
 
   async addForm(req, res) {
@@ -130,9 +135,9 @@ module.exports = {
     const eventId = req.params.id;
 
     try {
-      const event = await Event.findByIdAndUpdate(eventId, {
+      await Event.findByIdAndUpdate(eventId, {
         form: formURL,
-      });
+      }).lean();
 
       res.status(200).send({
         message: "Form added successfully",
@@ -147,7 +152,7 @@ module.exports = {
     try {
       const eventId = req.body.id;
       const userEmail = req.body.email;
-      const event = await Event.findById(eventId);
+      const event = await Event.findById(eventId).select({ "eventName": 1, "date": 1 }).lean();
       const eventDate = event.date.split("-");
       const notificationDate = getNotificationDate(eventDate);
       const data = {

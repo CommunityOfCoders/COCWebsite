@@ -4,7 +4,7 @@ const Blog = require("../models/Blog");
 module.exports = {
   async allBlogs(_req, res) {
     try {
-      let blogs = await Blog.find();
+      let blogs = await Blog.find().lean();
       blogs = blogs.sort((a, b) => {
         if (Date(b.date) > Date(a.date)) return 1;
         else return -1;
@@ -18,7 +18,7 @@ module.exports = {
   async viewBlogById(req, res) {
     try {
       const blogId = req.params.id;
-      const blog = await Blog.findById(blogId);
+      const blog = await Blog.findById(blogId).lean();
       if (blog) {
         return res.status(200).json(blog);
       } else {
@@ -26,6 +26,20 @@ module.exports = {
           error: "The requested blog doesn't exist",
         });
       }
+    } catch (e) {
+      res.status(500).json({ error: e.message });
+    }
+  },
+
+  async viewBlogsByTag(req, res) {
+    try {
+      const tag = req.params.tag;
+      let blogs = await Blog.find({tags: {$in: [tag]}})
+      blogs = blogs.sort((a, b) => {
+        if (Date(b.date) > Date(a.date)) return 1;
+        else return -1;
+      });
+      res.status(200).json({ blogs });
     } catch (e) {
       res.status(500).json({ error: e.message });
     }
@@ -50,7 +64,7 @@ module.exports = {
       // Assumed that req.body already has required fields
       const blog = await Blog.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
-      });
+      }).select({ "_id": 1, "blogTitle": 1 }).lean();
       res.json({
         id: blog._id,
         blogTitle: blog.blogTitle,
@@ -62,10 +76,14 @@ module.exports = {
     }
   },
   async deleteBlogById(req, res, next) {
-    // TODO: add isBlogAuthorized middleware
-    const blogId = req.params.id;
-    const blog = await Blog.findById(blogId);
-    await blog.remove();
-    res.status(204).json({});
+    try {
+      const blogId = req.params.id;
+      await Blog.findByIdAndDelete(blogId).lean();
+      res.status(204).json({});
+    } catch(error) {
+      res.status(500).json({
+        error,
+      });
+    }
   },
 };
