@@ -24,6 +24,13 @@ export default function NotFound({ history }) {
           >
             HOME
           </Button>
+          <div style={{ paddingTop: 20 }}>
+            If you think there should be a page here, please create an issue at{" "}
+            <a href="https://github.com/CommunityOfCoders/COCWebsite">
+              the website repository
+            </a>
+            .
+          </div>
         </Grid>
       </Grid>
     </Container>
