@@ -12,7 +12,7 @@ const Projects = () => {
     axios
       .get(process.env.REACT_APP_API + "/domains")
       .then((res) => {
-        const domainList = res.data.domains;
+        const domainList = res.data;
         setDomains(domainList);
       })
       .catch((err) => console.error(err))

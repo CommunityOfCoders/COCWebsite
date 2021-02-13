@@ -72,7 +72,7 @@ module.exports = {
     try {
       const alumni = await Alumnus.find({}).lean();
       res.locals.cache = alumni;
-      res.status(200).json({ alumni });
+      res.status(200).json(alumni);
       next();
     } catch (e) {
       return res.status(500).json({ error: e.message });

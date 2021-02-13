@@ -4,7 +4,7 @@ module.exports = {
   async allDomains(_req, res, next) {
     try {
       const domains = await Domain.find().lean();
-      res.status(200).json({ domains });
+      res.status(200).json(domains);
       res.locals.cache = domains;
       next();
     } catch (e) {

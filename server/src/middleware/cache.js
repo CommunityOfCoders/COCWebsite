@@ -10,6 +10,7 @@ module.exports = {
 
       if (data != null) {
         const return_data = JSON.parse(data);
+        console.log("Returning from cache");
         res.status(200).json(return_data);
       } else {
         next();
