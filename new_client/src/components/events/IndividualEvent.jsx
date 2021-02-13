@@ -17,6 +17,7 @@ import RoomOutlinedIcon from "@material-ui/icons/RoomOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import { green, red } from "@material-ui/core/colors";
+import { isFuture } from "date-fns/esm";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -88,11 +89,13 @@ export default function IndividualEvent({ article, isMember, handleDelete }) {
           <>
             <Divider variant="middle" />
             <CardActions disableSpacing={true}>
-              <Link to={`event/edit/${article._id}`}>
-                <IconButton>
-                  <EditOutlinedIcon style={{ color: green[500] }} />
-                </IconButton>
-              </Link>
+              {isFuture(new Date(article.date)) && (
+                <Link to={`event/edit/${article._id}`}>
+                  <IconButton>
+                    <EditOutlinedIcon style={{ color: green[500] }} />
+                  </IconButton>
+                </Link>
+              )}
               <IconButton onClick={() => handleDelete(article._id)}>
                 <DeleteOutlinedIcon style={{ color: red[400] }} />
               </IconButton>
