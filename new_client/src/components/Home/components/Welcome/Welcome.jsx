@@ -1,9 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Typewriter from "typewriter-effect";
 import "./Welcome.scss";
 import COC from "../../../assets/coc_dark.webp";
-import { Button } from "@material-ui/core";
 
 const Welcome = (props) => {
   const executeScroll = () => props.scrollToRef.current.scrollIntoView();
@@ -16,7 +14,12 @@ const Welcome = (props) => {
             <Slogan width={props.width} />
             <p className="welcome-description">
               Learn something new at an event, form a team to build a project
-              with, or find out more about the field! Community Of Coders, VJTI
+              with, or find out more about the field!{" "}
+              <b>
+                <span style={{ color: "#52b107" }}>C</span>ommunity{" "}
+                <span style={{ color: "#52b107" }}>O</span>f{" "}
+                <span style={{ color: "#52b107" }}>C</span>oders, VJTI
+              </b>{" "}
               welcomes you, regardless of your programming experience or your
               skill set.
             </p>

@@ -2,8 +2,8 @@ const Achievement = require('../models/Achievement');
 const replaceDriveURL = require('../utility/replaceDriveURL');
 
 module.exports = {
-  async createAchievement(req,res){
-    try{
+  async createAchievement(req, res, next) {
+    try {
       const body = req.body;
       let projectUrl = "";
       if (!!body['Project URL (Optional)'] && body['Project URL (Optional)'].length > 0) {
@@ -22,16 +22,18 @@ module.exports = {
       }
       await Achievement.create(achievement);
       res.status(200).json({ Status: "OK" });
-    } catch(e){
+      next();
+    } catch (e) {
       return res.status(500).json({ error: e.message });
     }
   },
-  async allAchievements(_,res){
-    try{
+  async allAchievements(_, res, next) {
+    try {
       const achievements = await Achievement.find({}).lean();
       res.locals.cache = achievements;
-      res.status(200).json({ achievements });
-    } catch(e){
+      res.status(200).json(achievements);
+      next();
+    } catch (e) {
       return res.status(500).json({ error: e.message });
     }
   },
@@ -69,5 +71,5 @@ module.exports = {
       }
     ]
     return res.status(200).json({ achievements })
-  } 
+  }
 }
