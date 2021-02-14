@@ -106,11 +106,9 @@ export default function AlumniPage() {
       try {
         const { data } = await axios.get(process.env.REACT_APP_API + "/alumni");
         // console.log(data.alumni);
-        setAlumni(data.alumni);
+        setAlumni(data);
         let years = new Set();
-        data.alumni.forEach((alumnus) =>
-          years.add(parseInt(alumnus.graduationYear))
-        );
+        data.forEach((alumnus) => years.add(parseInt(alumnus.graduationYear)));
         setYears(Array.from(years).sort((a, b) => b - a));
         setIsLoading(false);
       } catch (error) {

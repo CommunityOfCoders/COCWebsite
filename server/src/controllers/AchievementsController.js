@@ -2,8 +2,8 @@ const Achievement = require('../models/Achievement');
 const replaceDriveURL = require('../utility/replaceDriveURL');
 
 module.exports = {
-  async createAchievement(req,res){
-    try{
+  async createAchievement(req, res, next) {
+    try {
       const body = req.body;
       let projectUrl = "";
       if (!!body['Project URL (Optional)'] && body['Project URL (Optional)'].length > 0) {
@@ -15,23 +15,26 @@ module.exports = {
           fullName: body['Full Name'][0],
           email: body['Email Address'][0]
         },
-        imageUrl: replaceDriveURL(body['Achievement Image'][0])
+        imageUrl: replaceDriveURL(body['Achievement Image'][0]),
+        description: body['Achievement Description'][0]
       }
       if (!!projectUrl) {
         achievement["projectUrl"] = projectUrl;
       }
       await Achievement.create(achievement);
       res.status(200).json({ Status: "OK" });
-    } catch(e){
+      next();
+    } catch (e) {
       return res.status(500).json({ error: e.message });
     }
   },
-  async allAchievements(_,res){
-    try{
+  async allAchievements(_, res, next) {
+    try {
       const achievements = await Achievement.find({}).lean();
       res.locals.cache = achievements;
-      res.status(200).json({ achievements });
-    } catch(e){
+      res.status(200).json(achievements);
+      next();
+    } catch (e) {
       return res.status(500).json({ error: e.message });
     }
   },
@@ -68,6 +71,6 @@ module.exports = {
         description: 'Do I really need to explain that?'
       }
     ]
-    return res.status(200).json({ achievements })
-  } 
+    return res.status(200).json(achievements)
+  }
 }
