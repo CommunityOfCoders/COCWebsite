@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../actions/authActions";
+import MenuIcon from "@material-ui/icons/Menu";
+import CloseIcon from "@material-ui/icons/Close";
 
 import "./Header.css";
 
 function Header(props) {
   let location = useLocation();
-  console.log(location);
   const [isDesktop, setisDesktop] = useState(window.innerWidth > 1080);
   const [navOpen, setnavOpen] = useState(false);
   const [currPage, setCurrPage] = useState(
@@ -42,7 +43,14 @@ function Header(props) {
   function currPageChange(clickedPage) {
     // console.log(`Curr page changed to ${clickedPage}`);
     setCurrPage(clickedPage);
+    setnavOpen(false);
   }
+
+  useEffect(() => {
+    setCurrPage(
+      location.pathname.slice(1) ? location.pathname.slice(1) : "home"
+    );
+  }, [location]);
 
   return (
     <div className={isDesktop ? "navbar-custom-desk" : "navbar-custom-mob"}>
@@ -50,7 +58,11 @@ function Header(props) {
         className={isDesktop ? "nav-burg-desk" : "nav-burg-mob"}
         id="nav-toggler"
       >
-        <i className="fa fa-bars"></i>
+        {navOpen ? (
+          <CloseIcon style={{ fontSize: "35px" }} />
+        ) : (
+          <MenuIcon style={{ fontSize: "35px" }} />
+        )}
       </div>
       <div
         className={
@@ -58,12 +70,14 @@ function Header(props) {
           (navOpen ? " nav-mob-open" : " nav-mob-close")
         }
       >
-        <div id="coclogonav" className={navItemClass}>
-          <img
-            src="https://res.cloudinary.com/coc-vjti/image/upload/v1611151381/coc_dark_ukajqb.webp"
-            alt=""
-          />
-        </div>
+        <Link to="/" onClick={() => currPageChange("home")}>
+          <div id="coclogonav" className={navItemClass}>
+            <img
+              src="https://res.cloudinary.com/coc-vjti/image/upload/v1611151381/coc_dark_ukajqb.webp"
+              alt=""
+            />
+          </div>
+        </Link>
         <Link
           to="/"
           className={navItemClass}
@@ -84,6 +98,13 @@ function Header(props) {
           onClick={() => currPageChange("events")}
         >
           <nav className={getNavItemContClass("events")}>EVENTS</nav>
+        </Link>
+        <Link
+          to="/projects"
+          className={navItemClass}
+          onClick={() => currPageChange("projects")}
+        >
+          <nav className={getNavItemContClass("projects")}>PROJECTS</nav>
         </Link>
         <Link
           to="/alumni"
@@ -110,40 +131,36 @@ function Header(props) {
 						RESOURCES
 					</nav>
 				</Link> */}
-        <Link
-          to="/projects"
-          className={navItemClass}
-          onClick={() => currPageChange("projects")}
-        >
-          <nav className={getNavItemContClass("projects")}>PROJECTS</nav>
-        </Link>
         {props.isAuthenticated ? (
           <div
-            className={navItemClass}
+            className={
+              isDesktop ? `${navItemClass} nav-item-right` : navItemClass
+            }
             style={{ cursor: "pointer" }}
             onClick={() => currPageChange("home")}
           >
-            <nav className={getNavItemContClass("home")} onClick={props.logout}>
-              LOGOUT
-            </nav>
+            <nav onClick={props.logout}>LOGOUT</nav>
           </div>
         ) : (
-          <Link
-            to="/signin"
-            className={navItemClass}
-            onClick={() => currPageChange("login")}
-          >
-            <nav className={getNavItemContClass("login")}>LOGIN</nav>
-          </Link>
+          <>
+            <Link
+              to="/signin"
+              className={
+                isDesktop ? `${navItemClass} nav-item-right` : navItemClass
+              }
+              onClick={() => currPageChange("signin")}
+            >
+              <nav className={getNavItemContClass("signin")}>LOGIN</nav>
+            </Link>
+            <Link
+              to="/signup"
+              className={navItemClass}
+              onClick={() => currPageChange("signup")}
+            >
+              <nav className={getNavItemContClass("signup")}>SIGNUP</nav>
+            </Link>
+          </>
         )}
-
-        <Link
-          to="/signup"
-          className={navItemClass}
-          onClick={() => currPageChange("signup")}
-        >
-          <nav className={getNavItemContClass("signup")}>SIGNUP</nav>
-        </Link>
       </div>
     </div>
   );

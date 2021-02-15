@@ -19,7 +19,7 @@ const descriptions = [
   with, form your winning hackathon team, or practice mock interviewing
   with others and score your dream job. Do you love making websites/ apps? We've got you covered. 
   Do you wish to explore the path of Competitive Programming? 
-  We've got mentors that can help you get that desired 5⭐ ratings.`,
+  We've got mentors that can help you get on track, ready to achieve your dreams.`,
 
   // Network
 ];

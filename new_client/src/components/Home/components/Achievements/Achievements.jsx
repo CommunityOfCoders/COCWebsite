@@ -32,7 +32,7 @@ const Achievements = (props) => {
 
   useEffect(() => {
     axios.get(process.env.REACT_APP_API + "/achievements").then((res) => {
-      setAchievements(res.data["achievements"]);
+      setAchievements(res.data);
     });
   }, []);
 
@@ -100,9 +100,7 @@ const Item = (props) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Button size="small" color="primary">
-              Learn more
-            </Button>
+            Learn more
           </a>
         ) : null}
       </CardActions>

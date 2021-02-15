@@ -13,7 +13,7 @@ import {
 import { connect } from "react-redux";
 import AlertUtility from "../Utilities/Alert";
 import { useEffect } from "react";
-import { useParams, withRouter } from "react-router-dom";
+import { useLocation, useParams, withRouter } from "react-router-dom";
 
 function AddEvent(props) {
   const [eventName, setEventName] = useState("");
@@ -27,7 +27,8 @@ function AddEvent(props) {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const eventID = useParams().id;
+  const { pathname } = useLocation();
+  const eventID = pathname.split("/")[3];
   const isEditPage = !!eventID;
 
   const successString = isEditPage
@@ -44,7 +45,7 @@ function AddEvent(props) {
   });
 
   useEffect(() => {
-    if (isEditPage) {
+    if (isEditPage && eventID) {
       axios
         .get(process.env.REACT_APP_API + `/events/${eventID}`)
         .then((res) => {
@@ -56,7 +57,7 @@ function AddEvent(props) {
         })
         .catch((err) => console.log(err));
     }
-  });
+  }, [isEditPage, eventID]);
 
   const handleClose = () => {
     setIsSubmitted(false);

@@ -43,6 +43,7 @@ const LazyEventList = lazy(() => import("./components/events/EventList"));
 const LazyAddEvent = lazy(() => import("./components/events/AddEvent"));
 
 const theme = responsiveFontSizes(createMuiTheme());
+const Lazy404 = lazy(() => import("./components/404/NotFound"));
 
 function App() {
   const store = configureStore();
@@ -101,6 +102,7 @@ function App() {
                   <Route path="/projects/:id" component={LazyProjectList} />
                   <Route path="/projects" component={LazyProjects} />
                   <Route path="/alumni" component={LazyAlumniPage} />
+                  <Route component={Lazy404} />
                 </Switch>
               </Suspense>
             </Box>

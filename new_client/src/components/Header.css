@@ -71,6 +71,9 @@
 	text-decoration: none; */
   transform: translateY(5px);
 }
+.nav-item-right {
+  margin-left: auto;
+}
 @keyframes navappear {
   from {
     transform: translateY(-100%);
@@ -110,13 +113,15 @@
   position: fixed;
   width: max-content;
   color: white;
-  height: 10vh;
-  top: 0px;
-  left: 0px;
-  font-size: 2rem;
+  background-color: rgba(00, 00, 00, 0.6);
+  border-radius: 50%;
+  top: 5px;
+  left: 5px;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
 .nav-burg-mob i {
-  margin: 20px;
+  margin: 0.5em;
 }
 .nav-item-list-mob {
   position: fixed;
