@@ -1,0 +1,52 @@
+.root {
+  background-color: #eee;
+  padding: 2rem;
+}
+
+.about-us-parallax {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-image: url("../assets/about.webp");
+
+  /* Set a specific height */
+  min-height: 100vh;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.paragraph {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.secretaries-image {
+  width: 50vw;
+}
+
+.team-image {
+  width: 80vw;
+}
+
+@media only screen and (max-width: 768px) {
+  .paragraph {
+    width: fit-content;
+    margin: 0 0.5rem;
+  }
+  .secretaries-image {
+    width: 80vw;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .paragraph,
+  .paragraph-side {
+    font-size: 1.5rem;
+  }
+}
