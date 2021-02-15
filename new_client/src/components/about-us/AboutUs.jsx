@@ -31,7 +31,7 @@ export default function AboutUs() {
       <Box className="root">
         <Grid container spacing={2} alignContent="center" justify="center">
           <Grid item xs={12}>
-            <Title>Who we are</Title>
+            <Title>Who We Are</Title>
           </Grid>
           <Grid item xs={12}>
             <Typography className="paragraph">
@@ -60,7 +60,7 @@ export default function AboutUs() {
             </Typography> */}
           </Grid>
           <Grid item xs={12}>
-            <Title>What we do</Title>
+            <Title>What We Do</Title>
           </Grid>
           <Grid item xs={12}>
             <Typography className="paragraph">
@@ -85,8 +85,15 @@ export default function AboutUs() {
               world. Have a look at some of the work that <COC /> does!
             </Typography>
           </Grid>
-          <Grid item xs={12}>
-            <Grid container spacing={3}>
+          <Grid
+            item
+            container
+            xs={12}
+            spacing={3}
+            style={{ paddingTop: "4rem" }}
+            alignItems="center"
+          >
+            <Grid item container xs={12}>
               <Grid item xs={12} md={6} lg={6}>
                 <GenericCard
                   imgSrc={Workshops}
@@ -107,6 +114,20 @@ export default function AboutUs() {
                   seminars.
                 </Typography>
               </Grid>
+            </Grid>
+            <Grid
+              item
+              container
+              xs={12}
+              direction="row-reverse"
+              alignItems="center"
+            >
+              <Grid item xs={12} md={6} lg={6}>
+                <GenericCard
+                  imgSrc={Discussions}
+                  title={"Engaging Discussions"}
+                />
+              </Grid>
               <Grid item xs={12} md={6} lg={6}>
                 <h4>Engaging Discussions</h4>
                 <br />
@@ -118,12 +139,8 @@ export default function AboutUs() {
                   achieve. Discussions are a strong point to engage the mind.
                 </Typography>
               </Grid>
-              <Grid item xs={12} md={6} lg={6}>
-                <GenericCard
-                  imgSrc={Discussions}
-                  title={"Engaging Discussions"}
-                />
-              </Grid>
+            </Grid>
+            <Grid container item xs={12} alignItems="center">
               <Grid item xs={12} md={6} lg={6}>
                 <GenericCard imgSrc={Projects} title={"Project building"} />
               </Grid>
@@ -206,7 +223,7 @@ export default function AboutUs() {
             {/* <img src={Members} /> */}
             {/* </Grid> */}
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} style={{ marginTop: "2rem" }}>
             <Title>Sounds good?</Title>
             <Typography align="center">
               Join us by registering <Link to="/signup">here</Link>.
