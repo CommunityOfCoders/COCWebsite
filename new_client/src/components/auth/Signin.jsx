@@ -15,7 +15,7 @@ import { createMuiTheme } from "@material-ui/core/styles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import AlertUtility from "../Utilities/Alert";
-
+import { useDispatch } from "react-redux";
 import "./Error.css";
 import { connect } from "react-redux";
 import { login } from "../../actions/authActions";
@@ -68,16 +68,14 @@ function SignIn(props) {
   const [rememberme, setRememberme] = useState(false);
   const [msg, setMsg] = useState(null);
   const [isError, setIsError] = useState(false);
-
   const handleUsername = (e) => setUsername(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
   const handleRememberme = (e) => setRememberme(e.target.checked);
-
   const [errors, updateErrors] = React.useState({
     username: "",
     password: "",
   });
-
+  const dispatch = useDispatch();
   const isSmOrDown = useMediaQuery(theme1.breakpoints.down("sm"));
 
   function isFormValid() {
@@ -115,8 +113,7 @@ function SignIn(props) {
     if (error.id === LOGIN_FAIL) {
       setMsg(error.msg.error);
       setIsError(true);
-    } else {
-      setMsg(null);
+      dispatch(clearErrors());
     }
     if (isAuthenticated) {
       // Work here if auth is successful

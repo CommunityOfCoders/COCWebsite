@@ -15,7 +15,7 @@ import { createMuiTheme } from "@material-ui/core/styles";
 import EmailIcon from "@material-ui/icons/Email";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import AlertUtility from "../Utilities/Alert";
-
+import { useDispatch } from "react-redux";
 import { connect } from "react-redux";
 import { register } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
@@ -82,7 +82,7 @@ function Signup(props) {
     password: "",
     graduationYear: null,
   });
-
+  const dispatch = useDispatch();
   const isSmOrDown = useMediaQuery(theme1.breakpoints.down("sm"));
 
   function isFormValid() {
@@ -201,8 +201,7 @@ function Signup(props) {
     if (error.id === "REGISTER_FAIL") {
       setMsg(error.msg.error);
       setIsError(true);
-    } else {
-      setMsg(null);
+      dispatch(clearErrors());
     }
     if (isAuthenticated) {
       // TODO: something here after auth
