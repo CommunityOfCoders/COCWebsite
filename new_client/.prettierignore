@@ -6,3 +6,5 @@ node_modules
 .gitignore
 .prettierignore
 *.webp
+*.ttf
+*.jpeg

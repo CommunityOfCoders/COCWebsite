@@ -8,6 +8,7 @@ import {
   Menu,
   MenuItem,
 } from "@material-ui/core";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import PropTypes from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
@@ -29,6 +30,11 @@ const useStyles = makeStyles((theme) => ({
   listItem: {
     textAlign: "center",
   },
+  listNav: {
+    marginTop: "1rem",
+    backgroundColor: theme.palette.grey[200],
+    borderRadius: theme.shape.borderRadius,
+  },
 }));
 
 function MobileMenu({ value, setValue, options, label }) {
@@ -48,23 +54,32 @@ function MobileMenu({ value, setValue, options, label }) {
   };
 
   return (
-    <Grid item xs={12}>
-      <List component="nav" aria-label={`Select ${label}`}>
+    <Grid item xs={10}>
+      <List
+        component="nav"
+        aria-label={`Select ${label}`}
+        className={classes.listNav}
+      >
         <ListItem
           button
+          dense
           aria-haspopup="true"
           aria-controls="lock-menu"
           aria-label={label}
           onClick={handleClickListItem}
         >
           <ListItemText
-            primary={options[value]}
+            primary={
+              <>
+                {options[value]} <ExpandMoreIcon />{" "}
+              </>
+            }
             primaryTypographyProps={{
-              variant: "h4",
+              variant: "h5",
             }}
             secondary={label}
             className={classes.listItem}
-          />
+          ></ListItemText>
         </ListItem>
       </List>
       <Menu

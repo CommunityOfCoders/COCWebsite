@@ -10,26 +10,38 @@
   margin-top: 0%;
 
   .parallax {
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
     @if $page == "Home" {
       /* The image used */
       background-image: url("../Home/components/assets/banner.webp");
 
       /* Set a specific height */
       min-height: 100vh;
-    } @else {
+    } @else if $page == "Event" {
       /* The image used */
       background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
         url("../assets/events.webp");
 
       /* Set a specific height */
       min-height: 60vh;
+    } @else if $page == "Alumni" {
+      background-image: url("../assets/alumni.jpeg");
+      @media only screen and (min-width: 992px) {
+        min-height: 100vh;
+        background-size: cover;
+      }
+      @media only screen and (max-width: 992px) {
+        // 1.63 is the aspect of alumni.jpeg
+        min-height: calc(100vw / 1.63);
+        background-size: contain;
+        background-position: unset;
+      }
     }
-
-    /* Create the parallax scrolling effect */
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
   }
   .banner-center {
     font-family: "Recharge Bold", -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -71,4 +83,7 @@ section.homeBanner {
 }
 section.eventBanner {
   @include Banner("Event");
+}
+section.alumniBanner {
+  @include Banner("Alumni");
 }

@@ -14,6 +14,8 @@ import {
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 
+import Banner from "./Banner";
+import "../Utilities/Banner.scss";
 import Spinner from "../spinner/Spinner";
 import AlumnusCard from "./AlumnusCard";
 import MobileMenu from "./MobileMenu";
@@ -53,7 +55,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
     display: "flex",
-    height: "80%",
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
@@ -63,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
       color: "#3B377C",
       opacity: 1,
     },
-    "&$selected": {
+    "&:selected": {
       fontWeight: theme.typography.fontWeightMedium,
       color: "#3B377C",
     },
@@ -83,6 +84,19 @@ export default function AlumniPage() {
   const [years, setYears] = useState([]);
   const [value, setValue] = useState(0);
   const largerScreen = useMediaQuery("(min-width:600px)");
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const handleResize = () => {
+    setWidth(window.innerWidth);
+  };
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -107,6 +121,7 @@ export default function AlumniPage() {
 
   return (
     <ThemeProvider theme={responsiveFonts}>
+      <Banner width={width} />
       {isLoading ? (
         <Spinner />
       ) : (
@@ -139,12 +154,7 @@ export default function AlumniPage() {
                 </Tabs>
               </Grid>
             ) : (
-              <MobileMenu
-                value={value}
-                setValue={setValue}
-                options={years}
-                label={"Year"}
-              />
+              <MobileMenu value={value} setValue={setValue} options={years} />
             )}
 
             <Grid item xs={10}>
