@@ -2,23 +2,45 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="%PUBLIC_URL%/coc-icons/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="%PUBLIC_URL%/coc-icons/favicon-32x32.png"
+      sizes="32x32"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="%PUBLIC_URL%/coc-icons/favicon-16x16.png"
+      sizes="16x16"
+    />
+    <link
+      rel="mask-icon"
+      href="%PUBLIC_URL%/coc-icons/safari-pinned-tab.svg"
+      color="#52b107"
+    />
 
     <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@700&display=swap" rel="stylesheet">
-    
+    <link rel="preload" as="font" href="https://res.cloudinary.com/coc-vjti/raw/upload/v1613468201/recharge.bold_ck77rq.ttf">
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
-      content="Web site created using create-react-app"
+      content="The official website of Community Of Coders, VJTI, Matunga."
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+
+    <!-- Open Graph tags for rich previews -->
+    <meta property="og:title" content="Community Of Coders, VJTI" />
+    <meta property="og:description" content="The official website of Community Of Coders, VJTI, Matunga.">
+    <meta property="og:image" content="%PUBLIC_URL%/thumbnail.jpg">
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -33,7 +55,7 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>Community Of Coders</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

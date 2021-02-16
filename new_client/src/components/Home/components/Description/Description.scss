@@ -3,10 +3,12 @@
 
 section.Description {
   margin: 0 auto;
+  padding: 0 8vw;
 
   // Mobile styles
   p {
     font-family: var(--font-family-text);
+    text-align: left; // left align on small screens
   }
 
   h2 {
@@ -142,6 +144,10 @@ section.Description {
       .description-image {
         border-radius: 15px;
       }
+    }
+    // center align on larger screens
+    p {
+      text-align: center;
     }
 
     .description-main {

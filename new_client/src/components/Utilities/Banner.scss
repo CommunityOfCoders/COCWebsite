@@ -1,75 +1,91 @@
 @font-face {
-    font-family: "Recharge Bold";
-    src: local("Recharge Bold"),
-      url("../assets/recharge.bold.ttf") format("truetype");
-  }
-  
-  @mixin Banner($page) {
-      position: relative;
-      text-align: center;
-      margin-top: 0%;
-  
-      .parallax {
-        @if $page == "Home" {
-          /* The image used */
-        background-image: url("../Home/components/assets/banner.webp");
-    
-        /* Set a specific height */
+  font-family: "Recharge Bold";
+  src: url("https://res.cloudinary.com/coc-vjti/raw/upload/v1613468201/recharge.bold_ck77rq.ttf")
+      format("truetype"),
+    local("Recharge Bold");
+  font-display: swap;
+}
+
+@mixin Banner($page) {
+  position: relative;
+  text-align: center;
+  margin-top: 0%;
+
+  .parallax {
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    @if $page == "Home" {
+      /* The image used */
+      background-image: url("../Home/components/assets/banner.webp");
+
+      /* Set a specific height */
+      min-height: 100vh;
+    } @else if $page == "Event" {
+      /* The image used */
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url("../assets/events.webp");
+
+      /* Set a specific height */
+      min-height: 60vh;
+    } @else if $page == "Alumni" {
+      background-image: url("../assets/alumni.jpeg");
+      @media only screen and (min-width: 992px) {
         min-height: 100vh;
-        } @else {
-        /* The image used */
-        background-image: linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)),url("../assets/events.webp");
-    
-        /* Set a specific height */
-        min-height: 60vh;
-        }
-    
-        /* Create the parallax scrolling effect */
-        background-attachment: fixed;
-        background-position: center;
-        background-repeat: no-repeat;
         background-size: cover;
       }
-      .banner-center {
-        font-family: "Recharge Bold", -apple-system, BlinkMacSystemFont, "Segoe UI",
-          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
-          sans-serif;
-        font-weight: bold;
-        color: white;
-        font-size: 6vh;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+      @media only screen and (max-width: 992px) {
+        // 1.63 is the aspect of alumni.jpeg
+        min-height: calc(100vw / 1.63);
+        background-size: contain;
+        background-position: unset;
       }
-      .banner-text {
-        margin-top: 4vh;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-          Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-        font-weight: regular;
-        font-size: 4vh;
-        color: white;
-        position: absolute;
-        top: 70%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
-    
-      @media only screen and (max-width: 600px) {
-        .banner-center {
-          font-size: 5vh;
-        }
-    
-        .banner-text {
-          font-size: 2.5vh;
-        }
-      }
-  
+    }
   }
-  section.homeBanner {
-    @include Banner("Home");
+  .banner-center {
+    font-family: "Recharge Bold", -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+      sans-serif;
+    font-weight: bold;
+    color: white;
+    font-size: 6vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
-  section.eventBanner{
-    @include Banner("Event");
+  .banner-text {
+    margin-top: 4vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-weight: regular;
+    font-size: 4vh;
+    color: white;
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
-  
+
+  @media only screen and (max-width: 600px) {
+    .banner-center {
+      font-size: 5vh;
+    }
+
+    .banner-text {
+      font-size: 2.5vh;
+    }
+  }
+}
+section.homeBanner {
+  @include Banner("Home");
+}
+section.eventBanner {
+  @include Banner("Event");
+}
+section.alumniBanner {
+  @include Banner("Alumni");
+}

@@ -33,7 +33,7 @@ export default function IndividualProjectCard({
 }) {
   const classes = useStyles();
   let domainNames = [];
-  domains.map((domain) => {
+  domains.forEach((domain) => {
     domainNames.push(domain["domainName"]);
   });
 

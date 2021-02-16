@@ -18,6 +18,10 @@ const achievement = new mongoose.Schema({
     },
     required: true
   },
+  description: {
+    type: String,
+    required: true
+  },
   imageUrl: {
     type: String,
     required: true

@@ -1,10 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Typewriter from "typewriter-effect";
 import "./Welcome.scss";
 import COC from "../../../assets/coc_dark.webp";
 
 const Welcome = (props) => {
+  const executeScroll = () => props.scrollToRef.current.scrollIntoView();
+
   return (
     <section className="Welcome">
       <div className="welcome-background-container">
@@ -13,21 +14,18 @@ const Welcome = (props) => {
             <Slogan width={props.width} />
             <p className="welcome-description">
               Learn something new at an event, form a team to build a project
-              with, or find out more about the field! Community Of Coders, VJTI
+              with, or find out more about the field!{" "}
+              <b>
+                <span style={{ color: "#52b107" }}>C</span>ommunity{" "}
+                <span style={{ color: "#52b107" }}>O</span>f{" "}
+                <span style={{ color: "#52b107" }}>C</span>oders, VJTI
+              </b>{" "}
               welcomes you, regardless of your programming experience or your
               skill set.
             </p>
-            <div className="welcome-action-buttons">
-              {/* <Link className="join-button" to="/join">
-                Join&nbsp;the&nbsp;Club
-              </Link> */}
-              <Link
-                className="learn-more"
-                style={{ color: "black" }}
-                to="/about"
-              >
-                Learn More
-              </Link>
+            <div className="welcome-action-buttons" onClick={executeScroll}>
+              {/* eslint-disable-next-line */}
+              <a className="learn-more">Learn More</a>
             </div>
           </div>
 

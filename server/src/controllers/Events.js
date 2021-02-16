@@ -30,7 +30,7 @@ const numUsers = (event) => {
 };
 
 module.exports = {
-  async getEvents(_req, res) {
+  async getEvents(_req, res, next) {
     const events = await Event.find()
       .populate({
         path: "users",
@@ -42,6 +42,8 @@ module.exports = {
       ...event,
       count: numUsers(event),
     }));
+    res.locals.cache = events;
+    next();
     res.status(200).json(countAddedEvents);
   },
 
@@ -62,7 +64,7 @@ module.exports = {
       });
     }
   },
-  async uploadEvent(req, res) {
+  async uploadEvent(req, res, next) {
     try {
       const file = req.file;
       const { graduationYear } = req.body;
@@ -80,7 +82,7 @@ module.exports = {
           event._id,
           { image: { url: image.secure_url, public_id: image.public_id } },
           { new: true }
-        );
+        ).select({ "_id": 1 }).lean();
       }
       res.status(200).json({
         id: event._id,
@@ -91,13 +93,14 @@ module.exports = {
         const data = `Check the new event out: http://localhost:3000/events/`;
         await sendEmail(u.email, `New Event ${event.eventName} is here`, data);
       });
+      next();
     } catch (err) {
-      res.status(500).json({
+      return res.status(500).json({
         error: err.message,
       });
     }
   },
-  async updateEvent(req, res) {
+  async updateEvent(req, res, next) {
     try {
       const eventId = req.params.id;
       const file = req.file;
@@ -105,11 +108,11 @@ module.exports = {
       if (!!graduationYear && !graduationYear.match(/^[12]0[1-5]\d$/)) {
         return res.status(400).json({ error: "Graduation Year must be valid" });
       }
-      let event = await Event.updateOne(
-        { _id: mongoose.Types.ObjectId(eventId) },
-        req.body
-      );
-      event = await Event.findById(eventId);
+      const event = await Event.findByIdAndUpdate(
+        eventId,
+        req.body,
+        { new: true }
+      ).lean();
       const eventDate = event.date.split("-");
       const notificationDate = getNotificationDate(eventDate);
       scheduler.rescheduleNotification(notificationDate, { prefix: eventId });
@@ -121,7 +124,7 @@ module.exports = {
           } catch (error) {
             res.status(500).json({});
           }
-        } catch (error) {}
+        } catch (error) { }
         const image = await cloudinary.v2.uploader.upload(file.path, {
           public_id: eventId,
           tags: ["event"],
@@ -132,7 +135,8 @@ module.exports = {
           public_id: image.public_id,
         };
       }
-      res.json(event);
+      res.status(200).json(event);
+      next();
     } catch (err) {
       res.status(400).json({
         error: err.message,
@@ -140,10 +144,10 @@ module.exports = {
     }
   },
 
-  async deleteEvent(req, res) {
+  async deleteEvent(req, res, next) {
     const eventId = req.params.id;
     scheduler.removeNotification({ substring: eventId });
-    const event = await Event.findByIdAndDelete(eventId);
+    await Event.findByIdAndDelete(eventId).lean();
     try {
       await cloudinary.api.resource(eventId);
       try {
@@ -153,8 +157,9 @@ module.exports = {
           error: error.message,
         });
       }
-    } catch (error) {}
+    } catch (error) { }
     res.status(204).json({});
+    next();
   },
 
   async addForm(req, res) {
@@ -162,9 +167,9 @@ module.exports = {
     const eventId = req.params.id;
 
     try {
-      const event = await Event.findByIdAndUpdate(eventId, {
+      await Event.findByIdAndUpdate(eventId, {
         form: formURL,
-      });
+      }).lean();
 
       res.status(200).send({
         message: "Form added successfully",
@@ -179,7 +184,7 @@ module.exports = {
     try {
       const eventId = req.body.id;
       const userEmail = req.body.email;
-      const event = await Event.findById(eventId);
+      const event = await Event.findById(eventId).select({ "eventName": 1, "date": 1 }).lean();
       const eventDate = event.date.split("-");
       const notificationDate = getNotificationDate(eventDate);
       const data = {
@@ -219,7 +224,7 @@ module.exports = {
       if (!user) {
         return res.status(404).json({ error: "Requested user not found" });
       }
-      if(!event.registeredUsers.includes(uid)) {
+      if (!event.registeredUsers.includes(uid)) {
         event.registeredUsers.push(uid);
       }
       await event.save();
@@ -245,8 +250,8 @@ module.exports = {
         return res.status(404).json({ error: "Requested user not found" });
       }
       let i = 0;
-      while(i < event.registeredUsers.length) {
-        if(event.registeredUsers[i].toString() === uid) {
+      while (i < event.registeredUsers.length) {
+        if (event.registeredUsers[i].toString() === uid) {
           event.registeredUsers.splice(i, 1);
         } else {
           ++i;

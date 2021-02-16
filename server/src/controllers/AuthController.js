@@ -23,9 +23,9 @@ module.exports = {
 
       const user1 = await User.findOne({
         username: username,
-      });
+      }).lean().select({ "username": 1 });
 
-      /* If user exists, return 422 - 
+      /* If user exists, return 422 -
       visit https://stackoverflow.com/questions/3825990/http-response-code-for-post-when-resource-already-exists for more details
       */
       if (user1) {
@@ -38,7 +38,16 @@ module.exports = {
 
       const user = await User.create(req.body);
 
-      const token = jwt.sign({ user: user }, config.privateKey, {
+      const token = jwt.sign({
+        user: {
+          _id: user._id,
+          username: user.username,
+          email: user.email,
+          password: user.password,
+          isMember: user.isMember,
+          isBlogAuthorized: user.isBlogAuthorized
+        }
+      }, config.privateKey, {
         expiresIn: 3600,
       });
 
@@ -55,11 +64,18 @@ module.exports = {
 
   async login(req, res) {
     try {
-      const { username, password,rememberme } = req.body;
+      const { username, password, rememberme } = req.body;
 
       const user = await User.findOne({
         username: username,
-      });
+      }).select({
+        "_id": 1,
+        "username": 1,
+        "email": 1,
+        "password": 1,
+        "isMember": 1,
+        "isBlogAuthorized": 1
+      }).lean();
 
       // User not found, return 400
       if (!user) {
@@ -124,15 +140,15 @@ module.exports = {
       if (!!userID) {
         user = await User.findOne({
           _id: userID,
-        });
+        }).lean();
       } else {
         user = await User.findOne({
           username: username,
-        });
+        }).lean();
       }
-
-      user.password = null;
-
+      if (!!user) {
+        user.password = null;
+      }
       res.status(200).json(user);
     } catch (e) {
       console.log(e.message);

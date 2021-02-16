@@ -5,4 +5,6 @@ package-lock.json
 node_modules
 .gitignore
 .prettierignore
-src/components/assets
+*.webp
+*.ttf
+*.jpeg

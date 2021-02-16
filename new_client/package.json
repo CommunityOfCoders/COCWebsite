@@ -19,10 +19,12 @@
     "date-fns": "^2.15.0",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
+    "react-card-flip": "^1.0.11",
     "react-confirm-alert": "^2.6.1",
     "react-dom": "^16.13.1",
     "react-image-gallery": "^1.0.8",
     "react-markdown": "^4.3.1",
+    "react-material-ui-carousel": "^2.1.2",
     "react-mde": "^10.1.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
@@ -38,6 +40,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "postbuild": "purgecss --css build/static/css/*.css --content build/index.html build/static/js/*.js --output build/static/css",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "prettier --check .",
@@ -67,6 +70,7 @@
     ]
   },
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^4.0.0",
     "husky": "^4.3.8",
     "lint-staged": "^10.5.3",
     "node-sass": "^4.14.1",

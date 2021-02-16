@@ -56,21 +56,23 @@ function EventList(props) {
   }, [counter, props.userID]);
 
   useEffect(() => {
-    axios
-      .post(
-        process.env.REACT_APP_API + "/user",
-        JSON.stringify({ userID: props.userID }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((res) => {
-        setIsMember(res.data.isMember);
-      })
-      .catch((err) => console.log(err));
-  }, [props.userID, counter]);
+    if (props.userID) {
+      axios
+        .post(
+          process.env.REACT_APP_API + "/user",
+          JSON.stringify({ userID: props.userID }),
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          setIsMember(res.data.isMember);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [props.userID]);
 
   const handleModalClose = () => {
     setIsModalClosing(true);
@@ -171,8 +173,12 @@ function EventList(props) {
               className={classes.gridContainer}
             >
               {events.length > 0 &&
-                events.map((article) => {
-                  if (isFuture(new Date(article.date)))
+                events
+                  .filter(
+                    (article) =>
+                      isFuture(new Date(article.date)) && article.image
+                  )
+                  .map((article) => {
                     //displaying only events with images
                     return (
                       <IndividualEvent
@@ -185,7 +191,7 @@ function EventList(props) {
                         userID={props.userID}
                       />
                     );
-                })}
+                  })}
             </Grid>
             <Grid
               className={classes.gridContainer}
@@ -202,8 +208,12 @@ function EventList(props) {
               className={classes.gridContainer}
             >
               {events.length > 0 &&
-                events.map((article) => {
-                  if (!isFuture(new Date(article.date)) && article.image)
+                events
+                  .filter(
+                    (article) =>
+                      !isFuture(new Date(article.date)) && article.image
+                  )
+                  .map((article) => {
                     //displaying only events with images
                     return (
                       <IndividualEvent
@@ -215,7 +225,7 @@ function EventList(props) {
                         userID={props.userID}
                       />
                     );
-                })}
+                  })}
             </Grid>
           </Container>
         </React.Fragment>

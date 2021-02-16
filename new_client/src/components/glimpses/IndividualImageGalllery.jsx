@@ -39,11 +39,11 @@ export default function IndividualImageGalllery(props) {
     };
     call();
     return () => (shouldCancel = true);
-  }, []);
+  });
 
   return (
     <React.Fragment>
-      {images.length > 0 ? <ImageGallery items={images} /> : <Spinner />}
+      {isLoading ? <Spinner /> : <ImageGallery items={images} />}
     </React.Fragment>
   );
 }
