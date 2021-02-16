@@ -24,6 +24,7 @@ const Welcome = (props) => {
               skill set.
             </p>
             <div className="welcome-action-buttons" onClick={executeScroll}>
+              {/* eslint-disable-next-line */}
               <a className="learn-more">Learn More</a>
             </div>
           </div>
