@@ -131,9 +131,9 @@ function Signup(props) {
     }
 
     /* Password Constraints 
-		1. Must be within 6 to 16 characters
-		2. Must contain at least 1 number, 1 lowercase, 1 uppercase letter, 1 special character
-		*/
+    1. Must be within 6 to 16 characters
+    2. Must contain at least 1 number, 1 lowercase, 1 uppercase letter, 1 special character
+    */
 
     if (!password) {
       formIsValid = false;
@@ -207,7 +207,7 @@ function Signup(props) {
       // TODO: something here after auth
       history.push("/");
     }
-  }, [error, isAuthenticated, history]);
+  }, [error, isAuthenticated, history, dispatch]);
 
   const classes = useStyles();
   return (
