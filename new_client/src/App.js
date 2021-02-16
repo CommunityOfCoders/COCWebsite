@@ -30,6 +30,9 @@ const LazyEventList = lazy(() => import("./components/events/EventList"));
 const LazyResourcePage = lazy(() =>
   import("./components/resources/ResourcePage")
 );
+const LazyRegisterEvent = lazy(() =>
+  import("./components/events/RegisterEvent")
+);
 const LazyProjectList = lazy(() => import("./components/projects/ProjectList"));
 const LazyProjects = lazy(() => import("./components/projects/Projects"));
 
@@ -73,6 +76,7 @@ function App() {
                   )}
                 />
                 <Route path="/glimpse" component={Glimpse} />
+                <Route path="/events/register" component={LazyRegisterEvent} />
                 <Route path="/events" component={LazyEventList} />
                 <ProtectedRoute path="/addevent" component={AddEvent} />
                 <ProtectedRoute path="/event/edit/:id" component={AddEvent} />
