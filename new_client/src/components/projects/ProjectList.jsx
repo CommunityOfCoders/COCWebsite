@@ -3,7 +3,6 @@ import axios from "axios";
 import { Container, Grid, Typography } from "@material-ui/core";
 import IndividualProjectCard from "./IndividualProjectCard";
 import { useParams } from "react-router-dom";
-import { overflowEllipsis } from "../Utilities/overflowEllipsis";
 import Spinner from "../spinner/Spinner";
 
 const ProjectList = () => {
@@ -33,7 +32,7 @@ const ProjectList = () => {
     axios
       .get(process.env.REACT_APP_API + `/domains/${id}`)
       .then((res) => {
-        if (res.status == 200) {
+        if (res.status === 200) {
           setDomain(res.data.domainName);
         }
         setIsLoading(false);
@@ -57,12 +56,12 @@ const ProjectList = () => {
             </Typography>
           </Grid>
           {projects.map((project) => (
-            <Grid item xs={6} md={4} key={project["_id"]}>
+            <Grid item xs={12} md={4} key={project["_id"]}>
               <IndividualProjectCard
                 imgSrc={project.imageUrl}
                 title={project.projectTitle}
                 domains={project.domains}
-                shortDesc={overflowEllipsis(project.projectDescription)}
+                shortDesc={project.projectDescription}
                 linkToRepo={project.projectUrl}
               />
             </Grid>
