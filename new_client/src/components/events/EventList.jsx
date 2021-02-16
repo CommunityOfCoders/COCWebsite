@@ -31,12 +31,21 @@ function EventList(props) {
   const [isModalClosing, setIsModalClosing] = useState(false);
   const [isRegisterSuccess, setIsRegisterSuccess] = useState(false);
   const [counter, setCounter] = useState(0);
+  const [isRegistered, setIsRegistered] = useState({});
   const deletedEventID = useRef("");
 
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_API + "/events")
       .then((res) => {
+        let isRegistered = {};
+        res.data.forEach((article) => {
+          isRegistered[article._id] =
+            article.registeredUsers &&
+            article.registeredUsers.includes(props.userID);
+        });
+        console.log(isRegistered);
+        setIsRegistered(isRegistered);
         setEvents(res.data.sort((a, b) => new Date(b.date) - new Date(a.date)));
         setIsLoading(false);
       })
@@ -44,7 +53,7 @@ function EventList(props) {
         console.log(error);
         setIsLoading(false);
       });
-  }, [counter]);
+  }, [counter, props.userID]);
 
   useEffect(() => {
     axios
@@ -113,16 +122,21 @@ function EventList(props) {
       const requestOptions = {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           Authorization: "Bearer " + props.token,
         },
-        body: JSON.stringify({ eventId, userId: props.userID }),
       };
       const url = !isUserRegistered
-        ? process.env.REACT_APP_API + "/events/register"
-        : process.env.REACT_APP_API + "/events/unregister";
+        ? process.env.REACT_APP_API +
+          `/events/register?eid=${eventId}&uid=${props.userID}`
+        : process.env.REACT_APP_API +
+          `/events/unregister?eid=${eventId}&uid=${props.userID}`;
       const response = await fetch(url, requestOptions);
       if (response.status === 200) {
+        const isRegisteredTemp = {
+          ...isRegistered,
+          eventId: !isRegistered[eventId],
+        };
+        setIsRegistered(isRegisteredTemp);
         setIsRegisterSuccess(true);
       } else {
         setIsError(true);
@@ -158,7 +172,7 @@ function EventList(props) {
             >
               {events.length > 0 &&
                 events.map((article) => {
-                  if (isFuture(new Date(article.date)) && article.image)
+                  if (isFuture(new Date(article.date)))
                     //displaying only events with images
                     return (
                       <IndividualEvent
@@ -166,6 +180,7 @@ function EventList(props) {
                         article={article}
                         isMember={isMember}
                         handleDelete={handleDelete}
+                        isUserRegistered={isRegistered[article._id]}
                         handleRSVP={handleRSVP}
                         userID={props.userID}
                       />

@@ -10,6 +10,7 @@ cloudinary.config({
 const Event = require("../models/Event");
 const mongoose = require("mongoose");
 const User = require("../models/User");
+const sendEmail = require("../utility/sendEmail");
 
 const getNotificationDate = (eventDate) => {
   return new Date(
@@ -83,6 +84,12 @@ module.exports = {
       }
       res.status(200).json({
         id: event._id,
+      });
+      const users = await User.find();
+      // Need to change the subject and body
+      users.forEach(async u => {
+        const data = `Check the new event out: http://localhost:3000/events/`;
+        await sendEmail(u.email, `New Event ${event.eventName} is here`, data);
       });
     } catch (err) {
       res.status(500).json({
@@ -199,8 +206,8 @@ module.exports = {
   },
   async registerUser(req, res) {
     try {
-      const { userId, eventId } = req.body;
-      const event = await Event.findById(eventId).populate({
+      const { uid, eid } = req.query;
+      const event = await Event.findById(eid).populate({
         path: "users",
         select: ["_id"],
       });
@@ -208,11 +215,13 @@ module.exports = {
       if (!event) {
         return res.status(404).json({ error: "Requested event not found" });
       }
-      const user = await User.exists({ _id: userId });
+      const user = await User.exists({ _id: uid });
       if (!user) {
         return res.status(404).json({ error: "Requested user not found" });
       }
-      event.registeredUsers.push(userId);
+      if(!event.registeredUsers.includes(uid)) {
+        event.registeredUsers.push(uid);
+      }
       await event.save();
       return res.status(200).json({ data: "User registered!" });
     } catch (error) {
@@ -221,8 +230,9 @@ module.exports = {
   },
   async unregisterUser(req, res) {
     try {
-      const { userId, eventId } = req.body;
-      const event = await Event.findById(eventId).populate({
+      const { uid, eid } = req.query;
+      console.log(uid, eid);
+      const event = await Event.findById(eid).populate({
         path: "users",
         select: ["_id"],
       });
@@ -230,11 +240,18 @@ module.exports = {
       if (!event) {
         return res.status(404).json({ error: "Requested event not found" });
       }
-      const user = await User.exists({ _id: userId });
+      const user = await User.exists({ _id: uid });
       if (!user) {
         return res.status(404).json({ error: "Requested user not found" });
       }
-      event.registeredUsers.filter((u) => u !== userId);
+      let i = 0;
+      while(i < event.registeredUsers.length) {
+        if(event.registeredUsers[i].toString() === uid) {
+          event.registeredUsers.splice(i, 1);
+        } else {
+          ++i;
+        }
+      }
       await event.save();
       return res.status(200).json({ data: "User unregistered!" });
     } catch (error) {

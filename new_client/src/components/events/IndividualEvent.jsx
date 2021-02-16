@@ -46,11 +46,8 @@ export default function IndividualEvent({
   handleDelete,
   handleRSVP,
   userID,
+  isUserRegistered,
 }) {
-  const [isUserRegistered, setIsUserRegistered] = useState(
-    article.registeredUsers && article.registeredUsers.includes(userID)
-  );
-
   if (!!article.registeredUsers) console.log(article);
   const classes = useStyles();
   return (
@@ -119,7 +116,6 @@ export default function IndividualEvent({
                   color={!isUserRegistered ? "primary" : "secondary"}
                   onClick={() => {
                     handleRSVP(article._id, isUserRegistered);
-                    setIsUserRegistered(!isUserRegistered);
                   }}
                 >
                   {!isUserRegistered ? "Register" : "Unregister"}
