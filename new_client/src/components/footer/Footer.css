@@ -1,5 +1,7 @@
 @font-face {
   font-family: "Recharge Bold";
   src: local("Recharge Bold"),
-    url("../assets/recharge.bold.ttf") format("truetype");
+    url("https://res.cloudinary.com/coc-vjti/raw/upload/v1613468201/recharge.bold_ck77rq.ttf")
+      format("truetype");
+  font-display: swap;
 }
