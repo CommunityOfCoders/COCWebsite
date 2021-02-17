@@ -78,13 +78,14 @@ export default function IndividualProjectCard({
           <Typography variant="body1" component="p" align="center">
             {displayDesc.display}
             {displayDesc.isOverflow ? (
-              <a
+              <Button
+                color="primary"
                 onClick={() => {
                   handleShow({ title: title, desc: shortDesc, image: imgSrc });
                 }}
               >
                 (read more)
-              </a>
+              </Button>
             ) : null}
           </Typography>
         </CardContent>
