@@ -1,4 +1,4 @@
-const express = require("express");
+const format = require("date-fns/format")
 const path = require("path");
 const cloudinary = require("cloudinary");
 const scheduler = require("../utility/scheduler");
@@ -8,9 +8,9 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 const Event = require("../models/Event");
-const mongoose = require("mongoose");
 const User = require("../models/User");
 const sendEmail = require("../utility/sendEmail");
+const ejs = require("ejs");
 
 const getNotificationDate = (eventDate) => {
   return new Date(
@@ -28,6 +28,23 @@ const numUsers = (event) => {
   }
   return 0;
 };
+
+// Utility function to send mail to users
+const sendMailToUsers = async (event, selectedUsers) => {
+  const mailSubject = "Community Of Coders,VJTI - New Event Published";
+  const link = process.env.NODE_ENV === "production" ? "https://communityofcoders.in/events" :
+    "http://localhost:3000/events";
+  const dateTime = format(new Date(event.date), 'dd-MM-yyyy hh:mm aaa').split(" ")
+  event.day = dateTime[0]
+  event.time = dateTime[1] + " " + dateTime[2];
+  for (let i = 0; i < selectedUsers.length; i++) {
+    const mailData = await ejs.renderFile(path.resolve(__dirname, "../views", "eventRsvp.ejs"),
+      { event, user: selectedUsers[i], link }
+    );
+    await sendEmail(selectedUsers[i].email, mailSubject, mailData);
+  }
+
+}
 
 module.exports = {
   async getEvents(_req, res, next) {
@@ -82,17 +99,13 @@ module.exports = {
           event._id,
           { image: { url: image.secure_url, public_id: image.public_id } },
           { new: true }
-        ).select({ "_id": 1 }).lean();
+        ).select({ "_id": 1, "eventName": 1, "description": 1, "venue": 1, "date": 1 }).lean();
       }
       res.status(200).json({
         id: event._id,
       });
       const users = await User.find();
-      // Need to change the subject and body
-      users.forEach(async u => {
-        const data = `Check the new event out: http://localhost:3000/events/`;
-        await sendEmail(u.email, `New Event ${event.eventName} is here`, data);
-      });
+      sendMailToUsers(event, users);
       next();
     } catch (err) {
       return res.status(500).json({

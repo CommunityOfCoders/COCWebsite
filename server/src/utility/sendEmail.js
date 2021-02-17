@@ -7,6 +7,7 @@ const encPassword = process.env.ENCPASSWORD;
 
 const transport = nodemailer.createTransport({
 	service: 'Gmail',
+	// name: "Community Of Coders",
 	auth: {
 		user: 'communityofcoders@gmail.com',
 		pass: crypt.decrypt(encPassword),
