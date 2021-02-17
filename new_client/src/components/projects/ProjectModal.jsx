@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
       width: "85%",
     },
     [theme.breakpoints.up("md")]: {
-      width: "50%",
+      width: "40%",
     },
   },
   modalMedia: {
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const getModalStyle = () => {
-  const top = 50;
+  const top = 45;
   const left = 50;
 
   return {
@@ -50,12 +50,13 @@ const ProjectModal = ({ open, modalHide, projectData }) => {
           {projectData.title}
         </Typography>
         <hr />
-        <div style={{ width: "40%", height: "40%", margin: "0 auto" }}>
+        <div style={{ margin: "0 auto" }}>
           <CardMedia
             className={classes.modalMedia}
             image={projectData.image}
             title={projectData.title}
           />
+          <br />
         </div>
         <Typography variant="body1" component="p" align="center">
           {projectData.desc}
