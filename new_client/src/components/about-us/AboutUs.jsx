@@ -1,12 +1,4 @@
-import {
-  Box,
-  Grid,
-  makeStyles,
-  createMuiTheme,
-  responsiveFontSizes,
-  ThemeProvider,
-  Typography,
-} from "@material-ui/core";
+import { Box, Grid, Typography } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
 import COC from "../Utilities/COC";
@@ -205,7 +197,11 @@ export default function AboutUs() {
             {/* <Grid item xs={0} md={4} lg={4} /> */}
             <div style={{ textAlign: "center" }}>
               {/* <Grid item xs={12} md={6} lg={6}> */}
-              <img src={GSes} className="secretaries-image" />
+              <img
+                src={GSes}
+                className="secretaries-image"
+                alt="General Secretaries"
+              />
               <br />
               <Typography variant="h5">
                 General Secretaries - Saif Kazi, Shubhankar Gupta
@@ -215,7 +211,7 @@ export default function AboutUs() {
             </div>
             <div style={{ textAlign: "center" }}>
               {/* <Grid item xs={12} md={6} lg={6}> */}
-              <img src={Members} className="team-image" />
+              <img src={Members} className="team-image" alt="Core Committee" />
               <br />
               <Typography variant="h5">The Core Committee - 2020-21</Typography>
               {/* </Grid> */}

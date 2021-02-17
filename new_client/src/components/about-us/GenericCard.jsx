@@ -1,11 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  makeStyles,
-  Tooltip,
-  Typography,
-} from "@material-ui/core";
+import { makeStyles, Tooltip } from "@material-ui/core";
 import React from "react";
 
 const useStyles = makeStyles((theme) => ({
