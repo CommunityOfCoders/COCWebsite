@@ -13,13 +13,14 @@ import Inheritance from "../assets/Inheritance.webp";
 import GenericDetails from "./GenericDetails";
 import GSes from "../assets/coc-gses.webp";
 import Members from "../assets/coc-members.webp";
+import Banner from "./Banner";
 
 import "./AboutUs.css";
 
 export default function AboutUs() {
   return (
     <>
-      <div className="about-us-parallax" />
+      <Banner />
       <Box className="root">
         <Grid container spacing={2} alignContent="center" justify="center">
           <Grid item xs={12}>
