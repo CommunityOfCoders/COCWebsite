@@ -118,9 +118,6 @@ const Blogs = (props) => {
     });
   };
 
-  // TODO :- Change this to increase it to 12 if user isn't signed in.
-  const spanSize = 4;
-
   let addBlogFab = (
     <Grid item style={{ position: "fixed", right: "50px", bottom: "25px" }}>
       <Tooltip title="Login Required" aria-label="add">

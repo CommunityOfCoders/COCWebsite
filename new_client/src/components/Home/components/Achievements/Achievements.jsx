@@ -41,7 +41,7 @@ const Achievements = (props) => {
   return (
     <section className="Description">
       <div className="description-top">
-        <div className="description-mission" role="text">
+        <div className="description-mission">
           <h3 className="description-mission-heading">Our Achievements</h3>
           <p className="MissionContent">
             Our community helps our members build their skills and achieve their
