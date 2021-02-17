@@ -28,7 +28,7 @@
         url("../assets/events.webp");
 
       /* Set a specific height */
-      min-height: 60vh;
+      min-height: 100vh;
     } @else if $page == "Alumni" {
       background-image: url("../assets/alumni.jpeg");
       @media only screen and (min-width: 992px) {
@@ -41,6 +41,10 @@
         background-size: contain;
         background-position: unset;
       }
+    } @else if $page == "AboutUs" {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url("../assets/about_us.webp");
+      min-height: 100vh;
     }
   }
   .banner-center {
@@ -86,4 +90,7 @@ section.eventBanner {
 }
 section.alumniBanner {
   @include Banner("Alumni");
+}
+section.aboutUsBanner {
+  @include Banner("AboutUs");
 }
