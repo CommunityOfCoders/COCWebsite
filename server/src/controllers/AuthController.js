@@ -95,7 +95,7 @@ module.exports = {
       }
 
       const token = jwt.sign({ user: user }, config.privateKey, {
-        expiresIn: 60 * 60,
+        expiresIn: 60 * 60 * 24 * 7,
       });
 
       return res.status(200).json({
