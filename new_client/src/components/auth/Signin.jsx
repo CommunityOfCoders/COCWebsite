@@ -104,8 +104,6 @@ function SignIn(props) {
     if (isFormValid()) {
       const user = { username, password, rememberme };
       login(user);
-    } else {
-      alert("There are errors in your form !");
     }
   }
 
