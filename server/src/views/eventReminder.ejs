@@ -86,14 +86,13 @@
       <table style="margin-top: 20px;margin-bottom: 20px;">
         <tr>
       <td rowspan="3"><img src = "https://res.cloudinary.com/dw2ejcbvt/image/upload/v1613541772/event1_kr7igj.png" style="padding-right: 20px;"/></td>
-      <td><p>Date: <span style="color: #52b107;"><%= event.day %></span></p></td>
+      <td><p>Date: <span style="color: #52b107;">Today</span></p></td>
     </tr>
-    <tr><td><p>Time: <span style="color: #52b107;"><%= event.time %></span></p></td></tr>
     <tr><td><p>Location: <span style="color: #52b107;"><%= event.venue %></span></p></td></tr>
     </table>
     <h3 style="letter-spacing: 1%;">About the Event</h3>
         <p style="text-align: justify;">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae saepe nemo corporis iure! Ipsum beatae odio dolorum ducimus quaerat rem iure dolores dicta, ea nostrum nihil! Eum quos eaque delectus.
+          <%= event.description %>
  <h2 style="letter-spacing: 1%; text-align: center;">We will be waiting!</h2>
   <p style="text-align: justify;">
     Regards, <br><b><span style="color: #52b107">C</span>ommunity Of

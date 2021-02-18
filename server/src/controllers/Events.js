@@ -193,35 +193,7 @@ module.exports = {
       });
     }
   },
-  async addReminder(req, res) {
-    try {
-      const eventId = req.body.id;
-      const userEmail = req.body.email;
-      const event = await Event.findById(eventId).select({ "eventName": 1, "date": 1 }).lean();
-      const eventDate = event.date.split("-");
-      const notificationDate = getNotificationDate(eventDate);
-      const data = {
-        jobName: `${eventId}-${userEmail}`,
-        to: userEmail,
-        subject: `${event.eventName} Reminder!!`,
-        message: `Reminder email for ${event.eventName} event`,
-      };
-      scheduler.scheduleEmailNotification(notificationDate, data);
-      res.status(200).json({ mssg: "Successfully added reminder" });
-    } catch (error) {
-      res.status(400).json({ error: error.message });
-    }
-  },
-  async cancelReminder(req, res) {
-    const eventId = req.params.id;
-    const userEmail = req.body.email;
-    try {
-      scheduler.removeNotification({ substring: `${eventId}-${userEmail}` });
-      res.status(200).json({ mssg: "Successfully cancelled reminder" });
-    } catch (error) {
-      res.status(400).json({ error: error.message });
-    }
-  },
+
   async registerUser(req, res) {
     try {
       const { uid, eid } = req.query;
@@ -229,11 +201,10 @@ module.exports = {
         path: "users",
         select: ["_id"],
       });
-      console.log(event);
       if (!event) {
         return res.status(404).json({ error: "Requested event not found" });
       }
-      const user = await User.exists({ _id: uid });
+      const user = await User.findById(uid);
       if (!user) {
         return res.status(404).json({ error: "Requested user not found" });
       }
@@ -241,11 +212,25 @@ module.exports = {
         event.registeredUsers.push(uid);
       }
       await event.save();
+      console.log(event);
+      const eventDate = event.date.split("-");
+      const notificationDate = getNotificationDate(eventDate);
+      const userEmail = user.email;
+      const mailData = await ejs.renderFile(path.resolve(__dirname, "../views", "eventReminder.ejs"),
+        { event, user})
+      const data = {
+        jobName: `${eid}-${userEmail}`,
+        to: userEmail,
+        subject: `${event.eventName} Reminder!!`,
+        message: mailData,
+      };
+      scheduler.scheduleEmailNotification(notificationDate, data);
       return res.status(200).json({ data: "User registered!" });
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
   },
+
   async unregisterUser(req, res) {
     try {
       const { uid, eid } = req.query;
@@ -271,6 +256,7 @@ module.exports = {
         }
       }
       await event.save();
+      scheduler.removeNotification({ substring: `${eventId}-${userEmail}` });
       return res.status(200).json({ data: "User unregistered!" });
     } catch (error) {
       return res.status(500).json({ error: error.message });
