@@ -11,6 +11,7 @@ const Event = require("../models/Event");
 const User = require("../models/User");
 const sendEmail = require("../utility/sendEmail");
 const ejs = require("ejs");
+const getBaseURL = require("../utility/getBaseURL");
 
 const getNotificationDate = (eventDate) => {
   return new Date(
@@ -32,8 +33,7 @@ const numUsers = (event) => {
 // Utility function to send mail to users
 const sendMailToUsers = async (event, selectedUsers) => {
   const mailSubject = "Community Of Coders,VJTI - New Event Published";
-  const link = process.env.NODE_ENV === "production" ? "https://communityofcoders.in/events" :
-    "http://localhost:3000/events";
+  const link = `${getBaseURL()}/events`;
   const dateTime = format(new Date(event.date), 'dd-MM-yyyy hh:mm aaa').split(" ")
   event.day = dateTime[0]
   event.time = dateTime[1] + " " + dateTime[2];
@@ -59,7 +59,7 @@ module.exports = {
       ...event,
       count: numUsers(event),
     }));
-    res.locals.cache = events;
+    res.locals.cache = countAddedEvents;
     next();
     res.status(200).json(countAddedEvents);
   },
@@ -194,7 +194,7 @@ module.exports = {
     }
   },
 
-  async registerUser(req, res) {
+  async registerUser(req, res, next) {
     try {
       const { uid, eid } = req.query;
       const event = await Event.findById(eid).populate({
@@ -212,12 +212,11 @@ module.exports = {
         event.registeredUsers.push(uid);
       }
       await event.save();
-      console.log(event);
       const eventDate = event.date.split("-");
       const notificationDate = getNotificationDate(eventDate);
       const userEmail = user.email;
       const mailData = await ejs.renderFile(path.resolve(__dirname, "../views", "eventReminder.ejs"),
-        { event, user})
+        { event, user })
       const data = {
         jobName: `${eid}-${userEmail}`,
         to: userEmail,
@@ -225,25 +224,24 @@ module.exports = {
         message: mailData,
       };
       scheduler.scheduleEmailNotification(notificationDate, data);
+      next();
       return res.status(200).json({ data: "User registered!" });
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
   },
 
-  async unregisterUser(req, res) {
+  async unregisterUser(req, res, next) {
     try {
       const { uid, eid } = req.query;
-      console.log(uid, eid);
       const event = await Event.findById(eid).populate({
         path: "users",
         select: ["_id"],
       });
-      console.log(event);
       if (!event) {
         return res.status(404).json({ error: "Requested event not found" });
       }
-      const user = await User.exists({ _id: uid });
+      const user = await User.findById(uid).select({ "_id": 1, "email": 1 }).lean();
       if (!user) {
         return res.status(404).json({ error: "Requested user not found" });
       }
@@ -256,7 +254,8 @@ module.exports = {
         }
       }
       await event.save();
-      scheduler.removeNotification({ substring: `${eventId}-${userEmail}` });
+      scheduler.removeNotification({ substring: `${eid}-${user.email}` });
+      next();
       return res.status(200).json({ data: "User unregistered!" });
     } catch (error) {
       return res.status(500).json({ error: error.message });

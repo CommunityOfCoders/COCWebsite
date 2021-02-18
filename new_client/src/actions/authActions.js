@@ -97,7 +97,6 @@ export const newPassword = ({ newPassword, token }) => (dispatch) => {
   axios
     .post(process.env.REACT_APP_API + "/new-password", body, config)
     .then((res) => {
-      console.log(res.data);
       dispatch({
         type: NEW_PASSWORD_SUCCESS,
         payload: res.data,
@@ -115,7 +114,6 @@ export const newPassword = ({ newPassword, token }) => (dispatch) => {
 };
 
 export const logout = () => (dispatch) => {
-  console.log("Logout called");
   localStorage.removeItem("token");
   dispatch({
     type: LOGOUT_SUCCESS,

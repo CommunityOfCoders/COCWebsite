@@ -32,7 +32,6 @@ export default function IndividualImageGalllery(props) {
           setIsLoading(false);
         }
       } catch (e) {
-        console.log(e.message);
         setImages([]);
         setIsLoading(false);
       }

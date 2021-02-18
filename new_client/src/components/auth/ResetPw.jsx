@@ -62,7 +62,6 @@ function ResetPw() {
         ...prevErrors,
         email: "*Email can't be Empty",
       }));
-      console.log(errors); //TO BE REMOVED
     }
     return formIsValid;
   }

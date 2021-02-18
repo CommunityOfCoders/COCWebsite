@@ -44,7 +44,6 @@ function EventList(props) {
             article.registeredUsers &&
             article.registeredUsers.includes(props.userID);
         });
-        console.log(isRegistered);
         setIsRegistered(isRegistered);
         setEvents(res.data.sort((a, b) => new Date(b.date) - new Date(a.date)));
         setIsLoading(false);

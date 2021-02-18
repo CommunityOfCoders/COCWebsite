@@ -31,8 +31,8 @@ module.exports = (app) => {
   app.put('/api/events/:id', auth.loginRequired, user.isMember, upload.single('COC_Event'), Events.updateEvent, cache.deleteCache);
   app.put('/api/events/form', auth.loginRequired, user.isMember, Events.addForm) // Tested
   app.get('/api/events/:id', Events.getEventById); // Tested
-  app.post('/api/events/register', Events.registerUser);
-  app.post('/api/events/unregister', Events.unregisterUser);
+  app.post('/api/events/register', Events.registerUser, cache.deleteCache);
+  app.post('/api/events/unregister', Events.unregisterUser, cache.deleteCache);
   app.delete('/api/events/:id', auth.loginRequired, user.isMember, Events.deleteEvent, cache.deleteCache); // Tested
 
   // Glimpses

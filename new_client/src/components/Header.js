@@ -41,7 +41,6 @@ function Header(props) {
     }
   }
   function currPageChange(clickedPage) {
-    // console.log(`Curr page changed to ${clickedPage}`);
     setCurrPage(clickedPage);
     setnavOpen(false);
   }
