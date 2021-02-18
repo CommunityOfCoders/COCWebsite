@@ -8,16 +8,16 @@ import {
   CardActions,
   Grid,
   makeStyles,
+  Button,
 } from "@material-ui/core";
-import { format } from "date-fns";
-import React from "react";
+import { format, isFuture } from "date-fns";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import EventIcon from "@material-ui/icons/Event";
 import RoomOutlinedIcon from "@material-ui/icons/RoomOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import { green, red } from "@material-ui/core/colors";
-import { isFuture } from "date-fns/esm";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -40,7 +40,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function IndividualEvent({ article, isMember, handleDelete }) {
+export default function IndividualEvent({
+  article,
+  isMember,
+  handleDelete,
+  handleRSVP,
+  userID,
+  isUserRegistered,
+}) {
   const classes = useStyles();
   return (
     <Grid item xs={12} sm={6} md={4}>
@@ -88,17 +95,31 @@ export default function IndividualEvent({ article, isMember, handleDelete }) {
         {isMember && (
           <>
             <Divider variant="middle" />
-            <CardActions disableSpacing={true}>
-              {isFuture(new Date(article.date)) && (
+            <CardActions
+              disableSpacing="true"
+              style={{ display: "flex", justifyContent: "space-between" }}
+            >
+              <div>
                 <Link to={`event/edit/${article._id}`}>
                   <IconButton>
                     <EditOutlinedIcon style={{ color: green[500] }} />
                   </IconButton>
                 </Link>
+                <IconButton onClick={() => handleDelete(article._id)}>
+                  <DeleteOutlinedIcon style={{ color: red[400] }} />
+                </IconButton>
+              </div>
+              {isFuture(new Date(article.date)) && (
+                <Button
+                  variant="contained"
+                  color={!isUserRegistered ? "primary" : "secondary"}
+                  onClick={() => {
+                    handleRSVP(article._id, isUserRegistered);
+                  }}
+                >
+                  {!isUserRegistered ? "Register" : "Unregister"}
+                </Button>
               )}
-              <IconButton onClick={() => handleDelete(article._id)}>
-                <DeleteOutlinedIcon style={{ color: red[400] }} />
-              </IconButton>
             </CardActions>
           </>
         )}

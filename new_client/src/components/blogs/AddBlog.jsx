@@ -106,7 +106,6 @@ function AddBlog(props) {
           }
         )
         .then((res) => {
-          console.log(res.data);
           setBlogAuthor(res.data.username);
         })
         .catch((err) => console.log(err));

@@ -24,7 +24,6 @@ module.exports = {
           select: ['_id', 'domainName']
         }
       });
-      console.log(domain);
       if (domain) {
         res.status(200).json({ projects: domain.projects });
       } else {

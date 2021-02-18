@@ -1,4 +1,4 @@
-const express = require("express");
+const format = require("date-fns/format")
 const path = require("path");
 const cloudinary = require("cloudinary");
 const scheduler = require("../utility/scheduler");
@@ -8,7 +8,10 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 const Event = require("../models/Event");
-const mongoose = require("mongoose");
+const User = require("../models/User");
+const sendEmail = require("../utility/sendEmail");
+const ejs = require("ejs");
+const getBaseURL = require("../utility/getBaseURL");
 
 const getNotificationDate = (eventDate) => {
   return new Date(
@@ -19,18 +22,58 @@ const getNotificationDate = (eventDate) => {
   ); // Sends notification at 09:00 at the day of the event
 };
 
+// Utility function to ensure some value is always returned
+const numUsers = (event) => {
+  if (!!event.users) {
+    return event.users.length;
+  }
+  return 0;
+};
+
+// Utility function to send mail to users
+const sendMailToUsers = async (event, selectedUsers) => {
+  const mailSubject = "Community Of Coders,VJTI - New Event Published";
+  const link = `${getBaseURL()}/events`;
+  const dateTime = format(new Date(event.date), 'dd-MM-yyyy hh:mm aaa').split(" ")
+  event.day = dateTime[0]
+  event.time = dateTime[1] + " " + dateTime[2];
+  for (let i = 0; i < selectedUsers.length; i++) {
+    const mailData = await ejs.renderFile(path.resolve(__dirname, "../views", "eventRsvp.ejs"),
+      { event, user: selectedUsers[i], link }
+    );
+    await sendEmail(selectedUsers[i].email, mailSubject, mailData);
+  }
+
+}
+
 module.exports = {
   async getEvents(_req, res, next) {
-    const events = await Event.find().sort("-date").lean();
-    res.status(200).json(events);
-    res.locals.cache = events;
+    const events = await Event.find()
+      .populate({
+        path: "users",
+        select: ["_id"],
+      })
+      .sort("-date")
+      .lean();
+    const countAddedEvents = events.map((event) => ({
+      ...event,
+      count: numUsers(event),
+    }));
+    res.locals.cache = countAddedEvents;
     next();
+    res.status(200).json(countAddedEvents);
   },
 
   async getEventById(req, res) {
     try {
       const eventId = req.params.id;
-      const event = await Event.findById(eventId).lean();
+      let event = await Event.findById(eventId)
+        .populate({
+          path: "users",
+          select: "_id",
+        })
+        .lean();
+      event = { ...event, count: numUsers(event) };
       res.status(200).json(event);
     } catch (err) {
       res.status(400).json({
@@ -56,11 +99,13 @@ module.exports = {
           event._id,
           { image: { url: image.secure_url, public_id: image.public_id } },
           { new: true }
-        ).select({ "_id": 1 }).lean();
+        ).select({ "_id": 1, "eventName": 1, "description": 1, "venue": 1, "date": 1 }).lean();
       }
       res.status(200).json({
         id: event._id,
       });
+      const users = await User.find();
+      sendMailToUsers(event, users);
       next();
     } catch (err) {
       return res.status(500).json({
@@ -148,33 +193,72 @@ module.exports = {
       });
     }
   },
-  async addReminder(req, res) {
+
+  async registerUser(req, res, next) {
     try {
-      const eventId = req.body.id;
-      const userEmail = req.body.email;
-      const event = await Event.findById(eventId).select({ "eventName": 1, "date": 1 }).lean();
+      const { uid, eid } = req.query;
+      const event = await Event.findById(eid).populate({
+        path: "users",
+        select: ["_id"],
+      });
+      if (!event) {
+        return res.status(404).json({ error: "Requested event not found" });
+      }
+      const user = await User.findById(uid);
+      if (!user) {
+        return res.status(404).json({ error: "Requested user not found" });
+      }
+      if (!event.registeredUsers.includes(uid)) {
+        event.registeredUsers.push(uid);
+      }
+      await event.save();
       const eventDate = event.date.split("-");
       const notificationDate = getNotificationDate(eventDate);
+      const userEmail = user.email;
+      const mailData = await ejs.renderFile(path.resolve(__dirname, "../views", "eventReminder.ejs"),
+        { event, user })
       const data = {
-        jobName: `${eventId}-${userEmail}`,
+        jobName: `${eid}-${userEmail}`,
         to: userEmail,
         subject: `${event.eventName} Reminder!!`,
-        message: `Reminder email for ${event.eventName} event`,
+        message: mailData,
       };
       scheduler.scheduleEmailNotification(notificationDate, data);
-      res.status(200).json({ mssg: "Successfully added reminder" });
+      next();
+      return res.status(200).json({ data: "User registered!" });
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      return res.status(500).json({ error: error.message });
     }
   },
-  async cancelReminder(req, res) {
-    const eventId = req.params.id;
-    const userEmail = req.body.email;
+
+  async unregisterUser(req, res, next) {
     try {
-      scheduler.removeNotification({ substring: `${eventId}-${userEmail}` });
-      res.status(200).json({ mssg: "Successfully cancelled reminder" });
+      const { uid, eid } = req.query;
+      const event = await Event.findById(eid).populate({
+        path: "users",
+        select: ["_id"],
+      });
+      if (!event) {
+        return res.status(404).json({ error: "Requested event not found" });
+      }
+      const user = await User.findById(uid).select({ "_id": 1, "email": 1 }).lean();
+      if (!user) {
+        return res.status(404).json({ error: "Requested user not found" });
+      }
+      let i = 0;
+      while (i < event.registeredUsers.length) {
+        if (event.registeredUsers[i].toString() === uid) {
+          event.registeredUsers.splice(i, 1);
+        } else {
+          ++i;
+        }
+      }
+      await event.save();
+      scheduler.removeNotification({ substring: `${eid}-${user.email}` });
+      next();
+      return res.status(200).json({ data: "User unregistered!" });
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      return res.status(500).json({ error: error.message });
     }
   },
 };
