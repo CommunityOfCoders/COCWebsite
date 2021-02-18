@@ -27,6 +27,9 @@ const LazyAbout = lazy(() => import("./components/about-us/AboutUs"));
 const LazyResourcePage = lazy(() =>
   import("./components/resources/ResourcePage")
 );
+const LazyRegisterEvent = lazy(() =>
+  import("./components/events/RegisterEvent")
+);
 const LazyProjectList = lazy(() => import("./components/projects/ProjectList"));
 const LazyProjects = lazy(() => import("./components/projects/Projects"));
 const LazyAlumniPage = lazy(() => import("./components/alumni/AlumniPage"));
@@ -97,6 +100,10 @@ function App() {
                   <ProtectedRoute
                     path="/event/edit/:id"
                     component={LazyAddEvent}
+                  />
+                  <Route
+                    path="/events/register"
+                    component={LazyRegisterEvent}
                   />
                   <Route path="/resources" component={LazyResourcePage} />
                   <Route path="/projects/:id" component={LazyProjectList} />

@@ -19,7 +19,6 @@ const Glimpse = () => {
           setGlimpses(response.data.data);
         }
       } catch (e) {
-        console.log(e.message);
         setGlimpses([]);
       }
       setIsLoading(false);
