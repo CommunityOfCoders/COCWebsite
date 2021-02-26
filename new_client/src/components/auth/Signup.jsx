@@ -192,7 +192,6 @@ function Signup(props) {
       };
       register(user);
     } else {
-      alert("There are errors in your form.");
       console.log(errors);
     }
   }
