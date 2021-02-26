@@ -45,6 +45,7 @@ const LazyAddBlog = lazy(() => import("./components/blogs/AddBlog"));
 // Events
 const LazyEventList = lazy(() => import("./components/events/EventList"));
 const LazyAddEvent = lazy(() => import("./components/events/AddEvent"));
+const LazyIndividualEvent = lazy(() => import("./components/events/EventPage"));
 
 const theme = responsiveFontSizes(createMuiTheme());
 const Lazy404 = lazy(() => import("./components/404/NotFound"));
@@ -97,6 +98,11 @@ function App() {
                     component={LazyAddBlog}
                   />
                   <Route path="/signup" component={LazySignup} />
+                  <Route
+                    exact
+                    path="/events/:id"
+                    component={LazyIndividualEvent}
+                  />
                   <Route path="/events" component={LazyEventList} />
                   <ProtectedRoute path="/addevent" component={LazyAddEvent} />
                   <ProtectedRoute

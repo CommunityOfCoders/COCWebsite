@@ -8,6 +8,7 @@ import {
   CardActions,
   Grid,
   makeStyles,
+  Button,
 } from "@material-ui/core";
 import { format, isFuture } from "date-fns";
 import React, { useState } from "react";
@@ -97,20 +98,21 @@ export default function IndividualEvent({
           disableSpacing="true"
           style={{ display: "flex", justifyContent: "space-between" }}
         >
-          <div>
-            {isMember && (
-              <>
-                <Link to={`event/edit/${article._id}`}>
-                  <IconButton>
-                    <EditOutlinedIcon style={{ color: green[500] }} />
-                  </IconButton>
-                </Link>
-                <IconButton onClick={() => handleDelete(article._id)}>
-                  <DeleteOutlinedIcon style={{ color: red[400] }} />
+          {isMember && (
+            <>
+              <Link to={`event/edit/${article._id}`}>
+                <IconButton>
+                  <EditOutlinedIcon style={{ color: green[500] }} />
                 </IconButton>
-              </>
-            )}
-          </div>
+              </Link>
+              <IconButton onClick={() => handleDelete(article._id)}>
+                <DeleteOutlinedIcon style={{ color: red[400] }} />
+              </IconButton>
+            </>
+          )}
+          <Link to={`/events/${article._id}`}>
+            <Button variant="contained">View More</Button>
+          </Link>
           {isFuture(new Date(article.date)) && (
             <RegisterButton
               eventID={article._id}
