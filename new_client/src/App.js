@@ -13,6 +13,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Header from "./components/Header";
 import Footer from "./components/footer/Footer";
 import Spinner from "./components/spinner/Spinner";
+import ScrollToTop from "./components/Utilities/ScrollToTop";
 
 // Lazy components start here
 // Auth
@@ -67,6 +68,7 @@ function App() {
           <Box>
             <Header />
           </Box>
+          <ScrollToTop />
           <ThemeProvider theme={theme}>
             <Box
               flexGrow={1}
