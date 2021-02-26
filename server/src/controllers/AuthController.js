@@ -6,6 +6,7 @@ const crypto = require("crypto");
 const sendEmail = require("../utility/sendEmail");
 const ejs = require("ejs");
 const path = require("path");
+const getBaseURL = require("../utility/getBaseURL");
 
 function passwordHash(password) {
   const hash = passwordhasher.createHash(
@@ -169,10 +170,7 @@ module.exports = {
         user.passwordResetTokenTime = Date.now() + 60 * 60 * 1000;
         await user.save();
         try {
-          const baseURL =
-            process.env.NODE_ENV === "production"
-              ? "https://coc-vjti.herokuapp.com"
-              : "http://localhost:3000";
+          const baseURL = getBaseURL();
           const data = await ejs.renderFile(
             path.join(__dirname, "../views/forgotPassword.ejs"),
             {

@@ -48,7 +48,6 @@ export default function IndividualEvent({
   userID,
   isUserRegistered,
 }) {
-  if (!!article.registeredUsers) console.log(article);
   const classes = useStyles();
   return (
     <Grid item xs={12} sm={6} md={4}>

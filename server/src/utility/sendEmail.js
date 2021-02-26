@@ -9,7 +9,7 @@ const transport = nodemailer.createTransport({
 	service: 'Gmail',
 	// name: "Community Of Coders",
 	auth: {
-		user: 'communityofcoders@gmail.com',
+		user: 'coc@vjti.ac.in',
 		pass: crypt.decrypt(encPassword),
 	},
 });

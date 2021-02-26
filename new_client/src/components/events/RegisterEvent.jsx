@@ -20,7 +20,6 @@ const RegisterEvent = (props) => {
       const response = await fetch(url, requestOptions);
       if (response.status === 200) {
         setAlert("success");
-        console.log(eid, uid);
       } else {
         setAlert("error");
       }
