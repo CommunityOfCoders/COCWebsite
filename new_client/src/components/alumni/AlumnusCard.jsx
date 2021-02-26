@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
-    justifyContent: "end",
+    justifyContent: "flex-end",
   },
   img: {
     width: "100%",
