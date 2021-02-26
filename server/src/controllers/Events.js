@@ -13,10 +13,12 @@ const sendEmail = require("../utility/sendEmail");
 const ejs = require("ejs");
 const getBaseURL = require("../utility/getBaseURL");
 
+const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
 const getNotificationDate = (eventDate) => {
   return new Date(
-    parseInt(eventDate[0]),
-    parseInt(eventDate[1]) - 1,
+    parseInt(eventDate[3]),
+    months.indexOf(eventDate[1]),
     parseInt(eventDate[2]),
     9
   ); // Sends notification at 09:00 at the day of the event
@@ -127,7 +129,7 @@ module.exports = {
         { new: true }
       ).lean();
       const eventDate = event.date.split("-");
-      const notificationDate = getNotificationDate(eventDate);
+      const notificationDate = getNotificationDate(eventDate[0].split(" "));
       scheduler.rescheduleNotification(notificationDate, { prefix: eventId });
       if (file) {
         try {
@@ -213,7 +215,7 @@ module.exports = {
       }
       await event.save();
       const eventDate = event.date.split("-");
-      const notificationDate = getNotificationDate(eventDate);
+      const notificationDate = getNotificationDate(eventDate[0].split(" "));
       const userEmail = user.email;
       const mailData = await ejs.renderFile(path.resolve(__dirname, "../views", "eventReminder.ejs"),
         { event, user })
