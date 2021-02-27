@@ -7,6 +7,7 @@ import {
   Typography,
   CardActions,
   Grid,
+  Button,
   makeStyles,
 } from "@material-ui/core";
 import { format, isFuture } from "date-fns";
@@ -17,7 +18,7 @@ import RoomOutlinedIcon from "@material-ui/icons/RoomOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import { green, red } from "@material-ui/core/colors";
-import { RegisterButton } from "./RegisterButton";
+import RegisterButton from "./RegisterButton";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -83,34 +84,27 @@ export default function IndividualEvent({
             <RoomOutlinedIcon style={{ color: "#52b107" }} />
             {" " + article.venue}
           </Typography>
-          <Typography
-            className={classes.section3}
-            variant="body2"
-            color="textSecondary"
-            component="p"
-          >
-            {article.description}
-          </Typography>
         </CardContent>
         <Divider variant="middle" />
         <CardActions
           disableSpacing="true"
           style={{ display: "flex", justifyContent: "space-between" }}
         >
-          <div>
-            {isMember && (
-              <>
-                <Link to={`event/edit/${article._id}`}>
-                  <IconButton>
-                    <EditOutlinedIcon style={{ color: green[500] }} />
-                  </IconButton>
-                </Link>
-                <IconButton onClick={() => handleDelete(article._id)}>
-                  <DeleteOutlinedIcon style={{ color: red[400] }} />
+          {isMember && (
+            <>
+              <Link to={`event/edit/${article._id}`}>
+                <IconButton>
+                  <EditOutlinedIcon style={{ color: green[500] }} />
                 </IconButton>
-              </>
-            )}
-          </div>
+              </Link>
+              <IconButton onClick={() => handleDelete(article._id)}>
+                <DeleteOutlinedIcon style={{ color: red[400] }} />
+              </IconButton>
+            </>
+          )}
+          <Link to={`/events/${article._id}`}>
+            <Button variant="contained">View More</Button>
+          </Link>
           {isFuture(new Date(article.date)) && (
             <RegisterButton
               eventID={article._id}
