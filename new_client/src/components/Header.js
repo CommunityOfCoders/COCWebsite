@@ -138,7 +138,7 @@ function Header(props) {
             }
             onClick={() => currPageChange("home")}
           >
-            <nav onClick={props.logout}>LOGOUT</nav>
+            <nav onClick={props.logout}>SIGN OUT</nav>
           </Link>
         ) : (
           <>
