@@ -84,14 +84,6 @@ export default function IndividualEvent({
             <RoomOutlinedIcon style={{ color: "#52b107" }} />
             {" " + article.venue}
           </Typography>
-          <Typography
-            className={classes.section3}
-            variant="body2"
-            color="textSecondary"
-            component="p"
-          >
-            {article.description}
-          </Typography>
         </CardContent>
         <Divider variant="middle" />
         <CardActions

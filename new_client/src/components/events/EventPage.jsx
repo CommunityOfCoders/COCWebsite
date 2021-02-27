@@ -17,16 +17,36 @@ import { format } from "date-fns";
 
 const useStyles = makeStyles((theme) => ({
   media: {
-    height: "auto",
-    paddingTop: "100%", //"56.25%", // 16:9
+    width: "80%",
+    margin: "25px",
   },
   section2: {
-    margin: theme.spacing(2),
+    fontSize: "large",
+    paddingTop: theme.spacing(3),
   },
-  section3: {
-    margin: theme.spacing(2, 2),
+  titleGap: {
+    paddingTop: "70px",
+  },
+  eventDescription: {
+    padding: "15px 0",
+  },
+  eventTitle: {
+    height: "3px",
+    backgroundColor: "#52b107",
+    border: "none",
   },
 }));
+
+const TitleWithDivider = ({ text }) => {
+  const classes = useStyles();
+
+  return (
+    <>
+      <Typography variant="h3">{text}</Typography>
+      <Divider className={classes.eventTitle} />
+    </>
+  );
+};
 
 export default function EventPage() {
   const classes = useStyles();
@@ -49,17 +69,13 @@ export default function EventPage() {
     <Spinner />
   ) : (
     <Container maxWidth="md">
-      <Grid container>
-        <Grid item xs={12}>
-          <Typography variant="h1">New Event</Typography>.
-        </Grid>
+      <Grid container className={classes.titleGap}>
         <Grid item xs={12} md={6} lg={6}>
-          <Typography variant="h3">{event.eventName}</Typography>
+          <TitleWithDivider text={event.eventName} />
           <br />
           <Typography
             className={classes.section2}
             variant="body2"
-            color="textSecondary"
             component="p"
           >
             <EventIcon style={{ color: "#52b107" }} />{" "}
@@ -68,39 +84,32 @@ export default function EventPage() {
           <Typography
             className={classes.section2}
             variant="body2"
-            color="textSecondary"
             component="p"
           >
             <RoomOutlinedIcon style={{ color: "#52b107" }} />
             {" " + event.venue}
           </Typography>
         </Grid>
-        <Grid item xs={12} md={6} lg={6}>
+        <Grid item xs={12} md={6} lg={6} style={{ textAlign: "center" }}>
           <img
             src={event.image.url}
             alt="Event Poster"
-            style={{ width: "100%" }}
+            className={classes.media}
           />
         </Grid>
         <Grid item xs={12}>
-          <Typography variant="h3">Event Description</Typography> <Divider />
+          <TitleWithDivider text="Event Description" />
         </Grid>
-        <Grid item xs={12}>
-          <Typography
-            className={classes.section3}
-            variant="body2"
-            color="textPrimary"
-            component="p"
-          >
+        <Grid item xs={12} className={classes.eventDescription}>
+          <Typography className={classes.section2} component="p">
             {event.description}
           </Typography>
         </Grid>
-        <Grid item xs={12}>
-          <RegisterButton />
+        <Grid item xs={12} style={{ padding: "20px 0" }}>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <RegisterButton />
+          </div>
         </Grid>
-
-        {/* <Grid item xs={12}>
-                    <img src={event.image.url} alt="Event Poster" style={{ width: "60%", margin: "auto" }} /></Grid> */}
       </Grid>
     </Container>
   );
