@@ -9,30 +9,6 @@ import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 import { Divider } from "@material-ui/core";
 
-// const useStyles = makeStyles(() => ({
-//   root: {
-//     display: "grid",
-//     maxWidth: 500,
-//     margin: "auto",
-//     borderRadius: 12,
-//     padding: 12,
-//     height: "100%"
-//   },
-//   media: {
-//     height: 0,
-//     paddingTop: "56.25%", // 16:9
-//     borderRadius: 16,
-//   },
-//   font: {
-//     alignContent: "center",
-//   },
-//   actions: {
-//     display: "flex",
-//     justifyContent: "space-between",
-//     alignContent: 'flex-end',
-//   }
-// }));
-
 const useStyles = makeStyles((theme) => ({
   card: {
     margin: "20px 100px",

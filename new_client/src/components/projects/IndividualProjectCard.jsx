@@ -10,23 +10,6 @@ import Typography from "@material-ui/core/Typography";
 import { overflowEllipsis } from "../Utilities/overflowEllipsis";
 import ProjectModal from "./ProjectModal";
 
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     maxWidth: 500,
-//     margin: "auto",
-//     borderRadius: 12,
-//     padding: 12,
-//   },
-//   media: {
-//     height: 0,
-//     paddingTop: "56.25%", // 16:9
-//     borderRadius: 16,
-//   },
-//   font: {
-//     alignContent: "center",
-//   },
-// }));
-
 const useStyles = makeStyles((theme) => ({
   card: {
     margin: "20px 100px",
