@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { Divider } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -10,19 +11,26 @@ import { overflowEllipsis } from "../Utilities/overflowEllipsis";
 import ProjectModal from "./ProjectModal";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: 500,
-    margin: "auto",
-    borderRadius: 12,
-    padding: 12,
+  card: {
+    margin: "20px 100px",
+    backgroundColor: "white",
+    position: "relative",
+    height: "100%",
   },
   media: {
-    height: 0,
-    paddingTop: "56.25%", // 16:9
-    borderRadius: 16,
+    height: "auto",
+    paddingTop: "100%", //"56.25%", // 16:9
   },
-  font: {
-    alignContent: "center",
+  section1: {
+    margin: theme.spacing(1, 2),
+  },
+  section2: {
+    margin: theme.spacing(2, 2),
+  },
+  actions: {
+    margin: theme.spacing(1, 2),
+    display: "flex",
+    justifyContent: "space-between",
   },
 }));
 
@@ -57,29 +65,38 @@ export default function IndividualProjectCard({
   return (
     <div>
       <Card className={classes.root} variant="outlined">
+        {imgSrc.length && (
+          <CardMedia className={classes.media} image={imgSrc} title={title} />
+        )}
         <CardContent>
-          <Typography variant="h5" component="h2" align="center">
+          <Typography
+            className={classes.section1}
+            gutterBottom
+            variant="h6"
+            component="h2"
+            style={{ color: "#52b107" }}
+          >
             {title}
           </Typography>
-          <Typography variant="subtitle1" component="h5" align="center">
+          <Typography
+            className={classes.section2}
+            gutterBottom
+            variant="subtitle2"
+            component="h6"
+          >
             {domainNames.join(",")}
           </Typography>
-          {imgSrc.length ? (
-            <React.Fragment>
-              <br />
-              <CardMedia
-                className={classes.media}
-                image={imgSrc}
-                title={title}
-              />
-            </React.Fragment>
-          ) : null}
-          <br />
-          <Typography variant="body1" component="p" align="center">
+          <Divider />
+          <Typography
+            variant="body1"
+            component="p"
+            className={classes.section2}
+            color="textSecondary"
+          >
             {displayDesc.display}
             {displayDesc.isOverflow ? (
               <Button
-                color="primary"
+                color="grey"
                 onClick={() => {
                   handleShow({ title: title, desc: shortDesc, image: imgSrc });
                 }}
@@ -89,13 +106,13 @@ export default function IndividualProjectCard({
             ) : null}
           </Typography>
         </CardContent>
-        <CardActions>
+        <Divider variant="middle" />
+        <CardActions disableSpacing style={{}} className={classes.actions}>
           <a href={linkToRepo} target="_blank" rel="noopener noreferrer">
             <Button size="small">View project</Button>
           </a>
         </CardActions>
       </Card>
-
       <ProjectModal
         open={isModalOpen}
         modalHide={handleClose}

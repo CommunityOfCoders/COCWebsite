@@ -7,6 +7,7 @@ const sendEmail = require("../utility/sendEmail");
 const ejs = require("ejs");
 const path = require("path");
 const getBaseURL = require("../utility/getBaseURL");
+const { validationResult } = require('express-validator/check');
 
 function passwordHash(password) {
   const hash = passwordhasher.createHash(
@@ -19,6 +20,13 @@ function passwordHash(password) {
 }
 module.exports = {
   async register(req, res) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+
     try {
       const { password, username } = req.body;
 
@@ -64,6 +72,13 @@ module.exports = {
   },
 
   async login(req, res) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+
     try {
       const { username, password, rememberme } = req.body;
 
@@ -112,6 +127,13 @@ module.exports = {
   },
 
   async verifyToken(req, res) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+
     const { token } = req.body;
 
     try {
@@ -127,6 +149,13 @@ module.exports = {
   },
 
   async getUser(req, res) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+
     try {
       let userID = "";
       let username = "";
@@ -160,6 +189,13 @@ module.exports = {
   },
 
   async forgotPassword(req, res) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+
     try {
       const { email } = req.body;
       let user = await User.findOne({ email });
@@ -194,6 +230,13 @@ module.exports = {
   },
 
   async newPassword(req, res) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+    
     try {
       const { newPassword, token } = req.body;
       let user = await User.findOne({

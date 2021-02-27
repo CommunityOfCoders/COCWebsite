@@ -12,11 +12,14 @@ const User = require("../models/User");
 const sendEmail = require("../utility/sendEmail");
 const ejs = require("ejs");
 const getBaseURL = require("../utility/getBaseURL");
+const { validationResult } = require('express-validator/check');
+
+const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 const getNotificationDate = (eventDate) => {
   return new Date(
-    parseInt(eventDate[0]),
-    parseInt(eventDate[1]) - 1,
+    parseInt(eventDate[3]),
+    months.indexOf(eventDate[1]),
     parseInt(eventDate[2]),
     9
   ); // Sends notification at 09:00 at the day of the event
@@ -33,7 +36,7 @@ const numUsers = (event) => {
 // Utility function to send mail to users
 const sendMailToUsers = async (event, selectedUsers) => {
   const mailSubject = "Community Of Coders,VJTI - New Event Published";
-  const link = `${getBaseURL()}/events`;
+  const link = `${getBaseURL()}/events/${event._id}`;
   const dateTime = format(new Date(event.date), 'dd-MM-yyyy hh:mm aaa').split(" ")
   event.day = dateTime[0]
   event.time = dateTime[1] + " " + dateTime[2];
@@ -65,6 +68,13 @@ module.exports = {
   },
 
   async getEventById(req, res) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+
     try {
       const eventId = req.params.id;
       let event = await Event.findById(eventId)
@@ -82,6 +92,13 @@ module.exports = {
     }
   },
   async uploadEvent(req, res, next) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+
     try {
       const file = req.file;
       const { graduationYear } = req.body;
@@ -114,6 +131,13 @@ module.exports = {
     }
   },
   async updateEvent(req, res, next) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+
     try {
       const eventId = req.params.id;
       const file = req.file;
@@ -127,7 +151,7 @@ module.exports = {
         { new: true }
       ).lean();
       const eventDate = event.date.split("-");
-      const notificationDate = getNotificationDate(eventDate);
+      const notificationDate = getNotificationDate(eventDate[0].split(" "));
       scheduler.rescheduleNotification(notificationDate, { prefix: eventId });
       if (file) {
         try {
@@ -158,6 +182,13 @@ module.exports = {
   },
 
   async deleteEvent(req, res, next) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+
     const eventId = req.params.id;
     scheduler.removeNotification({ substring: eventId });
     await Event.findByIdAndDelete(eventId).lean();
@@ -176,6 +207,13 @@ module.exports = {
   },
 
   async addForm(req, res) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+
     const formURL = req.body.formURL;
     const eventId = req.params.id;
 
@@ -195,6 +233,13 @@ module.exports = {
   },
 
   async registerUser(req, res, next) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+
     try {
       const { uid, eid } = req.query;
       const event = await Event.findById(eid).populate({
@@ -213,7 +258,7 @@ module.exports = {
       }
       await event.save();
       const eventDate = event.date.split("-");
-      const notificationDate = getNotificationDate(eventDate);
+      const notificationDate = getNotificationDate(eventDate[0].split(" "));
       const userEmail = user.email;
       const mailData = await ejs.renderFile(path.resolve(__dirname, "../views", "eventReminder.ejs"),
         { event, user })
@@ -232,6 +277,13 @@ module.exports = {
   },
 
   async unregisterUser(req, res, next) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+    
     try {
       const { uid, eid } = req.query;
       const event = await Event.findById(eid).populate({
