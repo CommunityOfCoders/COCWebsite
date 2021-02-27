@@ -149,14 +149,14 @@ function Header(props) {
               }
               onClick={() => currPageChange("signin")}
             >
-              <nav className={getNavItemContClass("signin")}>LOGIN</nav>
+              <nav className={getNavItemContClass("signin")}>SIGN IN</nav>
             </Link>
             <Link
               to="/signup"
               className={navItemClass}
               onClick={() => currPageChange("signup")}
             >
-              <nav className={getNavItemContClass("signup")}>SIGNUP</nav>
+              <nav className={getNavItemContClass("signup")}>SIGN UP</nav>
             </Link>
           </>
         )}
