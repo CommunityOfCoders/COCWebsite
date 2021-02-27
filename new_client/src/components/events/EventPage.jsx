@@ -64,6 +64,7 @@ function EventPage(props) {
     axios
       .get(process.env.REACT_APP_API + `/events/${id}`)
       .then((res) => {
+        console.log(res.data);
         setEvent(res.data);
         setIsRegistered(
           res.data.registeredUsers &&
@@ -72,7 +73,7 @@ function EventPage(props) {
       })
       .catch((err) => console.log(err.toString()))
       .finally(() => setIsLoading(false));
-  }, [id, counter]);
+  }, [id, counter, props.userID]);
 
   const handleRSVP = async (eventId, isUserRegistered) => {
     try {
