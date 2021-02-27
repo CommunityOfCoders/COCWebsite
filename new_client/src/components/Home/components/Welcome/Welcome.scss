@@ -33,11 +33,12 @@ section.Welcome {
 
           font-size: inherit;
           font-weight: 400;
+
+          width: max-content;
         }
 
         .Typewriter {
-          display: inline-block;
-
+          width: max-content;
           .Typewriter__wrapper {
             font-weight: bold;
           }
@@ -138,6 +139,9 @@ section.Welcome {
     .welcome-container .welcome-content {
       .Slogan {
         font-size: 2.2rem;
+      }
+      .Typewriter {
+        display: inline-block;
       }
     }
   }
@@ -290,5 +294,8 @@ section.Welcome {
   // Increase margin on top
   @media screen and (min-width: 120rem) {
     margin-top: 4%;
+    .Typewriter {
+      display: block;
+    }
   }
 }

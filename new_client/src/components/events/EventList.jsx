@@ -29,12 +29,22 @@ function EventList(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [isModalClosing, setIsModalClosing] = useState(false);
+  const [isRegisterSuccess, setIsRegisterSuccess] = useState(false);
+  const [counter, setCounter] = useState(0);
+  const [isRegistered, setIsRegistered] = useState({});
   const deletedEventID = useRef("");
 
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_API + "/events")
       .then((res) => {
+        let isRegistered = {};
+        res.data.forEach((article) => {
+          isRegistered[article._id] =
+            article.registeredUsers &&
+            article.registeredUsers.includes(props.userID);
+        });
+        setIsRegistered(isRegistered);
         setEvents(res.data.sort((a, b) => new Date(b.date) - new Date(a.date)));
         setIsLoading(false);
       })
@@ -42,7 +52,7 @@ function EventList(props) {
         console.log(error);
         setIsLoading(false);
       });
-  }, []);
+  }, [counter, props.userID]);
 
   useEffect(() => {
     if (props.userID) {
@@ -65,6 +75,7 @@ function EventList(props) {
 
   const handleModalClose = () => {
     setIsModalClosing(true);
+    setCounter(counter + 1);
   };
 
   const handleDelete = (eventId) => {
@@ -104,6 +115,37 @@ function EventList(props) {
     setEvents((prevEvents) =>
       prevEvents.filter((event) => event._id !== deletedEventID.current)
     );
+    setCounter(counter + 1);
+  };
+
+  const handleRSVP = async (eventId, isUserRegistered) => {
+    try {
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + props.token,
+        },
+      };
+      const url = !isUserRegistered
+        ? process.env.REACT_APP_API +
+          `/events/register?eid=${eventId}&uid=${props.userID}`
+        : process.env.REACT_APP_API +
+          `/events/unregister?eid=${eventId}&uid=${props.userID}`;
+      const response = await fetch(url, requestOptions);
+      if (response.status === 200) {
+        const isRegisteredTemp = {
+          ...isRegistered,
+          eventId: !isRegistered[eventId],
+        };
+        setIsRegistered(isRegisteredTemp);
+        setIsRegisterSuccess(true);
+      } else {
+        setIsError(true);
+      }
+    } catch (error) {
+      console.error(error);
+      setIsError(true);
+    }
   };
 
   const classes = useStyles();
@@ -143,6 +185,9 @@ function EventList(props) {
                         article={article}
                         isMember={isMember}
                         handleDelete={handleDelete}
+                        isUserRegistered={isRegistered[article._id]}
+                        handleRSVP={handleRSVP}
+                        userID={props.userID}
                       />
                     );
                   })}
@@ -175,6 +220,8 @@ function EventList(props) {
                         article={article}
                         isMember={isMember}
                         handleDelete={handleDelete}
+                        handleRSVP={handleRSVP}
+                        userID={props.userID}
                       />
                     );
                   })}
@@ -189,7 +236,12 @@ function EventList(props) {
         hasCloseBtn
         closeHandler={handleModalClose}
       >
-        <AddEvent closeModal={() => setShowModal(false)} />
+        <AddEvent
+          closeModal={() => {
+            setShowModal(false);
+            setCounter(counter + 1);
+          }}
+        />
       </Modal>
       <Modal
         size="sm"
@@ -200,6 +252,7 @@ function EventList(props) {
         closeHandler={() => {
           setShowModal(false);
           setIsModalClosing(false);
+          setCounter(counter + 1);
         }}
         hasBtn
         btnText="Cancel"
@@ -220,6 +273,16 @@ function EventList(props) {
         onCloseHandler={() => setIsError(false)}
         severity="error"
         message="Oops! An error occurred. Please try again."
+      />
+      <AlertUtility
+        open={isRegisterSuccess}
+        duration={1000}
+        onCloseHandler={() => {
+          setIsRegisterSuccess(false);
+          setCounter(counter + 1);
+        }}
+        severity="success"
+        message="Event RSVP Updated"
       />
     </article>
   );

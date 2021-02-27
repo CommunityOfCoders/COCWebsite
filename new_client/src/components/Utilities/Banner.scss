@@ -1,7 +1,9 @@
 @font-face {
   font-family: "Recharge Bold";
-  src: local("Recharge Bold"),
-    url("../assets/recharge.bold.ttf") format("truetype");
+  src: url("https://res.cloudinary.com/coc-vjti/raw/upload/v1613468201/recharge.bold_ck77rq.ttf")
+      format("truetype"),
+    local("Recharge Bold");
+  font-display: swap;
 }
 
 @mixin Banner($page) {
@@ -28,7 +30,7 @@
         url("../assets/events.webp");
 
       /* Set a specific height */
-      min-height: 60vh;
+      min-height: 100vh;
     } @else if $page == "Alumni" {
       background-image: url("../assets/alumni.jpeg");
       @media only screen and (min-width: 992px) {
@@ -41,6 +43,10 @@
         background-size: contain;
         background-position: unset;
       }
+    } @else if $page == "AboutUs" {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url("../assets/about_us.webp");
+      min-height: 100vh;
     }
   }
   .banner-center {
@@ -86,4 +92,7 @@ section.eventBanner {
 }
 section.alumniBanner {
   @include Banner("Alumni");
+}
+section.aboutUsBanner {
+  @include Banner("AboutUs");
 }

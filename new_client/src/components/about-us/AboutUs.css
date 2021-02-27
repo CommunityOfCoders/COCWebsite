@@ -3,23 +3,6 @@
   padding: 2rem;
 }
 
-.about-us-parallax {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  background-image: url("../assets/about.webp");
-
-  /* Set a specific height */
-  min-height: 100vh;
-
-  /* Create the parallax scrolling effect */
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
 .paragraph {
   width: 60%;
   margin-left: auto;

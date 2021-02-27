@@ -35,7 +35,6 @@ export default function authReducer(state = initialState, action) {
       };
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
-      console.log(action.payload);
       if (action.payload.rememberme) {
         localStorage.setItem("token", action.payload.token);
         localStorage.setItem("userID", action.payload.userID);

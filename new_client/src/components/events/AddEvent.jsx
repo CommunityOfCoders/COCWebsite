@@ -13,7 +13,7 @@ import {
 import { connect } from "react-redux";
 import AlertUtility from "../Utilities/Alert";
 import { useEffect } from "react";
-import { useLocation, useParams, withRouter } from "react-router-dom";
+import { useLocation, withRouter } from "react-router-dom";
 
 function AddEvent(props) {
   const [eventName, setEventName] = useState("");

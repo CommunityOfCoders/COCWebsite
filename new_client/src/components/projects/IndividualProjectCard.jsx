@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -7,7 +7,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { overflowEllipsis } from "../Utilities/overflowEllipsis";
-import Modal from "@material-ui/core/Modal";
+import ProjectModal from "./ProjectModal";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,25 +44,6 @@ const getModalStyle = () => {
     left: `${left}%`,
     transform: `translate(-${top}%, -${left}%)`,
   };
-};
-
-const ProjectModal = ({ open, modalHide, projectData }) => {
-  const classes = useStyles();
-  const [modalStyle] = React.useState(getModalStyle);
-
-  return (
-    <Modal open={open} onClose={modalHide}>
-      <div style={modalStyle} className={classes.paper}>
-        <Typography variant="h5" component="h2" align="center">
-          {projectData.title}
-        </Typography>
-        <hr />
-        <Typography variant="body1" component="p" align="center">
-          {projectData.desc}
-        </Typography>
-      </div>
-    </Modal>
-  );
 };
 
 export default function IndividualProjectCard({
@@ -117,13 +98,14 @@ export default function IndividualProjectCard({
           <Typography variant="body1" component="p" align="center">
             {displayDesc.display}
             {displayDesc.isOverflow ? (
-              <a
+              <Button
+                color="primary"
                 onClick={() => {
-                  handleShow({ title: title, desc: shortDesc });
+                  handleShow({ title: title, desc: shortDesc, image: imgSrc });
                 }}
               >
                 (read more)
-              </a>
+              </Button>
             ) : null}
           </Typography>
         </CardContent>

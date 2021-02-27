@@ -105,7 +105,6 @@ export default function AlumniPage() {
     const getAlumni = async () => {
       try {
         const { data } = await axios.get(process.env.REACT_APP_API + "/alumni");
-        // console.log(data.alumni);
         setAlumni(data);
         let years = new Set();
         data.forEach((alumnus) => years.add(parseInt(alumnus.graduationYear)));

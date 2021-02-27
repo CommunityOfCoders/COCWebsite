@@ -119,7 +119,7 @@ function SignIn(props) {
       // Work here if auth is successful
       history.push("/");
     }
-  }, [error, isAuthenticated, history]);
+  }, [error, isAuthenticated, history, dispatch]);
 
   const classes = useStyles();
   return (
