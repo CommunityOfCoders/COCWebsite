@@ -13,27 +13,28 @@ const auth = require('./middleware/auth')
 const blog = require('./middleware/blog')
 const user = require('./middleware/user')
 const cache = require('./middleware/cache');
+const event = require('./middleware/event');
 
 module.exports = (app) => {
   app.get('/api/hello', (req, res) => { res.json("Hello World") }); // Very hard to test and change
 
   // Auth
-  app.post('/api/register', AuthController.register) // Tested
-  app.post('/api/login', AuthController.login) // Tested
-  app.post('/api/verify-token', AuthController.verifyToken) // Tested
-  app.post('/api/user', AuthController.getUser) // Tested
-  app.post('/api/forgot-password', AuthController.forgotPassword);
-  app.post('/api/new-password', AuthController.newPassword);
+  app.post('/api/register', auth.validate('register'), AuthController.register) // Tested
+  app.post('/api/login', auth.validate('login'), AuthController.login) // Tested
+  app.post('/api/verify-token', auth.validate('verifyToken'), AuthController.verifyToken) // Tested
+  app.post('/api/user', auth.validate('getUser'), AuthController.getUser) // Tested
+  app.post('/api/forgot-password', auth.validate('forgetPassword'), AuthController.forgotPassword);
+  app.post('/api/new-password', auth.validate('newPassword'), AuthController.newPassword);
 
   //Events Paths
   app.get('/api/events', cache.getFromCache, Events.getEvents, cache.setCache); // Tested
-  app.post('/api/events', auth.loginRequired, user.isMember, upload.single('COC_Event'), Events.uploadEvent, cache.deleteCache)
-  app.put('/api/events/:id', auth.loginRequired, user.isMember, upload.single('COC_Event'), Events.updateEvent, cache.deleteCache);
-  app.put('/api/events/form', auth.loginRequired, user.isMember, Events.addForm) // Tested
-  app.get('/api/events/:id', Events.getEventById); // Tested
-  app.post('/api/events/register', Events.registerUser, cache.deleteCache);
-  app.post('/api/events/unregister', Events.unregisterUser, cache.deleteCache);
-  app.delete('/api/events/:id', auth.loginRequired, user.isMember, Events.deleteEvent, cache.deleteCache); // Tested
+  app.post('/api/events', event.validate('checkEventBody'), auth.loginRequired, user.isMember, upload.single('COC_Event'), Events.uploadEvent, cache.deleteCache)
+  app.put('/api/events/:id', event.validate('checkID'), event.validate('checkEventBody'), auth.loginRequired, user.isMember, upload.single('COC_Event'), Events.updateEvent, cache.deleteCache);
+  app.put('/api/events/form', event.validate('checkID'), event.validate('checkFormURL'), auth.loginRequired, user.isMember, Events.addForm) // Tested
+  app.get('/api/events/:id', event.validate('checkID'), Events.getEventById); // Tested
+  app.post('/api/events/register', event.validate('checkQueryParams'), Events.registerUser, cache.deleteCache);
+  app.post('/api/events/unregister', event.validate('checkQueryParams'), Events.unregisterUser, cache.deleteCache);
+  app.delete('/api/events/:id', event.validate('checkID'), auth.loginRequired, user.isMember, Events.deleteEvent, cache.deleteCache); // Tested
 
   // Glimpses
   app.get("/api/glimpses", GlimpseController.getAllGlimpses);
