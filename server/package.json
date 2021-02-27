@@ -21,6 +21,7 @@
     "date-fns": "^2.17.0",
     "ejs": "^3.1.5",
     "express": "^4.16.4",
+    "express-validator": "^6.10.0",
     "helmet": "^4.3.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.4.20",

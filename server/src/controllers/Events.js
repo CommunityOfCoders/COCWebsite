@@ -12,6 +12,7 @@ const User = require("../models/User");
 const sendEmail = require("../utility/sendEmail");
 const ejs = require("ejs");
 const getBaseURL = require("../utility/getBaseURL");
+const { validationResult } = require('express-validator/check');
 
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -67,6 +68,13 @@ module.exports = {
   },
 
   async getEventById(req, res) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+
     try {
       const eventId = req.params.id;
       let event = await Event.findById(eventId)
@@ -84,6 +92,13 @@ module.exports = {
     }
   },
   async uploadEvent(req, res, next) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+
     try {
       const file = req.file;
       const { graduationYear } = req.body;
@@ -116,6 +131,13 @@ module.exports = {
     }
   },
   async updateEvent(req, res, next) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+
     try {
       const eventId = req.params.id;
       const file = req.file;
@@ -160,6 +182,13 @@ module.exports = {
   },
 
   async deleteEvent(req, res, next) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+
     const eventId = req.params.id;
     scheduler.removeNotification({ substring: eventId });
     await Event.findByIdAndDelete(eventId).lean();
@@ -178,6 +207,13 @@ module.exports = {
   },
 
   async addForm(req, res) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+
     const formURL = req.body.formURL;
     const eventId = req.params.id;
 
@@ -197,6 +233,13 @@ module.exports = {
   },
 
   async registerUser(req, res, next) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+
     try {
       const { uid, eid } = req.query;
       const event = await Event.findById(eid).populate({
@@ -234,6 +277,13 @@ module.exports = {
   },
 
   async unregisterUser(req, res, next) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+    
     try {
       const { uid, eid } = req.query;
       const event = await Event.findById(eid).populate({
