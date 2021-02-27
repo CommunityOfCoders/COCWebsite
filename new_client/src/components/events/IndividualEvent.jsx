@@ -18,7 +18,7 @@ import RoomOutlinedIcon from "@material-ui/icons/RoomOutlined";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import { green, red } from "@material-ui/core/colors";
-import { RegisterButton } from "./RegisterButton";
+import RegisterButton from "./RegisterButton";
 
 const useStyles = makeStyles((theme) => ({
   card: {

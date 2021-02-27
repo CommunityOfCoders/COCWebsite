@@ -33,7 +33,7 @@ const numUsers = (event) => {
 // Utility function to send mail to users
 const sendMailToUsers = async (event, selectedUsers) => {
   const mailSubject = "Community Of Coders,VJTI - New Event Published";
-  const link = `${getBaseURL()}/events`;
+  const link = `${getBaseURL()}/events/${event._id}`;
   const dateTime = format(new Date(event.date), 'dd-MM-yyyy hh:mm aaa').split(" ")
   event.day = dateTime[0]
   event.time = dateTime[1] + " " + dateTime[2];
