@@ -17,7 +17,9 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-
+    @media only screen and (max-width: 1080px) {
+      background-attachment: scroll;
+    }
     @if $page == "Home" {
       /* The image used */
       background-image: url("../Home/components/assets/banner.webp");
