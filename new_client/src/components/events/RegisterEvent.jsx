@@ -24,7 +24,7 @@ const RegisterEvent = (props) => {
         setAlert("error");
       }
     })();
-  }, [eid, uid]);
+  }, [eid, uid, props.token]);
 
   let alertComp = null;
   if (alert !== "") {

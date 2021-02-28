@@ -13,6 +13,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Header from "./components/Header";
 import Footer from "./components/footer/Footer";
 import Spinner from "./components/spinner/Spinner";
+import ScrollToTop from "./components/Utilities/ScrollToTop";
 
 // Lazy components start here
 // Auth
@@ -44,6 +45,7 @@ const LazyAddBlog = lazy(() => import("./components/blogs/AddBlog"));
 // Events
 const LazyEventList = lazy(() => import("./components/events/EventList"));
 const LazyAddEvent = lazy(() => import("./components/events/AddEvent"));
+const LazyIndividualEvent = lazy(() => import("./components/events/EventPage"));
 
 const theme = responsiveFontSizes(createMuiTheme());
 const Lazy404 = lazy(() => import("./components/404/NotFound"));
@@ -67,6 +69,7 @@ function App() {
           <Box>
             <Header />
           </Box>
+          <ScrollToTop />
           <ThemeProvider theme={theme}>
             <Box
               flexGrow={1}
@@ -95,6 +98,11 @@ function App() {
                     component={LazyAddBlog}
                   />
                   <Route path="/signup" component={LazySignup} />
+                  <Route
+                    exact
+                    path="/events/:id"
+                    component={LazyIndividualEvent}
+                  />
                   <Route path="/events" component={LazyEventList} />
                   <ProtectedRoute path="/addevent" component={LazyAddEvent} />
                   <ProtectedRoute
