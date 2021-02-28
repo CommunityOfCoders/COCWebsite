@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Button, Grid, TextField } from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
 import {
+  DateTimePicker,
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
@@ -232,14 +233,13 @@ function AddEvent(props) {
             <div className="form-group">
               <Grid container>
                 <Grid item xs={12}>
-                  <KeyboardDatePicker
-                    // margin="normal"
+                  <DateTimePicker
+                    autoOk
+                    ampm={false}
+                    value={eventDate}
+                    onChange={(date) => setEventDate(date)}
                     id="date-picker-dialog"
                     label="Event date"
-                    format="dd/MM/yyyy"
-                    value={eventDate}
-                    disablePast
-                    onChange={(date) => setEventDate(date)}
                     KeyboardButtonProps={{
                       "aria-label": "change date",
                     }}
