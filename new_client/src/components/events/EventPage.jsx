@@ -16,6 +16,7 @@ import RoomOutlinedIcon from "@material-ui/icons/RoomOutlined";
 import { format } from "date-fns";
 import AlertUtility from "../Utilities/Alert";
 import { connect } from "react-redux";
+import { isFuture } from "date-fns/esm";
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TitleWithDivider = ({ text }) => {
+export const TitleWithDivider = ({ text }) => {
   const classes = useStyles();
 
   return (
@@ -141,15 +142,17 @@ function EventPage(props) {
               {event.description}
             </Typography>
           </Grid>
-          <Grid item xs={12} style={{ padding: "20px 0" }}>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <RegisterButton
-                eventID={id}
-                handleRSVP={handleRSVP}
-                isUserRegistered={isRegistered}
-              />
-            </div>
-          </Grid>
+          {isFuture(new Date(event.date)) && (
+            <Grid item xs={12} style={{ padding: "20px 0" }}>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <RegisterButton
+                  eventID={id}
+                  handleRSVP={handleRSVP}
+                  isUserRegistered={isRegistered}
+                />
+              </div>
+            </Grid>
+          )}
         </Grid>
       </Container>
       <AlertUtility

@@ -13,6 +13,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import IndividualEvent from "./IndividualEvent";
 import Banner from "./Banner";
 import { isFuture } from "date-fns";
+import { TitleWithDivider } from "./EventPage";
 
 const useStyles = makeStyles({
   gridContainer: {
@@ -157,20 +158,10 @@ function EventList(props) {
         <React.Fragment>
           <Banner isMember={isMember} setShowModal={setShowModal} />
           <Container>
-            <Grid
-              className={classes.gridContainer}
-              style={{ paddingTop: "20px" }}
-            >
-              <Typography variant="h4" style={{ color: "#52b107" }}>
-                Upcoming Events
-              </Typography>
+            <Grid style={{ padding: "20px 0" }}>
+              <TitleWithDivider text="Upcoming Events" />
             </Grid>
-            <Grid
-              style={{ paddingTop: "10px" }}
-              container
-              spacing={4}
-              className={classes.gridContainer}
-            >
+            <Grid style={{ paddingTop: "10px" }} container spacing={4}>
               {events.length > 0 &&
                 events
                   .filter(
@@ -194,17 +185,14 @@ function EventList(props) {
             </Grid>
             <Grid
               className={classes.gridContainer}
-              style={{ paddingTop: "25px" }}
+              style={{ padding: "20px 0" }}
             >
-              <Typography variant="h4" style={{ color: "#52b107" }}>
-                Past Events
-              </Typography>
+              <TitleWithDivider text="Past Events" />
             </Grid>
             <Grid
               style={{ paddingTop: "10px", paddingBottom: "20px" }}
               container
               spacing={4}
-              className={classes.gridContainer}
             >
               {events.length > 0 &&
                 events
