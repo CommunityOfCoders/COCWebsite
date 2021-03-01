@@ -168,7 +168,6 @@ function AddEvent(props) {
       formData.append("venue", eventVenue);
       formData.append("graduationYear", eventGraduationYear);
       setIsLoading(true);
-      console.log(eventDescription);
       axios
         .put(process.env.REACT_APP_API + `/events/${eventID}`, formData, {
           headers: {
