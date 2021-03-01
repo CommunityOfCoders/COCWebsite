@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
   section2: {
     fontSize: "large",
     paddingTop: theme.spacing(3),
+    whiteSpace: "pre-line",
   },
   titleGap: {
     paddingTop: "70px",
