@@ -43,6 +43,7 @@ function AddEvent(props) {
     dateError: "",
     venueError: "",
     graduationYearError: "",
+    fileError: "",
   });
 
   useEffect(() => {
@@ -62,7 +63,7 @@ function AddEvent(props) {
 
   const handleClose = () => {
     setIsSubmitted(false);
-    props.closeModal();
+    // props.closeModal();
     props.history.push("/events");
   };
 
@@ -102,15 +103,13 @@ function AddEvent(props) {
         graduationYearError: "*Graduation year cannot be empty",
       }));
       ret = false;
-    } else {
-      const isMatch = eventGraduationYear.match(/^[12]0[1-5]\d$/);
-      if (!isMatch) {
-        setError((prevError) => ({
-          ...prevError,
-          graduationYearError: "*Enter valid graduation year",
-        }));
-        ret = false;
-      }
+    }
+    if (!eventSelectedFile) {
+      setError((prevError) => ({
+        ...prevError,
+        fileError: "*Event image field cannot be empty",
+      }));
+      ret = false;
     }
     return ret;
   };
@@ -151,8 +150,6 @@ function AddEvent(props) {
           setIsLoading(false);
           console.log(err);
         });
-    } else {
-      alert("You have errors in your form");
     }
   };
 
@@ -293,6 +290,7 @@ function AddEvent(props) {
                 accept="image/*"
                 onChange={onFileChange}
               />
+              <div className="errorMsg">{error.fileError}</div>
             </div>
 
             <Grid container spacing={1}>
