@@ -4,6 +4,7 @@ import { Container, Grid, Typography, Box } from "@material-ui/core";
 import IndividualProjectCard from "./IndividualProjectCard";
 import { useParams } from "react-router-dom";
 import Spinner from "../spinner/Spinner";
+import BackButton from "../Utilities/BackButton";
 
 const ProjectList = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -43,39 +44,44 @@ const ProjectList = () => {
       });
   }, [id]);
 
+  const DisplayProjects = () => {
+    return projects.length ? (
+      <Box p={1} m={2}>
+        <Grid container spacing={4}>
+          <Grid item xs={12}>
+            <Typography variant="h4" style={{ color: "#52b107" }} gutterBottom>
+              {`${domain} projects`}
+            </Typography>
+          </Grid>
+          {projects.map((project) => (
+            <Grid item xs={12} md={4} key={project["_id"]}>
+              <IndividualProjectCard
+                imgSrc={project.imageUrl}
+                title={project.projectTitle}
+                domains={project.domains}
+                shortDesc={project.projectDescription}
+                linkToRepo={project.projectUrl}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    ) : (
+      <Typography align="center" variant="h4" gutterBottom>
+        Sorry, projects in this category are not yet available.
+      </Typography>
+    );
+  };
+
   return (
     <Container maxWidth="lg">
       {isLoading ? (
         <Spinner />
-      ) : projects.length ? (
-        <Box p={1} m={2}>
-          <Grid container spacing={4}>
-            <Grid item xs={12}>
-              <Typography
-                variant="h4"
-                style={{ color: "#52b107" }}
-                gutterBottom
-              >
-                {`${domain} projects`}
-              </Typography>
-            </Grid>
-            {projects.map((project) => (
-              <Grid item xs={12} md={4} key={project["_id"]}>
-                <IndividualProjectCard
-                  imgSrc={project.imageUrl}
-                  title={project.projectTitle}
-                  domains={project.domains}
-                  shortDesc={project.projectDescription}
-                  linkToRepo={project.projectUrl}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
       ) : (
-        <Typography align="center" variant="h4" gutterBottom>
-          Sorry, projects in this category are not yet available.
-        </Typography>
+        <>
+          <BackButton link="/projects" />
+          <DisplayProjects />
+        </>
       )}
     </Container>
   );
