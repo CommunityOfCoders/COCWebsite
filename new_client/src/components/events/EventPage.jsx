@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import {
   Container,
@@ -17,6 +17,7 @@ import { format } from "date-fns";
 import AlertUtility from "../Utilities/Alert";
 import { connect } from "react-redux";
 import { isFuture } from "date-fns/esm";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -61,6 +62,7 @@ function EventPage(props) {
   const [isRegisterSuccess, setIsRegisterSuccess] = useState(false);
   const [counter, setCounter] = useState(0);
   const [isRegistered, setIsRegistered] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     axios
@@ -106,6 +108,14 @@ function EventPage(props) {
     <Spinner />
   ) : (
     <>
+      <div
+        onClick={() => {
+          history.goBack();
+        }}
+        style={{ margin: "10px", cursor: "pointer" }}
+      >
+        <ArrowBackIcon fontSize="large" /> Go Back
+      </div>
       <Container maxWidth="md">
         <Grid container className={classes.titleGap}>
           <Grid item xs={12} md={6} lg={6}>
