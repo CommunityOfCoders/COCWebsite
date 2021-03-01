@@ -47,7 +47,9 @@ function Header(props) {
 
   useEffect(() => {
     setCurrPage(
-      location.pathname.slice(1) ? location.pathname.slice(1) : "home"
+      location.pathname.slice(1)
+        ? location.pathname.slice(1).split("/")[0]
+        : "home"
     );
   }, [location]);
 
