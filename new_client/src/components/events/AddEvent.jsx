@@ -63,7 +63,7 @@ function AddEvent(props) {
 
   const handleClose = () => {
     setIsSubmitted(false);
-    // props.closeModal();
+    if (props.closeModal !== undefined) props.closeModal(); // EditPage is a page, so no modal
     props.history.push("/events");
   };
 
@@ -220,6 +220,7 @@ function AddEvent(props) {
                     value={eventDescription}
                     onChange={(e) => setEventDescription(e.target.value)}
                     fullWidth
+                    multiline
                     required
                   />
                   <div className="errorMsg">{error.descriptionError}</div>
