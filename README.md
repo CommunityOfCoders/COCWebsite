@@ -1,37 +1,22 @@
-# Ye hai README
+# Community Of Coders
 
-The project consists of two parts __client__ and __server__.
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-sucess.svg)](https://gitHub.com/preprocessy/preprocessy/graphs/commit-activity)
+[![Issues Open](https://img.shields.io/github/issues/CommunityOfCoders/COCWebsite)](https://github.com/CommunityOfCoders/COCWebsite/issues)
+[![Forks](https://img.shields.io/github/forks/CommunityOfCoders/COCWebsite)](https://github.com/CommunityOfCoders/COCWebsite/network/members)
+[![Stars](https://img.shields.io/github/stars/CommunityOfCoders/COCWebsite)](https://github.com/CommunityOfCoders/COCWebsite/stargazers)
+[![GitHub contributors](https://img.shields.io/github/contributors/CommunityOfCoders/COCWebsite)](https://gitHub.com/CommunityOfCoders/COCWebsite/graphs/contributors/)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](https://github.com/dwyl/esta/issues)
 
-The folder __new_client__ is under development currently and will replace the client folder someday.
+Welcome to the official website of the Community Of Coders!
 
-Tips to get started :-
+## Setup
 
-1. Clone the repo.
-```bash
-    git clone https://github.com/CommunityOfCoders/COCWebsite.git
-```
+Please read our [Setup Guide](https://github.com/CommunityOfCoders/COCWebsite/blob/master/SETUP.md) to get started with local development.
 
-2. Navigate to the server folder. 
-```bash
-    cd server
-```
+## Contributing
 
-3. This one is dependent on what you wish to start henceforth.
-    
-    a. To start the server, type `npm run start`.
+Please read our [Contributing Guide](https://github.com/CommunityOfCoders/COCWebsite/blob/master/CONTRIBUTING.md) before submitting a Pull Request to the project.
 
-    b. To start the development server (the one that uses nodemon), type `npm run serve`.
+## License
 
-    c. To start the new_client folder, type `npm run new_client`.
-
-    d. To start both the server and the new_client __concurrently__, type `npm run dev`.
-
-
-For the developers and the contributors :-
-
-Always run the following two commands in all folders containing node_modules to ensure that the `package-lock.json` doesn't break.
-
-```bash
-    npm i
-    npm ci
-```
+See the [LICENSE](https://github.com/CommunityOfCoders/COCWebsite/blob/master/LICENSE) file for licensing information.
