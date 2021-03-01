@@ -27,7 +27,7 @@ We use GitHub issues to track public bugs. Report a bug by [opening a new issue]
 
 We have prettier in the client-side, and we prefer to have a consistent code format.
 
-* You can try running `npm run format` or have `husky` done that for you in a pre-commit git hook for style unification.
+* You can try running `npm run format` or have `husky` do that for you in a pre-commit git hook for style unification.
 
 ## License
 By contributing, you agree that your contributions will be licensed under its GNU GPL 3.0 License.

@@ -3,9 +3,9 @@
 To setup a local development environment, follow the steps given below.
 
 1. Ensure you have NodeJS, npm and redis installed in your system.
-2. Clone the repository
+2. Fork and then clone the repository
 ```bash
-$ git clone https://github.com/CommunityOfCoders/COCWebsite.git
+$ git clone https://github.com/<your-username>/COCWebsite.git
 ```
 3. Install dependencies in `new_client` folder.
 ```bash
