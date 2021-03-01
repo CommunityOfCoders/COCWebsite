@@ -17,8 +17,8 @@ Pull requests are the best way to propose changes to the codebase (we use [Githu
 3. Make sure your code lints.
 4. Issue that pull request!
 
-## Any contributions you make will be under the MIT Software License
-In short, when you submit code changes, your submissions are understood to be under the same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
+## Any contributions you make will be under the GNU GPL 3.0 License
+In short, when you submit code changes, your submissions are understood to be under the same [GNU GPL 3.0 License](https://choosealicense.com/licenses/gpl-3.0/) that covers the project. Feel free to contact the maintainers if that's a concern.
 
 ## Report bugs using Github's [issues](https://github.com/CommunityOfCoders/COCWebsite/issues)
 We use GitHub issues to track public bugs. Report a bug by [opening a new issue](https://github.com/CommunityOfCoders/COCWebsite/issues/new); it's that easy!
@@ -30,4 +30,4 @@ We have prettier in the client-side, and we prefer to have a consistent code for
 * You can try running `npm run format` or have `husky` done that for you in a pre-commit git hook for style unification.
 
 ## License
-By contributing, you agree that your contributions will be licensed under its MIT License.
+By contributing, you agree that your contributions will be licensed under its GNU GPL 3.0 License.
