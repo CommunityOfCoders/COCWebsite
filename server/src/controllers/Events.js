@@ -21,8 +21,8 @@ const getNotificationDate = (eventDate) => {
     parseInt(eventDate[3]),
     months.indexOf(eventDate[1]),
     parseInt(eventDate[2]),
-    9
-  ); // Sends notification at 09:00 at the day of the event
+    3
+  ); // Sends notification at 08:30 IST at the day of the event
 };
 
 // Utility function to ensure some value is always returned
@@ -101,10 +101,6 @@ module.exports = {
 
     try {
       const file = req.file;
-      const { graduationYear } = req.body;
-      if (!graduationYear.match(/^[12]0[1-5]\d$/)) {
-        return res.status(400).json({ error: "Graduation Year must be valid" });
-      }
       let event = await Event.create(req.body);
       if (file) {
         const image = await cloudinary.v2.uploader.upload(file.path, {
@@ -141,10 +137,6 @@ module.exports = {
     try {
       const eventId = req.params.id;
       const file = req.file;
-      const { graduationYear } = req.body;
-      if (!!graduationYear && !graduationYear.match(/^[12]0[1-5]\d$/)) {
-        return res.status(400).json({ error: "Graduation Year must be valid" });
-      }
       const event = await Event.findByIdAndUpdate(
         eventId,
         req.body,
@@ -283,7 +275,7 @@ module.exports = {
       res.status(422).json({ errors: errors.array() });
       return;
     }
-    
+
     try {
       const { uid, eid } = req.query;
       const event = await Event.findById(eid).populate({

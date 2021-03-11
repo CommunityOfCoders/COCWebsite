@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Button, Grid, TextField } from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
 import {
+  DateTimePicker,
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
@@ -42,6 +43,7 @@ function AddEvent(props) {
     dateError: "",
     venueError: "",
     graduationYearError: "",
+    fileError: "",
   });
 
   useEffect(() => {
@@ -61,7 +63,7 @@ function AddEvent(props) {
 
   const handleClose = () => {
     setIsSubmitted(false);
-    props.closeModal();
+    if (props.closeModal !== undefined) props.closeModal(); // EditPage is a page, so no modal
     props.history.push("/events");
   };
 
@@ -101,15 +103,13 @@ function AddEvent(props) {
         graduationYearError: "*Graduation year cannot be empty",
       }));
       ret = false;
-    } else {
-      const isMatch = eventGraduationYear.match(/^[12]0[1-5]\d$/);
-      if (!isMatch) {
-        setError((prevError) => ({
-          ...prevError,
-          graduationYearError: "*Enter valid graduation year",
-        }));
-        ret = false;
-      }
+    }
+    if (!eventSelectedFile) {
+      setError((prevError) => ({
+        ...prevError,
+        fileError: "*Event image field cannot be empty",
+      }));
+      ret = false;
     }
     return ret;
   };
@@ -150,8 +150,6 @@ function AddEvent(props) {
           setIsLoading(false);
           console.log(err);
         });
-    } else {
-      alert("You have errors in your form");
     }
   };
 
@@ -222,6 +220,7 @@ function AddEvent(props) {
                     value={eventDescription}
                     onChange={(e) => setEventDescription(e.target.value)}
                     fullWidth
+                    multiline
                     required
                   />
                   <div className="errorMsg">{error.descriptionError}</div>
@@ -232,14 +231,13 @@ function AddEvent(props) {
             <div className="form-group">
               <Grid container>
                 <Grid item xs={12}>
-                  <KeyboardDatePicker
-                    // margin="normal"
+                  <DateTimePicker
+                    autoOk
+                    ampm={false}
+                    value={eventDate}
+                    onChange={(date) => setEventDate(date)}
                     id="date-picker-dialog"
                     label="Event date"
-                    format="dd/MM/yyyy"
-                    value={eventDate}
-                    disablePast
-                    onChange={(date) => setEventDate(date)}
                     KeyboardButtonProps={{
                       "aria-label": "change date",
                     }}
@@ -293,6 +291,7 @@ function AddEvent(props) {
                 accept="image/*"
                 onChange={onFileChange}
               />
+              <div className="errorMsg">{error.fileError}</div>
             </div>
 
             <Grid container spacing={1}>

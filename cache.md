@@ -16,7 +16,7 @@ This is a curated list of points where we decided to cache our results.
 ## Stuff required for cache
 
 1. The npm module `redis`. Details [here](https://www.npmjs.com/package/redis).
-2. The Heroku add on: `heroku-redis`.
+2. Redis installed on the system. Details [here](https://redis.io/).
 
 ## How to cache
 
@@ -27,9 +27,9 @@ GET requests can be easily cached and attended to, but we need to take care of w
 Ideally the flow should be:
 
 | Method | Route      | Decision                                                                |
-| ------ | ---------- | ----------------------------------------------------------------------- | --- |
-| GET    | `/api/all` | If in cache, return from store. Else return from DB and store in cache. |     |
-| GET    | `/api/one` | No need                                                                 |
+|--------|------------|-------------------------------------------------------------------------|
+| GET    | `/api/all` | Choose wisely                                                           |
+| GET    | `/api/one` | If in cache, return from store. Else return from DB and store in cache. |
 | POST   | `/api/one` | Update cache.                                                           |
 | PUT    | `/api/one` | Update cache.                                                           |
-| DELETE | `/api/one` | Update cache.                                                           |
+| DELETE | `/api/one` | Remove from cache.                                                      |

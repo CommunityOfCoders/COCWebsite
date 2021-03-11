@@ -16,6 +16,8 @@ import RoomOutlinedIcon from "@material-ui/icons/RoomOutlined";
 import { format } from "date-fns";
 import AlertUtility from "../Utilities/Alert";
 import { connect } from "react-redux";
+import { isFuture } from "date-fns/esm";
+import BackButton from "../Utilities/BackButton";
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -25,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
   section2: {
     fontSize: "large",
     paddingTop: theme.spacing(3),
+    whiteSpace: "pre-line",
   },
   titleGap: {
     paddingTop: "70px",
@@ -39,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TitleWithDivider = ({ text }) => {
+export const TitleWithDivider = ({ text }) => {
   const classes = useStyles();
 
   return (
@@ -104,6 +107,7 @@ function EventPage(props) {
     <Spinner />
   ) : (
     <>
+      <BackButton link="/events" />
       <Container maxWidth="md">
         <Grid container className={classes.titleGap}>
           <Grid item xs={12} md={6} lg={6}>
@@ -141,15 +145,17 @@ function EventPage(props) {
               {event.description}
             </Typography>
           </Grid>
-          <Grid item xs={12} style={{ padding: "20px 0" }}>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <RegisterButton
-                eventID={id}
-                handleRSVP={handleRSVP}
-                isUserRegistered={isRegistered}
-              />
-            </div>
-          </Grid>
+          {isFuture(new Date(event.date)) && (
+            <Grid item xs={12} style={{ padding: "20px 0" }}>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <RegisterButton
+                  eventID={id}
+                  handleRSVP={handleRSVP}
+                  isUserRegistered={isRegistered}
+                />
+              </div>
+            </Grid>
+          )}
         </Grid>
       </Container>
       <AlertUtility
