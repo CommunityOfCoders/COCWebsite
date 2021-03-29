@@ -10,6 +10,7 @@ const getBaseURL = require("../utility/getBaseURL");
 const { validationResult } = require('express-validator/check');
 
 const SibApiV3Sdk = require('sib-api-v3-sdk');
+const apiInstance = require('../config/sib')
 
 function passwordHash(password) {
   const hash = passwordhasher.createHash(
@@ -51,10 +52,6 @@ module.exports = {
 
       if (process.env.NODE_ENV === "production")
       {
-        var defaultClient = SibApiV3Sdk.ApiClient.instance;
-        var apiKey = defaultClient.authentications['api-key'];
-        apiKey.apiKey = process.env.SIB_API_KEY;
-        var apiInstance = new SibApiV3Sdk.ContactsApi();
         var createContact = new SibApiV3Sdk.CreateContact(); // CreateContact | Values to create a contact
         createContact = { 'email' : user.email };
         apiInstance.createContact(createContact).then(function(data) {
