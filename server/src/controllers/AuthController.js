@@ -9,6 +9,9 @@ const path = require("path");
 const getBaseURL = require("../utility/getBaseURL");
 const { validationResult } = require('express-validator/check');
 
+const SibApiV3Sdk = require('sib-api-v3-sdk');
+const apiInstance = require('../config/sib')
+
 function passwordHash(password) {
   const hash = passwordhasher.createHash(
     "ssha512",
@@ -46,6 +49,17 @@ module.exports = {
       req.body.password = passwordHash(password);
 
       const user = await User.create(req.body);
+
+      if (process.env.NODE_ENV === "production")
+      {
+        var createContact = new SibApiV3Sdk.CreateContact(); // CreateContact | Values to create a contact
+        createContact = { 'email' : user.email };
+        apiInstance.createContact(createContact).then(function(data) {
+          console.log('SIB contact created successfully.')
+        }, function(error) {
+          console.error(error);
+        });
+      }
 
       const token = jwt.sign({
         user: {
