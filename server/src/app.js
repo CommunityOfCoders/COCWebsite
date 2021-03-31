@@ -8,6 +8,7 @@ const routes = require("./routes");
 const config = require("./config");
 const compression = require("compression");
 const dbconnect = require("./config/dbconnect");
+const rescheduler = require("./utility/eventRescheduler");
 
 const app = express();
 
@@ -37,6 +38,7 @@ if (process.env.NODE_ENV === "test") port = 8001;
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
+  rescheduler.reschedule();
 });
 
 module.exports = app;

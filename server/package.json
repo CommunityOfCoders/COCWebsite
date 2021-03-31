@@ -34,7 +34,8 @@
     "nodemailer": "^6.4.11",
     "npm": "^6.14.7",
     "password-hasher": "^1.0.1",
-    "redis": "^3.0.2"
+    "redis": "^3.0.2",
+    "sib-api-v3-sdk": "^8.2.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
