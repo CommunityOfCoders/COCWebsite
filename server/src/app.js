@@ -24,7 +24,7 @@ if (process.env.NODE_ENV !== "test") {
 
 routes(app);
 
-dbconnect();
+dbconnect(rescheduler.reschedule);
 
 app.use(compression());
 app.use(express.static(path.join(__dirname, "../../new_client/build")));
@@ -38,7 +38,6 @@ if (process.env.NODE_ENV === "test") port = 8001;
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
-  rescheduler.reschedule();
 });
 
 module.exports = app;
