@@ -34,6 +34,7 @@ const LazyRegisterEvent = lazy(() =>
 const LazyProjectList = lazy(() => import("./components/projects/ProjectList"));
 const LazyProjects = lazy(() => import("./components/projects/Projects"));
 const LazyAlumniPage = lazy(() => import("./components/alumni/AlumniPage"));
+const LazyMagazines = lazy(() => import("./components/magazines/Magazines"));
 
 // Blogs
 const LazyBlogs = lazy(() => import("./components/blogs/Blog"));
@@ -117,6 +118,7 @@ function App() {
                   <Route path="/projects/:id" component={LazyProjectList} />
                   <Route path="/projects" component={LazyProjects} />
                   <Route path="/alumni" component={LazyAlumniPage} />
+                  <Route path="/magazines" component={LazyMagazines} />
                   <Route component={Lazy404} />
                 </Switch>
               </Suspense>
