@@ -8,6 +8,7 @@ const ProjectController = require('./controllers/ProjectController')
 const AlumniController = require('./controllers/AlumniController')
 const ResourcesController = require('./controllers/ResourcesController')
 const AchievementsController = require('./controllers/AchievementsController')
+const MagazineController = require('./controllers/MagazineController')
 const upload = require('./middleware/upload')
 const auth = require('./middleware/auth')
 const blog = require('./middleware/blog')
@@ -100,4 +101,11 @@ module.exports = (app) => {
   // Achievements
   app.get('/api/achievements', cache.getFromCache, AchievementsController.allAchievements, cache.setCache);
   app.post('/api/achievements', AchievementsController.createAchievement, cache.deleteCache);
+
+  // Magazines
+  app.get('/api/magazines', cache.getFromCache, MagazineController.getMagazines, cache.setCache);
+  app.post('/api/magazines', auth.loginRequired, /*user.isMember,*/ upload.single('image'),MagazineController.uploadMagazineToGdrive, cache.deleteCache);
+  app.put('/api/magazines/:id', auth.loginRequired, /*user.isMember,*/ upload.single('image'),MagazineController.updateMagazine, cache.deleteCache);
+  app.delete('/api/magazines/:id', auth.loginRequired, /*user.isMember,*/ MagazineController.deleteMagazine, cache.deleteCache);
+
 }
