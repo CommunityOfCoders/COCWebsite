@@ -14,8 +14,8 @@ import GenericDetails from "./GenericDetails";
 import GSes from "../assets/coc-gses.webp";
 import Members from "../assets/coc-members.webp";
 import Banner from "./Banner";
-
 import "./AboutUs.css";
+import Image from "./Image";
 
 export default function AboutUs() {
   return (
@@ -195,7 +195,12 @@ export default function AboutUs() {
             <br />
             {/* <Grid container> */}
             {/* <Grid item xs={0} md={4} lg={4} /> */}
+
             <div style={{ textAlign: "center" }}>
+              <div class="gene-sec-cont">
+                <Image />
+                <Image />
+              </div>
               {/* <Grid item xs={12} md={6} lg={6}> */}
               <img
                 src={GSes}

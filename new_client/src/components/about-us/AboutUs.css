@@ -13,6 +13,40 @@
   width: 50vw;
 }
 
+.image-card {
+  background-color: "red";
+  width: 30vw;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  display: "flex";
+  justify-content: "center";
+  align-items: "center";
+  overflow: hidden;
+}
+
+.image {
+}
+
+.gene-sec-cont {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-cont {
+  margin: 3rem;
+  align-content: center;
+}
+
+.image-name {
+  /* width: 70%; */
+  background-color: rgb(4, 255, 4);
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  font-size: 1rem;
+}
+
 .team-image {
   width: 80vw;
 }
@@ -24,6 +58,18 @@
   }
   .secretaries-image {
     width: 80vw;
+  }
+
+  .gene-sec-cont {
+    flex-direction: column;
+  }
+
+  .image-card {
+    width: 70vw;
+  }
+
+  .image-cont {
+    margin: 12px 0px;
   }
 }
 
