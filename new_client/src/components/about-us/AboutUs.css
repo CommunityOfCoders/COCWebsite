@@ -14,17 +14,22 @@
 }
 
 .image-card {
-  background-color: "red";
   width: 30vw;
+  height: 50vh;
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
-  display: "flex";
-  justify-content: "center";
-  align-items: "center";
+  display: flex;
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
 }
 
-.image {
+.com-mem {
+  display: flex;
+  flex-direction: row;
+  margin: 20px 0px;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 .gene-sec-cont {
@@ -40,8 +45,7 @@
 }
 
 .image-name {
-  /* width: 70%; */
-  background-color: rgb(4, 255, 4);
+  background-color: rgb(29, 247, 0);
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
   font-size: 1rem;
@@ -49,6 +53,11 @@
 
 .team-image {
   width: 80vw;
+}
+
+.member {
+  width: 25vw;
+  height: 35vh;
 }
 
 @media only screen and (max-width: 768px) {
@@ -70,6 +79,11 @@
 
   .image-cont {
     margin: 12px 0px;
+  }
+
+  .member {
+    width: 40vw;
+    height: 35vh;
   }
 }
 

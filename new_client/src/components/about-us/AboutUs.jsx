@@ -16,8 +16,25 @@ import Members from "../assets/coc-members.webp";
 import Banner from "./Banner";
 import "./AboutUs.css";
 import Image from "./Image";
+import Details from "./details";
 
 export default function AboutUs() {
+  const details = Details;
+  const arr = [];
+
+  for (let i = 0; i < 30; i += 2) {
+    arr.push(
+      <div class="com-mem">
+        <Image class="member" name={details[i].name} img={details[i].img} />
+        <Image
+          class="member"
+          name={details[i + 1].name}
+          img={details[i + 1].img}
+        />
+      </div>
+    );
+  }
+
   return (
     <>
       <Banner />
@@ -197,29 +214,26 @@ export default function AboutUs() {
             {/* <Grid item xs={0} md={4} lg={4} /> */}
 
             <div style={{ textAlign: "center" }}>
+              <Typography variant="h4">General Secretaries</Typography>
               <div class="gene-sec-cont">
-                <Image />
-                <Image />
+                <Image
+                  name="Saif Kazi"
+                  img="https://res.cloudinary.com/dxleddac7/image/upload/v1622393523/Saif_Kazi_sjujcu.jpg"
+                />
+                <Image
+                  name="Shubhankar Gupta"
+                  img="https://res.cloudinary.com/dxleddac7/image/upload/v1622393522/Shubhankar_Gupta_wklcuf.jpg"
+                />
               </div>
               {/* <Grid item xs={12} md={6} lg={6}> */}
-              <img
-                src={GSes}
-                className="secretaries-image"
-                alt="General Secretaries"
-              />
               <br />
-              <Typography variant="h5">
-                General Secretaries - Saif Kazi, Shubhankar Gupta
-              </Typography>
               <br />
               {/* </Grid> */}
             </div>
             <div style={{ textAlign: "center" }}>
-              {/* <Grid item xs={12} md={6} lg={6}> */}
-              <img src={Members} className="team-image" alt="Core Committee" />
+              <Typography variant="h4">The Core Committee - 2020-21</Typography>
+              {arr.map((item) => item)}
               <br />
-              <Typography variant="h5">The Core Committee - 2020-21</Typography>
-              {/* </Grid> */}
             </div>
             {/* <Grid item xs={12} md={6} lg={6}><img src={Members} style={{ width: "90%" }} /></Grid> */}
             {/* <img src={Members} /> */}
