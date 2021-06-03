@@ -45,7 +45,7 @@ export default [
       "https://res.cloudinary.com/dxleddac7/image/upload/v1622393522/Aditya_Patkar_dd8hyh.png",
   },
   {
-    name: "Sarakshi",
+    name: "Sarakshi ",
     img:
       "https://res.cloudinary.com/dxleddac7/image/upload/v1622393522/Sarakshi_ipyknv.jpg",
   },
