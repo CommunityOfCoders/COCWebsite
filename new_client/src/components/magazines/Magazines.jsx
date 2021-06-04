@@ -8,39 +8,41 @@ import IndividualMagazineCard from "./IndividualMagazineCard";
 
 const Projects = () => {
   const [loading, setLoading] = useState(true);
-  const [magazines, setMagazines] = useState([
-    {
-      _id: 1,
-      imageURL:
-        "http://img.timeinc.net/time/magazine/archive/covers/2000/1101000619_400.jpg",
-      magazineTitle: "The Future of Technology",
-      magazineDescription:
-        "Web Development is all about building websites. From developing top class UIs, to providing a strong and resilient backend, such is the scope of web development.",
-      pdfUrl: "...",
-      date: Date.now(),
-    },
-    {
-      _id: 2,
-      imageURL:
-        "https://www.goubiq.com/wp-content/uploads/2015/09/412015-pc-magazine-february-2016.jpg",
-      magazineTitle: "Robot Wants Your Job",
-      magazineDescription:
-        "Web Development is all about building websites. From developing top class UIs, to providing a strong and resilient backend, such is the scope of web development.",
-      pdfUrl: "...",
-      date: Date.now(),
-    },
-  ]);
+  const [magazines, setMagazines] = useState(null);
+
+  // useState([
+  //   {
+  //     _id: 1,
+  //     imageURL:
+  //       "http://img.timeinc.net/time/magazine/archive/covers/2000/1101000619_400.jpg",
+  //     magazineTitle: "The Future of Technology",
+  //     magazineDescription:
+  //       "Web Development is all about building websites. From developing top class UIs, to providing a strong and resilient backend, such is the scope of web development.",
+  //     pdfUrl: "...",
+  //     date: Date.now(),
+  //   },
+  //   {
+  //     _id: 2,
+  //     imageURL:
+  //       "https://www.goubiq.com/wp-content/uploads/2015/09/412015-pc-magazine-february-2016.jpg",
+  //     magazineTitle: "Robot Wants Your Job",
+  //     magazineDescription:
+  //       "Web Development is all about building websites. From developing top class UIs, to providing a strong and resilient backend, such is the scope of web development.",
+  //     pdfUrl: "...",
+  //     date: Date.now(),
+  //   },
+  // ]);
 
   useEffect(() => {
     setLoading(false);
-    // axios
-    //   .get(process.env.REACT_APP_API + "/domains")
-    //   .then((res) => {
-    //     const domainList = res.data;
-    //     setDomains(domainList);
-    //   })
-    //   .catch((err) => console.error(err))
-    //   .finally(() => setLoading(false));
+    axios
+      .get(process.env.REACT_APP_API + "/magazines")
+      .then((res) => {
+        const domainList = res.data;
+        setMagazines(domainList);
+      })
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
   }, []);
 
   return loading ? (
@@ -60,15 +62,15 @@ const Projects = () => {
                 Magazines
               </Typography>
             </Grid>
-            {magazines.length &&
+            {magazines &&
               magazines.map((magazine) => (
                 <Grid item xs={12} md={4} key={magazine._id}>
                   <IndividualMagazineCard
                     id={magazine._id}
-                    imageURL={magazine.imageURL}
-                    title={magazine.magazineTitle}
-                    description={magazine.magazineDescription}
-                    pdfUrl={magazine.pdfUrl}
+                    imageURL={magazine.photoURL}
+                    title={magazine.magazineName}
+                    description={magazine.description}
+                    pdfUrl={magazine.downloadURL}
                     date={magazine.date}
                   />
                 </Grid>

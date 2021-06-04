@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Modal from "@material-ui/core/Modal";
-import { Document, Page, pdfjs } from "react-pdf";
-import samplepdf from "../assets/sample.pdf";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -57,21 +54,7 @@ const getModalStyle = () => {
 const MagazineModal = ({ open, modalHide, magazineData }) => {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
-  pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-  const [numPages, setNumPages] = useState(null);
-
-  function onDocumentLoadSuccess({ numPages }) {
-    setNumPages(numPages);
-  }
-
-  const options = {
-    cMapUrl: "cmaps/",
-    cMapPacked: true,
-  };
-
   const elementRef = React.useRef(null);
-
-  const { width } = useContainerDimensions(elementRef);
   const [initWidth, setInitWidth] = React.useState(0);
 
   React.useEffect(() => {
@@ -94,6 +77,9 @@ const MagazineModal = ({ open, modalHide, magazineData }) => {
           variant="contained"
           color="primary"
           className={classes.downloadBtn}
+          onClick={() => {
+            window.open(magazineData.pdfUrl);
+          }}
         >
           Download Magazine
         </Button>
@@ -101,19 +87,13 @@ const MagazineModal = ({ open, modalHide, magazineData }) => {
           Preview:
         </Typography>
         <div ref={elementRef} className={classes.pdfviewer}>
-          <Document
-            file={samplepdf}
-            onLoadSuccess={onDocumentLoadSuccess}
-            options={options}
-          >
-            {Array.from(new Array(Math.min(2, numPages)), (el, index) => (
-              <Page
-                key={`page_${index + 1}`}
-                pageNumber={index + 1}
-                width={`${width !== 0 ? width * 0.9 : initWidth * 0.9}`}
-              />
-            ))}
-          </Document>
+          {magazineData.pdfUrl && (
+            <iframe
+              src={magazineData.pdfUrl.split("/view")[0] + "/preview"}
+              width="640"
+              height="480"
+            ></iframe>
+          )}
         </div>
       </div>
     </Modal>

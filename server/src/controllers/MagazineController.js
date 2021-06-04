@@ -1,5 +1,6 @@
 const cloudinary = require("cloudinary");
 const { validationResult } = require('express-validator/check');
+var http = require('http');
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,
@@ -28,7 +29,7 @@ module.exports = {
 
       if(!(req.body.downloadURL && req.file && req.body.magazineName && req.body.date))
       { 
-        res.json({"error":"Required field: downloadURL, photoURL, magazineName, date"});
+        res.json({"error":"Required field: downloadURL, photoURL, magazineName, date(YYYY-MM-DD), description"});
         return;
       }
 
@@ -37,7 +38,8 @@ module.exports = {
           {
             magazineName : req.body.magazineName, 
             date : req.body.date, 
-            downloadURL : req.body.downloadURL
+            downloadURL : req.body.downloadURL,
+            description : req.body.description
           });
         console.log("Uploading Image...");
         const image = await cloudinary.v2.uploader.upload(req.file.path, {
@@ -73,7 +75,7 @@ module.exports = {
       const id = req.params.id;
       const body=req.body;
 
-      if(!(body.magazineName || body.date || body.photoURL || body.downloadURL || req.file))
+      if(!(body.magazineName || body.date || body.photoURL || body.downloadURL || body.description || req.file))
       {
         res.json({"error":"At least add one of the following fields: magazineName, date, photoURL, downloadURL or upload an image"});
         return;
