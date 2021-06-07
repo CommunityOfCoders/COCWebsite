@@ -23,12 +23,6 @@ const useStyles = makeStyles((theme) => ({
       width: "60%",
     },
   },
-  modalMedia: {
-    maxHeight: "50%",
-    maxWidth: "auto",
-    paddingTop: "56.25%", // 16:
-    borderRadius: 4,
-  },
   downloadBtn: {
     margin: "5% 0",
   },
@@ -54,14 +48,6 @@ const getModalStyle = () => {
 const MagazineModal = ({ open, modalHide, magazineData }) => {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
-  const elementRef = React.useRef(null);
-  const [initWidth, setInitWidth] = React.useState(0);
-
-  React.useEffect(() => {
-    if (open && initWidth == 0) {
-      setInitWidth(elementRef.current ? elementRef.current.offsetWidth : 200);
-    }
-  }, [elementRef.current]);
 
   return (
     <Modal open={open} onClose={modalHide}>
@@ -86,7 +72,7 @@ const MagazineModal = ({ open, modalHide, magazineData }) => {
         <Typography variant="body1" component="p" align="center">
           Preview:
         </Typography>
-        <div ref={elementRef} className={classes.pdfviewer}>
+        <div className={classes.pdfviewer}>
           {magazineData.pdfUrl && (
             <iframe
               src={magazineData.pdfUrl.split("/view")[0] + "/preview"}
@@ -98,27 +84,6 @@ const MagazineModal = ({ open, modalHide, magazineData }) => {
       </div>
     </Modal>
   );
-};
-
-export const useContainerDimensions = (myRef) => {
-  const getDimensions = () => ({
-    width: myRef.current ? myRef.current.offsetWidth : 0,
-  });
-
-  const [dimensions, setDimensions] = useState({ width: 0 });
-  React.useEffect(() => {
-    if (myRef.current != null) {
-      setDimensions(getDimensions());
-    }
-    const handleResize = () => {
-      setDimensions(getDimensions());
-    };
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [myRef]);
-  return dimensions;
 };
 
 export default MagazineModal;
