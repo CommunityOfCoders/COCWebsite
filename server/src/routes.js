@@ -104,8 +104,9 @@ module.exports = (app) => {
 
   // Magazines
   app.get('/api/magazines', cache.getFromCache, MagazineController.getMagazines, cache.setCache);
-  app.post('/api/magazines', auth.loginRequired, /*user.isMember,*/ upload.single('image'),MagazineController.uploadMagazineToGdrive, cache.deleteCache);
-  app.put('/api/magazines/:id', auth.loginRequired, /*user.isMember,*/ upload.single('image'),MagazineController.updateMagazine, cache.deleteCache);
-  app.delete('/api/magazines/:id', auth.loginRequired, /*user.isMember,*/ MagazineController.deleteMagazine, cache.deleteCache);
+  app.post('/api/magazines', auth.loginRequired, user.isMember, upload.single('image'),MagazineController.uploadMagazineToGdrive, cache.deleteCache);
+  app.put('/api/magazines/:id', auth.loginRequired, user.isMember, upload.single('image'),MagazineController.updateMagazine, cache.deleteCache);
+  app.delete('/api/magazines/:id', auth.loginRequired, user.isMember, MagazineController.deleteMagazine, cache.deleteCache);
+  app.get('/api/magazines/:id', auth.loginRequired, user.isMember, MagazineController.getMagazineById); // Tested
 
 }

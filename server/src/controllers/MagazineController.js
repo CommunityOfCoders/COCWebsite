@@ -18,7 +18,27 @@ module.exports = {
         next();
         res.status(200).json(magazines);
     },
-
+    async getMagazineById(req, res) {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        res.status(422).json({ errors: errors.array() });
+        return;
+      }
+  
+      try {
+        const magazineId = req.params.id;
+        console.log(magazineId);
+        let magazine = await Magazine.findById(magazineId)
+          .lean();
+        console.log(magazine);
+        res.status(200).json(magazine);
+      } catch (err) {
+        res.status(400).json({
+          error: err.message,
+        });
+      }
+    },
+    
     async uploadMagazineToGdrive(req, res, next) {
       const errors = validationResult(req);
 

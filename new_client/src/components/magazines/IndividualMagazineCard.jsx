@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Divider } from "@material-ui/core";
+import { Divider, IconButton } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -10,6 +10,10 @@ import Typography from "@material-ui/core/Typography";
 import { overflowEllipsis } from "../Utilities/overflowEllipsis";
 import MagazineModal from "./MagazineModal";
 import { format, isFuture } from "date-fns";
+import { Link } from "react-router-dom";
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
+import { green, red } from "@material-ui/core/colors";
 // import ProjectModal from "./ProjectModal";
 
 const useStyles = makeStyles((theme) => ({
@@ -48,6 +52,8 @@ export default function IndividualMagazineCard({
   description,
   pdfUrl,
   date,
+  isMember,
+  handleDelete,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalInfo, setModalInfo] = useState({});
@@ -135,6 +141,20 @@ export default function IndividualMagazineCard({
               Download
             </Button>
           </a>
+        </CardActions>
+        <CardActions disableSpacing style={{}} className={classes.actions}>
+          {isMember && (
+            <>
+              <Link to={`magazine/edit/${id}`}>
+                <IconButton>
+                  <EditOutlinedIcon style={{ color: green[500] }} />
+                </IconButton>
+              </Link>
+              <IconButton onClick={() => handleDelete(id)}>
+                <DeleteOutlinedIcon style={{ color: red[400] }} />
+              </IconButton>
+            </>
+          )}
         </CardActions>
       </Card>
       <MagazineModal
