@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
@@ -75,6 +75,7 @@ const MagazineModal = ({ open, modalHide, magazineData }) => {
         <div className={classes.pdfviewer}>
           {magazineData.pdfUrl && (
             <iframe
+              title="Magazine Preview"
               src={magazineData.pdfUrl.split("/view")[0] + "/preview"}
               width="640"
               height="480"

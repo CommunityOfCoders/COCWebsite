@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
-import { Link, withRouter, useLocation } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 import { Container, Grid, Typography, Box } from "@material-ui/core";
-import ProjectGroup from "../projects/ProjectGroupCard";
 import Spinner from "../spinner/Spinner";
 import Banner from "./Banner";
 import IndividualMagazineCard from "./IndividualMagazineCard";

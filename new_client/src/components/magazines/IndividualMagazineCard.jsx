@@ -9,7 +9,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { overflowEllipsis } from "../Utilities/overflowEllipsis";
 import MagazineModal from "./MagazineModal";
-import { format, isFuture } from "date-fns";
+import { format } from "date-fns";
 import { Link } from "react-router-dom";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
