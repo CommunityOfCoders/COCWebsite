@@ -11,7 +11,7 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { format, isFuture } from "date-fns";
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import EventIcon from "@material-ui/icons/Event";
 import RoomOutlinedIcon from "@material-ui/icons/RoomOutlined";

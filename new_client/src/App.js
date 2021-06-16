@@ -47,6 +47,12 @@ const LazyEventList = lazy(() => import("./components/events/EventList"));
 const LazyAddEvent = lazy(() => import("./components/events/AddEvent"));
 const LazyIndividualEvent = lazy(() => import("./components/events/EventPage"));
 
+// Magazines
+const LazyMagazines = lazy(() => import("./components/magazines/Magazines"));
+const LazyAddMagazine = lazy(() =>
+  import("./components/magazines/AddMagazine")
+);
+
 const theme = responsiveFontSizes(createMuiTheme());
 const Lazy404 = lazy(() => import("./components/404/NotFound"));
 
@@ -117,6 +123,15 @@ function App() {
                   <Route path="/projects/:id" component={LazyProjectList} />
                   <Route path="/projects" component={LazyProjects} />
                   <Route path="/alumni" component={LazyAlumniPage} />
+                  <Route path="/magazines" component={LazyMagazines} />
+                  <ProtectedRoute
+                    path="/addmagazine"
+                    component={LazyAddMagazine}
+                  />
+                  <ProtectedRoute
+                    path="/magazine/edit/:id"
+                    component={LazyAddMagazine}
+                  />
                   <Route component={Lazy404} />
                 </Switch>
               </Suspense>

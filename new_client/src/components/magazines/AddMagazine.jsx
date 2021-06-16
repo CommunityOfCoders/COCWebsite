@@ -12,98 +12,92 @@ import AlertUtility from "../Utilities/Alert";
 import { useEffect } from "react";
 import { useLocation, withRouter } from "react-router-dom";
 
-function AddEvent(props) {
-  const [eventName, setEventName] = useState("");
-  const [eventDescription, setEventDescription] = useState("");
-  const [eventDate, setEventDate] = useState(new Date());
-  const [eventVenue, setEventVenue] = useState("");
-  const [eventGraduationYear, setEventGraduationYear] = useState("");
-  const [eventSelectedFile, setEventSelectedFile] = useState(null);
+function AddMagazine(props) {
+  const [magazineName, setMagazineName] = useState("");
+  const [magazineDescription, setMagazineDescription] = useState("");
+  const [magazineDate, setMagazineDate] = useState(new Date());
+  const [magazineURL, setMagazineURL] = useState("");
+  const [magazineSelectedFile, setMagazineSelectedFile] = useState(null);
 
   const [isError, setIsError] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const { pathname } = useLocation();
-  const eventID = pathname.split("/")[3];
-  const isEditPage = !!eventID;
+  const magazineID = pathname.split("/")[3];
+  const isEditPage = !!magazineID;
 
   const successString = isEditPage
-    ? "Event edited successfully! "
-    : "Event added successfully";
+    ? "Magazine edited successfully! "
+    : "Magazine added successfully";
   const btnText = isEditPage ? "Update" : "Submit";
 
   const [error, setError] = useState({
-    eventNameError: "",
+    magazineNameError: "",
     descriptionError: "",
     dateError: "",
-    venueError: "",
-    graduationYearError: "",
+    urlError: "",
     fileError: "",
   });
 
   useEffect(() => {
-    if (isEditPage && eventID) {
+    if (isEditPage && magazineID) {
       axios
-        .get(process.env.REACT_APP_API + `/events/${eventID}`)
+        .get(process.env.REACT_APP_API + `/magazines/${magazineID}`, {
+          headers: {
+            Authorization: "Bearer " + props.token,
+          },
+        })
         .then((res) => {
-          setEventName(res.data.eventName);
-          setEventDescription(res.data.description);
-          setEventDate(res.data.date);
-          setEventVenue(res.data.venue);
-          setEventGraduationYear(res.data.graduationYear);
+          setMagazineName(res.data.magazineName);
+          setMagazineDescription(res.data.description);
+          setMagazineDate(res.data.date);
+          setMagazineURL(res.data.downloadURL);
         })
         .catch((err) => console.log(err));
     }
-  }, [isEditPage, eventID]);
+  }, [isEditPage, magazineID]);
 
   const handleClose = () => {
     setIsSubmitted(false);
     if (props.closeModal !== undefined) props.closeModal(); // EditPage is a page, so no modal
-    props.history.push("/events");
+    props.history.push("/magazines");
   };
 
   const isValid = () => {
     let ret = true;
-    if (eventName === "") {
+    if (magazineName === "") {
       setError((prevError) => ({
         ...prevError,
-        eventNameError: "*Event name cannot be empty",
+        magazineNameError: "*Magazine name cannot be empty",
       }));
       ret = false;
     }
-    if (eventDescription === "") {
+    if (magazineDescription === "") {
       setError((prevError) => ({
         ...prevError,
-        descriptionError: "*Event description cannot be empty",
+        descriptionError: "*Magazine description cannot be empty",
       }));
       ret = false;
     }
-    if (eventVenue === "") {
+    if (!magazineDate) {
       setError((prevError) => ({
         ...prevError,
-        venueError: "*Event venue cannot be empty",
+        dateError: "*Magazine date cannot be empty",
       }));
       ret = false;
     }
-    if (!eventDate) {
+    if (magazineURL === "") {
       setError((prevError) => ({
         ...prevError,
-        dateError: "*Event date cannot be empty",
+        urlError: "*Magazine URL cannot be empty",
       }));
       ret = false;
     }
-    if (!eventGraduationYear) {
+    if (!magazineSelectedFile) {
       setError((prevError) => ({
         ...prevError,
-        graduationYearError: "*Graduation year cannot be empty",
-      }));
-      ret = false;
-    }
-    if (!eventSelectedFile) {
-      setError((prevError) => ({
-        ...prevError,
-        fileError: "*Event image field cannot be empty",
+        fileError: "*Magazine image field cannot be empty",
       }));
       ret = false;
     }
@@ -111,24 +105,27 @@ function AddEvent(props) {
   };
 
   const onFileChange = (e) => {
-    setEventSelectedFile(e.target.files[0]);
+    setMagazineSelectedFile(e.target.files[0]);
   };
 
-  const handleAddEvent = (event) => {
+  const handleAddMagazine = (event) => {
     event.preventDefault();
     if (isValid()) {
       const formData = new FormData();
-      if (eventSelectedFile) {
-        formData.append("COC_Event", eventSelectedFile, eventSelectedFile.name);
+      if (magazineSelectedFile) {
+        formData.append(
+          "image",
+          magazineSelectedFile,
+          magazineSelectedFile.name
+        );
       }
-      formData.append("eventName", eventName);
-      formData.append("description", eventDescription);
-      formData.append("date", eventDate);
-      formData.append("venue", eventVenue);
-      formData.append("graduationYear", eventGraduationYear);
+      formData.append("magazineName", magazineName);
+      formData.append("description", magazineDescription);
+      formData.append("date", magazineDate);
+      formData.append("downloadURL", magazineURL);
       setIsLoading(true);
       axios
-        .post(process.env.REACT_APP_API + "/events", formData, {
+        .post(process.env.REACT_APP_API + "/magazines", formData, {
           headers: {
             Authorization: "Bearer " + props.token,
           },
@@ -149,20 +146,24 @@ function AddEvent(props) {
     }
   };
 
-  const handleEditEvent = (event) => {
+  const handleEditMagazine = (event) => {
     event.preventDefault();
     if (isValid()) {
       const formData = new FormData();
-      if (eventSelectedFile) {
-        formData.append("COC_Event", eventSelectedFile, eventSelectedFile.name);
+      if (magazineSelectedFile) {
+        formData.append(
+          "image",
+          magazineSelectedFile,
+          magazineSelectedFile.name
+        );
       }
-      formData.append("description", eventDescription);
-      formData.append("date", eventDate);
-      formData.append("venue", eventVenue);
-      formData.append("graduationYear", eventGraduationYear);
+      formData.append("magazineName", magazineName);
+      formData.append("description", magazineDescription);
+      formData.append("date", magazineDate);
+      formData.append("downloadURL", magazineURL);
       setIsLoading(true);
       axios
-        .put(process.env.REACT_APP_API + `/events/${eventID}`, formData, {
+        .put(process.env.REACT_APP_API + `/magazines/${magazineID}`, formData, {
           headers: {
             Authorization: "Bearer " + props.token,
           },
@@ -187,20 +188,20 @@ function AddEvent(props) {
     <div>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <div className="jumbotron" style={{ margin: "20px 50px" }}>
-          <form onSubmit={isEditPage ? handleEditEvent : handleAddEvent}>
+          <form onSubmit={isEditPage ? handleEditMagazine : handleAddMagazine}>
             <div className="form-group">
               <Grid container>
                 <Grid item xs={12}>
                   <TextField
-                    placeholder="Event Name"
-                    name="eventName"
-                    value={eventName}
-                    onChange={(e) => setEventName(e.target.value)}
+                    placeholder="Magazine Name"
+                    name="magazineName"
+                    value={magazineName}
+                    onChange={(e) => setMagazineName(e.target.value)}
                     required
-                    label="Enter Event Name"
+                    label="Enter Magazine Name"
                     disabled={isEditPage}
                   />
-                  <div className="errorMsg">{error.eventNameError}</div>
+                  <div className="errorMsg">{error.magazineNameError}</div>
                 </Grid>
               </Grid>
             </div>
@@ -210,11 +211,11 @@ function AddEvent(props) {
                 <Grid item xs={12}>
                   <TextField
                     type="text"
-                    placeholder="Event description"
+                    placeholder="Magazine description"
                     name="description"
-                    label="Enter event description"
-                    value={eventDescription}
-                    onChange={(e) => setEventDescription(e.target.value)}
+                    label="Enter magazine description"
+                    value={magazineDescription}
+                    onChange={(e) => setMagazineDescription(e.target.value)}
                     fullWidth
                     multiline
                     required
@@ -230,10 +231,10 @@ function AddEvent(props) {
                   <DateTimePicker
                     autoOk
                     ampm={false}
-                    value={eventDate}
-                    onChange={(date) => setEventDate(date)}
+                    value={magazineDate}
+                    onChange={(date) => setMagazineDate(date)}
                     id="date-picker-dialog"
-                    label="Event date"
+                    label="Magazine date"
                     KeyboardButtonProps={{
                       "aria-label": "change date",
                     }}
@@ -248,32 +249,15 @@ function AddEvent(props) {
                 <Grid item xs={12}>
                   <TextField
                     type="text"
-                    placeholder="Event venue"
-                    name="venue"
-                    value={eventVenue}
-                    onChange={(e) => setEventVenue(e.target.value)}
+                    placeholder="Magazine File URL"
+                    name="magazineURL"
+                    value={magazineURL}
+                    onChange={(e) => setMagazineURL(e.target.value)}
                     fullWidth
                     required
-                    label="Enter Event Venue"
+                    label="Enter Magazine URL"
                   />
-                  <div className="errorMsg">{error.venueError}</div>
-                </Grid>
-              </Grid>
-            </div>
-
-            <div className="form-group">
-              <Grid container>
-                <Grid item xs={12}>
-                  <TextField
-                    type="text"
-                    placeholder="Graduation year"
-                    name="graduationYear"
-                    value={eventGraduationYear}
-                    onChange={(e) => setEventGraduationYear(e.target.value)}
-                    required
-                    label="Enter graduation year"
-                  />
-                  <div className="errorMsg">{error.graduationYearError}</div>
+                  <div className="errorMsg">{error.urlError}</div>
                 </Grid>
               </Grid>
             </div>
@@ -283,7 +267,7 @@ function AddEvent(props) {
               <input
                 type="file"
                 className="btn"
-                name="COC_Event"
+                name="magazineImage"
                 accept="image/*"
                 onChange={onFileChange}
               />
@@ -327,7 +311,7 @@ function AddEvent(props) {
         duration={3000}
         onCloseHandler={handleClose}
         severity="success"
-        message={successString + " Reloading events..."}
+        message={successString + " Reloading magazines..."}
       />
       <AlertUtility
         open={isError}
@@ -348,4 +332,4 @@ const mapStateToProps = (state) => ({
   username: state.auth.username,
 });
 
-export default withRouter(connect(mapStateToProps)(AddEvent));
+export default withRouter(connect(mapStateToProps)(AddMagazine));
