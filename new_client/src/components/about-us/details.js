@@ -45,7 +45,7 @@ export default [
       "https://res.cloudinary.com/dxleddac7/image/upload/v1622393522/Aditya_Patkar_dd8hyh.png",
   },
   {
-    name: "Sarakshi ",
+    name: "Sarakshi Phate",
     img:
       "https://res.cloudinary.com/dxleddac7/image/upload/v1622393522/Sarakshi_ipyknv.jpg",
   },
@@ -150,7 +150,7 @@ export default [
       "https://res.cloudinary.com/dxleddac7/image/upload/v1622393498/Atharva_Thorve_uzssqr.jpg",
   },
   {
-    name: "archeel Parikh",
+    name: "Archeel Parikh",
     img:
       "https://res.cloudinary.com/dxleddac7/image/upload/v1622393498/archeel_xc3w5k.jpg",
   },

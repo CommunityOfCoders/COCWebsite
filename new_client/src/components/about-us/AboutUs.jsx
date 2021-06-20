@@ -15,22 +15,26 @@ import GSes from "../assets/coc-gses.webp";
 import Members from "../assets/coc-members.webp";
 import Banner from "./Banner";
 import "./AboutUs.css";
-import Image from "./Image";
+import Image from "./Image.jsx";
 import Details from "./details";
 
 export default function AboutUs() {
   const details = Details;
   const arr = [];
 
-  for (let i = 0; i < 30; i += 2) {
+  details.sort((a, b) => (a.name <= b.name ? -1 : 1));
+
+  for (let i = 0; i < details.length; i += 2) {
     arr.push(
-      <div class="com-mem">
-        <Image class="member" name={details[i].name} img={details[i].img} />
-        <Image
-          class="member"
-          name={details[i + 1].name}
-          img={details[i + 1].img}
-        />
+      <div className="com-mem">
+        <Image className="member" name={details[i].name} img={details[i].img} />
+        {i + 1 < details.length ? (
+          <Image
+            className="member"
+            name={details[i + 1].name}
+            img={details[i + 1].img}
+          />
+        ) : null}
       </div>
     );
   }
@@ -215,7 +219,7 @@ export default function AboutUs() {
 
             <div style={{ textAlign: "center" }}>
               <Typography variant="h4">General Secretaries</Typography>
-              <div class="gene-sec-cont">
+              <div className="gene-sec-cont">
                 <Image
                   name="Saif Kazi"
                   img="https://res.cloudinary.com/dxleddac7/image/upload/v1622393523/Saif_Kazi_sjujcu.jpg"
