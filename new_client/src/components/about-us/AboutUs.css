@@ -24,6 +24,10 @@
   overflow: hidden;
 }
 
+.shadow-1 {
+  box-shadow: 2px 2px rgba(0, 0, 0, 0.3);
+}
+
 .com-mem {
   display: flex;
   flex-direction: row;

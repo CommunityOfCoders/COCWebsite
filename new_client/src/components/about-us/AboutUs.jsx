@@ -11,8 +11,6 @@ import C_WS from "../assets/C_WS.webp";
 import CP from "../assets/CP.webp";
 import Inheritance from "../assets/Inheritance.webp";
 import GenericDetails from "./GenericDetails";
-import GSes from "../assets/coc-gses.webp";
-import Members from "../assets/coc-members.webp";
 import Banner from "./Banner";
 import "./AboutUs.css";
 import Image from "./Image.jsx";
@@ -26,11 +24,11 @@ export default function AboutUs() {
 
   for (let i = 0; i < details.length; i += 2) {
     arr.push(
-      <div className="com-mem">
-        <Image className="member" name={details[i].name} img={details[i].img} />
+      <div className="com-mem" key={i}>
+        <Image class="member" name={details[i].name} img={details[i].img} />
         {i + 1 < details.length ? (
           <Image
-            className="member"
+            class="member"
             name={details[i + 1].name}
             img={details[i + 1].img}
           />

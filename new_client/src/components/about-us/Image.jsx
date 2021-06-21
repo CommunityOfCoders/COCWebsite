@@ -1,13 +1,21 @@
 import React from "react";
-import GSes from "../assets/coc-gses.webp";
 
 const Image = (props) => {
   return (
     <div className={`image-cont ${props.class}`}>
-      <div className={`image-card ${props.class}`}>
-        <img src={props.img} className="image" height="100%" width="100%" />
+      <div
+        className={`image-card ${props.class} shadow-1 shadow`}
+        style={{ backgroundColor: "#d9d9d9" }}
+      >
+        <img
+          src={props.img}
+          alt={`${props.name}`}
+          className="image"
+          height="100%"
+          width="100%"
+        />
       </div>
-      <div className="image-name">{props.name}</div>
+      <div className="image-name shadow-1 shadow">{props.name}</div>
     </div>
   );
 };
