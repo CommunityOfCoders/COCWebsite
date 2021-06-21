@@ -12,7 +12,6 @@ const Image = (props) => {
           alt={`${props.name}`}
           className="image"
           height="100%"
-          width="100%"
         />
       </div>
       <div className="image-name shadow-1 shadow">{props.name}</div>
