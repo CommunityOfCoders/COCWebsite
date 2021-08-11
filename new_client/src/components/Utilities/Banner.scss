@@ -53,6 +53,10 @@
       background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
         url("../assets/projects.webp");
       min-height: 100vh;
+    } @else if $page == "Magazines" {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url("../assets/magazines.webp");
+      min-height: 100vh;
     }
   }
 
@@ -105,4 +109,7 @@ section.aboutUsBanner {
 }
 section.projectsBanner {
   @include Banner("Projects");
+}
+section.magazinesBanner {
+  @include Banner("Magazines");
 }

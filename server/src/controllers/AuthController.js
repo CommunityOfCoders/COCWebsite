@@ -1,3 +1,4 @@
+require("dotenv").config();
 const User = require("../models/User");
 const passwordhasher = require("password-hasher");
 const jwt = require("jsonwebtoken");
@@ -7,16 +8,16 @@ const sendEmail = require("../utility/sendEmail");
 const ejs = require("ejs");
 const path = require("path");
 const getBaseURL = require("../utility/getBaseURL");
-const { validationResult } = require('express-validator/check');
+const { validationResult } = require("express-validator/check");
 
-const SibApiV3Sdk = require('sib-api-v3-sdk');
-const apiInstance = require('../config/sib')
+const SibApiV3Sdk = require("sib-api-v3-sdk");
+const apiInstance = require("../config/sib");
 
 function passwordHash(password) {
   const hash = passwordhasher.createHash(
     "ssha512",
     password,
-    new Buffer("83d88386463f0625", "hex")
+    new Buffer(process.env.PASSWORD_HASH, "hex")
   );
   const rfcHash = passwordhasher.formatRFC2307(hash);
   return rfcHash;
@@ -35,7 +36,9 @@ module.exports = {
 
       const user1 = await User.findOne({
         username: username,
-      }).lean().select({ "username": 1 });
+      })
+        .lean()
+        .select({ username: 1 });
 
       /* If user exists, return 422 -
       visit https://stackoverflow.com/questions/3825990/http-response-code-for-post-when-resource-already-exists for more details
@@ -50,29 +53,35 @@ module.exports = {
 
       const user = await User.create(req.body);
 
-      if (process.env.NODE_ENV === "production")
-      {
+      if (process.env.NODE_ENV === "production") {
         var createContact = new SibApiV3Sdk.CreateContact(); // CreateContact | Values to create a contact
-        createContact = { 'email' : user.email };
-        apiInstance.createContact(createContact).then(function(data) {
-          console.log('SIB contact created successfully.')
-        }, function(error) {
-          console.error(error);
-        });
+        createContact = { email: user.email };
+        apiInstance.createContact(createContact).then(
+          function (data) {
+            console.log("SIB contact created successfully.");
+          },
+          function (error) {
+            console.error(error);
+          }
+        );
       }
 
-      const token = jwt.sign({
-        user: {
-          _id: user._id,
-          username: user.username,
-          email: user.email,
-          password: user.password,
-          isMember: user.isMember,
-          isBlogAuthorized: user.isBlogAuthorized
+      const token = jwt.sign(
+        {
+          user: {
+            _id: user._id,
+            username: user.username,
+            email: user.email,
+            password: user.password,
+            isMember: user.isMember,
+            isBlogAuthorized: user.isBlogAuthorized,
+          },
+        },
+        config.privateKey,
+        {
+          expiresIn: 3600,
         }
-      }, config.privateKey, {
-        expiresIn: 3600,
-      });
+      );
 
       res.status(201).json({
         username: user.username,
@@ -98,14 +107,16 @@ module.exports = {
 
       const user = await User.findOne({
         username: username,
-      }).select({
-        "_id": 1,
-        "username": 1,
-        "email": 1,
-        "password": 1,
-        "isMember": 1,
-        "isBlogAuthorized": 1
-      }).lean();
+      })
+        .select({
+          _id: 1,
+          username: 1,
+          email: 1,
+          password: 1,
+          isMember: 1,
+          isBlogAuthorized: 1,
+        })
+        .lean();
 
       // User not found, return 400
       if (!user) {
@@ -131,7 +142,7 @@ module.exports = {
         username: user.username,
         token: token,
         userID: user._id,
-        rememberme: rememberme
+        rememberme: rememberme,
       });
     } catch (error) {
       return res.status(500).json({
@@ -250,7 +261,7 @@ module.exports = {
       res.status(422).json({ errors: errors.array() });
       return;
     }
-    
+
     try {
       const { newPassword, token } = req.body;
       let user = await User.findOne({

@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 // const helmet = require("helmet");
-const path = require("path")
+const path = require("path");
 const routes = require("./routes");
 const config = require("./config");
 const compression = require("compression");
@@ -14,7 +14,17 @@ const app = express();
 
 // app.use(helmet());
 app.use(express.json({ limit: "10mb" }));
-app.use(cors());
+
+var corsOptions = {
+  origin: "http://localhost:3000",
+  optionsSuccessStatus: 200, // For legacy browser support
+};
+
+if (process.env.NODE_ENV === "production") {
+  corsOptions.origin = "https://communityofcoders.in";
+}
+
+app.use(cors(corsOptions));
 
 app.set("view engine", "ejs");
 

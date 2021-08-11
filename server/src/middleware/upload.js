@@ -3,7 +3,7 @@ const path = require('path')
 
 function checkFileType(file, cb){
     // Allowed ext
-    const filetypes = /jpeg|jpg|png|gif/;
+    const filetypes = /jpeg|jpg|png|gif|pdf/;
     // Check ext
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
     // Check mime
@@ -18,7 +18,7 @@ function checkFileType(file, cb){
   
 var upload = multer({ 
     dest: 'uploads/',
-    limits:{fileSize: 3*1024*1024},
+    limits:{fileSize: 30*1024*1024},
     fileFilter: function(req, file, cb){
         checkFileType(file, cb);
     }

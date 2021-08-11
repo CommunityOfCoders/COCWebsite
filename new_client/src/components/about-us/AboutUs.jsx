@@ -11,13 +11,32 @@ import C_WS from "../assets/C_WS.webp";
 import CP from "../assets/CP.webp";
 import Inheritance from "../assets/Inheritance.webp";
 import GenericDetails from "./GenericDetails";
-import GSes from "../assets/coc-gses.webp";
-import Members from "../assets/coc-members.webp";
 import Banner from "./Banner";
-
 import "./AboutUs.css";
+import Image from "./Image.jsx";
+import Details from "./details";
 
 export default function AboutUs() {
+  const details = Details;
+  const arr = [];
+
+  details.sort((a, b) => (a.name <= b.name ? -1 : 1));
+
+  for (let i = 0; i < details.length; i += 2) {
+    arr.push(
+      <div className="com-mem" key={i}>
+        <Image class="member" name={details[i].name} img={details[i].img} />
+        {i + 1 < details.length ? (
+          <Image
+            class="member"
+            name={details[i + 1].name}
+            img={details[i + 1].img}
+          />
+        ) : null}
+      </div>
+    );
+  }
+
   return (
     <>
       <Banner />
@@ -195,26 +214,28 @@ export default function AboutUs() {
             <br />
             {/* <Grid container> */}
             {/* <Grid item xs={0} md={4} lg={4} /> */}
+
             <div style={{ textAlign: "center" }}>
+              <Typography variant="h4">General Secretaries</Typography>
+              <div className="gene-sec-cont">
+                <Image
+                  name="Saif Kazi"
+                  img="https://res.cloudinary.com/dxleddac7/image/upload/v1622393523/Saif_Kazi_sjujcu.jpg"
+                />
+                <Image
+                  name="Shubhankar Gupta"
+                  img="https://res.cloudinary.com/dxleddac7/image/upload/v1622393522/Shubhankar_Gupta_wklcuf.jpg"
+                />
+              </div>
               {/* <Grid item xs={12} md={6} lg={6}> */}
-              <img
-                src={GSes}
-                className="secretaries-image"
-                alt="General Secretaries"
-              />
               <br />
-              <Typography variant="h5">
-                General Secretaries - Saif Kazi, Shubhankar Gupta
-              </Typography>
               <br />
               {/* </Grid> */}
             </div>
             <div style={{ textAlign: "center" }}>
-              {/* <Grid item xs={12} md={6} lg={6}> */}
-              <img src={Members} className="team-image" alt="Core Committee" />
+              <Typography variant="h4">The Core Committee - 2020-21</Typography>
+              {arr.map((item) => item)}
               <br />
-              <Typography variant="h5">The Core Committee - 2020-21</Typography>
-              {/* </Grid> */}
             </div>
             {/* <Grid item xs={12} md={6} lg={6}><img src={Members} style={{ width: "90%" }} /></Grid> */}
             {/* <img src={Members} /> */}

@@ -7,7 +7,7 @@ import AlertUtility from "../Utilities/Alert";
 import Spinner from "../spinner/Spinner";
 import Modal from "../Modal/Modal";
 import AddEvent from "./AddEvent";
-import { Container, Typography } from "@material-ui/core";
+import { Container } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import IndividualEvent from "./IndividualEvent";
