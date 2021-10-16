@@ -192,14 +192,14 @@ export default function AboutUs() {
           </Grid>
           <Grid item xs={12}>
             <Grid container spacing={3}>
-              <Grid item xs={12} md={4} lg={4}>
+              <Grid item xs={12} md={4} align="center">
                 <GenericDetails imgSrc={Inheritance} title="Inheritance" />
               </Grid>
-              <Grid item xs={12} md={4} lg={4}>
-                <GenericDetails imgSrc={CP} title="CP Workshop" />
+              <Grid item xs={12} md={4} align="center" >
+                <GenericDetails imgSrc={CP} title="CP Workshop"  />
               </Grid>
-              <Grid item xs={12} md={4} lg={4}>
-                <GenericDetails imgSrc={C_WS} title="C Workshop" />
+              <Grid item xs={12} md={4} align="center">
+                <GenericDetails imgSrc={C_WS} title="C Workshop"  />
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="subtitle1" align="center">
