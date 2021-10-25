@@ -220,21 +220,25 @@ export default function AboutUs() {
               <div className="gene-sec-cont">
                 <Image
                   name="Priya Nagda"
+                  position="General Secretary"
                   img="https://res.cloudinary.com/coc-vjti/image/upload/v1635178506/vgwhwuzkwk5di0fy0ehj.jpg"
+                />
+                <Image
+                  name="Ravi Maurya"
+                  position="Development Head"
+                  img="https://res.cloudinary.com/coc-vjti/image/upload/v1635179293/vakatqmyckme9tapzkwh.jpg"
                 />
               </div>
 
               <div className="gene-sec-cont">
                 <Image
-                  name="Ravi Maurya"
-                  img="https://res.cloudinary.com/coc-vjti/image/upload/v1635179293/vakatqmyckme9tapzkwh.jpg"
-                />
-                <Image
                   name="Kush Kothari"
+                  position="Community Management Head"
                   img="https://res.cloudinary.com/coc-vjti/image/upload/v1635181861/dvaw7wlw5daqp1r6zot2.jpg"
                 />
                 <Image
                   name="Saksham Tikoo"
+                  position="Competitive Programming Head"
                   img="https://res.cloudinary.com/coc-vjti/image/upload/v1635179439/vyx1vwtt7kj3usyfs1aa.jpg"
                 />
               </div>

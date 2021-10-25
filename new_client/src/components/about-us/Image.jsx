@@ -14,7 +14,11 @@ const Image = (props) => {
           height="100%"
         />
       </div>
-      <div className="image-name shadow-1 shadow">{props.name}</div>
+      <div className="image-name shadow-1 shadow">
+        {props.name}
+        <br />
+        {props.position && <strong>{props.position}</strong>}
+      </div>
     </div>
   );
 };
