@@ -216,7 +216,7 @@ export default function AboutUs() {
             {/* <Grid item xs={0} md={4} lg={4} /> */}
 
             <div style={{ textAlign: "center" }}>
-              <Typography variant="h4">General Secretaries</Typography>
+              <Typography variant="h4">Heads</Typography>
               <div className="gene-sec-cont">
                 <Image
                   name="Priya Nagda"
