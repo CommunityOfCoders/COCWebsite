@@ -195,11 +195,11 @@ export default function AboutUs() {
               <Grid item xs={12} md={4} align="center">
                 <GenericDetails imgSrc={Inheritance} title="Inheritance" />
               </Grid>
-              <Grid item xs={12} md={4} align="center" >
-                <GenericDetails imgSrc={CP} title="CP Workshop"  />
+              <Grid item xs={12} md={4} align="center">
+                <GenericDetails imgSrc={CP} title="CP Workshop" />
               </Grid>
               <Grid item xs={12} md={4} align="center">
-                <GenericDetails imgSrc={C_WS} title="C Workshop"  />
+                <GenericDetails imgSrc={C_WS} title="C Workshop" />
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="subtitle1" align="center">
@@ -219,14 +219,26 @@ export default function AboutUs() {
               <Typography variant="h4">General Secretaries</Typography>
               <div className="gene-sec-cont">
                 <Image
-                  name="Saif Kazi"
-                  img="https://res.cloudinary.com/dxleddac7/image/upload/v1622393523/Saif_Kazi_sjujcu.jpg"
-                />
-                <Image
-                  name="Shubhankar Gupta"
-                  img="https://res.cloudinary.com/dxleddac7/image/upload/v1622393522/Shubhankar_Gupta_wklcuf.jpg"
+                  name="Priya Nagda"
+                  img="https://res.cloudinary.com/coc-vjti/image/upload/v1635178506/vgwhwuzkwk5di0fy0ehj.jpg"
                 />
               </div>
+
+              <div className="gene-sec-cont">
+                <Image
+                  name="Ravi Maurya"
+                  img="https://res.cloudinary.com/coc-vjti/image/upload/v1635179293/vakatqmyckme9tapzkwh.jpg"
+                />
+                <Image
+                  name="Kush Kothari"
+                  img="https://res.cloudinary.com/coc-vjti/image/upload/v1635181861/dvaw7wlw5daqp1r6zot2.jpg"
+                />
+                <Image
+                  name="Saksham Tikoo"
+                  img="https://res.cloudinary.com/coc-vjti/image/upload/v1635179439/vyx1vwtt7kj3usyfs1aa.jpg"
+                />
+              </div>
+
               {/* <Grid item xs={12} md={6} lg={6}> */}
               <br />
               <br />
