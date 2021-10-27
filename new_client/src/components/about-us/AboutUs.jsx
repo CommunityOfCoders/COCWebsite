@@ -249,7 +249,7 @@ export default function AboutUs() {
               {/* </Grid> */}
             </div>
             <div style={{ textAlign: "center" }}>
-              <Typography variant="h4">The Core Committee - 2020-21</Typography>
+              <Typography variant="h4">The Core Committee - 2021-22</Typography>
               {arr.map((item) => item)}
               <br />
             </div>

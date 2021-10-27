@@ -17,7 +17,9 @@ const Image = (props) => {
       <div className="image-name shadow-1 shadow">
         {props.name}
         <br />
-        {props.position && <strong>{props.position}</strong>}
+        {props.position && (
+          <strong className="position">{props.position}</strong>
+        )}
       </div>
     </div>
   );
