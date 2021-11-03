@@ -1,157 +1,82 @@
 export default [
   {
-    name: "Vedant Paranjape",
+    name: "Abhay Ubhale",
     img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393556/Vedant_Paranjape_eiqieg.jpg",
+      "https://res.cloudinary.com/coc-vjti/image/upload/v1635180376/qv1xvlfomvlffjuhajf2.jpg",
   },
   {
-    name: "Yash Tailor",
+    name: "Atharva Patil",
     img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393524/Yash_Tailor_hpenvu.jpg",
+      "https://res.cloudinary.com/coc-vjti/image/upload/v1635180378/fhb88vikt4sncuhvm6y1.jpg",
   },
   {
-    name: "Sneha Balwani",
+    name: "Ayush Pattnaik",
     img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393527/Sneha_Balwani_xhmbyo.jpg",
+      "https://res.cloudinary.com/coc-vjti/image/upload/v1635180379/gu0rbitjrqqeeuxfnz6n.png",
   },
   {
-    name: "Janvi Raina",
+    name: "Darsh Bavishi",
     img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393525/Janvi_Raina_aujlcf.jpg",
+      "https://res.cloudinary.com/coc-vjti/image/upload/v1635180380/mwyyuzyffhea4emoqfeu.jpg",
   },
   {
-    name: "Yogesh Deshpande",
+    name: "Devayani Shivankar",
     img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393523/Yogesh_Deshpande_onti7z.jpg",
+      "https://res.cloudinary.com/coc-vjti/image/upload/v1635180384/mf4subkijlzgtstlvjsx.jpg",
   },
   {
-    name: "Yukta Sarode",
+    name: "Dhruvin Gandhi",
     img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393524/YuktaSarode_gooyou.jpg",
+      "https://res.cloudinary.com/coc-vjti/image/upload/v1635180387/ny5wrwcafb7pjmspgogu.png",
   },
   {
-    name: "Bhavya Sheth",
+    name: "Jainam Dharod",
     img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393524/Bhavya_Sheth_iysygc.jpg",
+      "https://res.cloudinary.com/coc-vjti/image/upload/v1635180388/cypcsllwurg8nckf9gf4.jpg",
   },
   {
-    name: "Siddhesh Bandgar",
+    name: "Maitri Amin",
     img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393523/Siddhesh_Bandgar_v3anih.jpg",
+      "https://res.cloudinary.com/coc-vjti/image/upload/v1635180389/xz0dte5mz7stqworow4n.jpg",
   },
   {
-    name: "Aditya Patkar",
+    name: "Nikheel Indanoor",
     img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393522/Aditya_Patkar_dd8hyh.png",
+      "https://res.cloudinary.com/coc-vjti/image/upload/v1635180390/ifooh44gaw0evifbic7q.png",
   },
   {
-    name: "Sarakshi Phate",
+    name: "Pankaj Khushalani",
     img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393522/Sarakshi_ipyknv.jpg",
-  },
-  {
-    name: "Siddharth Nayak",
-    img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393521/Siddharth_Nayak_q7y6vk.png",
-  },
-  {
-    name: "Saurav Kanegaonkar",
-    img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393520/Saurav_Kanegaonkar_gvzreu.jpg",
-  },
-  {
-    name: "Sayali Kulkarni",
-    img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393520/Sayali_Kulkarni_h8lkf6.jpg",
-  },
-  {
-    name: "Sarang Shekokar",
-    img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393519/Sarang_Shekokar_xamvnn.jpg",
-  },
-  {
-    name: "Rohan vora",
-    img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393519/Rohan_vora_ec1sb9.jpg",
-  },
-  {
-    name: "Parijat Dhalkar",
-    img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393518/Parijat_Dhalkar_tc5rt1.jpg",
-  },
-  {
-    name: "Riya Gupta",
-    img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393518/Riya_Gupta_wozxpc.jpg",
-  },
-  {
-    name: "Rasika Chavan",
-    img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393517/Rasika_Chavan_tl3hj2.jpg",
-  },
-  {
-    name: "Sagar Dholakia",
-    img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393517/Sagar_Dholakia_ieic7q.png",
-  },
-  {
-    name: "Mohammed Mehdi",
-    img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393515/Mohammed_Mehdi_r4sjg9.jpg",
-  },
-  {
-    name: "Priyesh Vakharia",
-    img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393510/Priyesh_Vakharia_nvmfes.jpg",
-  },
-  {
-    name: "Akshat Shah",
-    img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393510/Akshat_Shah_ylmb02.jpg",
-  },
-  {
-    name: "Hrim Gandhi",
-    img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393506/Hrim_Gandhi_tbqj0t.jpg",
-  },
-  {
-    name: "Priyanshi Gupta",
-    img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393505/Priyanshi_Gupta_tjuy9b.jpg",
+      "https://res.cloudinary.com/coc-vjti/image/upload/v1635180391/ok6lcldxjhfsbzpz1zcy.png",
   },
   {
     name: "Parth Shah",
     img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393504/Parth_Shah_fqgxmb.jpg",
+      "https://res.cloudinary.com/coc-vjti/image/upload/v1635180393/vwkqafydgs2rwrqxojwo.jpg",
   },
   {
-    name: "Palak Mantry",
+    name: "Prasad Thakare",
     img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393502/Palak_Mantry_i1wcxt.jpg",
+      "https://res.cloudinary.com/coc-vjti/image/upload/v1635180395/tbqb75iw5i9xib1ja4ql.png",
   },
   {
-    name: "Abhay Kaul",
+    name: "Sarah Tisekar",
     img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393499/Abhay_Kaul_st32uv.jpg",
+      "https://res.cloudinary.com/coc-vjti/image/upload/v1635180396/snx6j0aaevyentcdtuhi.jpg",
   },
   {
-    name: "Gaurav Sharma",
+    name: "Utsav Khatu",
     img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393499/Gaurav_Sharma_oo56kg.jpg",
+      "https://res.cloudinary.com/coc-vjti/image/upload/v1635180397/fucnvqybmtbtctk7hunc.jpg",
   },
   {
-    name: "Devanshi Shah",
+    name: "Vaishnavi Shah",
     img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393499/DevanshiShah_kwo6aq.jpg",
+      "https://res.cloudinary.com/coc-vjti/image/upload/v1635180399/r2zgoifm6kydgawsapvl.jpg",
   },
   {
-    name: "Atharva Thorve",
+    name: "Vishal Patil",
     img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393498/Atharva_Thorve_uzssqr.jpg",
-  },
-  {
-    name: "Archeel Parikh",
-    img:
-      "https://res.cloudinary.com/dxleddac7/image/upload/v1622393498/archeel_xc3w5k.jpg",
+      "https://res.cloudinary.com/coc-vjti/image/upload/v1635180401/krozaavbjtkcpsgrbbr5.jpg",
   },
 ];

@@ -49,10 +49,15 @@
 }
 
 .image-name {
-  background-color: rgb(29, 247, 0);
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
-  font-size: 1rem;
+  font-size: 1.3rem;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.position {
+  color: rgb(67, 200, 62);
 }
 
 .team-image {
