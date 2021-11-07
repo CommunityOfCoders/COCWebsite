@@ -23,7 +23,7 @@ function passwordHash(password) {
   return rfcHash;
 }
 
-const ACCESS_TOKEN_EXPIRE_TIME = '1m';     // 1 minutes
+const ACCESS_TOKEN_EXPIRE_TIME = '5m';     // 5 minutes
 const REFRESH_TOKEN_EXPIRE_TIME = '365d';  // 365 days
 
 module.exports = {
@@ -78,11 +78,11 @@ module.exports = {
         isBlogAuthorized: user.isBlogAuthorized,
       };
       const token = jwt.sign({ user: jwtUser }, config.privateKey, {
-        expiresIn: '10s',
+        expiresIn: ACCESS_TOKEN_EXPIRE_TIME,
       });
 
       const refreshToken = jwt.sign({user: jwtUser}, config.refreshPrivateKey, {
-        expiresIn: '30s'
+        expiresIn: REFRESH_TOKEN_EXPIRE_TIME
       });
 
       res.status(201).json({
@@ -170,7 +170,6 @@ module.exports = {
     const token = req.headers.authorization.split(" ")[1];
 
     try {
-      // jwt.verify(token, config.privateKey);
       jwt.verify(token, config.privateKey, async (err, decoded) => {
         if(!err){
           next();
@@ -191,7 +190,6 @@ module.exports = {
 
   async refreshAuthTokens(req, res){
     try {
-      console.log(req.body);
       const { refreshToken, uid } = req.body;
 
       if(!refreshToken || !uid){
@@ -199,11 +197,9 @@ module.exports = {
       }
 
       const user = await User.findById(uid);
-                // todo: what if uid was not correct?
 
       jwt.verify(refreshToken, config.refreshPrivateKey, async (err, decoded) => {
         if(!err){
-          console.log(decoded);
           const newToken = jwt.sign({ user: user }, config.privateKey, {
             expiresIn: ACCESS_TOKEN_EXPIRE_TIME,
           });

@@ -18,7 +18,6 @@ import AlertUtility from "../Utilities/Alert";
 import { connect } from "react-redux";
 import { isFuture } from "date-fns/esm";
 import BackButton from "../Utilities/BackButton";
-import { refreshNewTokens } from "../../actions/authActions";
 import useAuthenticatedAxios from "../Utilities/useAuthenticatedAxios.js";
 
 const useStyles = makeStyles((theme) => ({
@@ -185,4 +184,4 @@ const mapStateToProps = (state) => ({
   refreshToken: state.auth.refreshToken,
 });
 
-export default connect(mapStateToProps, { refreshNewTokens })(EventPage);
+export default connect(mapStateToProps)(EventPage);

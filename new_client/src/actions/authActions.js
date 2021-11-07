@@ -88,15 +88,6 @@ export const login = ({ username, password, rememberme }) => (dispatch) => {
     });
 };
 
-export const refreshNewTokens = ({ token, refreshToken }) => (dispatch) => {
-  if (token) {
-    dispatch({
-      type: REFRESH_TOKENS,
-      payload: { token, refreshToken },
-    });
-  }
-};
-
 export const newPassword = ({ newPassword, token }) => (dispatch) => {
   const config = {
     headers: {

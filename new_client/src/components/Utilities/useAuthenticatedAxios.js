@@ -1,6 +1,5 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import dayjs from "dayjs";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { REFRESH_TOKENS, LOGOUT_SUCCESS } from "../../actions/types";
@@ -21,12 +20,14 @@ const useAuthenticatedAxios = () => {
   axiosInstance.interceptors.request.use(async (req) => {
     // Check if Access Token is expired
     const user = jwt_decode(token);
-    const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
+    const expiryDateAccessToken = new Date(user.exp * 1000);
+    const isExpired = new Date() > expiryDateAccessToken;
     if (!isExpired) return req;
 
     // Check if Refresh Token is expired
     const refreshDecode = jwt_decode(refreshToken);
-    const isRefreshExpired = dayjs.unix(refreshDecode.exp).diff(dayjs()) < 1;
+    const expiryDateRefreshToken = new Date(refreshDecode.exp * 1000);
+    const isRefreshExpired = new Date() > expiryDateRefreshToken;
     if (isRefreshExpired) {
       dispatch({
         type: LOGOUT_SUCCESS,
