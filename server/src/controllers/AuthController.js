@@ -22,6 +22,10 @@ function passwordHash(password) {
   const rfcHash = passwordhasher.formatRFC2307(hash);
   return rfcHash;
 }
+
+const ACCESS_TOKEN_EXPIRE_TIME = '1m';     // 1 minutes
+const REFRESH_TOKEN_EXPIRE_TIME = '365d';  // 365 days
+
 module.exports = {
   async register(req, res) {
     const errors = validationResult(req);
@@ -65,27 +69,26 @@ module.exports = {
           }
         );
       }
+      const jwtUser = {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        password: user.password,
+        isMember: user.isMember,
+        isBlogAuthorized: user.isBlogAuthorized,
+      };
+      const token = jwt.sign({ user: jwtUser }, config.privateKey, {
+        expiresIn: '10s',
+      });
 
-      const token = jwt.sign(
-        {
-          user: {
-            _id: user._id,
-            username: user.username,
-            email: user.email,
-            password: user.password,
-            isMember: user.isMember,
-            isBlogAuthorized: user.isBlogAuthorized,
-          },
-        },
-        config.privateKey,
-        {
-          expiresIn: 3600,
-        }
-      );
+      const refreshToken = jwt.sign({user: jwtUser}, config.refreshPrivateKey, {
+        expiresIn: '30s'
+      });
 
       res.status(201).json({
         username: user.username,
         token: token,
+        refreshToken: refreshToken
       });
     } catch (error) {
       res.status(500).json({
@@ -135,12 +138,17 @@ module.exports = {
       }
 
       const token = jwt.sign({ user: user }, config.privateKey, {
-        expiresIn: 60 * 60,
+        expiresIn: ACCESS_TOKEN_EXPIRE_TIME,
+      });
+
+      const refreshToken = jwt.sign({user: user}, config.refreshPrivateKey, {
+        expiresIn: REFRESH_TOKEN_EXPIRE_TIME
       });
 
       return res.status(200).json({
         username: user.username,
         token: token,
+        refreshToken: refreshToken,
         userID: user._id,
         rememberme: rememberme,
       });
@@ -151,7 +159,7 @@ module.exports = {
     }
   },
 
-  async verifyToken(req, res) {
+  async verifyToken(req, res, next) {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -159,17 +167,63 @@ module.exports = {
       return;
     }
 
-    const { token } = req.body;
+    const token = req.headers.authorization.split(" ")[1];
 
     try {
-      jwt.verify(token, config.privateKey);
-      res.status(200).json({
-        status: true,
+      // jwt.verify(token, config.privateKey);
+      jwt.verify(token, config.privateKey, async (err, decoded) => {
+        if(!err){
+          next();
+        }else{
+          res.status(401).json({
+            status: false,
+            error: err.message
+          });
+        }
       });
     } catch (error) {
       res.status(403).json({
         status: false,
+        error: err.message
       });
+    }
+  },
+
+  async refreshAuthTokens(req, res){
+    try {
+      console.log(req.body);
+      const { refreshToken, uid } = req.body;
+
+      if(!refreshToken || !uid){
+        return res.status(401).json({ error: "Data missing" });
+      }
+
+      const user = await User.findById(uid);
+                // todo: what if uid was not correct?
+
+      jwt.verify(refreshToken, config.refreshPrivateKey, async (err, decoded) => {
+        if(!err){
+          console.log(decoded);
+          const newToken = jwt.sign({ user: user }, config.privateKey, {
+            expiresIn: ACCESS_TOKEN_EXPIRE_TIME,
+          });
+
+          const newRefreshToken = jwt.sign({user: user}, config.refreshPrivateKey, {
+            expiresIn: REFRESH_TOKEN_EXPIRE_TIME
+          });
+
+          res.status(200).json({
+            token: newToken,
+            refreshToken: newRefreshToken
+          })
+        }else{
+          console.log(e.message);
+          return res.status(401).json({ error: err.message });
+        }
+      });
+    } catch (e) {
+      console.log(e.message);
+      return res.status(401).json({ error: e.message });
     }
   },
 

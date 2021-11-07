@@ -18,6 +18,8 @@ import AlertUtility from "../Utilities/Alert";
 import { connect } from "react-redux";
 import { isFuture } from "date-fns/esm";
 import BackButton from "../Utilities/BackButton";
+import { refreshNewTokens } from "../../actions/authActions";
+import useAuthenticatedAxios from "../Utilities/useAuthenticatedAxios.js";
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -54,9 +56,11 @@ export const TitleWithDivider = ({ text }) => {
 };
 
 function EventPage(props) {
+  const authenticatedAxios = useAuthenticatedAxios();
   const classes = useStyles();
   const [isLoading, setIsLoading] = useState(true);
   const id = useParams().id;
+
   const [event, setEvent] = useState({});
   const [isError, setIsError] = useState(false);
   const [isRegisterSuccess, setIsRegisterSuccess] = useState(false);
@@ -80,18 +84,14 @@ function EventPage(props) {
 
   const handleRSVP = async (eventId, isUserRegistered) => {
     try {
-      const requestOptions = {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + props.token,
-        },
-      };
       const url = !isUserRegistered
         ? process.env.REACT_APP_API +
           `/events/register?eid=${eventId}&uid=${props.userID}`
         : process.env.REACT_APP_API +
           `/events/unregister?eid=${eventId}&uid=${props.userID}`;
-      const response = await fetch(url, requestOptions);
+
+      const response = await authenticatedAxios.post(url);
+
       if (response.status === 200) {
         setIsRegisterSuccess(true);
       } else {
@@ -182,6 +182,7 @@ function EventPage(props) {
 const mapStateToProps = (state) => ({
   userID: state.auth.userID,
   token: state.auth.token,
+  refreshToken: state.auth.refreshToken,
 });
 
-export default connect(mapStateToProps)(EventPage);
+export default connect(mapStateToProps, { refreshNewTokens })(EventPage);

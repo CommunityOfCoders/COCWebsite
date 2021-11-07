@@ -9,6 +9,7 @@ import {
   LOGOUT_SUCCESS,
   NEW_PASSWORD_SUCCESS,
   NEW_PASSWORD_FAIL,
+  REFRESH_TOKENS,
 } from "./types";
 import axios from "axios";
 import { returnErrors } from "./errorActions";
@@ -85,6 +86,15 @@ export const login = ({ username, password, rememberme }) => (dispatch) => {
         type: LOGIN_FAIL,
       });
     });
+};
+
+export const refreshNewTokens = ({ token, refreshToken }) => (dispatch) => {
+  if (token) {
+    dispatch({
+      type: REFRESH_TOKENS,
+      payload: { token, refreshToken },
+    });
+  }
 };
 
 export const newPassword = ({ newPassword, token }) => (dispatch) => {
