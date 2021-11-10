@@ -14,6 +14,7 @@ import IndividualEvent from "./IndividualEvent";
 import Banner from "./Banner";
 import { isFuture } from "date-fns";
 import { TitleWithDivider } from "./EventPage";
+import useAuthenticatedAxios from "../Utilities/useAuthenticatedAxios.js";
 
 const useStyles = makeStyles({
   gridContainer: {
@@ -23,6 +24,7 @@ const useStyles = makeStyles({
 });
 
 function EventList(props) {
+  const authenticatedAxios = useAuthenticatedAxios();
   const [isMember, setIsMember] = useState(false);
   const [events, setEvents] = useState([]);
   const [isDeleted, setIsDeleted] = useState(false);
@@ -121,18 +123,12 @@ function EventList(props) {
 
   const handleRSVP = async (eventId, isUserRegistered) => {
     try {
-      const requestOptions = {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + props.token,
-        },
-      };
       const url = !isUserRegistered
         ? process.env.REACT_APP_API +
           `/events/register?eid=${eventId}&uid=${props.userID}`
         : process.env.REACT_APP_API +
           `/events/unregister?eid=${eventId}&uid=${props.userID}`;
-      const response = await fetch(url, requestOptions);
+      const response = await authenticatedAxios.post(url);
       if (response.status === 200) {
         const isRegisteredTemp = {
           ...isRegistered,
