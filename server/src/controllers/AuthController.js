@@ -34,8 +34,8 @@ const buildJWTPayload = (user) => {
   };
 }
 
-const ACCESS_TOKEN_EXPIRE_TIME = '15s';     // 5 minutes
-const REFRESH_TOKEN_EXPIRE_TIME = '60s';  // 365 days
+const ACCESS_TOKEN_EXPIRE_TIME = '5m';     // 5 minutes
+const REFRESH_TOKEN_EXPIRE_TIME = '365d';  // 365 days
 
 module.exports = {
   async register(req, res) {
@@ -213,7 +213,7 @@ module.exports = {
           const newRefreshToken = jwt.sign({user: jwtUser}, config.refreshPrivateKey, {
             expiresIn: REFRESH_TOKEN_EXPIRE_TIME
           });
-          
+
           res.status(200).json({
             token: newToken,
             refreshToken: newRefreshToken
