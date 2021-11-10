@@ -23,8 +23,19 @@ function passwordHash(password) {
   return rfcHash;
 }
 
-const ACCESS_TOKEN_EXPIRE_TIME = '5m';     // 5 minutes
-const REFRESH_TOKEN_EXPIRE_TIME = '365d';  // 365 days
+// Builds JWT Payload object from user object received from database
+const buildJWTPayload = (user) => {
+  return {
+    _id: user._id,
+    username: user.username,
+    email: user.email,
+    isMember: user.isMember,
+    isBlogAuthorized: user.isBlogAuthorized,
+  };
+}
+
+const ACCESS_TOKEN_EXPIRE_TIME = '15s';     // 5 minutes
+const REFRESH_TOKEN_EXPIRE_TIME = '60s';  // 365 days
 
 module.exports = {
   async register(req, res) {
@@ -69,14 +80,7 @@ module.exports = {
           }
         );
       }
-      const jwtUser = {
-        _id: user._id,
-        username: user.username,
-        email: user.email,
-        password: user.password,
-        isMember: user.isMember,
-        isBlogAuthorized: user.isBlogAuthorized,
-      };
+      const jwtUser = buildJWTPayload(user);
       const token = jwt.sign({ user: jwtUser }, config.privateKey, {
         expiresIn: ACCESS_TOKEN_EXPIRE_TIME,
       });
@@ -137,11 +141,12 @@ module.exports = {
         });
       }
 
-      const token = jwt.sign({ user: user }, config.privateKey, {
+      const jwtUser = buildJWTPayload(user);
+      const token = jwt.sign({ user: jwtUser }, config.privateKey, {
         expiresIn: ACCESS_TOKEN_EXPIRE_TIME,
       });
 
-      const refreshToken = jwt.sign({user: user}, config.refreshPrivateKey, {
+      const refreshToken = jwt.sign({user: jwtUser}, config.refreshPrivateKey, {
         expiresIn: REFRESH_TOKEN_EXPIRE_TIME
       });
 
@@ -200,14 +205,15 @@ module.exports = {
 
       jwt.verify(refreshToken, config.refreshPrivateKey, async (err, decoded) => {
         if(!err){
-          const newToken = jwt.sign({ user: user }, config.privateKey, {
+          const jwtUser = buildJWTPayload(user);
+          const newToken = jwt.sign({ user: jwtUser }, config.privateKey, {
             expiresIn: ACCESS_TOKEN_EXPIRE_TIME,
           });
 
-          const newRefreshToken = jwt.sign({user: user}, config.refreshPrivateKey, {
+          const newRefreshToken = jwt.sign({user: jwtUser}, config.refreshPrivateKey, {
             expiresIn: REFRESH_TOKEN_EXPIRE_TIME
           });
-
+          
           res.status(200).json({
             token: newToken,
             refreshToken: newRefreshToken
@@ -219,7 +225,7 @@ module.exports = {
       });
     } catch (e) {
       console.log(e.message);
-      return res.status(401).json({ error: e.message });
+      return res.status(500).json({ error: e.message });
     }
   },
 

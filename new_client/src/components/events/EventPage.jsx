@@ -180,8 +180,6 @@ function EventPage(props) {
 
 const mapStateToProps = (state) => ({
   userID: state.auth.userID,
-  token: state.auth.token,
-  refreshToken: state.auth.refreshToken,
 });
 
 export default connect(mapStateToProps)(EventPage);
