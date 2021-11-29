@@ -9,6 +9,7 @@ import {
   LOGOUT_SUCCESS,
   NEW_PASSWORD_SUCCESS,
   NEW_PASSWORD_FAIL,
+  REFRESH_TOKENS,
 } from "./types";
 import axios from "axios";
 import { returnErrors } from "./errorActions";

@@ -26,6 +26,8 @@ module.exports = (app) => {
   app.post('/api/user', auth.validate('getUser'), AuthController.getUser) // Tested
   app.post('/api/forgot-password', auth.validate('forgetPassword'), AuthController.forgotPassword);
   app.post('/api/new-password', auth.validate('newPassword'), AuthController.newPassword);
+  app.post('/api/refresh-tokens', AuthController.refreshAuthTokens) 
+
 
   //Events Paths
   app.get('/api/events', cache.getFromCache, Events.getEvents, cache.setCache); // Tested
@@ -33,8 +35,8 @@ module.exports = (app) => {
   app.put('/api/events/:id', auth.loginRequired, user.isMember, upload.single('COC_Event'), Events.updateEvent, cache.deleteCache);
   app.put('/api/events/form', event.validate('checkID'), event.validate('checkFormURL'), auth.loginRequired, user.isMember, Events.addForm) // Tested
   app.get('/api/events/:id', event.validate('checkID'), Events.getEventById); // Tested
-  app.post('/api/events/register', event.validate('checkQueryParams'), Events.registerUser, cache.deleteCache);
-  app.post('/api/events/unregister', event.validate('checkQueryParams'), Events.unregisterUser, cache.deleteCache);
+  app.post('/api/events/register', event.validate('checkQueryParams'), AuthController.verifyToken, Events.registerUser, cache.deleteCache);
+  app.post('/api/events/unregister', event.validate('checkQueryParams'), AuthController.verifyToken, Events.unregisterUser, cache.deleteCache);
   app.delete('/api/events/:id', event.validate('checkID'), auth.loginRequired, user.isMember, Events.deleteEvent, cache.deleteCache); // Tested
 
   // Glimpses
