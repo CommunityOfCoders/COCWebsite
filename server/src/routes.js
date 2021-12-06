@@ -26,8 +26,8 @@ module.exports = (app) => {
   app.post('/api/user', auth.validate('getUser'), AuthController.getUser) // Tested
   app.post('/api/forgot-password', auth.validate('forgetPassword'), AuthController.forgotPassword);
   app.post('/api/new-password', auth.validate('newPassword'), AuthController.newPassword);
-  app.post('/api/refresh-tokens', AuthController.refreshAuthTokens) 
-
+  app.post('/api/refresh-tokens', AuthController.refreshAuthTokens) ,
+  app.post('/api/verify-email', AuthController.verifyemail) ,
 
   //Events Paths
   app.get('/api/events', cache.getFromCache, Events.getEvents, cache.setCache); // Tested
