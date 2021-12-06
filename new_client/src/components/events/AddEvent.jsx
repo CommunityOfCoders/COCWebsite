@@ -11,13 +11,16 @@ import { connect } from "react-redux";
 import AlertUtility from "../Utilities/Alert";
 import { useEffect } from "react";
 import { useLocation, withRouter } from "react-router-dom";
+import useAuthenticatedAxios from "../Utilities/useAuthenticatedAxios.js";
 
 function AddEvent(props) {
+  const authenticatedAxios = useAuthenticatedAxios();
   const [eventName, setEventName] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [eventDate, setEventDate] = useState(new Date());
   const [eventVenue, setEventVenue] = useState("");
-  const [eventGraduationYear, setEventGraduationYear] = useState("");
+  const [eventGraduationYearFrom, setEventGraduationYearFrom] = useState("");
+  const [eventGraduationYearTo, setEventGraduationYearTo] = useState("");
   const [eventSelectedFile, setEventSelectedFile] = useState(null);
 
   const [isError, setIsError] = useState(false);
@@ -51,7 +54,8 @@ function AddEvent(props) {
           setEventDescription(res.data.description);
           setEventDate(res.data.date);
           setEventVenue(res.data.venue);
-          setEventGraduationYear(res.data.graduationYear);
+          setEventGraduationYearFrom(res.data.graduationYearFrom);
+          setEventGraduationYearTo(res.data.graduationYearTo);
         })
         .catch((err) => console.log(err));
     }
@@ -93,10 +97,17 @@ function AddEvent(props) {
       }));
       ret = false;
     }
-    if (!eventGraduationYear) {
+    if (!eventGraduationYearFrom || !eventGraduationYearTo) {
       setError((prevError) => ({
         ...prevError,
         graduationYearError: "*Graduation year cannot be empty",
+      }));
+      ret = false;
+    }
+    if (isNaN(eventGraduationYearFrom) || isNaN(eventGraduationYearTo)) {
+      setError((prevError) => ({
+        ...prevError,
+        graduationYearError: "*Graduation year should be a number",
       }));
       ret = false;
     }
@@ -118,6 +129,7 @@ function AddEvent(props) {
     event.preventDefault();
     if (isValid()) {
       const formData = new FormData();
+      const url = process.env.REACT_APP_API + "/events";
       if (eventSelectedFile) {
         formData.append("COC_Event", eventSelectedFile, eventSelectedFile.name);
       }
@@ -125,14 +137,11 @@ function AddEvent(props) {
       formData.append("description", eventDescription);
       formData.append("date", eventDate);
       formData.append("venue", eventVenue);
-      formData.append("graduationYear", eventGraduationYear);
+      formData.append("graduationYearFrom", Number(eventGraduationYearFrom));
+      formData.append("graduationYearTo", Number(eventGraduationYearTo));
       setIsLoading(true);
-      axios
-        .post(process.env.REACT_APP_API + "/events", formData, {
-          headers: {
-            Authorization: "Bearer " + props.token,
-          },
-        })
+      authenticatedAxios
+        .post(url, formData)
         .then((res) => {
           if (res.status === 200) {
             setIsSubmitted(true);
@@ -153,20 +162,18 @@ function AddEvent(props) {
     event.preventDefault();
     if (isValid()) {
       const formData = new FormData();
+      const url = process.env.REACT_APP_API + `/events/${eventID}`;
       if (eventSelectedFile) {
         formData.append("COC_Event", eventSelectedFile, eventSelectedFile.name);
       }
       formData.append("description", eventDescription);
       formData.append("date", eventDate);
       formData.append("venue", eventVenue);
-      formData.append("graduationYear", eventGraduationYear);
+      formData.append("graduationYearFrom", Number(eventGraduationYearFrom));
+      formData.append("graduationYearTo", Number(eventGraduationYearTo));
       setIsLoading(true);
-      axios
-        .put(process.env.REACT_APP_API + `/events/${eventID}`, formData, {
-          headers: {
-            Authorization: "Bearer " + props.token,
-          },
-        })
+      authenticatedAxios
+        .put(url, formData)
         .then((res) => {
           if (res.status === 200) {
             setIsSubmitted(true);
@@ -204,7 +211,6 @@ function AddEvent(props) {
                 </Grid>
               </Grid>
             </div>
-
             <div className="form-group">
               <Grid container>
                 <Grid item xs={12}>
@@ -223,7 +229,6 @@ function AddEvent(props) {
                 </Grid>
               </Grid>
             </div>
-
             <div className="form-group">
               <Grid container>
                 <Grid item xs={12}>
@@ -242,7 +247,6 @@ function AddEvent(props) {
                 </Grid>
               </Grid>
             </div>
-
             <div className="form-group">
               <Grid container>
                 <Grid item xs={12}>
@@ -260,24 +264,32 @@ function AddEvent(props) {
                 </Grid>
               </Grid>
             </div>
-
+            Graduation Year Range: (For Event mails)
             <div className="form-group">
               <Grid container>
-                <Grid item xs={12}>
+                <Grid item xs={30}>
                   <TextField
                     type="text"
-                    placeholder="Graduation year"
-                    name="graduationYear"
-                    value={eventGraduationYear}
-                    onChange={(e) => setEventGraduationYear(e.target.value)}
+                    placeholder="From Graduation year"
+                    name="graduationYearFrom"
+                    value={eventGraduationYearFrom}
+                    onChange={(e) => setEventGraduationYearFrom(e.target.value)}
                     required
-                    label="Enter graduation year"
+                    label="From Graduation year"
+                  />
+                  <TextField
+                    type="text"
+                    placeholder="To Graduation year"
+                    name="graduationYearTo"
+                    value={eventGraduationYearTo}
+                    onChange={(e) => setEventGraduationYearTo(e.target.value)}
+                    required
+                    label="To graduation year"
                   />
                   <div className="errorMsg">{error.graduationYearError}</div>
                 </Grid>
               </Grid>
             </div>
-
             <div className="form-group">
               <label>Image:</label>
               <input
@@ -289,7 +301,6 @@ function AddEvent(props) {
               />
               <div className="errorMsg">{error.fileError}</div>
             </div>
-
             <Grid container spacing={1}>
               <Grid item>
                 {isLoading ? (

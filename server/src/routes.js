@@ -31,13 +31,13 @@ module.exports = (app) => {
 
   //Events Paths
   app.get('/api/events', cache.getFromCache, Events.getEvents, cache.setCache); // Tested
-  app.post('/api/events', auth.loginRequired, user.isMember, upload.single('COC_Event'), Events.uploadEvent, cache.deleteCache)
-  app.put('/api/events/:id', auth.loginRequired, user.isMember, upload.single('COC_Event'), Events.updateEvent, cache.deleteCache);
+  app.post('/api/events', AuthController.verifyToken, user.isMember, upload.single('COC_Event'), Events.uploadEvent, cache.deleteCache)
+  app.put('/api/events/:id', AuthController.verifyToken, user.isMember, upload.single('COC_Event'), Events.updateEvent, cache.deleteCache);
   app.put('/api/events/form', event.validate('checkID'), event.validate('checkFormURL'), auth.loginRequired, user.isMember, Events.addForm) // Tested
   app.get('/api/events/:id', event.validate('checkID'), Events.getEventById); // Tested
   app.post('/api/events/register', event.validate('checkQueryParams'), AuthController.verifyToken, Events.registerUser, cache.deleteCache);
   app.post('/api/events/unregister', event.validate('checkQueryParams'), AuthController.verifyToken, Events.unregisterUser, cache.deleteCache);
-  app.delete('/api/events/:id', event.validate('checkID'), auth.loginRequired, user.isMember, Events.deleteEvent, cache.deleteCache); // Tested
+  app.delete('/api/events/:id', event.validate('checkID'), AuthController.verifyToken, user.isMember, Events.deleteEvent, cache.deleteCache); // Tested
 
   // Glimpses
   app.get("/api/glimpses", GlimpseController.getAllGlimpses);

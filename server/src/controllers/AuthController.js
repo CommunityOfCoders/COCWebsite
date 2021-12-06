@@ -177,6 +177,8 @@ module.exports = {
     try {
       jwt.verify(token, config.privateKey, async (err, decoded) => {
         if(!err){
+          req['userID'] = decoded.user._id
+          req['user'] = decoded.user
           next();
         }else{
           res.status(401).json({

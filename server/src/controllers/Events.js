@@ -117,7 +117,14 @@ module.exports = {
       res.status(200).json({
         id: event._id,
       });
-      const users = await User.find();
+      const startYear = req.body.graduationYearFrom;
+      const endYear = req.body.graduationYearTo;
+      const users = await User.find({
+        $and: [
+          {graduationYear: {$gte: startYear}},
+          {graduationYear: {$lte: endYear}}
+        ]
+      });
       sendMailToUsers(event, users);
       next();
     } catch (err) {
