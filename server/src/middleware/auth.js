@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { body, oneOf } = require('express-validator');
 const config = require("../config");
+const { validationResult } = require("express-validator/check");
 
 module.exports = {
   loginRequired(req, res, next) {
@@ -24,6 +25,36 @@ module.exports = {
     } catch (e) {
       console.log(e.message);
       return res.status(401).json({ error: e.message });
+    }
+  },
+  async verifyToken(req, res, next) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+
+    const token = req.headers.authorization.split(" ")[1];
+
+    try {
+      jwt.verify(token, config.privateKey, async (err, decoded) => {
+        if(!err){
+          req['userID'] = decoded.user._id
+          req['user'] = decoded.user
+          next();
+        }else{
+          res.status(401).json({
+            status: false,
+            error: err.message
+          });
+        }
+      });
+    } catch (error) {
+      res.status(403).json({
+        status: false,
+        error: err.message
+      });
     }
   },
   validate(method) {

@@ -164,35 +164,6 @@ module.exports = {
     }
   },
 
-  async verifyToken(req, res, next) {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      res.status(422).json({ errors: errors.array() });
-      return;
-    }
-
-    const token = req.headers.authorization.split(" ")[1];
-
-    try {
-      jwt.verify(token, config.privateKey, async (err, decoded) => {
-        if(!err){
-          next();
-        }else{
-          res.status(401).json({
-            status: false,
-            error: err.message
-          });
-        }
-      });
-    } catch (error) {
-      res.status(403).json({
-        status: false,
-        error: err.message
-      });
-    }
-  },
-
   async refreshAuthTokens(req, res){
     try {
       const { refreshToken, uid } = req.body;
