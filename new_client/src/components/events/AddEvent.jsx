@@ -267,19 +267,20 @@ function AddEvent(props) {
             Graduation Year Range: (For Event mails)
             <div className="form-group">
               <Grid container>
-                <Grid item xs={30}>
+                <Grid item xs={12}>
                   <TextField
                     type="text"
-                    placeholder="From Graduation year"
+                    placeholder="From graduation year"
                     name="graduationYearFrom"
                     value={eventGraduationYearFrom}
                     onChange={(e) => setEventGraduationYearFrom(e.target.value)}
                     required
-                    label="From Graduation year"
+                    label="From graduation year"
+                    style={{ marginRight: "16px" }}
                   />
                   <TextField
                     type="text"
-                    placeholder="To Graduation year"
+                    placeholder="To graduation year"
                     name="graduationYearTo"
                     value={eventGraduationYearTo}
                     onChange={(e) => setEventGraduationYearTo(e.target.value)}
