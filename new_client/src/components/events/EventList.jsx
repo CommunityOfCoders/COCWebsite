@@ -89,20 +89,21 @@ function EventList(props) {
         {
           label: "Delete",
           onClick: async () => {
-            const res = await axios.delete(
-              process.env.REACT_APP_API + `/events/${eventId}`,
-              {
-                headers: {
-                  Authorization: "Bearer " + props.token,
-                },
-              }
-            );
-            if (res.status === 204) {
-              deletedEventID.current = eventId;
-              setIsDeleted(true);
-            } else {
-              setIsError(true);
-            }
+            const url = process.env.REACT_APP_API + `/events/${eventId}`;
+            authenticatedAxios
+              .delete(url)
+              .then((res) => {
+                if (res.status === 204) {
+                  deletedEventID.current = eventId;
+                  setIsDeleted(true);
+                } else {
+                  setIsError(true);
+                }
+              })
+              .catch((err) => {
+                setIsError(true);
+                console.log(err);
+              });
           },
         },
         {
