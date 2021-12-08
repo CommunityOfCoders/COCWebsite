@@ -69,6 +69,7 @@ function Signup(props) {
   const [graduationYear, setGraduationYear] = useState(null);
   const [msg, setMsg] = useState(null);
   const [isError, setIsError] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleChangeUsername = (e) => setUsername(e.target.value);
   const handleChangePassword = (e) => setPassword(e.target.value);
@@ -200,6 +201,10 @@ function Signup(props) {
     if (error.id === "REGISTER_FAIL") {
       setMsg(error.msg.error);
       setIsError(true);
+      dispatch(clearErrors());
+    } else if (error.id === "REGISTER_SUCCESS") {
+      setMsg(error.msg.message);
+      setIsSuccess(true);
       dispatch(clearErrors());
     }
     if (isAuthenticated) {
@@ -335,6 +340,13 @@ function Signup(props) {
         onCloseHandler={() => setIsError(false)}
         severity="error"
         message={`Error: ${msg}. Please try again`}
+      />
+      <AlertUtility
+        open={isSuccess}
+        duration={9000}
+        onCloseHandler={() => setIsSuccess(false)}
+        severity="success"
+        message={`${msg}`}
       />
     </ThemeProvider>
   );

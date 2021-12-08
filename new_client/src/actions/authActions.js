@@ -46,10 +46,7 @@ export const register = ({ username, email, password, graduationYear }) => (
   axios
     .post(process.env.REACT_APP_API + "/register", body, config)
     .then((res) => {
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data,
-      });
+      dispatch(returnErrors(res.data, res.status, REGISTER_SUCCESS));
     })
     .catch((err) => {
       dispatch(

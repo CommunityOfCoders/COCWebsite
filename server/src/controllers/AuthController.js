@@ -50,7 +50,19 @@ module.exports = {
       const { password, email, username } = req.body;
 
       const user1 = await User.findOne({
-        username: username,
+        email: email,
+      })
+        .lean()
+        .select({ username: 1 });
+      
+      if(user1){
+        return res.status(422).json({
+          error: "Email Already Registered",
+        });
+      }
+
+      const user2 = await User.findOne({
+        email: email,
       })
         .lean()
         .select({ username: 1 });
@@ -58,7 +70,7 @@ module.exports = {
       /* If user exists, return 422 -
       visit https://stackoverflow.com/questions/3825990/http-response-code-for-post-when-resource-already-exists for more details
       */
-      if (user1) {
+      if (user2) {
         return res.status(422).json({
           error: "UserName Already Exists",
         });
@@ -102,7 +114,7 @@ module.exports = {
 					{
 						username: user.username,
 						email: email,
-						link: `${baseURL}/verifytoken/${emailVerificationToken}`,
+						link: `${baseURL}/verifyemail/${emailVerificationToken}`,
 					}
 				);
 				await sendEmail(user.email, 'Verify Email Address', data);
@@ -113,9 +125,7 @@ module.exports = {
 			}
 
       res.status(201).json({
-        username: user.username,
-        token: token,
-        refreshToken: refreshToken
+        message: "Please check you mail for verification"
       });
 		} catch (error) {
 			res.status(500).json({
@@ -145,6 +155,7 @@ module.exports = {
 						password: 1,
 						isMember: 1,
 						isBlogAuthorized: 1,
+            isEmailVerified: 1
 				})
 				.lean();
 
@@ -153,7 +164,7 @@ module.exports = {
 				return res.status(400).json({
 					error: 'No user found',
 				});
-			} else if (!user.isEmailVerified) {
+			} else if (user.isEmailVerified != null && !user.isEmailVerified) {
 				return res.status(400).json({
 					error: 'Email not verified',
 				});
@@ -357,7 +368,7 @@ module.exports = {
 				await user.save();
 				return res.status(200).json({ message: 'Email verified' });
 			} else {
-				return res.status(400).json({ error: 'Invalid Link!' });
+				return res.status(400).json({ error: 'Invalid Link' });
 			}
 		} catch (error) {
 			res.status(500).json({ error: error.message });

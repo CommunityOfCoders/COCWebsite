@@ -39,7 +39,6 @@ export default function authReducer(state = initialState, action) {
         isLoading: false,
       };
     case LOGIN_SUCCESS:
-    case REGISTER_SUCCESS:
       if (action.payload.rememberme) {
         localStorage.setItem("token", action.payload.token);
         localStorage.setItem("refreshToken", action.payload.refreshToken);
@@ -62,6 +61,7 @@ export default function authReducer(state = initialState, action) {
     case LOGIN_FAIL:
     case LOGOUT_SUCCESS:
     case REGISTER_FAIL:
+    case REGISTER_SUCCESS:
       localStorage.removeItem("token");
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("userID");
