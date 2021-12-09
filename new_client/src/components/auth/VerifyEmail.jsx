@@ -9,12 +9,9 @@ import { createMuiTheme } from "@material-ui/core/styles";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { NEW_PASSWORD_SUCCESS, NEW_PASSWORD_FAIL } from "../../actions/types";
-import { returnErrors } from "../../actions/errorActions";
 
 import "./Error.css";
 import AlertUtility from "../Utilities/Alert";
-import PasswordField from "./PasswordField";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -63,14 +60,8 @@ function VerifyEmail(props) {
 
   function handleClick(event) {
     event.preventDefault();
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    const body = JSON.stringify({ token });
     axios
-      .post(process.env.REACT_APP_API + "/verify-email", body, config)
+      .post(process.env.REACT_APP_API + "/verify-email", { token })
       .then((res) => {
         if (res.status === 200) {
           setMsg(res.data.message);

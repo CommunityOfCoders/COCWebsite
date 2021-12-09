@@ -113,14 +113,11 @@ function NewPw(props) {
   function handleClick(event) {
     event.preventDefault();
     if (isFormValid()) {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      const body = JSON.stringify({ newPassword: password, token });
       axios
-        .post(process.env.REACT_APP_API + "/new-password", body, config)
+        .post(process.env.REACT_APP_API + "/new-password", {
+          newPassword: password,
+          token,
+        })
         .then((res) => {
           if (res.status === 200) {
             setIsSubmitted(true);
