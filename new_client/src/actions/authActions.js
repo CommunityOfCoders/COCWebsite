@@ -9,6 +9,7 @@ import {
   LOGOUT_SUCCESS,
   NEW_PASSWORD_SUCCESS,
   NEW_PASSWORD_FAIL,
+  REFRESH_TOKENS,
 } from "./types";
 import axios from "axios";
 import { returnErrors } from "./errorActions";
@@ -45,10 +46,7 @@ export const register = ({ username, email, password, graduationYear }) => (
   axios
     .post(process.env.REACT_APP_API + "/register", body, config)
     .then((res) => {
-      dispatch({
-        type: REGISTER_SUCCESS,
-        payload: res.data,
-      });
+      dispatch(returnErrors(res.data, res.status, REGISTER_SUCCESS));
     })
     .catch((err) => {
       dispatch(

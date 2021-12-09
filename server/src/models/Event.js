@@ -17,8 +17,12 @@ const event = new mongoose.Schema({
     type: String,
     required: true,
   },
-  graduationYear: {
-    type: String,
+  graduationYearFrom: {
+    type: Number,
+    required: true,
+  },
+  graduationYearTo: {
+    type: Number,
     required: true,
   },
   image: {

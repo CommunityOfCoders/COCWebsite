@@ -44,6 +44,15 @@ const user = new mongoose.Schema({
     passwordResetTokenTime: {
         type: Date,
         required: false
+    },
+    isEmailVerified: {
+        type:Boolean,
+        required: true,
+        default: false
+    },
+    emailVerificationToken: {
+        type: String,
+        required: false
     }
 })
 

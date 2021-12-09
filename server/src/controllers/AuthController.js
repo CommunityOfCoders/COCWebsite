@@ -22,20 +22,47 @@ function passwordHash(password) {
   const rfcHash = passwordhasher.formatRFC2307(hash);
   return rfcHash;
 }
+
+// Builds JWT Payload object from user object received from database
+const buildJWTPayload = (user) => {
+  return {
+    _id: user._id,
+    username: user.username,
+    email: user.email,
+    isMember: user.isMember,
+    isBlogAuthorized: user.isBlogAuthorized,
+  };
+}
+
+const ACCESS_TOKEN_EXPIRE_TIME = '5m';     // 5 minutes
+const REFRESH_TOKEN_EXPIRE_TIME = '365d';  // 365 days
+
 module.exports = {
   async register(req, res) {
     const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-      res.status(422).json({ errors: errors.array() });
-      return;
-    }
+		if (!errors.isEmpty()) {
+			res.status(422).json({ errors: errors.array() });
+			return;
+		}
 
     try {
-      const { password, username } = req.body;
+      const { password, email, username } = req.body;
 
       const user1 = await User.findOne({
-        username: username,
+        email: email,
+      })
+        .lean()
+        .select({ username: 1 });
+      
+      if(user1){
+        return res.status(422).json({
+          error: "Email Already Registered",
+        });
+      }
+
+      const user2 = await User.findOne({
+        email: email,
       })
         .lean()
         .select({ username: 1 });
@@ -43,7 +70,7 @@ module.exports = {
       /* If user exists, return 422 -
       visit https://stackoverflow.com/questions/3825990/http-response-code-for-post-when-resource-already-exists for more details
       */
-      if (user1) {
+      if (user2) {
         return res.status(422).json({
           error: "UserName Already Exists",
         });
@@ -53,123 +80,153 @@ module.exports = {
 
       const user = await User.create(req.body);
 
-      if (process.env.NODE_ENV === "production") {
-        var createContact = new SibApiV3Sdk.CreateContact(); // CreateContact | Values to create a contact
-        createContact = { email: user.email };
-        apiInstance.createContact(createContact).then(
-          function (data) {
-            console.log("SIB contact created successfully.");
-          },
-          function (error) {
-            console.error(error);
-          }
-        );
-      }
+			if (process.env.NODE_ENV === 'production') {
+				var createContact = new SibApiV3Sdk.CreateContact(); // CreateContact | Values to create a contact
+				createContact = { email: user.email };
+				apiInstance.createContact(createContact).then(
+					function (data) {
+						console.log('SIB contact created successfully.');
+					},
+					function (error) {
+						console.error(error);
+					}
+				);
+			}
 
-      const token = jwt.sign(
-        {
-          user: {
-            _id: user._id,
-            username: user.username,
-            email: user.email,
-            password: user.password,
-            isMember: user.isMember,
-            isBlogAuthorized: user.isBlogAuthorized,
-          },
-        },
-        config.privateKey,
-        {
-          expiresIn: 3600,
-        }
-      );
+			const buffer = crypto.randomBytes(32);
+			const emailVerificationToken = buffer.toString('hex');
+
+			user.emailVerificationToken = emailVerificationToken;
+			await user.save();
+
+			try {
+				const baseURL = getBaseURL();
+				const data = await ejs.renderFile(
+					path.join(__dirname, '../views/emailVerification.ejs'),
+					{
+						username: user.username,
+						email: email,
+						link: `${baseURL}/verifyemail/${emailVerificationToken}`,
+					}
+				);
+				await sendEmail(user.email, 'Verify Email Address', data);
+			} catch (error) {
+				return res
+					.status(500)
+					.json({ error: 'Unable to send email : ' + error.message });
+			}
 
       res.status(201).json({
-        username: user.username,
-        token: token,
+        message: "Please check your mail for verification"
       });
-    } catch (error) {
-      res.status(500).json({
-        error: error.message,
-      });
-    }
-  },
+		} catch (error) {
+			res.status(500).json({
+				error: error.message,
+			});
+		}
+	},
 
-  async login(req, res) {
-    const errors = validationResult(req);
+	async login(req, res) {
+		const errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-      res.status(422).json({ errors: errors.array() });
-      return;
-    }
+		if (!errors.isEmpty()) {
+			res.status(422).json({ errors: errors.array() });
+			return;
+		}
 
-    try {
-      const { username, password, rememberme } = req.body;
+		try {
+			const { username, password, rememberme } = req.body;
 
-      const user = await User.findOne({
-        username: username,
-      })
-        .select({
-          _id: 1,
-          username: 1,
-          email: 1,
-          password: 1,
-          isMember: 1,
-          isBlogAuthorized: 1,
-        })
-        .lean();
+			const user = await User.findOne({
+					username: username,
+			})
+				.select({
+						_id: 1,
+						username: 1,
+						email: 1,
+						password: 1,
+						isMember: 1,
+						isBlogAuthorized: 1,
+            isEmailVerified: 1
+				})
+				.lean();
 
-      // User not found, return 400
-      if (!user) {
-        return res.status(400).json({
-          error: "No user found",
-        });
-      }
+			// User not found, return 400
+			if (!user) {
+				return res.status(400).json({
+					error: 'No user found',
+				});
+			} else if (user.isEmailVerified != null && !user.isEmailVerified) {
+				return res.status(400).json({
+					error: 'Email not verified',
+				});
+			}
 
-      const rfcHash = passwordHash(password);
+			const rfcHash = passwordHash(password);
 
-      // Password invalid
-      if (rfcHash !== user.password) {
-        return res.status(401).json({
-          error: "Invalid login info",
-        });
-      }
+			// Password invalid
+			if (rfcHash !== user.password) {
+				return res.status(401).json({
+					error: 'Invalid login info',
+				});
+			}
 
-      const token = jwt.sign({ user: user }, config.privateKey, {
-        expiresIn: 60 * 60 * 24 * 7,
+			const jwtUser = buildJWTPayload(user);
+			const token = jwt.sign({ user: jwtUser }, config.privateKey, {
+				expiresIn: ACCESS_TOKEN_EXPIRE_TIME,
+			});
+
+			const refreshToken = jwt.sign({user: jwtUser}, config.refreshPrivateKey, {
+        expiresIn: REFRESH_TOKEN_EXPIRE_TIME
       });
 
       return res.status(200).json({
         username: user.username,
         token: token,
+        refreshToken: refreshToken,
         userID: user._id,
         rememberme: rememberme,
       });
-    } catch (error) {
-      return res.status(500).json({
-        error: error.message,
-      });
-    }
-  },
+		} catch (error) {
+			return res.status(500).json({
+				error: error.message,
+			});
+		}
+	},
 
-  async verifyToken(req, res) {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      res.status(422).json({ errors: errors.array() });
-      return;
-    }
-
-    const { token } = req.body;
-
+  async refreshAuthTokens(req, res){
     try {
-      jwt.verify(token, config.privateKey);
-      res.status(200).json({
-        status: true,
+      const { refreshToken, uid } = req.body;
+
+      if(!refreshToken || !uid){
+        return res.status(401).json({ error: "Data missing" });
+      }
+
+      const user = await User.findById(uid);
+
+      jwt.verify(refreshToken, config.refreshPrivateKey, async (err, decoded) => {
+        if(!err){
+          const jwtUser = buildJWTPayload(user);
+          const newToken = jwt.sign({ user: jwtUser }, config.privateKey, {
+            expiresIn: ACCESS_TOKEN_EXPIRE_TIME,
+          });
+
+          const newRefreshToken = jwt.sign({user: jwtUser}, config.refreshPrivateKey, {
+            expiresIn: REFRESH_TOKEN_EXPIRE_TIME
+          });
+
+          res.status(200).json({
+            token: newToken,
+            refreshToken: newRefreshToken
+          })
+        }else{
+          console.log(e.message);
+          return res.status(401).json({ error: err.message });
+        }
       });
-    } catch (error) {
-      res.status(403).json({
-        status: false,
-      });
+    } catch (e) {
+      console.log(e.message);
+      return res.status(500).json({ error: e.message });
     }
   },
 
@@ -254,7 +311,7 @@ module.exports = {
     }
   },
 
-  async newPassword(req, res) {
+	async newPassword(req, res) {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -282,4 +339,31 @@ module.exports = {
       return res.status(500).json({ error: error.message });
     }
   },
+
+	async verifyemail(req, res) {
+		const errors = validationResult(req);
+
+		if (!errors.isEmpty()) {
+			res.status(422).json({ errors: errors.array() });
+			return;
+		}
+
+		try {
+			const { token } = req.body;
+			let user = await User.findOne({
+				emailVerificationToken: token,
+			});
+
+			if (user) {
+				user.isEmailVerified = true;
+				user.emailVerificationToken = undefined;
+				await user.save();
+				return res.status(200).json({ message: 'Email verified' });
+			} else {
+				return res.status(400).json({ error: 'Invalid Token' });
+			}
+		} catch (error) {
+			res.status(500).json({ error: error.message });
+		}
+	},
 };

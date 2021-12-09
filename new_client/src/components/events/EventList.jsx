@@ -14,6 +14,7 @@ import IndividualEvent from "./IndividualEvent";
 import Banner from "./Banner";
 import { isFuture } from "date-fns";
 import { TitleWithDivider } from "./EventPage";
+import useAuthenticatedAxios from "../Utilities/useAuthenticatedAxios.js";
 
 const useStyles = makeStyles({
   gridContainer: {
@@ -23,6 +24,7 @@ const useStyles = makeStyles({
 });
 
 function EventList(props) {
+  const authenticatedAxios = useAuthenticatedAxios();
   const [isMember, setIsMember] = useState(false);
   const [events, setEvents] = useState([]);
   const [isDeleted, setIsDeleted] = useState(false);
@@ -87,20 +89,21 @@ function EventList(props) {
         {
           label: "Delete",
           onClick: async () => {
-            const res = await axios.delete(
-              process.env.REACT_APP_API + `/events/${eventId}`,
-              {
-                headers: {
-                  Authorization: "Bearer " + props.token,
-                },
-              }
-            );
-            if (res.status === 204) {
-              deletedEventID.current = eventId;
-              setIsDeleted(true);
-            } else {
-              setIsError(true);
-            }
+            const url = process.env.REACT_APP_API + `/events/${eventId}`;
+            authenticatedAxios
+              .delete(url)
+              .then((res) => {
+                if (res.status === 204) {
+                  deletedEventID.current = eventId;
+                  setIsDeleted(true);
+                } else {
+                  setIsError(true);
+                }
+              })
+              .catch((err) => {
+                setIsError(true);
+                console.log(err);
+              });
           },
         },
         {
@@ -121,18 +124,12 @@ function EventList(props) {
 
   const handleRSVP = async (eventId, isUserRegistered) => {
     try {
-      const requestOptions = {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + props.token,
-        },
-      };
       const url = !isUserRegistered
         ? process.env.REACT_APP_API +
           `/events/register?eid=${eventId}&uid=${props.userID}`
         : process.env.REACT_APP_API +
           `/events/unregister?eid=${eventId}&uid=${props.userID}`;
-      const response = await fetch(url, requestOptions);
+      const response = await authenticatedAxios.post(url);
       if (response.status === 200) {
         const isRegisteredTemp = {
           ...isRegistered,
