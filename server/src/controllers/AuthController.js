@@ -92,14 +92,6 @@ module.exports = {
 					}
 				);
 			}
-			const jwtUser = buildJWTPayload(user);
-			const token = jwt.sign({ user: jwtUser }, config.privateKey, {
-				expiresIn: ACCESS_TOKEN_EXPIRE_TIME,
-			});
-
-			const refreshToken = jwt.sign({user: jwtUser}, config.refreshPrivateKey, {
-        expiresIn: REFRESH_TOKEN_EXPIRE_TIME
-      });
 
 			const buffer = crypto.randomBytes(32);
 			const emailVerificationToken = buffer.toString('hex');
@@ -125,7 +117,7 @@ module.exports = {
 			}
 
       res.status(201).json({
-        message: "Please check you mail for verification"
+        message: "Please check your mail for verification"
       });
 		} catch (error) {
 			res.status(500).json({
@@ -368,7 +360,7 @@ module.exports = {
 				await user.save();
 				return res.status(200).json({ message: 'Email verified' });
 			} else {
-				return res.status(400).json({ error: 'Invalid Link' });
+				return res.status(400).json({ error: 'Invalid Token' });
 			}
 		} catch (error) {
 			res.status(500).json({ error: error.message });

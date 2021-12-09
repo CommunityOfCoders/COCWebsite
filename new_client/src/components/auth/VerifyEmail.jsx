@@ -119,7 +119,7 @@ function VerifyEmail(props) {
       </Container>
       <AlertUtility
         open={isSubmitted}
-        duration={9000}
+        duration={3000}
         onCloseHandler={handleClose}
         severity="success"
         message={msg}
