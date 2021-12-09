@@ -21,6 +21,7 @@ const LazySignin = lazy(() => import("./components/auth/Signin"));
 const LazySignup = lazy(() => import("./components/auth/Signup"));
 const LazyResetPw = lazy(() => import("./components/auth/ResetPw"));
 const LazyNewPw = lazy(() => import("./components/auth/NewPw"));
+const LazyVerifyEmail = lazy(() => import("./components/auth/VerifyEmail"));
 
 // Pages
 const LazyHome = lazy(() => import("./components/Home/Home"));
@@ -89,6 +90,10 @@ function App() {
                   <Route path="/signin" component={LazySignin} />
                   <Route path="/reset" component={LazyResetPw} />
                   <Route path="/newpass/:token" component={LazyNewPw} />
+                  <Route
+                    path="/verifyemail/:token"
+                    component={LazyVerifyEmail}
+                  />
                   <ProtectedRoute
                     exact
                     path="/addblog"
