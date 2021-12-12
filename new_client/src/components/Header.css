@@ -127,7 +127,7 @@
   position: fixed;
   left: 5px;
   top: 50px;
-
+  bottom: 5px;
   margin-top: 5px;
   width: 50%;
 
@@ -137,9 +137,14 @@
   /* align-items: flex-end; */
   background-color: #0a150a;
   border-radius: 20px;
-  height: max-content;
-
+  overflow-y: auto;
   transition: transform 0.7s cubic-bezier(0.13, 0.64, 0.46, 1.17);
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.nav-item-list-mob::-webkit-scrollbar {
+  display: none;
 }
 
 @media screen and (min-width: 500px) {
