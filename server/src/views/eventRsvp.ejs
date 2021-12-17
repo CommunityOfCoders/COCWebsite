@@ -1,104 +1,111 @@
-<%- include('partials/base') %>
-<body
-    style="
-        font-family: 'Catamaran', sans-serif;
-        background-color: #ffffff;
-        font-size: 18px;
-        max-width: 700px;
-        margin: 0 auto;
-        padding: 2%;
-        color: #565859;
-    "
->
-    <div id="wrapper" style="background: #f6faff; border-radius: 7px">
-        <%- include('partials/header') %>
+<!DOCTYPE html>
+<head>
+<style type="text/css">
+  @import url('https://fonts.googleapis.com/css2?family=Catamaran:wght@400;800&display=swap');
+  * {
+    margin: 0;
+    border: 0;
+    padding: 0;
+  }
+  body{
+    font-family: 'Catamaran', sans-serif;
+    background-color: #ffffff;
+    font-size:18px;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 2%;
+    color:#565859;
+  }
+  #wrapper {
+    background: #f6faff;
+    border-radius: 7px;
+  }
+  img{
+    max-width: 100%;
+    margin-top: 2%;
+  }
+  header {
+    background: #000000;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+  }
+  #logo{
+    max-width: 500px;
+    margin: 2% 0 0 5%;
+    
+  }
+  .one-col{
+    margin-top: 2%;
+    padding: 2%;
+  }
+  h1{
+    letter-spacing: 1%;
+  }
+  p{
+    text-align: justify;
+  }
+  .button-holder{
 
-        <div class="one-col" style="margin-top: 2%; padding: 2%">
-            <br />
-            <p style="text-align: justify">Dear <%= user.username %>,</p>
-            <p style="letter-spacing: 1%">
-                There's a new event published. Here are the details:
-            </p>
-            <br />
-            <h3 style="letter-spacing: 1%"><%= event.eventName %></h3>
-            <table style="margin-top: 20px; margin-bottom: 20px">
-                <tr>
-                    <td rowspan="3">
-                        <img
-                            src="https://res.cloudinary.com/dw2ejcbvt/image/upload/v1613541772/event1_kr7igj.png"
-                            style="padding-right: 20px"
-                        />
-                    </td>
-                    <td>
-                        <p>
-                            Date:
-                            <span style="color: #52b107"><%= event.day %></span>
-                        </p>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <p>
-                            Time:
-                            <span style="color: #52b107"
-                                ><%= event.time %></span
-                            >
-                        </p>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <p>
-                            Location:
-                            <span style="color: #52b107"
-                                ><%= event.venue %></span
-                            >
-                        </p>
-                    </td>
-                </tr>
-            </table>
-            <h3 style="letter-spacing: 1%">About the Event</h3>
-            <p style="text-align: justify"><%= event.description %></p>
-
-            <div
-                class="button-holder"
-                style="margin: 3% 2% 4% 0; text-align: center"
-            >
-                <a
-                    class="btn"
-                    href="<%= link %>"
-                    style="
-                        color: #f6faff;
-                        text-decoration: none;
-                        background: #52b107;
-                        font-weight: 800;
-                        padding: 8px 12px;
-                        border-radius: 8px;
-                        letter-spacing: 1px;
-                    "
-                    >R.S.V.P</a
-                >
-            </div>
-            <h2 style="letter-spacing: 1%; text-align: center">
-                Hope to see you there!
-            </h2>
+    margin: 3% 2% 4% 0;
+  }
+  .btn{
+    background: #52b107;
+    color: #f6faff;
+    text-decoration: none;
+    font-weight: 800;
+    padding:8px 12px;
+    border-radius: 8px;
+    letter-spacing: 1px;
+  }
+  .btn:hover{
+    background: #5bc40b;
+  }
+  a{
+    color:#52b107;
+    text-decoration: none;
+  }
+  .line{
+    clear:both;
+    height: 2px;
+    background-color: #e3e9e9;
+  }
+</style>
+</head>
+<body style="font-family: 'Catamaran', sans-serif;background-color: #ffffff;font-size: 18px;max-width: 700px;margin: 0 auto;padding: 2%;color: #565859;">
+  <div id="wrapper" style="background: #f6faff;border-radius: 7px;">
+    <header style="background: #000000;border-top-left-radius: 7px;border-top-right-radius: 7px;">
+      <div id="logo" style="max-width: 500px;margin: 2% 0 0 5%;">
+        <img src="https://res.cloudinary.com/dw2ejcbvt/image/upload/v1609946419/qq_suisct.png" style="max-width: 100%;margin-top: 2%;">
+      </div>
+    </header>
+    <div class="one-col" style="margin-top: 2%;padding: 2%;">
+      <br>
+      <p style="text-align: justify;">Dear <%= user.username %>,</p>
+      <p style="letter-spacing: 1%;">There's a new event published. Here are the details:</p></br>
+      <h3 style="letter-spacing: 1%;"><%= event.eventName %></h3>
+      <table style="margin-top: 20px;margin-bottom: 20px;">
+        <tr>
+      <td rowspan="3"><img src = "https://res.cloudinary.com/dw2ejcbvt/image/upload/v1613541772/event1_kr7igj.png" style="padding-right: 20px;"/></td>
+      <td><p>Date: <span style="color: #52b107;"><%= event.day %></span></p></td>
+    </tr>
+    <tr><td><p>Time: <span style="color: #52b107;"><%= event.time %></span></p></td></tr>
+    <tr><td><p>Location: <span style="color: #52b107;"><%= event.venue %></span></p></td></tr>
+    </table>
+    <h3 style="letter-spacing: 1%;">About the Event</h3>
+        <p style="text-align: justify;">
+          <%= event.description %>
+        <div class="button-holder" style="margin: 3% 2% 4% 0; text-align: center;">
+          <a class="btn" href="<%= link %>" style="color: #f6faff;text-decoration: none;background: #52b107;font-weight: 800;padding: 8px 12px;border-radius: 8px;letter-spacing: 1px;">R.S.V.P</a>
         </div>
+ <h2 style="letter-spacing: 1%; text-align: center;">Hope to see you there!</h2>
+  <p style="text-align: justify;">
+    Regards, <br><b><span style="color: #52b107">C</span>ommunity Of
+      <span style="color: #52b107">C</span>oders
+  </b></p>
+  <div class='line'></div>
+  <p>If you are having trouble clicking the button, copy and paste the URL below in your browser</p>
+  <p style="text-align: justify;"><a href="<%= link %>" style="color: #52b107;text-decoration: none;"><%= link %></a></p>
 
-        <footer>
-            <%- include('partials/footer') %>
-
-            <p>
-                If you are having trouble clicking the button, copy and paste
-                the URL below in your browser
-            </p>
-            <p style="text-align: justify">
-                <a
-                    href="<%= link %>"
-                    style="color: #52b107; text-decoration: none"
-                    ><%= link %></a
-                >
-            </p>
-        </footer>
     </div>
-    <!--end of wrapper-->
+  </div><!--end of wrapper-->
 </body>
