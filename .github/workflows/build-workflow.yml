@@ -26,7 +26,7 @@ jobs:
       - name: Compressing server source code and frontend build folders
         run: |
           tar -zcf server.tar.gz ./server
-          tar -zcf client.tar.gz ./build
+          tar -zcf client.tar.gz ./new_client/build
         env:
           CI: false
       - name: Uploading assets to release
