@@ -15,6 +15,14 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.PRIVKEY }}
           script: |
-            whoami
-            ls -la
-            pwd
+            pm2 stop all
+            pm2 delete all
+            bash cleanup.sh
+            wget https://github.com/Parth576/COCWebsite/releases/latest/download/server.tar.gz
+            wget https://github.com/Parth576/COCWebsite/releases/latest/download/client.tar.gz
+            tar -xzf server.tar.gz
+            tar -xzf client.tar.gz
+            cp .env server/
+            cd server && npm i
+            NODE_ENV=production pm2 start -n "coc-server" src/app.js
+            pm2 status
