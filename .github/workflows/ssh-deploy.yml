@@ -18,8 +18,8 @@ jobs:
             pm2 stop all
             pm2 delete all
             bash cleanup.sh
-            wget https://github.com/Parth576/COCWebsite/releases/latest/download/server.tar.gz
-            wget https://github.com/Parth576/COCWebsite/releases/latest/download/client.tar.gz
+            wget https://github.com/CommunityOfCoders/COCWebsite/releases/latest/download/server.tar.gz
+            wget https://github.com/CommunityOfCoders/COCWebsite/releases/latest/download/client.tar.gz
             tar -xzf server.tar.gz
             tar -xzf client.tar.gz
             cp .env server/
