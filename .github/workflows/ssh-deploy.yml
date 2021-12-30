@@ -1,10 +1,11 @@
 name: Deploy via SSH
 on:
-  push:
-    branches:
-      - prod
+  workflow_run:
+    workflows: ["Build and Release"]
+    types:
+      - completed
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Deploying
@@ -15,5 +16,5 @@ jobs:
           key: ${{ secrets.PRIVKEY }}
           script: |
             whoami
-            ls
+            ls -la
             pwd
