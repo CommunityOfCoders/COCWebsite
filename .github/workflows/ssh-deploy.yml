@@ -25,4 +25,3 @@ jobs:
             cp .env server/
             cd server && npm i
             NODE_ENV=production pm2 start -n "coc-server" src/app.js
-            pm2 status
