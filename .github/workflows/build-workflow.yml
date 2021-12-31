@@ -1,14 +1,11 @@
-name: React app build
+name: Build and Release
 on:
   push:
     branches:
       - prod
-    paths:
-      - new-client/**
 jobs:
   build:
     runs-on: ubuntu-18.04
-    
     strategy:
       matrix:
         node-version: [14.x]
@@ -26,10 +23,21 @@ jobs:
           npm run build
         env:
           CI: false
-      - name: Upload build folder
-        uses: actions/upload-artifact@v2
+      - name: Compressing server source code and frontend build folders
+        run: |
+          tar -zcf server.tar.gz ./server
+          tar -zcf client.tar.gz ./new_client/build
+        env:
+          CI: false
+      - name: Generate release tag
+        id: tag
+        run: |
+          echo "::set-output name=release_tag::Release-$(date +"%Y.%m.%d-%H%M")"
+      - name: Uploading assets to release
+        uses: softprops/action-gh-release@v1
         with:
-          name: build
-          path: new_client/build
-          retention-days: 3   
-          
+          tag_name: ${{ steps.tag.outputs.release_tag }}
+          files: |
+            server.tar.gz
+            client.tar.gz
+
