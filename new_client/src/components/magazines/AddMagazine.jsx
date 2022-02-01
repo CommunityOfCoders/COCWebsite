@@ -11,8 +11,10 @@ import { connect } from "react-redux";
 import AlertUtility from "../Utilities/Alert";
 import { useEffect } from "react";
 import { useLocation, withRouter } from "react-router-dom";
+import useAuthenticatedAxios from "../Utilities/useAuthenticatedAxios";
 
 function AddMagazine(props) {
+  const authenticatedAxios = useAuthenticatedAxios();
   const [magazineName, setMagazineName] = useState("");
   const [magazineDescription, setMagazineDescription] = useState("");
   const [magazineDate, setMagazineDate] = useState(new Date());
@@ -42,19 +44,18 @@ function AddMagazine(props) {
 
   useEffect(() => {
     if (isEditPage && magazineID) {
-      axios
-        .get(process.env.REACT_APP_API + `/magazines/${magazineID}`, {
-          headers: {
-            Authorization: "Bearer " + props.token,
-          },
-        })
+      const url = process.env.REACT_APP_API + `/magazines/${magazineID}`;
+      authenticatedAxios
+        .get(url)
         .then((res) => {
           setMagazineName(res.data.magazineName);
           setMagazineDescription(res.data.description);
           setMagazineDate(res.data.date);
           setMagazineURL(res.data.downloadURL);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }, [isEditPage, magazineID]);
 
@@ -124,12 +125,9 @@ function AddMagazine(props) {
       formData.append("date", magazineDate);
       formData.append("downloadURL", magazineURL);
       setIsLoading(true);
-      axios
-        .post(process.env.REACT_APP_API + "/magazines", formData, {
-          headers: {
-            Authorization: "Bearer " + props.token,
-          },
-        })
+      const url = process.env.REACT_APP_API + "/magazines";
+      authenticatedAxios
+        .post(url, formData)
         .then((res) => {
           if (res.status === 200) {
             setIsSubmitted(true);
@@ -162,12 +160,9 @@ function AddMagazine(props) {
       formData.append("date", magazineDate);
       formData.append("downloadURL", magazineURL);
       setIsLoading(true);
-      axios
-        .put(process.env.REACT_APP_API + `/magazines/${magazineID}`, formData, {
-          headers: {
-            Authorization: "Bearer " + props.token,
-          },
-        })
+      const url = process.env.REACT_APP_API + `/magazines/${magazineID}`;
+      authenticatedAxios
+        .put(url, formData)
         .then((res) => {
           if (res.status === 200) {
             setIsSubmitted(true);

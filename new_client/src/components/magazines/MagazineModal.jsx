@@ -78,7 +78,7 @@ const MagazineModal = ({ open, modalHide, magazineData }) => {
               title="Magazine Preview"
               src={magazineData.pdfUrl.split("/view")[0] + "/preview"}
               width="640"
-              height="480"
+              height="500"
             ></iframe>
           )}
         </div>
