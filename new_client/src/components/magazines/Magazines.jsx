@@ -9,8 +9,10 @@ import IndividualMagazineCard from "./IndividualMagazineCard";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import AlertUtility from "../Utilities/Alert";
+import useAuthenticatedAxios from "../Utilities/useAuthenticatedAxios";
 
 const Magazines = (props) => {
+  const authenticatedAxios = useAuthenticatedAxios();
   const [isMember, setIsMember] = useState(false);
   const [loading, setLoading] = useState(true);
   const [magazines, setMagazines] = useState(null);
@@ -58,14 +60,8 @@ const Magazines = (props) => {
         {
           label: "Delete",
           onClick: async () => {
-            const res = await axios.delete(
-              process.env.REACT_APP_API + `/magazines/${magazineId}`,
-              {
-                headers: {
-                  Authorization: "Bearer " + props.token,
-                },
-              }
-            );
+            const url = process.env.REACT_APP_API + `/magazines/${magazineId}`;
+            const res = await authenticatedAxios.delete(url);
             if (res.status === 204) {
               deletedMagazineID.current = magazineId;
               setIsDeleted(true);
