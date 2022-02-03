@@ -1,15 +1,33 @@
-const jwt = require("jsonwebtoken");
-const config = require("../config");
+const { body, param, query } = require('express-validator');
 
 module.exports = {
-  async isMember(req, res, next) {
-    try {
-      const token = req.headers.authorization.split(" ")[1];
-      const decodedToken = jwt.verify(token, config.privateKey);
-      if (decodedToken.user.isMember) return next();
-      else return res.status(403).json({ error: "You are not authorized" });
-    } catch (e) {
-      return res.status(500).json({ error: e.message });
+  validate(method) {
+    switch (method) {
+      case 'checkID': {
+        return [
+          param('id', 'invalid id').isMongoId()
+        ]
+      }
+      case 'checkEventBody': {
+        return [
+          body('eventName', 'eventName is required').exists(),
+          body('description', 'description is required').exists().trim().escape(),
+          body('venue', 'venue is required').exists(),
+          body('date', 'date is required').exists(),
+          body('graduationYear', 'graduationYear is required').exists(),
+        ]
+      }
+      case 'checkFormURL': {
+        return [
+          body('formURL', 'formURL is required').exists()
+        ]
+      }
+      case 'checkQueryParams': {
+        return [
+          query('uid', 'uid is required').exists().isMongoId(),
+          query('eid', 'eid is required').exists().isMongoId()
+        ]
+      }
     }
-  },
-};
+  }
+}

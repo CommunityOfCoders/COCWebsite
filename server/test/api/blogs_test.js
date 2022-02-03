@@ -100,6 +100,39 @@ describe("Blogs", () => {
     });
   });
 
+  describe("/GET/tag/:tag Blog", () => {
+    beforeEach((done) => {
+      let blog1, blog2;
+      blog1 = new Blog({
+        blogTitle: "First Test Blog Title",
+        blogContent: "First Test Blog Content",
+        author: "First Test Blog Author",
+        tags: ["tag1", "tag2"],
+      });
+      blog2 = new Blog({
+        blogTitle: "Second Test Blog Title",
+        blogContent: "Second Test Blog Content",
+        author: "Second Test Blog Author",
+        tags: ["tag1", "tag3"],
+      });
+      Blog.insertMany([blog1, blog2])
+        .then(() => done())
+        .catch((e) => console.log(e));
+    });
+    it("should return blog that contains the specified tag", (done) => {
+      chai
+        .request(app)
+        .get("/blogs/tag/tag1")
+        .end((res, err) => {
+          expect(err).to.be.null;
+          res.should.have.status(200);
+          res.body.should.be.an("array");
+          expect(res.body).to.have.lengthOf(2);
+          done();
+        });
+    });
+  });
+
   describe("/POST blogs", () => {
     let token;
 

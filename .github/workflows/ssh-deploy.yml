@@ -1,0 +1,27 @@
+name: Deploy via SSH
+on:
+  workflow_run:
+    workflows: ["Build and Release"]
+    types:
+      - completed
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploying
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.PRIVKEY }}
+          script: |
+            pm2 stop all
+            pm2 delete all
+            bash cleanup.sh
+            wget https://github.com/CommunityOfCoders/COCWebsite/releases/latest/download/server.tar.gz
+            wget https://github.com/CommunityOfCoders/COCWebsite/releases/latest/download/client.tar.gz
+            tar -xzf server.tar.gz
+            tar -xzf client.tar.gz
+            cp .env server/
+            cd server && npm i
+            NODE_ENV=production pm2 start -n "coc-server" src/app.js

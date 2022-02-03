@@ -15,9 +15,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.2",
     "cloudinary": "^1.15.0",
     "cors": "^2.8.5",
+    "date-fns": "^2.17.0",
+    "ejs": "^3.1.5",
     "express": "^4.16.4",
+    "express-validator": "^6.10.0",
+    "formidable": "^2.0.1",
+    "helmet": "^4.3.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.4.20",
     "morgan": "^1.9.1",
@@ -26,7 +32,9 @@
     "node-waf": "^1.0.0",
     "nodemailer": "^6.4.11",
     "npm": "^6.14.7",
-    "password-hasher": "^1.0.1"
+    "password-hasher": "^1.0.1",
+    "redis": "^3.1.1",
+    "sib-api-v3-sdk": "^8.2.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",

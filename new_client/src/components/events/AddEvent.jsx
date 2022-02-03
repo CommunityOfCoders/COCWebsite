@@ -1,252 +1,363 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import "date-fns";
+import React from "react";
+import axios from "axios";
+import Spinner from "../spinner/Spinner";
+import "../auth/Error.css";
+import { useState } from "react";
+import { Button, Grid, TextField } from "@material-ui/core";
+import DateFnsUtils from "@date-io/date-fns";
+import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { connect } from "react-redux";
+import AlertUtility from "../Utilities/Alert";
+import { useEffect } from "react";
+import { useLocation, withRouter } from "react-router-dom";
+import useAuthenticatedAxios from "../Utilities/useAuthenticatedAxios.js";
 
-import '../auth/Error.css';
+function AddEvent(props) {
+  const authenticatedAxios = useAuthenticatedAxios();
+  const [eventName, setEventName] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
+  const [eventDate, setEventDate] = useState(new Date());
+  const [eventVenue, setEventVenue] = useState("");
+  const [eventGraduationYearFrom, setEventGraduationYearFrom] = useState("");
+  const [eventGraduationYearTo, setEventGraduationYearTo] = useState("");
+  const [eventSelectedFile, setEventSelectedFile] = useState(null);
 
-class AddEvent extends Component {
-  state = {
-    event: {
-      eventName: '',
-      description: '',
-      date: '',
-      venue: '',
-      graduationYear: null,
-      selectedFile: null
-    },
-    error: {
-      eventNameError: '',
-      descriptionError: '',
-      dateError: '',
-      venueError: '',
-      graduationYearError: null
+  const [isError, setIsError] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { pathname } = useLocation();
+  const eventID = pathname.split("/")[3];
+  const isEditPage = !!eventID;
+
+  const successString = isEditPage
+    ? "Event edited successfully! "
+    : "Event added successfully";
+  const btnText = isEditPage ? "Update" : "Submit";
+
+  const [error, setError] = useState({
+    eventNameError: "",
+    descriptionError: "",
+    dateError: "",
+    venueError: "",
+    graduationYearError: "",
+    fileError: "",
+  });
+
+  useEffect(() => {
+    if (isEditPage && eventID) {
+      axios
+        .get(process.env.REACT_APP_API + `/events/${eventID}`)
+        .then((res) => {
+          setEventName(res.data.eventName);
+          setEventDescription(res.data.description);
+          setEventDate(res.data.date);
+          setEventVenue(res.data.venue);
+          setEventGraduationYearFrom(res.data.graduationYearFrom);
+          setEventGraduationYearTo(res.data.graduationYearTo);
+        })
+        .catch((err) => console.log(err));
     }
+  }, [isEditPage, eventID]);
+
+  const handleClose = () => {
+    setIsSubmitted(false);
+    if (props.closeModal !== undefined) props.closeModal(); // EditPage is a page, so no modal
+    props.history.push("/events");
   };
 
-  onFileChange = (e) => {
-    const event = { ...this.state.event };
-    event.selectedFile = e.target.files[0];
-    this.setState({ event: event });
-  };
-
-  handleChange = (e) => {
-    const field = e.target.name;
-
-    const event = { ...this.state.event, [field]: e.target.value };
-
-    this.setState({
-      event: event
-    });
-  };
-
-  isValid = () => {
-    const error = {
-      ...this.state.error
-    };
+  const isValid = () => {
     let ret = true;
-    if (this.state.event.eventName === '') {
-      error.eventNameError = '*Event name cannot be empty';
+    if (eventName === "") {
+      setError((prevError) => ({
+        ...prevError,
+        eventNameError: "*Event name cannot be empty",
+      }));
       ret = false;
     }
-    if (this.state.event.description === '') {
-      error.descriptionError = '*Event description cannot be empty';
+    if (eventDescription === "") {
+      setError((prevError) => ({
+        ...prevError,
+        descriptionError: "*Event description cannot be empty",
+      }));
       ret = false;
     }
-    if (this.state.event.venue === '') {
-      error.venueError = '*Event venue cannot be empty';
+    if (eventVenue === "") {
+      setError((prevError) => ({
+        ...prevError,
+        venueError: "*Event venue cannot be empty",
+      }));
       ret = false;
     }
-    if (this.state.event.date === '') {
-      error.dateError = '*Event date cannot be empty';
+    if (!eventDate) {
+      setError((prevError) => ({
+        ...prevError,
+        dateError: "*Event date cannot be empty",
+      }));
       ret = false;
     }
-    if (!this.state.event.graduationYear) {
-      error.graduationYearError = '*Graduation year cannot be empty';
+    if (!eventGraduationYearFrom || !eventGraduationYearTo) {
+      setError((prevError) => ({
+        ...prevError,
+        graduationYearError: "*Graduation year cannot be empty",
+      }));
       ret = false;
     }
-    this.setState({ error: error });
+    if (isNaN(eventGraduationYearFrom) || isNaN(eventGraduationYearTo)) {
+      setError((prevError) => ({
+        ...prevError,
+        graduationYearError: "*Graduation year should be a number",
+      }));
+      ret = false;
+    }
+    if (!eventSelectedFile) {
+      setError((prevError) => ({
+        ...prevError,
+        fileError: "*Event image field cannot be empty",
+      }));
+      ret = false;
+    }
     return ret;
   };
 
-  handleSubmit = (event) => {
-    if (this.isValid()) {
+  const onFileChange = (e) => {
+    setEventSelectedFile(e.target.files[0]);
+  };
+
+  const handleAddEvent = (event) => {
+    event.preventDefault();
+    if (isValid()) {
       const formData = new FormData();
-      if (this.state.event.selectedFile) {
-        formData.append(
-          'COC_Event',
-          this.state.event.selectedFile,
-          this.state.event.selectedFile.name
-        );
+      const url = process.env.REACT_APP_API + "/events";
+      if (eventSelectedFile) {
+        formData.append("COC_Event", eventSelectedFile, eventSelectedFile.name);
       }
-      const {
-        eventName,
-        description,
-        date,
-        venue,
-        graduationYear
-      } = this.state.event;
-      formData.append('eventName', eventName);
-      formData.append('description', description);
-      formData.append('date', date);
-      formData.append('venue', venue);
-      formData.append('graduationYear', graduationYear);
-      if (this.props.isUpdating) {
-        const updatingEventId = this.props.updatingEvent._id;
-        axios
-          .put(
-            process.env.REACT_APP_API + `/events/${updatingEventId}`,
-            formData
-          )
-          .then((res) => {
-            console.log(res.data, this.props.updatingEvent);
-          })
-          .catch((err) => {
-            alert(`A server error occured while processing the data. Please try again later`);
-            console.log(err);
-          });
-      } else {
-        axios
-          .post(process.env.REACT_APP_API + '/events', formData)
-          .then((res) => {
-            console.log(res.data);
-          })
-          .catch((err) => {
-            alert(`A server error occured while processing the data. Please try again later`);
-            console.log(err);
-          });
-      }
-    } else {
-      event.preventDefault();
+      formData.append("eventName", eventName);
+      formData.append("description", eventDescription);
+      formData.append("date", eventDate);
+      formData.append("venue", eventVenue);
+      formData.append("graduationYearFrom", Number(eventGraduationYearFrom));
+      formData.append("graduationYearTo", Number(eventGraduationYearTo));
+      setIsLoading(true);
+      authenticatedAxios
+        .post(url, formData)
+        .then((res) => {
+          if (res.status === 200) {
+            setIsSubmitted(true);
+          } else {
+            setIsError(true);
+          }
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          setIsError(true);
+          setIsLoading(false);
+          console.log(err);
+        });
     }
   };
 
-  renderSubmitButton() {
-    if (this.props.isUpdating) {
-      return (
-        <button type="submit" className="btn btn-primary">
-          Update This Event
-        </button>
-      );
-    }
-    return (
-      <button type="submit" className="btn btn-primary">
-        Add Event
-      </button>
-    );
-  }
-
-  componentDidUpdate(nextProps) {
-    if (
-      JSON.stringify(this.props.updatingEvent) !==
-        JSON.stringify(this.state.event) &&
-      JSON.stringify(this.props.updatingEvent) !==
-        JSON.stringify(nextProps.updatingEvent)
-    ) {
-      if (this.props.updatingEvent) {
-        this.setState({ event: this.props.updatingEvent });
-      } else {
-        this.setState({
-          event: {
-            eventName: '',
-            description: '',
-            date: '',
-            venue: '',
-            graduationYear: null,
-            selectedFile: null
-          }
-        });
+  const handleEditEvent = (event) => {
+    event.preventDefault();
+    if (isValid()) {
+      const formData = new FormData();
+      const url = process.env.REACT_APP_API + `/events/${eventID}`;
+      if (eventSelectedFile) {
+        formData.append("COC_Event", eventSelectedFile, eventSelectedFile.name);
       }
+      formData.append("description", eventDescription);
+      formData.append("date", eventDate);
+      formData.append("venue", eventVenue);
+      formData.append("graduationYearFrom", Number(eventGraduationYearFrom));
+      formData.append("graduationYearTo", Number(eventGraduationYearTo));
+      setIsLoading(true);
+      authenticatedAxios
+        .put(url, formData)
+        .then((res) => {
+          if (res.status === 200) {
+            setIsSubmitted(true);
+          } else {
+            setIsError(true);
+          }
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          setIsError(true);
+          setIsLoading(false);
+          console.log(err);
+        });
     }
-  }
+  };
 
-  render() {
-    return (
-      <div>
-        <div className="jumbotron" style={{ margin: '20px 150px' }}>
-          <form onSubmit={this.handleSubmit} encType="multipart/form-data">
+  return (
+    <div>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <div className="jumbotron" style={{ margin: "20px 50px" }}>
+          <form onSubmit={isEditPage ? handleEditEvent : handleAddEvent}>
             <div className="form-group">
-              <label>Event Name:</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter event title"
-                name="eventName"
-                value={this.state.event.eventName}
-                onChange={this.handleChange}
-              />
-              <div className="errorMsg">{this.state.error.eventNameError}</div>
+              <Grid container>
+                <Grid item xs={12}>
+                  <TextField
+                    placeholder="Event Name"
+                    name="eventName"
+                    value={eventName}
+                    onChange={(e) => setEventName(e.target.value)}
+                    required
+                    label="Enter Event Name"
+                    disabled={isEditPage}
+                  />
+                  <div className="errorMsg">{error.eventNameError}</div>
+                </Grid>
+              </Grid>
             </div>
-
             <div className="form-group">
-              <label>Description:</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter event description"
-                name="description"
-                value={this.state.event.description}
-                onChange={this.handleChange}
-              />
-              <div className="errorMsg">
-                {this.state.error.descriptionError}
-              </div>
+              <Grid container>
+                <Grid item xs={12}>
+                  <TextField
+                    type="text"
+                    placeholder="Event description"
+                    name="description"
+                    label="Enter event description"
+                    value={eventDescription}
+                    onChange={(e) => setEventDescription(e.target.value)}
+                    fullWidth
+                    multiline
+                    required
+                  />
+                  <div className="errorMsg">{error.descriptionError}</div>
+                </Grid>
+              </Grid>
             </div>
-
             <div className="form-group">
-              <label>Event Date:</label>
-              <input
-                type="date"
-                className="form-control"
-                name="date"
-                value={this.state.event.date}
-                onChange={this.handleChange}
-              />
-              <div className="errorMsg">{this.state.error.dateError}</div>
+              <Grid container>
+                <Grid item xs={12}>
+                  <DateTimePicker
+                    autoOk
+                    ampm={false}
+                    value={eventDate}
+                    onChange={(date) => setEventDate(date)}
+                    id="date-picker-dialog"
+                    label="Event date"
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                  />
+                  <div className="errorMsg">{error.dateError}</div>
+                </Grid>
+              </Grid>
             </div>
-
             <div className="form-group">
-              <label>Venue:</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Enter event venue"
-                name="venue"
-                value={this.state.event.venue}
-                onChange={this.handleChange}
-              />
-              <div className="errorMsg">{this.state.error.venueError}</div>
+              <Grid container>
+                <Grid item xs={12}>
+                  <TextField
+                    type="text"
+                    placeholder="Event venue"
+                    name="venue"
+                    value={eventVenue}
+                    onChange={(e) => setEventVenue(e.target.value)}
+                    fullWidth
+                    required
+                    label="Enter Event Venue"
+                  />
+                  <div className="errorMsg">{error.venueError}</div>
+                </Grid>
+              </Grid>
             </div>
-
+            Graduation Year Range: (For Event mails)
             <div className="form-group">
-              <label>Graduation Year:</label>
-              <input
-                type="number"
-                className="form-control"
-                placeholder="Enter Graduation Year"
-                name="graduationYear"
-                value={this.state.event.graduationYear}
-                onChange={this.handleChange}
-              />
-              <div className="errorMsg">
-                {this.state.error.graduationYearError}
-              </div>
+              <Grid container>
+                <Grid item xs={12}>
+                  <TextField
+                    type="text"
+                    placeholder="From graduation year"
+                    name="graduationYearFrom"
+                    value={eventGraduationYearFrom}
+                    onChange={(e) => setEventGraduationYearFrom(e.target.value)}
+                    required
+                    label="From graduation year"
+                    style={{ marginRight: "16px" }}
+                  />
+                  <TextField
+                    type="text"
+                    placeholder="To graduation year"
+                    name="graduationYearTo"
+                    value={eventGraduationYearTo}
+                    onChange={(e) => setEventGraduationYearTo(e.target.value)}
+                    required
+                    label="To graduation year"
+                  />
+                  <div className="errorMsg">{error.graduationYearError}</div>
+                </Grid>
+              </Grid>
             </div>
-
             <div className="form-group">
               <label>Image:</label>
               <input
                 type="file"
                 className="btn"
                 name="COC_Event"
-                onChange={this.onFileChange}
+                accept="image/*"
+                onChange={onFileChange}
               />
+              <div className="errorMsg">{error.fileError}</div>
             </div>
-
-            {this.renderSubmitButton()}
+            <Grid container spacing={1}>
+              <Grid item>
+                {isLoading ? (
+                  <Spinner />
+                ) : (
+                  <Button
+                    type="submit"
+                    variant="outlined"
+                    color="primary"
+                    className="btn btn-primary"
+                  >
+                    {btnText}
+                  </Button>
+                )}
+              </Grid>
+              <Grid item>
+                {isEditPage && (
+                  <Button
+                    type="submit"
+                    variant="outlined"
+                    color="primary"
+                    className="btn btn-primary"
+                    onClick={() => props.history.goBack()}
+                  >
+                    Cancel
+                  </Button>
+                )}
+              </Grid>
+            </Grid>
           </form>
         </div>
-      </div>
-    );
-  }
+      </MuiPickersUtilsProvider>
+      <AlertUtility
+        open={isSubmitted}
+        duration={3000}
+        onCloseHandler={handleClose}
+        severity="success"
+        message={successString + " Reloading events..."}
+      />
+      <AlertUtility
+        open={isError}
+        duration={2000}
+        onCloseHandler={() => {
+          setIsError(false);
+        }}
+        severity="error"
+        message="Oops! An error occurred. Please try again."
+      />
+    </div>
+  );
 }
 
-export default AddEvent;
+const mapStateToProps = (state) => ({
+  userID: state.auth.userID,
+  token: state.auth.token,
+  username: state.auth.username,
+});
+
+export default withRouter(connect(mapStateToProps)(AddEvent));

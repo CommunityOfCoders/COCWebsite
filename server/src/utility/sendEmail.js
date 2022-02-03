@@ -3,17 +3,19 @@ const nodemailer = require('nodemailer');
 const crypt = require('./crypt');
 const getMailOptions = require('./getMailOptions');
 
-const encPassword = process.env.ENCPASSWORD;
+const sendinbluePass = process.env.SENDINBLUE_PASS;
 
 const transport = nodemailer.createTransport({
-	service: 'Gmail',
+	host: 'smtp-relay.sendinblue.com',
+	port: 587,
+	secure: false,
 	auth: {
 		user: 'communityofcoders@gmail.com',
-		pass: crypt.decrypt(encPassword),
+		pass: sendinbluePass,
 	},
 });
 
-module.exports = sendMail = (to, subject, message) => {
+module.exports = sendMail = async (to, subject, message) => {
 	const mailOptions = getMailOptions(to, subject, message);
 	transport.sendMail(mailOptions, error => {
 		if (error) {

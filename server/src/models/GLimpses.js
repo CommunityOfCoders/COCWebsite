@@ -5,7 +5,7 @@ const glimpse = new mongoose.Schema({
         type: String,
         required: true
     },
-    imagePath: {
+    albumPath: {
         type: String
     }
 })
