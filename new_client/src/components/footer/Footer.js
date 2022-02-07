@@ -13,7 +13,7 @@ import {
   YouTube,
 } from "@material-ui/icons";
 
-import COC from "../assets/COC.webp";
+import COC from "../assets/coc_dark.webp";
 import "./Footer.css";
 import footerStyle from "./footerStyle";
 
@@ -30,18 +30,11 @@ export default function Footer() {
           <span className={classes.cocGreen}>o</span>f{" "}
           <span className={classes.cocGreen}>C</span>oders
         </Typography>
-        <div className={classes.tagline}>
-          {["Imagine", "Believe", "Achieve"].map((word, index) => (
-            <Typography
-              variant="body1"
-              component="span"
-              key={index}
-              className={classes.taglineWord}
-            >
-              {word}
-            </Typography>
-          ))}
-        </div>
+        <Typography className={classes.tagline} align="center">
+          Imagine<span className={classes.bulletSeperator}>&#8226;</span>
+          Believe<span className={classes.bulletSeperator}>&#8226;</span>
+          Achieve
+        </Typography>
         <div className={classes.socials}>
           <a
             href="https://www.facebook.com/CommunityOfCoders"
@@ -80,11 +73,12 @@ export default function Footer() {
           </a>
         </div>
       </div>
+      <div className={classes.footerSeperator}>
+        <div className={classes.greenThread}></div>
+      </div>
       <div className={classes.footerBottom}>
         <Typography variant="body1" className={classes.copyright}>
-          &copy; <span className={classes.cocGreen}>C</span>ommunity{" "}
-          <span className={classes.cocGreen}>o</span>f{" "}
-          <span className={classes.cocGreen}>C</span>oders, VJTI
+          &copy; Community of Coders, VJTI
         </Typography>
       </div>
     </ThemeProvider>
