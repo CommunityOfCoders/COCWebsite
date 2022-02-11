@@ -25,6 +25,13 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "auto",
     paddingTop: "56.25%", // 16:
     borderRadius: 4,
+    backgroundSize: "contain",
+  },
+  projectOwner: {
+    marginTop: "10px",
+    marginLeft: "auto",
+    maxWidth: "50%",
+    textAlign: "right",
   },
 }));
 
@@ -60,6 +67,9 @@ const ProjectModal = ({ open, modalHide, projectData }) => {
         </div>
         <Typography variant="body1" component="p" align="center">
           {projectData.desc}
+        </Typography>
+        <Typography className={classes.projectOwner} color="textSecondary">
+          By {projectData.owner}
         </Typography>
       </div>
     </Modal>

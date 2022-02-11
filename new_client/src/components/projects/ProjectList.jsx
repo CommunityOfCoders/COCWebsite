@@ -59,6 +59,7 @@ const ProjectList = () => {
                 imgSrc={project.imageUrl}
                 title={project.projectTitle}
                 domains={project.domains}
+                owner={project.owner}
                 shortDesc={project.projectDescription}
                 linkToRepo={project.projectUrl}
               />

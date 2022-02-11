@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
   media: {
     height: "auto",
     paddingTop: "100%", //"56.25%", // 16:9
+    backgroundSize: "contain",
   },
   section1: {
     margin: theme.spacing(1, 2),
@@ -40,6 +41,7 @@ export default function IndividualProjectCard({
   domains,
   shortDesc,
   linkToRepo,
+  owner,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalInfo, setModalInfo] = useState({});
@@ -78,6 +80,9 @@ export default function IndividualProjectCard({
           >
             {title}
           </Typography>
+          <Typography className={classes.section1} color="textSecondary">
+            By {owner}
+          </Typography>
           <Typography
             className={classes.section2}
             gutterBottom
@@ -98,7 +103,12 @@ export default function IndividualProjectCard({
               <Button
                 color="grey"
                 onClick={() => {
-                  handleShow({ title: title, desc: shortDesc, image: imgSrc });
+                  handleShow({
+                    title: title,
+                    desc: shortDesc,
+                    image: imgSrc,
+                    owner: owner,
+                  });
                 }}
               >
                 (read more)
