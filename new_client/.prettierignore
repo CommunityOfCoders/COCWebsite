@@ -1,4 +1,5 @@
 .prettierrc
+.npmrc
 public
 package.json
 package-lock.json
