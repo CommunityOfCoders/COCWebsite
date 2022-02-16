@@ -81,7 +81,7 @@ export default function IndividualProjectCard({
             {title}
           </Typography>
           <Typography className={classes.section1} color="textSecondary">
-            By {owner}
+            By {typeof owner == "object" ? owner.name : owner}
           </Typography>
           <Typography
             className={classes.section2}
