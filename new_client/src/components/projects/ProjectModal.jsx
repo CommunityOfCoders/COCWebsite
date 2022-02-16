@@ -69,7 +69,10 @@ const ProjectModal = ({ open, modalHide, projectData }) => {
           {projectData.desc}
         </Typography>
         <Typography className={classes.projectOwner} color="textSecondary">
-          By {projectData.owner}
+          By{" "}
+          {typeof projectData.owner == "object"
+            ? projectData.owner.name
+            : projectData.owner}
         </Typography>
       </div>
     </Modal>
