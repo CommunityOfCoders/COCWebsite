@@ -19,8 +19,8 @@ jobs:
       - name: Creating react static build
         run: |
           cd new_client
-          npm ci
-          npm run build
+          yarn
+          yarn build
         env:
           CI: false
       - name: Compressing server source code and frontend build folders
