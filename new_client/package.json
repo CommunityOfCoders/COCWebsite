@@ -39,6 +39,10 @@
     "styled-components": "^5.1.0",
     "typewriter-effect": "^2.15.0"
   },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
