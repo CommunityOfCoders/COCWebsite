@@ -19,7 +19,7 @@ jobs:
       - name: Creating react static build
         run: |
           cd new_client
-          npm i
+          npm ci
           npm run build
         env:
           CI: false

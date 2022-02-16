@@ -10,3 +10,4 @@ node_modules
 *.ttf
 *.jpeg
 *.pdf
+yarn.lock
