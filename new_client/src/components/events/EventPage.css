@@ -1,0 +1,11 @@
+.nav-mob-open {
+  transform: translateX(1%);
+}
+.onlyEventPage {
+  left: auto;
+  right: 5px;
+}
+#onlyEventPageSideBar {
+  left: auto;
+  right: 5px;
+}

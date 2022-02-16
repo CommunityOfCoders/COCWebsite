@@ -103,7 +103,21 @@ export default function IndividualEvent({
             </>
           )}
           <Link to={`/events/${article._id}`}>
-            <Button variant="contained">View More</Button>
+            <Button
+              variant="contained"
+              onClick={
+                (document
+                  .getElementById("nav-toggler")
+                  .classList.remove("onlyEventPage"),
+                document.getElementsByClassName("nav-item-list-mob").length == 0
+                  ? " "
+                  : (document.getElementsByClassName(
+                      "nav-item-list-mob"
+                    )[0].id = ""))
+              }
+            >
+              View More
+            </Button>
           </Link>
           {isFuture(new Date(article.date)) && (
             <RegisterButton
