@@ -27,8 +27,8 @@ const getNotificationDate = (eventDate) => {
 
 // Utility function to ensure some value is always returned
 const numUsers = (event) => {
-  if (!!event.users) {
-    return event.users.length;
+  if (!!event.registeredUsers) {
+    return event.registeredUsers.length;
   }
   return 0;
 };
