@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "coc-server",
   "version": "1.0.0",
   "description": "Server for front end",
   "main": "src/app.js",
