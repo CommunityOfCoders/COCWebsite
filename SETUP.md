@@ -35,12 +35,30 @@ At the end of this, you should have
 - new_client running at `http://localhost:3000`
 - redis running at PORT `6379`
 
-# Folder structure
+## Adding/ Removing packages
+
+The project is a monorepo, and dependencies are managed using Yarn Workspaces. To add a new package, follow the steps below.
+
+- For adding/ removing a dependency in server
+
+```bash
+$ yarn workspace coc-server add/remove <package-name>
+```
+
+- For adding a dependency in new_client
+
+```bash
+$ yarn workspace coc-client add/remove <package-name>
+```
+
+## Folder structure
 
 Our folder structure
 
 ```
 .
+├── package.json # Maintains the dependencies using Yarn Workspaces
+├── yarn.lock # Lock file
 ├── new_client
 │   ├── public # Stores public files like index.html
 │   └── src
