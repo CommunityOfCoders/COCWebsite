@@ -5,7 +5,7 @@
   "description": "monorepo for Community Of Coders, VJTI's website",
   "scripts": {
     "start:client": "yarn workspace coc-client start",
-    "start:server": "yarn workspace coc-server start",
+    "start:server": "yarn workspace coc-server start:dev",
     "dev": "concurrently --kill-others-on-fail \"yarn start:server\"  \"yarn start:client\""
   },
   "workspaces": [
