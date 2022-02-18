@@ -15,6 +15,7 @@ import Banner from "./Banner";
 import { isFuture } from "date-fns";
 import { TitleWithDivider } from "./EventPage";
 import useAuthenticatedAxios from "../Utilities/useAuthenticatedAxios.js";
+import "./EventList.css";
 
 const useStyles = makeStyles({
   gridContainer: {
