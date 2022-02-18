@@ -19,6 +19,7 @@ import { connect } from "react-redux";
 import { isFuture } from "date-fns/esm";
 import BackButton from "../Utilities/BackButton";
 import useAuthenticatedAxios from "../Utilities/useAuthenticatedAxios.js";
+import "./EventPage.css";
 
 const useStyles = makeStyles((theme) => ({
   media: {
@@ -106,7 +107,18 @@ function EventPage(props) {
     <Spinner />
   ) : (
     <>
-      <BackButton link="/events" />
+      <BackButton
+        link="/events"
+        onClick={
+          (document
+            .getElementById("nav-toggler")
+            .classList.add("onlyEventPage"),
+          document.getElementsByClassName("nav-item-list-mob").length == 0
+            ? " "
+            : (document.getElementsByClassName("nav-item-list-mob")[0].id =
+                "onlyEventPageSideBar"))
+        }
+      />
       <Container maxWidth="md">
         <Grid container className={classes.titleGap}>
           <Grid item xs={12} md={6} lg={6}>
