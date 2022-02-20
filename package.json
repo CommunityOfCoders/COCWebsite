@@ -1,0 +1,27 @@
+{
+  "name": "cocwebsite",
+  "version": "0.0.1",
+  "private": true,
+  "description": "monorepo for Community Of Coders, VJTI's website",
+  "scripts": {
+    "start:client": "yarn workspace coc-client start",
+    "start:server": "yarn workspace coc-server start:dev",
+    "dev": "concurrently --kill-others-on-fail \"yarn start:server\"  \"yarn start:client\""
+  },
+  "workspaces": [
+    "server",
+    "new_client"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CommunityOfCoders/COCWebsite.git"
+  },
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/CommunityOfCoders/COCWebsite/issues"
+  },
+  "homepage": "https://github.com/CommunityOfCoders/COCWebsite#readme",
+  "dependencies": {
+    "concurrently": "^7.0.0"
+  }
+}

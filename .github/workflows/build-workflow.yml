@@ -18,9 +18,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Creating react static build
         run: |
-          cd new_client
-          npm i
-          npm run build
+          yarn
+          yarn workspace coc-client build
         env:
           CI: false
       - name: Compressing server source code and frontend build folders

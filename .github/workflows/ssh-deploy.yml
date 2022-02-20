@@ -23,5 +23,5 @@ jobs:
             tar -xzf server.tar.gz
             tar -xzf client.tar.gz
             cp .env server/
-            cd server && npm i
+            cd server && yarn
             NODE_ENV=production pm2 start -n "coc-server" src/app.js
