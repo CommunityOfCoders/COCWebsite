@@ -6,7 +6,6 @@ import { Container, Grid, Typography, Box, Button, TextField, FormControl,
 import "../auth/Error.css";
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
-
 const EDITTOR_HOLDER_ID = 'editorjs';
 
 const WriteExperience = (props) => {
