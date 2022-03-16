@@ -14,6 +14,7 @@ import Header from "./components/Header";
 import Footer from "./components/footer/Footer";
 import Spinner from "./components/spinner/Spinner";
 import ScrollToTop from "./components/Utilities/ScrollToTop";
+import WriteExperience from "./components/experiences/WriteExperience";
 
 // Lazy components start here
 // Auth
@@ -53,6 +54,9 @@ const LazyMagazines = lazy(() => import("./components/magazines/Magazines"));
 const LazyAddMagazine = lazy(() =>
   import("./components/magazines/AddMagazine")
 );
+
+// Experiences
+const LazyWriteExperience = lazy(() => import("./components/experiences/WriteExperience"));
 
 const theme = responsiveFontSizes(createMuiTheme());
 const Lazy404 = lazy(() => import("./components/404/NotFound"));
@@ -137,6 +141,12 @@ function App() {
                     path="/magazine/edit/:id"
                     component={LazyAddMagazine}
                   />
+
+                  <Route
+                    path="/writeexp"
+                    component={LazyWriteExperience}
+                  />
+
                   <Route component={Lazy404} />
                 </Switch>
               </Suspense>
