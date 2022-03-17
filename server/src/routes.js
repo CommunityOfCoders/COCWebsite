@@ -10,6 +10,7 @@ const ResourcesController = require('./controllers/ResourcesController')
 const AchievementsController = require('./controllers/AchievementsController')
 const MagazineController = require('./controllers/MagazineController')
 const CompanyController = require('./controllers/CompanyController')
+const InterviewController = require('./controllers/InterviewController')
 const upload = require('./middleware/upload')
 const auth = require('./middleware/auth')
 const blog = require('./middleware/blog')
@@ -119,4 +120,8 @@ module.exports = (app) => {
   app.put('/api/company', CompanyController.updateCompanyById);
   app.delete('/api/company', CompanyController.deleteCompanyById);
 
+  // Interviews
+  app.get('/api/interview', InterviewController.getInterviewByTitle);
+  app.post('/api/interview', InterviewController.submitInterview);
+  app.post('/api/interview/verify', InterviewController.verifyInterview);
 }

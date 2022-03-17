@@ -8,6 +8,6 @@ const company = new mongoose.Schema({
     },
 });
 
-const Company = mongoose.model('companies', company);
+const Company = mongoose.model('company', company);
 
 module.exports = Company;

@@ -7,17 +7,17 @@ const interview = new mongoose.Schema({
         unique: true,
     },
     createdBy: { type: String, required: true },
-    companyName: {
+    company: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Company',
+        ref: 'company',
         required: true
     },
     content: { type: Object },
     status: { type: String, required: true }, 
     appliedFor: { type: String, required: true },
-    appliedYear: { type: Date, required: true },
+    appliedYear: { type: Number, required: true },
 });
 
-const Interview = mongoose.model('interviews', interview);
+const Interview = mongoose.model('interview', interview);
 
 module.exports = Interview;
