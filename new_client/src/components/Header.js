@@ -121,6 +121,13 @@ function Header(props) {
         >
           <nav className={getNavItemContClass("alumni")}>ALUMNI</nav>
         </Link>
+        <Link
+          to="/exp"
+          className={navItemClass}
+          onClick={() => currPageChange("experience")}
+        >
+          <nav className={getNavItemContClass("experience")}>EXPERIENCES</nav>
+        </Link>
         {/* <Link
 					to="/blogs"
 					className={navItemClass}

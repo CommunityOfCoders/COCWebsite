@@ -57,6 +57,10 @@
       background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
         url("../assets/magazines.webp");
       min-height: 100vh;
+    } @else if $page == "Experience" {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url("../assets/experience.webp");
+      min-height: 100vh;
     }
   }
 
@@ -112,4 +116,7 @@ section.projectsBanner {
 }
 section.magazinesBanner {
   @include Banner("Magazines");
+}
+section.experienceBanner {
+  @include Banner("Experience");
 }
