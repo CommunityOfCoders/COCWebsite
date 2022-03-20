@@ -14,6 +14,8 @@ import { WriteExperience } from "./WriteExperience";
 import deshaw from "../assets/DEShaw.webp";
 import { Height } from "@material-ui/icons";
 import BackButton from "../Utilities/BackButton";
+import PersonIcon from "@material-ui/icons/Person";
+import EventNote from "@material-ui/icons/EventNote";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,12 +24,20 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
   },
   button: {
-    marginTop: "10px",
+    marginTop: "15px",
   },
   cardContent: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    padding: "16px",
+  },
+  cardContentSecond: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    justifyContent: "center",
+    paddingTop: "0px",
   },
   divider: {
     margin: "50px auto",
@@ -66,7 +76,7 @@ export default function CompanyList() {
                   <Typography
                     style={{ color: "#224903" }}
                     align="center"
-                    variant="h5"
+                    variant="h6"
                   >
                     D E Shaw & Co.
                   </Typography>
@@ -77,9 +87,23 @@ export default function CompanyList() {
                     variant="contained"
                     className={classes.button}
                   >
-                    View Experiences
+                    Read Experience
                   </Button>
                   {/* </Link> */}
+                </CardContent>
+                <CardContent
+                  // style={{ flex: "2" }}
+                  className={classes.cardContentSecond}
+                >
+                  <Typography align="center">
+                    <PersonIcon style={{ margin: "5px" }} />
+                    {""}
+                    Ravi Maurya
+                  </Typography>
+                  <Typography align="center">
+                    <EventNote style={{ margin: "5px" }} />
+                    2021-22
+                  </Typography>
                 </CardContent>
               </Card>
             </Grid>
@@ -95,7 +119,7 @@ export default function CompanyList() {
                   <Typography
                     style={{ color: "#224903" }}
                     align="center"
-                    variant="h5"
+                    variant="h6"
                   >
                     D E Shaw & Co.
                   </Typography>
@@ -106,38 +130,23 @@ export default function CompanyList() {
                     variant="contained"
                     className={classes.button}
                   >
-                    View Experiences
+                    Read Experience
                   </Button>
                   {/* </Link> */}
                 </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Card className={classes.root}>
-                {/* <CardMedia> */}
-                <img src={deshaw} alt="" />
-                {/* </CardMedia> */}
                 <CardContent
-                  style={{ flex: "1" }}
-                  className={classes.cardContent}
+                  // style={{ flex: "2" }}
+                  className={classes.cardContentSecond}
                 >
-                  <Typography
-                    style={{ color: "#224903" }}
-                    align="center"
-                    variant="h5"
-                  >
-                    D E Shaw & Co.
+                  <Typography align="center">
+                    <PersonIcon style={{ margin: "5px" }} />
+                    {""}
+                    Ravi Maurya
                   </Typography>
-                  {/* <Link to="/writeexp"> */}
-                  <Button
-                    style={{ color: "#224903" }}
-                    align="center"
-                    variant="contained"
-                    className={classes.button}
-                  >
-                    View Experiences
-                  </Button>
-                  {/* </Link> */}
+                  <Typography align="center">
+                    <EventNote style={{ margin: "5px" }} />
+                    2021-22
+                  </Typography>
                 </CardContent>
               </Card>
             </Grid>
@@ -147,45 +156,48 @@ export default function CompanyList() {
         <Divider className={classes.divider} />
 
         <Container maxWidth="lg">
-          <Grid container spacing={4}>
-            <Grid item xs={12}>
-              <Typography
-                variant="h4"
-                style={{ color: "#52b107" }}
-                gutterBottom
+          <Grid item xs={12} md={3}>
+            <Card className={classes.root}>
+              {/* <CardMedia> */}
+              <img src={deshaw} alt="" />
+              {/* </CardMedia> */}
+              <CardContent
+                style={{ flex: "1" }}
+                className={classes.cardContent}
               >
-                Placements
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Card className={classes.root}>
-                {/* <CardMedia> */}
-                <img src={deshaw} alt="" />
-                {/* </CardMedia> */}
-                <CardContent
-                  style={{ flex: "1" }}
-                  className={classes.cardContent}
+                <Typography
+                  style={{ color: "#224903" }}
+                  align="center"
+                  variant="h6"
                 >
-                  <Typography
-                    style={{ color: "#224903" }}
-                    align="center"
-                    variant="h5"
-                  >
-                    D E Shaw & Co.
-                  </Typography>
-                  {/* <Link to="/writeexp"> */}
-                  <Button
-                    style={{ color: "#224903" }}
-                    align="center"
-                    variant="contained"
-                    className={classes.button}
-                  >
-                    View Experiences
-                  </Button>
-                  {/* </Link> */}
-                </CardContent>
-              </Card>
-            </Grid>
+                  D E Shaw & Co.
+                </Typography>
+                {/* <Link to="/writeexp"> */}
+                <Button
+                  style={{ color: "#224903" }}
+                  align="center"
+                  variant="contained"
+                  className={classes.button}
+                >
+                  Read Experience
+                </Button>
+                {/* </Link> */}
+              </CardContent>
+              <CardContent
+                // style={{ flex: "2" }}
+                className={classes.cardContentSecond}
+              >
+                <Typography align="center">
+                  <PersonIcon style={{ margin: "5px" }} />
+                  {""}
+                  Ravi Maurya
+                </Typography>
+                <Typography align="center">
+                  <EventNote style={{ margin: "5px" }} />
+                  2021-22
+                </Typography>
+              </CardContent>
+            </Card>
           </Grid>
         </Container>
       </Box>
