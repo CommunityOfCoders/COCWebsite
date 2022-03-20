@@ -15,6 +15,7 @@ import Footer from "./components/footer/Footer";
 import Spinner from "./components/spinner/Spinner";
 import ScrollToTop from "./components/Utilities/ScrollToTop";
 import WriteExperience from "./components/experiences/WriteExperience";
+import CompanyList from "./components/experiences/CompanyList";
 
 // Lazy components start here
 // Auth
@@ -56,7 +57,15 @@ const LazyAddMagazine = lazy(() =>
 );
 
 // Experiences
-const LazyWriteExperience = lazy(() => import("./components/experiences/WriteExperience"));
+const LazyWriteExperience = lazy(() =>
+  import("./components/experiences/WriteExperience")
+);
+const LazyCompanyList = lazy(() =>
+  import("./components/experiences/CompanyList")
+);
+const LazyExperienceList = lazy(() =>
+  import("./components/experiences/ExperienceList")
+);
 
 const theme = responsiveFontSizes(createMuiTheme());
 const Lazy404 = lazy(() => import("./components/404/NotFound"));
@@ -142,10 +151,9 @@ function App() {
                     component={LazyAddMagazine}
                   />
 
-                  <Route
-                    path="/writeexp"
-                    component={LazyWriteExperience}
-                  />
+                  <Route path="/writeexp" component={LazyWriteExperience} />
+                  <Route path="/exp" component={LazyCompanyList} />
+                  <Route path="/explist" component={LazyExperienceList} />
 
                   <Route component={Lazy404} />
                 </Switch>
