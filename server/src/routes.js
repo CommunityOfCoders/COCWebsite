@@ -121,7 +121,9 @@ module.exports = (app) => {
   app.delete('/api/company', CompanyController.deleteCompanyById);
 
   // Interviews
-  app.get('/api/interview', InterviewController.getInterviewByTitle);
+  app.get('/api/interview', InterviewController.getInterviewByID);
+  app.get('/api/interview/:id', event.validate('checkID'), InterviewController.getInterviewByID);
+  app.get('/api/unverifiedInterview', InterviewController.getUnverifiedInterview);
   app.post('/api/interview', InterviewController.submitInterview);
   app.post('/api/interview/verify', InterviewController.verifyInterview);
   app.post('/api/interviewImageUpload', upload.single('expImage'), InterviewController.uploadImage);

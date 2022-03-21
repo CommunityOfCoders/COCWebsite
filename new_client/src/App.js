@@ -18,6 +18,8 @@ import WriteExperience from "./components/experiences/WriteExperience";
 import CompanyList from "./components/experiences/CompanyList";
 import ManageCompanies from "./components/experiences/ManageCompanies";
 import AddCompany from "./components/experiences/AddCompany";
+import ManageExperiences from "./components/experiences/ManageExperiences";
+import VerifyExperience from "./components/experiences/VerifyExperience";
 
 // Lazy components start here
 // Auth
@@ -67,6 +69,18 @@ const LazyCompanyList = lazy(() =>
 );
 const LazyExperienceList = lazy(() =>
   import("./components/experiences/ExperienceList")
+);
+const LazyManageCompanies = lazy(() =>
+  import("./components/experiences/ManageCompanies")
+);
+const LazyAddCompany = lazy(() =>
+  import("./components/experiences/AddCompany")
+);
+const LazyManageExperiences = lazy(() =>
+  import("./components/experiences/ManageExperiences")
+);
+const LazyVerifyExperience = lazy(() =>
+  import("./components/experiences/VerifyExperience")
 );
 
 const theme = responsiveFontSizes(createMuiTheme());
@@ -154,10 +168,12 @@ function App() {
                   />
 
                   <Route path="/writeexp" component={LazyWriteExperience} />
+                  <Route path="/exp/list/:id" component={LazyExperienceList} />
                   <Route path="/exp" component={LazyCompanyList} />
-                  <Route path="/explist" component={LazyExperienceList} />
-                  <ProtectedRoute path="/manageCompanies" component={ManageCompanies} />
-                  <ProtectedRoute path="/addcompany" component={AddCompany} />
+                  <ProtectedRoute path="/managecompanies" component={LazyManageCompanies} />
+                  <ProtectedRoute path="/addcompany" component={LazyAddCompany} />
+                  <ProtectedRoute path="/manageexperiences" component={LazyManageExperiences} />
+                  <ProtectedRoute path="/verifyexperience/:id" component={LazyVerifyExperience} />
 
                   <Route component={Lazy404} />
                 </Switch>

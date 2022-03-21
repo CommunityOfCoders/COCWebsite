@@ -41,31 +41,37 @@ const submitInterview = async (req, res) => {
     }
 };
 
-const getInterviewByTitle = async (req, res) => {
+const getInterviewByID = async (req, res) => {
     try {
-        if (!req.query || !req.query.interviewTitle) {
-            return res.status(422).json({ error: 'Please provide interview title' });
-        }
-
-        const interviewTitle = req.query.interviewTitle;
-        const interview = await Interview.findOne({ title: interviewTitle }).populate('company').exec();
-        return res.status(200).json({ interview });
+        // if (!req.query || !req.query.interviewTitle) {
+        //     return res.status(422).json({ error: 'Please provide interview title' });
+        // }
+        const interviewID = req.params.id;
+        // const interview = await Interview.findOne({ _id: interviewID }).populate('company').exec();
+        const interview = await Interview.findOne({ _id: interviewID });
+        return res.status(200).json(interview);
     } catch (error) {
         return res.status(400).json({ error: error.message });
     }
 };
 
+const getUnverifiedInterview = async (req, res) => {
+    try{
+        const unverifiedList = await Interview.find({isVerified: false});
+        return res.status(200).json({ unverifiedList });
+    } catch (error){
+        return res.status(400).json({ error: error.message });
+    }
+}
+
 const verifyInterview = async (req, res) => {
     try {
-        if (!req.body || !req.body.updatedInterviewStatus) {
-            return res.status(422).json({ error: 'Please provide new interview status' });
+        console.log(req.body);
+        if (!req.body || !req.body.interviewID || !req.body.companyID) {
+            return res.status(422).json({ error: 'Please provide all details' });
         }
-
-        const newStatus = req.body.updatedInterviewStatus;
-        const interviewTitle = req.body.interviewTitle;
-        if (newStatus !== 'Accepted' && newStatus !== 'Rejected') throw new Error('Invalid status');
-
-        const updatedInterview = await Interview.findOneAndUpdate({ title: interviewTitle }, { status: newStatus }, { new: true });
+        const {interviewID, companyID} = req.body;
+        const updatedInterview = await Interview.findOneAndUpdate({ _id: interviewID }, { isVerified: true, company: companyID }, { new: true });
 
         return res.status(200).json({ message: 'Verified interview successfully', interview: updatedInterview });
 
@@ -126,7 +132,8 @@ const interviewStatusConstants = {
 
 module.exports = {
     submitInterview,
-    getInterviewByTitle,
+    getInterviewByID,
+    getUnverifiedInterview,
     verifyInterview,
     uploadImage,
 }

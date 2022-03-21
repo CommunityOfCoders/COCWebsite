@@ -154,8 +154,17 @@ export default function CompanyList() {
         </Container>
 
         <Divider className={classes.divider} />
-
+        
         <Container maxWidth="lg">
+          <Grid item xs={12}>
+            <Typography
+              variant="h4"
+              style={{ color: "#52b107" }}
+              gutterBottom
+            >
+              Placements
+            </Typography>
+          </Grid>
           <Grid item xs={12} md={3}>
             <Card className={classes.root}>
               {/* <CardMedia> */}

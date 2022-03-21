@@ -51,7 +51,7 @@ const ManageCompanies = (props) => {
 
   const handleModalClose = () => {
     setIsModalClosing(true);
-	setCounter(counter + 1);
+	  setCounter(counter + 1);
   };
 
   useEffect(() => {
