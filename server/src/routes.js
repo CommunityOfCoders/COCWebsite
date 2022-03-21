@@ -116,7 +116,7 @@ module.exports = (app) => {
   // Companies
   app.get('/api/companies', CompanyController.getCompanies);
   app.get('/api/company', CompanyController.getCompanyByName);
-  app.post('/api/company', CompanyController.createCompany);
+  app.post('/api/company', auth.verifyToken, user.isMember, upload.single('companyLogo'), CompanyController.createCompany);
   app.put('/api/company', CompanyController.updateCompanyById);
   app.delete('/api/company', CompanyController.deleteCompanyById);
 
@@ -124,4 +124,5 @@ module.exports = (app) => {
   app.get('/api/interview', InterviewController.getInterviewByTitle);
   app.post('/api/interview', InterviewController.submitInterview);
   app.post('/api/interview/verify', InterviewController.verifyInterview);
+  app.post('/api/interviewImageUpload', upload.single('expImage'), InterviewController.uploadImage);
 }

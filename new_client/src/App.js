@@ -16,6 +16,8 @@ import Spinner from "./components/spinner/Spinner";
 import ScrollToTop from "./components/Utilities/ScrollToTop";
 import WriteExperience from "./components/experiences/WriteExperience";
 import CompanyList from "./components/experiences/CompanyList";
+import ManageCompanies from "./components/experiences/ManageCompanies";
+import AddCompany from "./components/experiences/AddCompany";
 
 // Lazy components start here
 // Auth
@@ -154,6 +156,8 @@ function App() {
                   <Route path="/writeexp" component={LazyWriteExperience} />
                   <Route path="/exp" component={LazyCompanyList} />
                   <Route path="/explist" component={LazyExperienceList} />
+                  <ProtectedRoute path="/manageCompanies" component={ManageCompanies} />
+                  <ProtectedRoute path="/addcompany" component={AddCompany} />
 
                   <Route component={Lazy404} />
                 </Switch>

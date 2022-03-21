@@ -1,20 +1,41 @@
 const Company = require("../models/Company");
+const cloudinary = require("cloudinary");
 
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_NAME,
+    api_key: process.env.CLOUDINARY_APIKEY,
+    api_secret: process.env.CLOUDINARY_SECRET,
+});
 
 const createCompany = async (req, res) => {
     try {
-        if (!req.body || !req.body.companyName) {
-            return res.status(422).json({ error: 'Please provide name of the company' });
+        if (!req.body || !req.body.companyName || !req.file) {
+            return res.status(422).json({ error: 'Please provide name of the company and image' });
         }
+        
         const companyName = req.body.companyName;
         const companyExists = await Company.findOne({ title: companyName });
         if (companyExists) {
             return res.status(400).json({ error: 'Company with given name already exists' });
         }
+        const file = req.file;
         const companyDetails = {
             title: companyName,
         }
-        const createdCompany = await Company.create(companyDetails);
+        let createdCompany = await Company.create(companyDetails);
+        if (file) {
+            const image = await cloudinary.v2.uploader.upload(file.path, {
+                public_id: createdCompany._id,
+                tags: ["companyLogo"],
+                invalidate: true,
+            });
+            createdCompany = await Company.findByIdAndUpdate(
+                createdCompany._id,
+                { image: { url: image.secure_url, public_id: image.public_id } },
+                { new: true }
+            ).select({ "_id": 1, "title": 1}).lean();
+        }
+        
         return res.status(200).json({ message: 'Created company successfully', company: createdCompany });
     } catch (error) {
         return res.status(400).json({ error: error.message });

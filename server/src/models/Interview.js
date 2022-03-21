@@ -9,11 +9,11 @@ const interview = new mongoose.Schema({
     createdBy: { type: String, required: true },
     company: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'company',
-        required: true
+        ref: 'company'
     },
+    companyRequest: { type: String, required: true },
     content: { type: Object },
-    status: { type: String, required: true }, 
+    isVerified: { type: Boolean, required: true }, 
     appliedFor: { type: String, required: true },
     appliedYear: { type: Number, required: true },
 });
