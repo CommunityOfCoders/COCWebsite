@@ -14,12 +14,6 @@ import Header from "./components/Header";
 import Footer from "./components/footer/Footer";
 import Spinner from "./components/spinner/Spinner";
 import ScrollToTop from "./components/Utilities/ScrollToTop";
-import WriteExperience from "./components/experiences/WriteExperience";
-import CompanyList from "./components/experiences/CompanyList";
-import ManageCompanies from "./components/experiences/ManageCompanies";
-import AddCompany from "./components/experiences/AddCompany";
-import ManageExperiences from "./components/experiences/ManageExperiences";
-import VerifyExperience from "./components/experiences/VerifyExperience";
 
 // Lazy components start here
 // Auth
@@ -81,6 +75,9 @@ const LazyManageExperiences = lazy(() =>
 );
 const LazyVerifyExperience = lazy(() =>
   import("./components/experiences/VerifyExperience")
+);
+const LazyReadExperience = lazy(() =>
+  import("./components/experiences/ReadExperience")
 );
 
 const theme = responsiveFontSizes(createMuiTheme());
@@ -169,6 +166,7 @@ function App() {
 
                   <Route path="/writeexp" component={LazyWriteExperience} />
                   <Route path="/exp/list/:id" component={LazyExperienceList} />
+                  <Route path="/exp/:id" component={LazyReadExperience} />
                   <Route path="/exp" component={LazyCompanyList} />
                   <ProtectedRoute path="/managecompanies" component={LazyManageCompanies} />
                   <ProtectedRoute path="/addcompany" component={LazyAddCompany} />

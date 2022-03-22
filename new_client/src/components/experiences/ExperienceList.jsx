@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Banner from "./Banner";
 import { Container, Box, Grid, Typography } from "@material-ui/core";
 import { Divider, IconButton } from "@material-ui/core";
@@ -13,6 +13,8 @@ import { createTheme } from "@material-ui/core/styles";
 import { WriteExperience } from "./WriteExperience";
 import deshaw from "../assets/DEShaw.webp";
 import { Height } from "@material-ui/icons";
+import { useLocation, withRouter } from "react-router-dom";
+import axios from 'axios';
 import BackButton from "../Utilities/BackButton";
 import PersonIcon from "@material-ui/icons/Person";
 import EventNote from "@material-ui/icons/EventNote";
@@ -49,6 +51,30 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CompanyList() {
   const classes = useStyles();
+
+  const [company, setCompany] = useState({});
+  const [expList, setExpList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { pathname } = useLocation();
+  const companyID = pathname.split("/")[3];
+
+  useEffect(() => {
+    setIsLoading(true);
+    axios
+      .get(process.env.REACT_APP_API + `/interviewList/${companyID}`)
+      .then((res) => {
+        console.log(res.data);
+        setExpList(res.data.interviewList);
+        setCompany(res.data.company);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
+  }, [pathname]);
+    
   return (
     <>
       <Box p={1} m={2}>
@@ -64,92 +90,61 @@ export default function CompanyList() {
                 Internships
               </Typography>
             </Grid>
-            <Grid item xs={12} md={3}>
-              <Card className={classes.root}>
-                {/* <CardMedia> */}
-                <img src={deshaw} alt="" />
-                {/* </CardMedia> */}
-                <CardContent
-                  style={{ flex: "1" }}
-                  className={classes.cardContent}
-                >
+            {
+              (!isLoading && expList.filter(exp => exp.appliedFor === "Internship").length == 0) ? 
+                <Grid item xs={12}>
                   <Typography
-                    style={{ color: "#224903" }}
-                    align="center"
                     variant="h6"
+                    style={{ color: "#5e5e5e" }}
+                    gutterBottom
                   >
-                    D E Shaw & Co.
+                    No Internship experiences found
                   </Typography>
-                  {/* <Link to="/writeexp"> */}
-                  <Button
-                    style={{ color: "#224903" }}
-                    align="center"
-                    variant="contained"
-                    className={classes.button}
-                  >
-                    Read Experience
-                  </Button>
-                  {/* </Link> */}
-                </CardContent>
-                <CardContent
-                  // style={{ flex: "2" }}
-                  className={classes.cardContentSecond}
-                >
-                  <Typography align="center">
-                    <PersonIcon style={{ margin: "5px" }} />
-                    {""}
-                    Ravi Maurya
-                  </Typography>
-                  <Typography align="center">
-                    <EventNote style={{ margin: "5px" }} />
-                    2021-22
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Card className={classes.root}>
-                {/* <CardMedia> */}
-                <img src={deshaw} alt="" />
-                {/* </CardMedia> */}
-                <CardContent
-                  style={{ flex: "1" }}
-                  className={classes.cardContent}
-                >
-                  <Typography
-                    style={{ color: "#224903" }}
-                    align="center"
-                    variant="h6"
-                  >
-                    D E Shaw & Co.
-                  </Typography>
-                  {/* <Link to="/writeexp"> */}
-                  <Button
-                    style={{ color: "#224903" }}
-                    align="center"
-                    variant="contained"
-                    className={classes.button}
-                  >
-                    Read Experience
-                  </Button>
-                  {/* </Link> */}
-                </CardContent>
-                <CardContent
-                  // style={{ flex: "2" }}
-                  className={classes.cardContentSecond}
-                >
-                  <Typography align="center">
-                    <PersonIcon style={{ margin: "5px" }} />
-                    {""}
-                    Ravi Maurya
-                  </Typography>
-                  <Typography align="center">
-                    <EventNote style={{ margin: "5px" }} />
-                    2021-22
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
+                </Grid>
+                : expList.filter(exp => exp.appliedFor === "Internship").map((exp, index) => {
+                return <Grid item xs={12} md={3}>
+                  <Card className={classes.root}>
+                    <img src={company.image ? company.image.url : ""} alt="" />
+                    <CardContent
+                      style={{ flex: "1" }}
+                      className={classes.cardContent}
+                    >
+                      <Typography
+                        style={{ color: "#224903" }}
+                        align="center"
+                        variant="h6"
+                      >
+                        {company.title ? company.title : ""}
+                      </Typography>
+                      <Link to={`/exp/${exp._id}`}>
+                        <Button
+                          style={{ color: "#224903" }}
+                          align="center"
+                          variant="contained"
+                          className={classes.button}
+                        >
+                          Read Experience
+                        </Button>
+                      </Link>
+                    </CardContent>
+                    <CardContent
+                      // style={{ flex: "2" }}
+                      className={classes.cardContentSecond}
+                    >
+                      <Typography align="center">
+                        <PersonIcon style={{ margin: "5px" }} />
+                        {""}
+                        {exp.createdBy}
+                      </Typography>
+                      <Typography align="center">
+                        <EventNote style={{ margin: "5px" }} />
+                        {exp.appliedYear}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              })
+            }
           </Grid>
         </Container>
 
@@ -165,49 +160,61 @@ export default function CompanyList() {
               Placements
             </Typography>
           </Grid>
-          <Grid item xs={12} md={3}>
-            <Card className={classes.root}>
-              {/* <CardMedia> */}
-              <img src={deshaw} alt="" />
-              {/* </CardMedia> */}
-              <CardContent
-                style={{ flex: "1" }}
-                className={classes.cardContent}
-              >
+          {
+              (!isLoading && expList.filter(exp => exp.appliedFor === "Full Time").length == 0) ? 
+              <Grid item xs={12}>
                 <Typography
-                  style={{ color: "#224903" }}
-                  align="center"
                   variant="h6"
+                  style={{ color: "#5e5e5e" }}
+                  gutterBottom
                 >
-                  D E Shaw & Co.
+                  No Placement experiences found
                 </Typography>
-                {/* <Link to="/writeexp"> */}
-                <Button
-                  style={{ color: "#224903" }}
-                  align="center"
-                  variant="contained"
-                  className={classes.button}
-                >
-                  Read Experience
-                </Button>
-                {/* </Link> */}
-              </CardContent>
-              <CardContent
-                // style={{ flex: "2" }}
-                className={classes.cardContentSecond}
-              >
-                <Typography align="center">
-                  <PersonIcon style={{ margin: "5px" }} />
-                  {""}
-                  Ravi Maurya
-                </Typography>
-                <Typography align="center">
-                  <EventNote style={{ margin: "5px" }} />
-                  2021-22
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
+              </Grid>
+              : expList.filter(exp => exp.appliedFor === "Full Time").map((exp, index) => {
+                return <Grid item xs={12} md={3}>
+                  <Card className={classes.root}>
+                    <img src={company.image ? company.image.url : ""} alt="" />
+                    <CardContent
+                      style={{ flex: "1" }}
+                      className={classes.cardContent}
+                    >
+                      <Typography
+                        style={{ color: "#224903" }}
+                        align="center"
+                        variant="h6"
+                      >
+                        {company.title ? company.title : ""}
+                      </Typography>
+                      <Link to={`/exp/${exp._id}`}>
+                        <Button
+                          style={{ color: "#224903" }}
+                          align="center"
+                          variant="contained"
+                          className={classes.button}
+                        >
+                          Read Experience
+                        </Button>
+                      </Link>
+                    </CardContent>
+                    <CardContent
+                      // style={{ flex: "2" }}
+                      className={classes.cardContentSecond}
+                    >
+                      <Typography align="center">
+                        <PersonIcon style={{ margin: "5px" }} />
+                        {""}
+                        {exp.createdBy}
+                      </Typography>
+                      <Typography align="center">
+                        <EventNote style={{ margin: "5px" }} />
+                        {exp.appliedYear}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              })
+            }
         </Container>
       </Box>
     </>

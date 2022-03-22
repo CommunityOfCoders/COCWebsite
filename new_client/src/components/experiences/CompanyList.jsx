@@ -65,8 +65,8 @@ export default function CompanyList() {
   return (
     <>
       <Banner />
-      <Box p={1} m={2}>
-        <Container maxWidth="lg">
+      <Box p={1}>
+        <Container>
           <Grid container spacing={4}>
             <Grid item xs={12}>
               <Typography
@@ -79,7 +79,7 @@ export default function CompanyList() {
             </Grid>
             {
 					companyList.map((company, index) => {
-						return <Grid item xs={12} md={2}>
+						return <Grid key={index} item xs={12} md={2}>
                 <Card className={classes.root}>
                   <div
                     style={{

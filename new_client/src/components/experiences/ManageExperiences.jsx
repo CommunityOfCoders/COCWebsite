@@ -17,6 +17,7 @@ import EventNote from "@material-ui/icons/EventNote";
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import { green, red } from "@material-ui/core/colors";
 import VerifyExperience from "./VerifyExperience";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -134,9 +135,12 @@ const ManageExperiences = (props) => {
                                     disableSpacing="true"
                                     style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
                                     >
-                                    <Button variant="outlined" startIcon={<CheckCircleIcon />}>
-                                        Verify
-                                    </Button>
+                                      <Link to={`/verifyexperience/${exp._id}`}>
+                                        <Button variant="outlined" startIcon={<CheckCircleIcon />}>
+                                          Verify
+                                        </Button>
+                                      </Link>
+                                    
                                     <Button
                                         style={{ color: "#224903" }}
                                         align="center"

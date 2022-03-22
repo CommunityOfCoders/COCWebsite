@@ -149,6 +149,9 @@ const WriteExperience = (props) => {
       const url = process.env.REACT_APP_API + `/interview`;
       const res = await axios.post(url, body);
       console.log(res.data);
+      if(res.data.interview){
+        props.history.push("/exp");
+      }
     }
   }
 

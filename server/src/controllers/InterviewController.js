@@ -41,6 +41,17 @@ const submitInterview = async (req, res) => {
     }
 };
 
+const getInterviewByCompanyID = async (req, res) => {
+    try{
+        const companyID = req.params.id;
+        const interviewList = await Interview.find({ company: companyID });
+        const company = await Company.findOne({ _id: companyID });
+        return res.status(200).json({interviewList, company});
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
+}
+
 const getInterviewByID = async (req, res) => {
     try {
         // if (!req.query || !req.query.interviewTitle) {
@@ -132,6 +143,7 @@ const interviewStatusConstants = {
 
 module.exports = {
     submitInterview,
+    getInterviewByCompanyID,
     getInterviewByID,
     getUnverifiedInterview,
     verifyInterview,
