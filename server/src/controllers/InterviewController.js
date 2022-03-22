@@ -1,7 +1,15 @@
 const Interview = require("../models/Interview");
 const Company = require("../models/Company");
+const cloudinary = require("cloudinary");
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_NAME,
+    api_key: process.env.CLOUDINARY_APIKEY,
+    api_secret: process.env.CLOUDINARY_SECRET,
+});
 
 const submitInterview = async (req, res) => {
+    console.log(req.body)
     try {
         const errorMessage = bodyCheck(req.body);
         if (errorMessage) throw new Error(errorMessage);
@@ -10,51 +18,71 @@ const submitInterview = async (req, res) => {
 
         if (appliedFor !== 'Full Time' && appliedFor !== 'Internship') throw new Error('Please provide a valid role');
 
-        const company = await Company.findOne({ title: companyName });
-        if (!company) throw new Error('Company with given name does not exist');
+        // Because the user doesn't know proper names for the compnay
+        // const company = await Company.findOne({ title: companyName });
+        // if (!company) throw new Error('Company with given name does not exist');
         
         const interviewDetails = {
             title,
             createdBy,
-            company: company._id,
+            // company: company._id,
+            companyRequest: companyName,
             content,
+            isVerified: false,
             status: interviewStatusConstants.submitted,
             appliedFor,
             appliedYear
         };            
 
         const createdInterview = await Interview.create(interviewDetails);
-        return res.status(200).json({ message: 'Submitted interview successfully for verification', interview: createdInterview });
+        return res.status(200).json({ message: 'Submitted experience successfully for verification', interview: createdInterview });
     } catch (error) {
         return res.status(400).json({ error: error.message });
     }
 };
 
-const getInterviewByTitle = async (req, res) => {
+const getInterviewByCompanyID = async (req, res) => {
+    try{
+        const companyID = req.params.id;
+        const interviewList = await Interview.find({ company: companyID });
+        const company = await Company.findOne({ _id: companyID });
+        return res.status(200).json({interviewList, company});
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
+}
+
+const getInterviewByID = async (req, res) => {
     try {
-        if (!req.query || !req.query.interviewTitle) {
-            return res.status(422).json({ error: 'Please provide interview title' });
-        }
-
-        const interviewTitle = req.query.interviewTitle;
-        const interview = await Interview.findOne({ title: interviewTitle }).populate('company').exec();
-        return res.status(200).json({ interview });
+        // if (!req.query || !req.query.interviewTitle) {
+        //     return res.status(422).json({ error: 'Please provide interview title' });
+        // }
+        const interviewID = req.params.id;
+        // const interview = await Interview.findOne({ _id: interviewID }).populate('company').exec();
+        const interview = await Interview.findOne({ _id: interviewID });
+        return res.status(200).json(interview);
     } catch (error) {
         return res.status(400).json({ error: error.message });
     }
 };
+
+const getUnverifiedInterview = async (req, res) => {
+    try{
+        const unverifiedList = await Interview.find({isVerified: false});
+        return res.status(200).json({ unverifiedList });
+    } catch (error){
+        return res.status(400).json({ error: error.message });
+    }
+}
 
 const verifyInterview = async (req, res) => {
     try {
-        if (!req.body || !req.body.updatedInterviewStatus) {
-            return res.status(422).json({ error: 'Please provide new interview status' });
+        console.log(req.body);
+        if (!req.body || !req.body.interviewID || !req.body.companyID) {
+            return res.status(422).json({ error: 'Please provide all details' });
         }
-
-        const newStatus = req.body.updatedInterviewStatus;
-        const interviewTitle = req.body.interviewTitle;
-        if (newStatus !== 'Accepted' && newStatus !== 'Rejected') throw new Error('Invalid status');
-
-        const updatedInterview = await Interview.findOneAndUpdate({ title: interviewTitle }, { status: newStatus }, { new: true });
+        const {interviewID, companyID} = req.body;
+        const updatedInterview = await Interview.findOneAndUpdate({ _id: interviewID }, { isVerified: true, company: companyID }, { new: true });
 
         return res.status(200).json({ message: 'Verified interview successfully', interview: updatedInterview });
 
@@ -85,6 +113,28 @@ const bodyCheck = (body) => {
     return errorMessage;
 };
 
+const uploadImage = async (req, res) => {
+    try{
+        const file = req.file;
+        if (file) {
+            const image = await cloudinary.v2.uploader.upload(file.path, {
+              tags: ["exp"],
+              invalidate: true,
+            });
+            return res.json({
+                "success" : 1,
+                "file": {
+                    "url" : image.secure_url,
+                }
+            });
+        }else{
+            return res.status(422).json({ error: 'Image not provided' });
+        }
+    }catch(error){
+        res.json({"error": error.message});
+    }
+}
+
 const interviewStatusConstants = {
     submitted: 'Submitted',
     accepted: 'Accepted',
@@ -93,6 +143,9 @@ const interviewStatusConstants = {
 
 module.exports = {
     submitInterview,
-    getInterviewByTitle,
+    getInterviewByCompanyID,
+    getInterviewByID,
+    getUnverifiedInterview,
     verifyInterview,
+    uploadImage,
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Banner from "./Banner";
 import { Container, Box, Grid, Typography } from "@material-ui/core";
 import { Divider, IconButton } from "@material-ui/core";
@@ -13,6 +13,7 @@ import { createTheme } from "@material-ui/core/styles";
 import { WriteExperience } from "./WriteExperience";
 import deshaw from "../assets/DEShaw.webp";
 import { AutorenewTwoTone, Height } from "@material-ui/icons";
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,11 +44,29 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CompanyList() {
   const classes = useStyles();
+
+  const [companyList, setCompanyList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get(process.env.REACT_APP_API + "/companies")
+      .then((res) => {
+        console.log(res.data);
+        setCompanyList(res.data.companies);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
+  }, []);
+
   return (
     <>
       <Banner />
-      <Box p={1} m={2}>
-        <Container maxWidth="lg">
+      <Box p={1}>
+        <Container>
           <Grid container spacing={4}>
             <Grid item xs={12}>
               <Typography
@@ -58,80 +77,51 @@ export default function CompanyList() {
                 Experiences
               </Typography>
             </Grid>
-            <Grid item xs={12} md={4}>
-              <Card className={classes.root}>
-                {/* <CardMedia> */}
-                <img src={deshaw} alt="" />
-                {/* </CardMedia> */}
-                <Divider className={classes.divider} />
-                <CardContent
-                  style={{ flex: "1" }}
-                  className={classes.cardContent}
-                >
-                  <Typography
-                    style={{ color: "#224903" }}
-                    align="center"
-                    variant="h5"
+            {
+					companyList.map((company, index) => {
+						return <Grid key={index} item xs={12} md={2}>
+                <Card className={classes.root}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItem: "center",
+                      justifyContent: "center",
+                      height: "100%"
+                    }}
                   >
-                    D E Shaw & Co.
-                  </Typography>
-                  {/* <Link to="/writeexp"> */}
-                  <Link
-                    to="/explist"
-                    style={{ textDecoration: "none" }}
-                    className={classes.link}
+                    <CardMedia
+                      style={{
+                        width: "100%",
+                        objectFit: "contain"
+                      }}
+                      component="img"
+                      image={company.image.url}
+                      title="Contemplative Reptile"
+                    />
+                  </div>
+                  <Divider className={classes.divider} />
+                  <CardContent
+                    style={{ flex: "1" }}
+                    className={classes.cardContent}
                   >
-                    <Button
+                    <Typography
                       style={{ color: "#224903" }}
                       align="center"
-                      variant="contained"
-                      className={classes.button}
+                      variant="h6"
                     >
-                      View Experiences
-                    </Button>
-                  </Link>
-                  {/* </Link> */}
-                </CardContent>
-              </Card>
-            </Grid>
-            {/* <Grid item xs={12} md={4}>
-              <Card>
-                <CardMedia>
-                  <img src="../assets/about_us.webp" alt="" />
-                </CardMedia>
-                <CardContent style={{ flex: "1" }}>
-                  <Typography style={{ color: "#52b107" }}>
-                    Morgan Stanley
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-
-            <Grid item xs={12} md={4}>
-              <Card>
-                <CardMedia>
-                  <img src="../assets/about_us.webp" alt="" />
-                </CardMedia>
-                <CardContent style={{ flex: "1" }}>
-                  <Typography style={{ color: "#52b107" }}>
-                    Morgan Stanley
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-
-            <Grid item xs={12} md={4}>
-              <Card>
-                <CardMedia>
-                  <img src="../assets/about_us.webp" alt="" />
-                </CardMedia>
-                <CardContent style={{ flex: "1" }}>
-                  <Typography style={{ color: "#52b107" }}>
-                    Morgan Stanley
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid> */}
+                      {company.title}
+                    </Typography>
+                    <CardActions>
+                      <Link to={`/exp/list/${company._id}`}>
+                        <Button size="small">View</Button>
+                      </Link>
+                    </CardActions>
+                  </CardContent>
+                  
+                </Card>
+                </Grid>
+              })
+            }
           </Grid>
         </Container>
       </Box>

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import BackButton from "../Utilities/BackButton";
+import axios from "axios";
 
 import {
   Container,
@@ -19,6 +20,12 @@ import {
 import "../auth/Error.css";
 import EditorJS from "@editorjs/editorjs";
 import Header from "@editorjs/header";
+import LinkTool from '@editorjs/link';
+import RawTool from '@editorjs/raw';
+import List from '@editorjs/list';
+import CodeTool from '@editorjs/code';
+import Table from '@editorjs/table';
+import ImageTool from '@editorjs/image';
 
 const EDITTOR_HOLDER_ID = "editorjs";
 
@@ -26,7 +33,17 @@ const WriteExperience = (props) => {
   // const authenticatedAxios = useAuthenticatedAxios();
 
   const ejInstance = useRef();
+  const [personName, setPersonName] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [appliedYear, setAppliedYear] = useState("");
+  const [roleType, setRoleType] = useState("Internship");
   const [editorData, setEditorData] = useState("");
+
+  const [error, setError] = useState({
+    personNameError: "",
+    companyNameError: "",
+    appliedYearError: ""
+  });
 
   useEffect(() => {
     if (!ejInstance.current) {
@@ -61,9 +78,82 @@ const WriteExperience = (props) => {
       autofocus: true,
       tools: {
         header: Header,
+        linkTool: LinkTool,
+        raw: RawTool,
+        list: {class: List,
+        inlineToolbar: true,},
+        code: CodeTool,
+        table: Table,
+        image: {
+          class: ImageTool,
+          config: {
+            uploader: {
+              async uploadByFile(file){
+                const formData = new FormData();
+                if (file) {
+                  formData.append(
+                    "expImage",
+                    file,
+                    file.name
+                  );
+                }
+                const res = await axios.post(process.env.REACT_APP_API + "/interviewImageUpload", 
+                  formData);
+                console.log(res.data);
+                return res.data;
+              }
+            }
+          }
+        }
       },
     });
   };
+
+  const isValid = () => {
+    let ret = true;
+    if (personName === "") {
+      setError((prevError) => ({
+        ...prevError,
+        personNameError: "*Person name cannot be empty",
+      }));
+      ret = false;
+    }
+    if (companyName === "") {
+      setError((prevError) => ({
+        ...prevError,
+        companyNameError: "*Company name cannot be empty",
+      }));
+      ret = false;
+    }
+    if (appliedYear === "") {
+      setError((prevError) => ({
+        ...prevError,
+        appliedYearError: "*Year cannot be empty",
+      }));
+      ret = false;
+    }
+    return ret;
+  };
+
+  const handleSubmitExperience = async (event) => {
+    event.preventDefault();
+    if(isValid()){
+      const body = {
+        title: `${companyName} ${personName} ${appliedYear} ${roleType}`,
+        createdBy: personName,
+        companyName: companyName,
+        content: editorData,
+        appliedFor: roleType,
+        appliedYear: appliedYear
+      };
+      const url = process.env.REACT_APP_API + `/interview`;
+      const res = await axios.post(url, body);
+      console.log(res.data);
+      if(res.data.interview){
+        props.history.push("/exp");
+      }
+    }
+  }
 
   return (
     <React.Fragment>
@@ -85,6 +175,8 @@ const WriteExperience = (props) => {
                 placeholder="Your Name"
                 label="Enter Your Name*"
                 id="fullWidth"
+                value={personName}
+                onChange={(e) => {setPersonName(e.target.value);}}
               />
             </Grid>
             <Grid item xs={12}>
@@ -94,6 +186,8 @@ const WriteExperience = (props) => {
                 InputProps={{
                   style: { width: `${300}px` },
                 }}
+                value={companyName}
+                onChange={(e) => {setCompanyName(e.target.value);}}
                 id="fullWidth"
               />
             </Grid>
@@ -104,6 +198,8 @@ const WriteExperience = (props) => {
                 InputProps={{
                   style: { width: `${300}px` },
                 }}
+                value={appliedYear}
+                onChange={(e) => {setAppliedYear(e.target.value);}}
                 id="fullWidth"
               />
             </Grid>
@@ -116,14 +212,16 @@ const WriteExperience = (props) => {
                   aria-labelledby="demo-radio-buttons-group-label"
                   defaultValue="internship"
                   name="radio-buttons-group"
+                  value={roleType}
+                  onChange={(e) => {setRoleType(e.target.value);}}
                 >
                   <FormControlLabel
-                    value="internship"
+                    value="Internship"
                     control={<Radio />}
                     label="Internship"
                   />
                   <FormControlLabel
-                    value="fte"
+                    value="Full Time"
                     control={<Radio />}
                     label="Full Time"
                   />
@@ -148,6 +246,7 @@ const WriteExperience = (props) => {
                 variant="outlined"
                 color="primary"
                 className="btn btn-primary"
+                onClick={handleSubmitExperience}
               >
                 Submit Experience
               </Button>
