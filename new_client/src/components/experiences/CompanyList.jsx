@@ -49,6 +49,7 @@ export default function CompanyList() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(process.env.REACT_APP_API + "/companies")
       .then((res) => {
