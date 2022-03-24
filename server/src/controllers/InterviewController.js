@@ -14,7 +14,7 @@ const submitInterview = async (req, res) => {
         const errorMessage = bodyCheck(req.body);
         if (errorMessage) throw new Error(errorMessage);
 
-        const { title, createdBy, companyName, content, appliedFor, appliedYear } = req.body;
+        const { title, createdBy, companyName, content, appliedFor, appliedYear, userId } = req.body;
 
         if (appliedFor !== 'Full Time' && appliedFor !== 'Internship') throw new Error('Please provide a valid role');
 
@@ -25,6 +25,7 @@ const submitInterview = async (req, res) => {
         const interviewDetails = {
             title,
             createdBy,
+            userId,
             // company: company._id,
             companyRequest: companyName,
             content,
@@ -52,7 +53,7 @@ const getInterviewByCompanyID = async (req, res) => {
     }
 }
 
-const getInterviewByID = async (req, res) => {
+const getInterviewByID = async (req, res, next) => {
     try {
         // if (!req.query || !req.query.interviewTitle) {
         //     return res.status(422).json({ error: 'Please provide interview title' });
@@ -60,15 +61,19 @@ const getInterviewByID = async (req, res) => {
         const interviewID = req.params.id;
         // const interview = await Interview.findOne({ _id: interviewID }).populate('company').exec();
         const interview = await Interview.findOne({ _id: interviewID });
+        // res.locals.cache = interview;
+        // next();
         return res.status(200).json(interview);
     } catch (error) {
         return res.status(400).json({ error: error.message });
     }
 };
 
-const getUnverifiedInterview = async (req, res) => {
+const getUnverifiedInterview = async (req, res, next) => {
     try{
-        const unverifiedList = await Interview.find({isVerified: false});
+        const unverifiedList = await Interview.find({ isVerified: false });
+        res.locals.cache = unverifiedList;
+        next();
         return res.status(200).json({ unverifiedList });
     } catch (error){
         return res.status(400).json({ error: error.message });
