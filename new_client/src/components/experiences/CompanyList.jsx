@@ -96,7 +96,7 @@ export default function CompanyList() {
                 justifyContent="center"
                 className={classes.grid}
               >
-                <Link to="/writeexp" style={{ textDecoration: "none" }}>
+                <Link to="/myexp" style={{ textDecoration: "none" }}>
                   <Button
                     style={{ color: "#224903" }}
                     align="center"

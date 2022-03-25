@@ -20,12 +20,12 @@ import {
 import "../auth/Error.css";
 import EditorJS from "@editorjs/editorjs";
 import Header from "@editorjs/header";
-import LinkTool from '@editorjs/link';
-import RawTool from '@editorjs/raw';
-import List from '@editorjs/list';
-import CodeTool from '@editorjs/code';
-import Table from '@editorjs/table';
-import ImageTool from '@editorjs/image';
+import LinkTool from "@editorjs/link";
+import RawTool from "@editorjs/raw";
+import List from "@editorjs/list";
+import CodeTool from "@editorjs/code";
+import Table from "@editorjs/table";
+import ImageTool from "@editorjs/image";
 
 const EDITTOR_HOLDER_ID = "editorjs";
 
@@ -42,7 +42,7 @@ const WriteExperience = (props) => {
   const [error, setError] = useState({
     personNameError: "",
     companyNameError: "",
-    appliedYearError: ""
+    appliedYearError: "",
   });
 
   useEffect(() => {
@@ -80,31 +80,28 @@ const WriteExperience = (props) => {
         header: Header,
         linkTool: LinkTool,
         raw: RawTool,
-        list: {class: List,
-        inlineToolbar: true,},
+        list: { class: List, inlineToolbar: true },
         code: CodeTool,
         table: Table,
         image: {
           class: ImageTool,
           config: {
             uploader: {
-              async uploadByFile(file){
+              async uploadByFile(file) {
                 const formData = new FormData();
                 if (file) {
-                  formData.append(
-                    "expImage",
-                    file,
-                    file.name
-                  );
+                  formData.append("expImage", file, file.name);
                 }
-                const res = await axios.post(process.env.REACT_APP_API + "/interviewImageUpload", 
-                  formData);
+                const res = await axios.post(
+                  process.env.REACT_APP_API + "/interviewImageUpload",
+                  formData
+                );
                 console.log(res.data);
                 return res.data;
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       },
     });
   };
@@ -137,23 +134,23 @@ const WriteExperience = (props) => {
 
   const handleSubmitExperience = async (event) => {
     event.preventDefault();
-    if(isValid()){
+    if (isValid()) {
       const body = {
         title: `${companyName} ${personName} ${appliedYear} ${roleType}`,
         createdBy: personName,
         companyName: companyName,
         content: editorData,
         appliedFor: roleType,
-        appliedYear: appliedYear
+        appliedYear: appliedYear,
       };
       const url = process.env.REACT_APP_API + `/interview`;
       const res = await axios.post(url, body);
       console.log(res.data);
-      if(res.data.interview){
+      if (res.data.interview) {
         props.history.push("/exp");
       }
     }
-  }
+  };
 
   return (
     <React.Fragment>
@@ -176,7 +173,9 @@ const WriteExperience = (props) => {
                 label="Enter Your Name*"
                 id="fullWidth"
                 value={personName}
-                onChange={(e) => {setPersonName(e.target.value);}}
+                onChange={(e) => {
+                  setPersonName(e.target.value);
+                }}
               />
             </Grid>
             <Grid item xs={12}>
@@ -187,7 +186,9 @@ const WriteExperience = (props) => {
                   style: { width: `${300}px` },
                 }}
                 value={companyName}
-                onChange={(e) => {setCompanyName(e.target.value);}}
+                onChange={(e) => {
+                  setCompanyName(e.target.value);
+                }}
                 id="fullWidth"
               />
             </Grid>
@@ -199,7 +200,9 @@ const WriteExperience = (props) => {
                   style: { width: `${300}px` },
                 }}
                 value={appliedYear}
-                onChange={(e) => {setAppliedYear(e.target.value);}}
+                onChange={(e) => {
+                  setAppliedYear(e.target.value);
+                }}
                 id="fullWidth"
               />
             </Grid>
@@ -213,7 +216,9 @@ const WriteExperience = (props) => {
                   defaultValue="internship"
                   name="radio-buttons-group"
                   value={roleType}
-                  onChange={(e) => {setRoleType(e.target.value);}}
+                  onChange={(e) => {
+                    setRoleType(e.target.value);
+                  }}
                 >
                   <FormControlLabel
                     value="Internship"
@@ -240,16 +245,27 @@ const WriteExperience = (props) => {
               ></div>
               {/* {JSON.stringify(editorData)} */}
             </Grid>
-            <Grid item xs={12}>
-              <Button
-                type="submit"
-                variant="outlined"
-                color="primary"
-                className="btn btn-primary"
-                onClick={handleSubmitExperience}
-              >
-                Submit Experience
-              </Button>
+            <Grid container justifyContent="flex-start">
+              <Grid xs={12} md={3} style={{ padding: "10px" }}>
+                <Button
+                  type="submit"
+                  variant="outlined"
+                  color="primary"
+                  onClick={handleSubmitExperience}
+                >
+                  Submit Experience
+                </Button>
+              </Grid>
+              <Grid xs={12} md={3} style={{ padding: "10px" }}>
+                <Button
+                  type="submit"
+                  variant="outlined"
+                  color="primary"
+                  // onClick={handleSubmitExperience}
+                >
+                  Save As Draft
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
         </Container>
