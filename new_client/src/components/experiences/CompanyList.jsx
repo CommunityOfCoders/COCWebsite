@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Banner from "./Banner";
 import { Container, Box, Grid, Typography } from "@material-ui/core";
 import { Divider, IconButton } from "@material-ui/core";
@@ -13,7 +13,7 @@ import { createTheme } from "@material-ui/core/styles";
 import { WriteExperience } from "./WriteExperience";
 import deshaw from "../assets/DEShaw.webp";
 import { AutorenewTwoTone, Height } from "@material-ui/icons";
-import axios from 'axios';
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,8 +21,13 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
   },
+
   button: {
     marginTop: "10px",
+  },
+  grid: {
+    marginTop: "15px",
+    padding: "10px",
   },
   cardContent: {
     display: "flex",
@@ -69,60 +74,83 @@ export default function CompanyList() {
       <Box p={1}>
         <Container>
           <Grid container spacing={4}>
-            <Grid item xs={12}>
-              <Typography
-                variant="h4"
-                style={{ color: "#52b107" }}
-                gutterBottom
+            <Grid
+              className={classes.grid}
+              container
+              justifyContent="space-between"
+            >
+              <Grid md={8} xs={12}>
+                <Typography
+                  variant="h4"
+                  style={{ color: "#52b107" }}
+                  gutterBottom
+                  className={classes.grid}
+                >
+                  Experiences
+                </Typography>
+              </Grid>
+              <Grid
+                md={4}
+                xs={12}
+                container
+                justifyContent="center"
+                className={classes.grid}
               >
-                Experiences
-              </Typography>
+                <Link to="/writeexp" style={{ textDecoration: "none" }}>
+                  <Button
+                    style={{ color: "#224903" }}
+                    align="center"
+                    variant="contained"
+                  >
+                    My Experiences
+                  </Button>
+                </Link>
+              </Grid>
             </Grid>
-            {
-					companyList.map((company, index) => {
-						return <Grid key={index} item xs={12} md={2}>
-                <Card className={classes.root}>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItem: "center",
-                      justifyContent: "center",
-                      height: "100%"
-                    }}
-                  >
-                    <CardMedia
+            {companyList.map((company, index) => {
+              return (
+                <Grid key={index} item xs={12} md={2}>
+                  <Card className={classes.root}>
+                    <div
                       style={{
-                        width: "100%",
-                        objectFit: "contain"
+                        display: "flex",
+                        alignItem: "center",
+                        justifyContent: "center",
+                        height: "100%",
                       }}
-                      component="img"
-                      image={company.image.url}
-                      title="Contemplative Reptile"
-                    />
-                  </div>
-                  <Divider className={classes.divider} />
-                  <CardContent
-                    style={{ flex: "1" }}
-                    className={classes.cardContent}
-                  >
-                    <Typography
-                      style={{ color: "#224903" }}
-                      align="center"
-                      variant="h6"
                     >
-                      {company.title}
-                    </Typography>
-                    <CardActions>
-                      <Link to={`/exp/list/${company._id}`}>
-                        <Button size="small">View</Button>
-                      </Link>
-                    </CardActions>
-                  </CardContent>
-                  
-                </Card>
+                      <CardMedia
+                        style={{
+                          width: "100%",
+                          objectFit: "contain",
+                        }}
+                        component="img"
+                        image={company.image.url}
+                        title="Contemplative Reptile"
+                      />
+                    </div>
+                    <Divider className={classes.divider} />
+                    <CardContent
+                      style={{ flex: "1" }}
+                      className={classes.cardContent}
+                    >
+                      <Typography
+                        style={{ color: "#224903" }}
+                        align="center"
+                        variant="h6"
+                      >
+                        {company.title}
+                      </Typography>
+                      <CardActions>
+                        <Link to={`/exp/list/${company._id}`}>
+                          <Button size="small">View</Button>
+                        </Link>
+                      </CardActions>
+                    </CardContent>
+                  </Card>
                 </Grid>
-              })
-            }
+              );
+            })}
           </Grid>
         </Container>
       </Box>
