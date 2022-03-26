@@ -182,7 +182,6 @@ function AddCompany(props) {
                     type="submit"
                     variant="outlined"
                     color="primary"
-                    className="btn btn-primary"
                   >
                     {btnText}
                   </Button>
