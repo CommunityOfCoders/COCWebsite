@@ -122,7 +122,7 @@ module.exports = (app) => {
 
   // Interviews
   app.get('/api/interviewList/:id', InterviewController.getInterviewByCompanyID);
-  app.get('/api/interview/:id', event.validate('checkID'), cache.getFromCache, InterviewController.getInterviewByID, cache.setCache);
+  app.get('/api/interview/:id', event.validate('checkID'), InterviewController.getInterviewByID);
   app.get('/api/unverifiedInterview', InterviewController.getUnverifiedInterview);
   app.post('/api/interview', auth.verifyToken, InterviewController.submitInterview, cache.deleteCache);
   app.post('/api/interview/verify', auth.verifyToken, user.isMember, InterviewController.verifyInterview, cache.deleteCache);

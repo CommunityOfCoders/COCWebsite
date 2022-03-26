@@ -42,11 +42,9 @@ const createCompany = async (req, res) => {
     }
 };
 
-const getCompanies = async (req, res, next) => {
+const getCompanies = async (req, res) => {
     try {
         const companies = await Company.find();
-        // res.locals.cache = companies;
-        // next();
         return res.status(200).json({ companies });
     } catch (error) {
         return res.status(400).json({ error: error.message });

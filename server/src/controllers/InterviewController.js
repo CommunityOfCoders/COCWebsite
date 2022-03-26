@@ -18,15 +18,10 @@ const submitInterview = async (req, res) => {
 
         if (appliedFor !== 'Full Time' && appliedFor !== 'Internship') throw new Error('Please provide a valid role');
 
-        // Because the user doesn't know proper names for the compnay
-        // const company = await Company.findOne({ title: companyName });
-        // if (!company) throw new Error('Company with given name does not exist');
-        
         const interviewDetails = {
             title,
             createdBy,
             userId,
-            // company: company._id,
             companyRequest: companyName,
             content,
             isVerified: false,
@@ -55,14 +50,8 @@ const getInterviewByCompanyID = async (req, res) => {
 
 const getInterviewByID = async (req, res, next) => {
     try {
-        // if (!req.query || !req.query.interviewTitle) {
-        //     return res.status(422).json({ error: 'Please provide interview title' });
-        // }
         const interviewID = req.params.id;
-        // const interview = await Interview.findOne({ _id: interviewID }).populate('company').exec();
         const interview = await Interview.findOne({ _id: interviewID });
-        // res.locals.cache = interview;
-        // next();
         return res.status(200).json(interview);
     } catch (error) {
         return res.status(400).json({ error: error.message });
