@@ -48,7 +48,7 @@ const getInterviewByCompanyID = async (req, res) => {
     }
 }
 
-const getInterviewByID = async (req, res, next) => {
+const getInterviewByID = async (req, res) => {
     try {
         const interviewID = req.params.id;
         const interview = await Interview.findOne({ _id: interviewID });
