@@ -51,13 +51,15 @@ const getCompanies = async (req, res) => {
     }
 };
 
-const getCompanyByName = async (req, res) => {
+const getCompanyByName = async (req, res, next) => {
     try {
-        if (!req.query || !req.query.companyName) {
+        if (!req.params || !req.params.companyName) {
             return res.status(422).json({ error: 'Please provide name of the company' });
         }
         const companyName = req.query.companyName;
         const company = await Company.findOne({ title: companyName });
+        res.locals.cache = company;
+        next();
         return res.status(200).json({ company });
     } catch (error) {
         return res.status(400).json({ error: error.message });
