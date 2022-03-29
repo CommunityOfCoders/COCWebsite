@@ -7,6 +7,7 @@ const interview = new mongoose.Schema({
         unique: true,
     },
     createdBy: { type: String, required: true },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
     company: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'company'
