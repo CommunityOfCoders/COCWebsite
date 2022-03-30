@@ -79,6 +79,9 @@ const LazyVerifyExperience = lazy(() =>
 const LazyReadExperience = lazy(() =>
   import("./components/experiences/ReadExperience")
 );
+const LazyMyExperiences = lazy(() =>
+  import("./components/experiences/MyExperiences")
+);
 
 const theme = responsiveFontSizes(createMuiTheme());
 const Lazy404 = lazy(() => import("./components/404/NotFound"));
@@ -168,6 +171,7 @@ function App() {
                   <Route path="/exp/list/:id" component={LazyExperienceList} />
                   <Route path="/exp/:id" component={LazyReadExperience} />
                   <Route path="/exp" component={LazyCompanyList} />
+                  <Route path="/myexp" component={LazyMyExperiences} />
                   <ProtectedRoute path="/managecompanies" component={LazyManageCompanies} />
                   <ProtectedRoute path="/addcompany" component={LazyAddCompany} />
                   <ProtectedRoute path="/manageexperiences" component={LazyManageExperiences} />

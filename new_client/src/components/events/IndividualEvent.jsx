@@ -90,7 +90,7 @@ export default function IndividualEvent({
           disableSpacing="true"
           style={{ display: "flex", justifyContent: "space-between" }}
         >
-          {isMember && (
+          {/* {isMember && ( */}
             <>
               <Link to={`event/edit/${article._id}`}>
                 <IconButton>
@@ -101,7 +101,7 @@ export default function IndividualEvent({
                 <DeleteOutlinedIcon style={{ color: red[400] }} />
               </IconButton>
             </>
-          )}
+          {/* )} */}
           <Link to={`/events/${article._id}`}>
             <Button
               variant="contained"
