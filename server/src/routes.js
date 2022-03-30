@@ -307,8 +307,8 @@ module.exports = (app) => {
   app.get('/api/companies', CompanyController.getCompanies);
   app.get('/api/company/:companyName', cache.getFromCache, CompanyController.getCompanyByName, cache.setCache);
   app.post('/api/company', auth.verifyToken, user.isMember, upload.single('companyLogo'), CompanyController.createCompany, cache.deleteCache);
-  app.put('/api/company', auth.verifyToken, user.isMember, CompanyController.updateCompanyById, cache.deleteCache);
-  app.delete('/api/company', auth.verifyToken, user.isMember, CompanyController.deleteCompanyById, cache.deleteCache);
+  app.put('/api/company/:id', auth.verifyToken, user.isMember, CompanyController.updateCompanyById, cache.deleteCache);
+  app.delete('/api/company/:id', auth.verifyToken, user.isMember, CompanyController.deleteCompanyById, cache.deleteCache);
 
   // Interviews
   app.get('/api/interviewList/:id', InterviewController.getInterviewByCompanyID);

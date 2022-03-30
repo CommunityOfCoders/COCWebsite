@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Modal from "../Modal/Modal";
 import { confirmAlert } from "react-confirm-alert";
-
+import "react-confirm-alert/src/react-confirm-alert.css";
 import { Container, Box, Grid, Typography } from "@material-ui/core";
 import { Divider, IconButton } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
-import DeleteIcon from "@material-ui/icons/Delete";
+import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import { makeStyles } from "@material-ui/core/styles";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -15,6 +16,8 @@ import deshaw from "../assets/DEShaw.webp";
 import AddCompany from "./AddCompany";
 import axios from "axios";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { green, red } from "@material-ui/core/colors";
 import useAuthenticatedAxios from "../Utilities/useAuthenticatedAxios.js";
 
 const useStyles = makeStyles((theme) => ({
@@ -48,12 +51,15 @@ const ManageCompanies = (props) => {
   const classes = useStyles();
 
   const authenticatedAxios = useAuthenticatedAxios();
+  const [isMember, setIsMember] = useState(false);
   const [companyList, setCompanyList] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [updateModal, setUpdateModal] = useState(false);
   const [isModalClosing, setIsModalClosing] = useState(false);
-  const [isDelete, setDelete] = useState(false);
+  const [isDelete, setIsDeleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [counter, setCounter] = useState(0);
+  const [isError, setIsError] = useState(false);
 
   const handleModalClose = () => {
     setIsModalClosing(true);
@@ -70,6 +76,7 @@ const ManageCompanies = (props) => {
       })
       .catch((error) => {
         console.log(error);
+        setIsError(true);
         setIsLoading(false);
       });
   }, [counter, props.userID]);
@@ -83,18 +90,18 @@ const ManageCompanies = (props) => {
           label: "Delete",
           onClick: async () => {
             const url = process.env.REACT_APP_API + `/company/${companyId}`;
-            authenticatedAxios
+            axios
               .delete(url)
               .then((res) => {
-                if (res.status === 200) {
-                  console.log("Deleted");
+                if (res.status === 204) {
+                  setIsDeleted(true);
                 } else {
-                  console.log("Error");
+                  setIsError(true);
                 }
                 setIsLoading(false);
               })
               .catch((err) => {
-                // setIsError(true);
+                setIsError(true);
                 setIsLoading(false);
                 console.log("Error", err);
               });
@@ -127,7 +134,7 @@ const ManageCompanies = (props) => {
 
             {companyList.map((company, index) => {
               return (
-                <Grid item xs={12} md={2}>
+                <Grid item xs={12} md={2} key={index}>
                   <Card className={classes.root}>
                     <div
                       style={{
@@ -160,20 +167,29 @@ const ManageCompanies = (props) => {
                         {company.title}
                       </Typography>
                     </CardContent>
-                    <Container maxWidth="lg" className={classes.link}>
-                      <Button
-                        style={{ color: "rgb(181, 0, 23)" }}
-                        align="center"
-                        show={isDelete}
-                        variant="outlined"
-                        startIcon={<DeleteIcon />}
-                        onClick={() => {
-                          handleDeleteCompany(company._id);
-                        }}
-                      >
-                        Delete
-                      </Button>
-                    </Container>
+                    <Divider variant="middle" />
+                    {isMember && (
+                      <>
+                        <CardActions
+                          disableSpacing="true"
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <IconButton
+                            onClick={() => handleDeleteCompany(company._id)}
+                          >
+                            <DeleteOutlinedIcon style={{ color: red[400] }} />
+                          </IconButton>
+                          <Link to={`company/${company._id}`}>
+                            <IconButton>
+                              <EditOutlinedIcon style={{ color: green[500] }} />
+                            </IconButton>
+                          </Link>
+                        </CardActions>
+                      </>
+                    )}
                   </Card>
                 </Grid>
               );
@@ -195,6 +211,20 @@ const ManageCompanies = (props) => {
           />
         </Modal>
         <Modal
+          size="xl"
+          show={updateModal}
+          header="Update Company"
+          hasCloseBtn
+          closeHandler={handleModalClose}
+        >
+          <AddCompany
+            closeModal={() => {
+              setUpdateModal(false);
+              setCounter(counter + 1);
+            }}
+          />
+        </Modal>
+        <Modal
           size="sm"
           keyboard={false}
           show={isModalClosing}
@@ -210,22 +240,6 @@ const ManageCompanies = (props) => {
           btnClickHandler={() => setIsModalClosing(false)}
         >
           <p>All form data will be lost</p>
-        </Modal>
-        <Modal
-          size="sm"
-          keyboard={false}
-          show={isDelete}
-          backdrop="static"
-          closeHandler={() => {
-            setShowModal(false);
-            setDelete(false);
-            setCounter(counter + 1);
-          }}
-          hasBtn
-          btnText="Delete"
-          btnClickHandler={() => setIsModalClosing(false)}
-        >
-          <p>Are you sure?</p>
         </Modal>
       </Box>
       <Divider className={classes.divider} />

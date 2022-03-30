@@ -106,12 +106,6 @@ const getCompanyByName = async (req, res, next) => {
     } catch (error) {
         return res.status(400).json({ error: error.message });
     }
-    const companyName = req.query.companyName;
-    const company = await Company.findOne({ title: companyName });
-    return res.status(200).json({ company });
-  } catch (error) {
-    return res.status(400).json({ error: error.message });
-  }
 };
 
 const updateCompanyById = async (req, res) => {
