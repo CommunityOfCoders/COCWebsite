@@ -304,8 +304,8 @@ module.exports = (app) => {
   ); // Tested
 
   // Companies
-  app.get('/api/companies', CompanyController.getCompanies);
-  app.get('/api/company/:companyName', cache.getFromCache, CompanyController.getCompanyByName, cache.setCache);
+  app.get('/api/company', cache.getFromCache, CompanyController.getCompanies, cache.setCache);
+  app.get('/api/company/:companyName', CompanyController.getCompanyByName);
   app.post('/api/company', auth.verifyToken, user.isMember, upload.single('companyLogo'), CompanyController.createCompany, cache.deleteCache);
   app.put('/api/company/:id', auth.verifyToken, user.isMember, CompanyController.updateCompanyById, cache.deleteCache);
   app.delete('/api/company/:id', auth.verifyToken, user.isMember, CompanyController.deleteCompanyById, cache.deleteCache);
@@ -313,8 +313,10 @@ module.exports = (app) => {
   // Interviews
   app.get('/api/interviewList/:id', InterviewController.getInterviewByCompanyID);
   app.get('/api/interview/:id', event.validate('checkID'), InterviewController.getInterviewByID);
+  app.get('/api/interview/user/:id', event.validate('checkID'), InterviewController.getInterviewByUserID);
   app.get('/api/unverifiedInterview', InterviewController.getUnverifiedInterview);
   app.post('/api/interview', auth.verifyToken, InterviewController.submitInterview, cache.deleteCache);
+  app.post('/api/interview/draft', auth.verifyToken, InterviewController.saveDraftInterview, cache.deleteCache);
   app.post('/api/interview/verify', auth.verifyToken, user.isMember, InterviewController.verifyInterview, cache.deleteCache);
   app.post('/api/interviewImageUpload', auth.verifyToken, upload.single('expImage'), InterviewController.uploadImage, cache.deleteCache);
 }

@@ -64,7 +64,6 @@ const ManageExperiences = (props) => {
     axios
       .get(process.env.REACT_APP_API + "/unverifiedInterview")
       .then((res) => {
-        console.log(res.data);
         setUnverifiedList(res.data.unverifiedList);
         setIsLoading(false);
       })

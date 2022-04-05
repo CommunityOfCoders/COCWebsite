@@ -64,7 +64,6 @@ export default function CompanyList() {
     axios
       .get(process.env.REACT_APP_API + `/interviewList/${companyID}`)
       .then((res) => {
-        console.log(res.data);
         setExpList(res.data.interviewList);
         setCompany(res.data.company);
         setIsLoading(false);
@@ -102,7 +101,7 @@ export default function CompanyList() {
                   </Typography>
                 </Grid>
                 : expList.filter(exp => exp.appliedFor === "Internship").map((exp, index) => {
-                return <Grid item xs={12} md={3}>
+                return <Grid item xs={12} sm={4} md={3}>
                   <Card className={classes.root}>
                     <img src={company.image ? company.image.url : ""} alt="" />
                     <CardContent
@@ -172,7 +171,7 @@ export default function CompanyList() {
                 </Typography>
               </Grid>
               : expList.filter(exp => exp.appliedFor === "Full Time").map((exp, index) => {
-                return <Grid item xs={12} md={3}>
+                return <Grid item xs={12} sm={6} md={3}>
                   <Card className={classes.root}>
                     <img src={company.image ? company.image.url : ""} alt="" />
                     <CardContent

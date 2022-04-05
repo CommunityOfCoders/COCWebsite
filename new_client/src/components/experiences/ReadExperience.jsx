@@ -42,7 +42,6 @@ const ReadExperience = (props) => {
     axios
         .get(process.env.REACT_APP_API + `/interview/${interviewID}`)
         .then((res) => {
-            console.log(res.data);
             setExp(res.data);
         });
 
@@ -99,7 +98,6 @@ const ReadExperience = (props) => {
                 }
                 const res = await axios.post(process.env.REACT_APP_API + "/interviewImageUpload", 
                   formData);
-                console.log(res.data);
                 return res.data;
               }
             }
@@ -112,8 +110,12 @@ const ReadExperience = (props) => {
 
   return (
     <React.Fragment>
-      <Box pt={6} pb={6}>
+      <Box px={1} pt={1} mx={2} mt={2}>
         <BackButton link={`/exp/list/${exp.company}`} />
+      </Box>
+      <Box pb={6}>
+      {/* <Box p={1} m={2}> */}
+        
         <Container maxWidth="lg">
           <Grid container spacing={4}>
             <Grid item xs={12}>

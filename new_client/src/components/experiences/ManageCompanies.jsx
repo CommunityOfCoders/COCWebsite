@@ -68,9 +68,8 @@ const ManageCompanies = (props) => {
 
   useEffect(() => {
     axios
-      .get(process.env.REACT_APP_API + "/companies")
+      .get(process.env.REACT_APP_API + "/company")
       .then((res) => {
-        console.log(res.data);
         setCompanyList(res.data.companies);
         setIsLoading(false);
       })

@@ -14,7 +14,8 @@ const interview = new mongoose.Schema({
     },
     companyRequest: { type: String, required: true },
     content: { type: Object },
-    isVerified: { type: Boolean, required: true }, 
+    isVerified: { type: Boolean, default: false }, 
+    isDraft: { type: Boolean, required: true },
     appliedFor: { type: String, required: true },
     appliedYear: { type: Number, required: true },
 });

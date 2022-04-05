@@ -56,9 +56,8 @@ export default function CompanyList() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(process.env.REACT_APP_API + "/companies")
+      .get(process.env.REACT_APP_API + "/company")
       .then((res) => {
-        console.log(res.data);
         setCompanyList(res.data.companies);
         setIsLoading(false);
       })
@@ -79,24 +78,20 @@ export default function CompanyList() {
               container
               justifyContent="space-between"
             >
-              <Grid md={8} xs={12}>
-                <Typography
-                  variant="h4"
-                  style={{ color: "#52b107" }}
-                  gutterBottom
-                  className={classes.grid}
-                >
-                  Experiences
-                </Typography>
-              </Grid>
-              <Grid
-                md={4}
-                xs={12}
-                container
-                justifyContent="center"
-                className={classes.grid}
-              >
-                <Link to="/myexp" style={{ textDecoration: "none" }}>
+              <Grid md={12} xs={12}>
+                <Box sx={{ display: 'flex', alignItems: 'center'}}>
+                  <Box sx={{flex: '1'}}>
+                    <Typography
+                      variant="h4"
+                      style={{ color: "#52b107" }}
+                      gutterBottom
+                      className={classes.grid}
+                    >
+                      Experiences
+                    </Typography>
+                  </Box>
+                  
+                  <Link to="/myexp" style={{ textDecoration: "none" }}>
                   <Button
                     style={{ color: "#224903" }}
                     align="center"
@@ -105,11 +100,13 @@ export default function CompanyList() {
                     My Experiences
                   </Button>
                 </Link>
+                </Box>
+                
               </Grid>
             </Grid>
             {companyList.map((company, index) => {
               return (
-                <Grid key={index} item xs={12} md={2}>
+                <Grid key={index} item xs={12} sm={4} md={2}>
                   <Card className={classes.root}>
                     <div
                       style={{
@@ -169,7 +166,7 @@ export default function CompanyList() {
             align="center"
             variant="contained"
           >
-            Submit Experience
+            Write Experience
           </Button>
         </Link>
       </Container>

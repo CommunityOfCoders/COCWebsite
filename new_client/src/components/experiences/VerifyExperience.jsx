@@ -58,20 +58,17 @@ function VerifyExperience(props) {
   };
 
   useEffect(() => {
-      console.log(interviewID);
     axios
         .get(process.env.REACT_APP_API + `/interview/${interviewID}`)
         .then((res) => {
-            console.log(res.data);
             setSubmittedCompany(res.data.companyRequest);
             setCreatedBy(res.data.createdBy);
             setAppliedYear(res.data.appliedYear);
             setAppliedFor(res.data.appliedFor);
         })
     axios
-      .get(process.env.REACT_APP_API + "/companies")
+      .get(process.env.REACT_APP_API + "/company")
       .then((res) => {
-        // console.log(res.data);
         setCompanyList(res.data.companies);
         setIsLoading(false);
       })

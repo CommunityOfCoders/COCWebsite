@@ -9,12 +9,48 @@ cloudinary.config({
 });
 
 const submitInterview = async (req, res) => {
-    console.log(req.body)
     try {
         const errorMessage = bodyCheck(req.body);
         if (errorMessage) throw new Error(errorMessage);
 
-        const { title, createdBy, companyName, content, appliedFor, appliedYear, userId } = req.body;
+        const { draftID, title, createdBy, companyName, content, appliedFor, appliedYear, userId } = req.body;
+        
+        if (appliedFor !== 'Full Time' && appliedFor !== 'Internship') throw new Error('Please provide a valid role');
+
+        const interviewDetails = {
+            title,
+            createdBy,
+            userId,
+            companyRequest: companyName,
+            content,
+            isDraft: false,
+            status: interviewStatusConstants.submitted,
+            appliedFor,
+            appliedYear
+        };            
+
+        let createdInterview;
+        if(draftID === "_"){
+            console.log("creating...")
+            createdInterview = await Interview.create(interviewDetails);
+        }else{
+            oldInterview = await Interview.findOne({_id: draftID});
+            if (oldInterview.userId != req.userID) throw new Error("You don't have write access on this")
+            createdInterview = await Interview.findOneAndUpdate({_id: draftID}, interviewDetails);
+        }
+
+        return res.status(200).json({ message: 'Submitted experience successfully for verification', interview: createdInterview });
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
+};
+
+const saveDraftInterview = async (req, res) => {
+    try {
+        const errorMessage = bodyCheck(req.body);
+        if (errorMessage) throw new Error(errorMessage);
+        if (userId !== req.userID) throw new Error("You don't have write access on this")
+        const { draftID, title, createdBy, companyName, content, appliedFor, appliedYear, userId } = req.body;
 
         if (appliedFor !== 'Full Time' && appliedFor !== 'Internship') throw new Error('Please provide a valid role');
 
@@ -24,14 +60,33 @@ const submitInterview = async (req, res) => {
             userId,
             companyRequest: companyName,
             content,
-            isVerified: false,
+            isDraft: true,
             status: interviewStatusConstants.submitted,
             appliedFor,
             appliedYear
         };            
+        let draftInterview;
+        if(draftID === "_"){
+            console.log("creating...")
+            draftInterview = await Interview.create(interviewDetails);
+        }else{
+            oldInterview = await Interview.findOne({_id: draftID});
+            if (oldInterview.userId != req.userID) throw new Error("You don't have write access on this")
+            draftInterview = await Interview.findOneAndUpdate({_id: draftID}, interviewDetails);
+        }
 
-        const createdInterview = await Interview.create(interviewDetails);
-        return res.status(200).json({ message: 'Submitted experience successfully for verification', interview: createdInterview });
+        return res.status(200).json({ message: 'Saved Draft', interview: draftInterview });
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
+};
+
+
+const getInterviewByUserID = async (req, res) => {
+    try {
+        const userID = req.params.id;
+        const interview = await Interview.find({ userId: userID });
+        return res.status(200).json(interview);
     } catch (error) {
         return res.status(400).json({ error: error.message });
     }
@@ -40,7 +95,7 @@ const submitInterview = async (req, res) => {
 const getInterviewByCompanyID = async (req, res) => {
     try{
         const companyID = req.params.id;
-        const interviewList = await Interview.find({ company: companyID });
+        const interviewList = await Interview.find({ company: companyID, isVerified: true });
         const company = await Company.findOne({ _id: companyID });
         return res.status(200).json({interviewList, company});
     } catch (error) {
@@ -60,7 +115,7 @@ const getInterviewByID = async (req, res) => {
 
 const getUnverifiedInterview = async (req, res, next) => {
     try{
-        const unverifiedList = await Interview.find({ isVerified: false });
+        const unverifiedList = await Interview.find({ isVerified: false, isDraft: false });
         res.locals.cache = unverifiedList;
         next();
         return res.status(200).json({ unverifiedList });
@@ -137,6 +192,8 @@ const interviewStatusConstants = {
 
 module.exports = {
     submitInterview,
+    saveDraftInterview,
+    getInterviewByUserID,
     getInterviewByCompanyID,
     getInterviewByID,
     getUnverifiedInterview,

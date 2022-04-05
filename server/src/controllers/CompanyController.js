@@ -7,7 +7,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 
-const createCompany = async (req, res) => {
+const createCompany = async (req, res, next) => {
   try {
     if (!req.body || !req.body.companyName || !req.file) {
       return res
@@ -42,10 +42,11 @@ const createCompany = async (req, res) => {
         .lean();
     }
 
-    return res.status(200).json({
+    res.status(200).json({
       message: "Created company successfully",
       company: createdCompany,
     });
+    next();
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
@@ -84,9 +85,11 @@ const createCompany = async (req, res) => {
 //   }
 // };
 
-const getCompanies = async (req, res) => {
+const getCompanies = async (req, res, next) => {
   try {
     const companies = await Company.find();
+    res.locals.cache = {companies};
+    next();
     return res.status(200).json({ companies });
   } catch (error) {
     return res.status(400).json({ error: error.message });
@@ -108,7 +111,7 @@ const getCompanyByName = async (req, res, next) => {
     }
 };
 
-const updateCompanyById = async (req, res) => {
+const updateCompanyById = async (req, res, next) => {
   try {
     if (!req.query || !req.query.companyId) {
       return res.status(422).json({ error: "Please provide companyId" });
@@ -120,10 +123,11 @@ const updateCompanyById = async (req, res) => {
         req.body,
         { new: true }
       );
-      return res.status(200).json({
+      res.status(200).json({
         message: "Updated Company Successfully",
         company: updatedCompany,
       });
+      next();
     }
     throw new Error("Please provide valid data");
   } catch (error) {
@@ -131,7 +135,7 @@ const updateCompanyById = async (req, res) => {
   }
 };
 
-const deleteCompanyById = async (req, res) => {
+const deleteCompanyById = async (req, res, next) => {
   try {
     console.log("deleted")
     const errors = validationResult(req);
@@ -149,10 +153,11 @@ const deleteCompanyById = async (req, res) => {
     }
 
     const deletedCompany = await Company.findByIdAndDelete(companyId);
-    return res.status(200).json({
+    res.status(200).json({
       message: "Deleted Company Successfully",
       company: deletedCompany,
     });
+    next();
   } catch (error) {
     console.log("Not deleted")
     return res.status(400).json({ error: error.message });

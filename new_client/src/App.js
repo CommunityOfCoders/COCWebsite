@@ -167,11 +167,12 @@ function App() {
                     component={LazyAddMagazine}
                   />
 
-                  <Route path="/writeexp" component={LazyWriteExperience} />
+                  <ProtectedRoute path="/writeexp" component={LazyWriteExperience} />
                   <Route path="/exp/list/:id" component={LazyExperienceList} />
+                  <Route path="/exp/edit/:id" component={LazyWriteExperience} />
                   <Route path="/exp/:id" component={LazyReadExperience} />
                   <Route path="/exp" component={LazyCompanyList} />
-                  <Route path="/myexp" component={LazyMyExperiences} />
+                  <ProtectedRoute path="/myexp" component={LazyMyExperiences} />
                   <ProtectedRoute path="/managecompanies" component={LazyManageCompanies} />
                   <ProtectedRoute path="/addcompany" component={LazyAddCompany} />
                   <ProtectedRoute path="/manageexperiences" component={LazyManageExperiences} />
