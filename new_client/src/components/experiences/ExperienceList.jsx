@@ -106,47 +106,12 @@ export default function CompanyList() {
                     .filter((exp) => exp.appliedFor === "Internship")
                     .map((exp, index) => {
                       return (
-                        <Grid item xs={12} sm={4} md={3}>
-                          <Card className={classes.root}>
-                            <img
-                              src={company.image ? company.image.url : ""}
-                              alt=""
-                            />
-                            <CardContent
-                              style={{ flex: "1" }}
-                              className={classes.cardContent}
-                            >
-                              <Typography
-                                style={{ color: "#224903" }}
-                                align="center"
-                                variant="h6"
-                              >
-                                {company.title ? company.title : ""}
-                              </Typography>
-                              <Link to={`/exp/${exp._id}`}>
-                                <Button
-                                  style={{ color: "#224903" }}
-                                  align="center"
-                                  variant="contained"
-                                  className={classes.button}
-                                >
-                                  Read Experience
-                                </Button>
-                              </Link>
-                            </CardContent>
-                            <CardContent className={classes.cardContentSecond}>
-                              <Typography align="center">
-                                <PersonIcon style={{ margin: "5px" }} />
-                                {""}
-                                {exp.createdBy}
-                              </Typography>
-                              <Typography align="center">
-                                <EventNote style={{ margin: "5px" }} />
-                                {exp.appliedYear}
-                              </Typography>
-                            </CardContent>
-                          </Card>
-                        </Grid>
+                        <ExperienceCard
+                          key={index}
+                          company={company}
+                          exp={exp}
+                          classes={classes}
+                        />
                       );
                     })
                 )}
@@ -182,47 +147,12 @@ export default function CompanyList() {
                   .filter((exp) => exp.appliedFor === "Full Time")
                   .map((exp, index) => {
                     return (
-                      <Grid item xs={12} sm={6} md={3}>
-                        <Card className={classes.root}>
-                          <img
-                            src={company.image ? company.image.url : ""}
-                            alt=""
-                          />
-                          <CardContent
-                            style={{ flex: "1" }}
-                            className={classes.cardContent}
-                          >
-                            <Typography
-                              style={{ color: "#224903" }}
-                              align="center"
-                              variant="h6"
-                            >
-                              {company.title ? company.title : ""}
-                            </Typography>
-                            <Link to={`/exp/${exp._id}`}>
-                              <Button
-                                style={{ color: "#224903" }}
-                                align="center"
-                                variant="contained"
-                                className={classes.button}
-                              >
-                                Read Experience
-                              </Button>
-                            </Link>
-                          </CardContent>
-                          <CardContent className={classes.cardContentSecond}>
-                            <Typography align="center">
-                              <PersonIcon style={{ margin: "5px" }} />
-                              {""}
-                              {exp.createdBy}
-                            </Typography>
-                            <Typography align="center">
-                              <EventNote style={{ margin: "5px" }} />
-                              {exp.appliedYear}
-                            </Typography>
-                          </CardContent>
-                        </Card>
-                      </Grid>
+                      <ExperienceCard
+                        key={index}
+                        company={company}
+                        exp={exp}
+                        classes={classes}
+                      />
                     );
                   })
               )}
@@ -233,3 +163,39 @@ export default function CompanyList() {
     </>
   );
 }
+
+const ExperienceCard = ({ company, exp, classes }) => {
+  return (
+    <Grid item xs={12} sm={4} md={3}>
+      <Card className={classes.root}>
+        <img src={company.image ? company.image.url : ""} alt="" />
+        <CardContent style={{ flex: "1" }} className={classes.cardContent}>
+          <Typography style={{ color: "#224903" }} align="center" variant="h6">
+            {company.title ? company.title : ""}
+          </Typography>
+          <Link to={`/exp/${exp._id}`}>
+            <Button
+              style={{ color: "#224903" }}
+              align="center"
+              variant="contained"
+              className={classes.button}
+            >
+              Read Experience
+            </Button>
+          </Link>
+        </CardContent>
+        <CardContent className={classes.cardContentSecond}>
+          <Typography align="center">
+            <PersonIcon style={{ margin: "5px" }} />
+            {""}
+            {exp.createdBy}
+          </Typography>
+          <Typography align="center">
+            <EventNote style={{ margin: "5px" }} />
+            {exp.appliedYear}
+          </Typography>
+        </CardContent>
+      </Card>
+    </Grid>
+  );
+};

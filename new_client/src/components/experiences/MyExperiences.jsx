@@ -97,37 +97,7 @@ const MyExperiences = (props) => {
               expList
                 .filter((exp) => !exp.isDraft)
                 .map((exp, index) => {
-                  return (
-                    <Grid item xs={12} md={3}>
-                      <Card className={classes.root}>
-                        <CardContent className={classes.cardContentSecond}>
-                          <Typography align="center">
-                            <PersonIcon style={{ margin: "5px" }} />
-                            {""}
-                            {exp.createdBy}
-                          </Typography>
-                          <Typography align="center">
-                            <EventNote style={{ margin: "5px" }} />
-                            {exp.appliedYear}
-                          </Typography>
-                          <Typography align="center">
-                            <LocationOn style={{ margin: "5px" }} />
-                            {exp.companyRequest}
-                          </Typography>
-                          <Link to={`/exp/edit/${exp._id}`}>
-                            <Button
-                              style={{ color: "#224903" }}
-                              align="center"
-                              variant="contained"
-                              className={classes.button}
-                            >
-                              Edit Experience
-                            </Button>
-                          </Link>
-                        </CardContent>
-                      </Card>
-                    </Grid>
-                  );
+                  return <MyExperienceCard exp={exp} classes={classes} />;
                 })
             )}
           </Grid>
@@ -155,42 +125,46 @@ const MyExperiences = (props) => {
             expList
               .filter((exp) => exp.isDraft)
               .map((exp, index) => {
-                return (
-                  <Grid item xs={12} md={3}>
-                    <Card className={classes.root}>
-                      <CardContent className={classes.cardContentSecond}>
-                        <Typography align="center">
-                          <PersonIcon style={{ margin: "5px" }} />
-                          {""}
-                          {exp.createdBy}
-                        </Typography>
-                        <Typography align="center">
-                          <EventNote style={{ margin: "5px" }} />
-                          {exp.appliedYear}
-                        </Typography>
-                        <Typography align="center">
-                          <EventNote style={{ margin: "5px" }} />
-                          {exp.companyRequest}
-                        </Typography>
-                        <Link to={`/exp/edit/${exp._id}`}>
-                          <Button
-                            style={{ color: "#224903" }}
-                            align="center"
-                            variant="contained"
-                            className={classes.button}
-                          >
-                            Edit Experience
-                          </Button>
-                        </Link>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                );
+                return <MyExperienceCard exp={exp} classes={classes} />;
               })
           )}
         </Container>
       </Box>
     </>
+  );
+};
+
+const MyExperienceCard = ({ exp, classes }) => {
+  return (
+    <Grid item xs={12} md={3}>
+      <Card className={classes.root}>
+        <CardContent className={classes.cardContentSecond}>
+          <Typography align="center">
+            <PersonIcon style={{ margin: "5px" }} />
+            {""}
+            {exp.createdBy}
+          </Typography>
+          <Typography align="center">
+            <EventNote style={{ margin: "5px" }} />
+            {exp.appliedYear}
+          </Typography>
+          <Typography align="center">
+            <LocationOn style={{ margin: "5px" }} />
+            {exp.companyRequest}
+          </Typography>
+          <Link to={`/exp/edit/${exp._id}`}>
+            <Button
+              style={{ color: "#224903" }}
+              align="center"
+              variant="contained"
+              className={classes.button}
+            >
+              Edit Experience
+            </Button>
+          </Link>
+        </CardContent>
+      </Card>
+    </Grid>
   );
 };
 

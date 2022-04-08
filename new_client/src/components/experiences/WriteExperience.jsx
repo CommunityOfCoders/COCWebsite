@@ -103,7 +103,6 @@ const WriteExperience = (props) => {
 
   const initEditor = () => {
     const editor = new EditorJS({
-      //   readOnly: true,
       holder: EDITTOR_HOLDER_ID,
       logLevel: "ERROR",
       data: exp.content,
