@@ -54,6 +54,35 @@ const LazyAddMagazine = lazy(() =>
   import("./components/magazines/AddMagazine")
 );
 
+// Experiences
+const LazyWriteExperience = lazy(() =>
+  import("./components/experiences/WriteExperience")
+);
+const LazyCompanyList = lazy(() =>
+  import("./components/experiences/CompanyList")
+);
+const LazyExperienceList = lazy(() =>
+  import("./components/experiences/ExperienceList")
+);
+const LazyManageCompanies = lazy(() =>
+  import("./components/experiences/ManageCompanies")
+);
+const LazyAddCompany = lazy(() =>
+  import("./components/experiences/AddCompany")
+);
+const LazyManageExperiences = lazy(() =>
+  import("./components/experiences/ManageExperiences")
+);
+const LazyVerifyExperience = lazy(() =>
+  import("./components/experiences/VerifyExperience")
+);
+const LazyReadExperience = lazy(() =>
+  import("./components/experiences/ReadExperience")
+);
+const LazyMyExperiences = lazy(() =>
+  import("./components/experiences/MyExperiences")
+);
+
 const theme = responsiveFontSizes(createMuiTheme());
 const Lazy404 = lazy(() => import("./components/404/NotFound"));
 
@@ -137,6 +166,18 @@ function App() {
                     path="/magazine/edit/:id"
                     component={LazyAddMagazine}
                   />
+
+                  <ProtectedRoute path="/writeexp" component={LazyWriteExperience} />
+                  <Route path="/exp/list/:id" component={LazyExperienceList} />
+                  <Route path="/exp/edit/:id" component={LazyWriteExperience} />
+                  <Route path="/exp/:id" component={LazyReadExperience} />
+                  <Route path="/exp" component={LazyCompanyList} />
+                  <ProtectedRoute path="/myexp" component={LazyMyExperiences} />
+                  <ProtectedRoute path="/managecompanies" component={LazyManageCompanies} />
+                  <ProtectedRoute path="/addcompany" component={LazyAddCompany} />
+                  <ProtectedRoute path="/manageexperiences" component={LazyManageExperiences} />
+                  <ProtectedRoute path="/verifyexperience/:id" component={LazyVerifyExperience} />
+
                   <Route component={Lazy404} />
                 </Switch>
               </Suspense>

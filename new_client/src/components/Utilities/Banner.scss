@@ -57,6 +57,10 @@
       background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
         url("../assets/magazines.webp");
       min-height: 100vh;
+    } @else if $page == "Experience" {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url("../assets/experience.webp");
+      min-height: 100vh;
     }
   }
 
@@ -83,6 +87,7 @@
     top: 70%;
     left: 50%;
     transform: translate(-50%, -50%);
+    display: flex;
   }
 
   @media only screen and (max-width: 600px) {
@@ -112,4 +117,7 @@ section.projectsBanner {
 }
 section.magazinesBanner {
   @include Banner("Magazines");
+}
+section.experienceBanner {
+  @include Banner("Experience");
 }
