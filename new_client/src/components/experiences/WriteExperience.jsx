@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import BackButton from "../Utilities/BackButton";
-import axios from "axios";
 import useAuthenticatedAxios from "../Utilities/useAuthenticatedAxios.js";
 import AlertUtility from "../Utilities/Alert";
 
@@ -28,6 +27,7 @@ import List from "@editorjs/list";
 import CodeTool from "@editorjs/code";
 import Table from "@editorjs/table";
 import ImageTool from "@editorjs/image";
+import { StyleInlineTool } from "editorjs-style";
 
 const EDITTOR_HOLDER_ID = "editorjs";
 
@@ -43,17 +43,18 @@ const WriteExperience = (props) => {
   const [roleType, setRoleType] = useState("Internship");
   const [editorData, setEditorData] = useState("");
   const ALERT_MESSAGES = {
-    submit: 'Your experience is submitted! ✨ It will be verified by COC',
-    update: 'Updated your experience!',
-    draft: 'Saved as a draft 🚀'
-  }
+    submit: "Your experience is submitted! ✨ It will be verified by COC",
+    update: "Updated your experience!",
+    draft: "Saved as a draft 🚀",
+  };
 
   const [isDraftSavedAlert, setIsDraftSavedAlert] = useState(false);
   const [isSubmittedAlert, setIsSubmittedAlert] = useState(false);
   const [isErrorAlert, setIsErrorAlert] = useState(false);
   const [errorAlertMessage, setErrorAlertMessage] = useState(false);
-  const [submitAlertMessage, setSubmitAlertMessage] = useState(ALERT_MESSAGES.submit);
-  
+  const [submitAlertMessage, setSubmitAlertMessage] = useState(
+    ALERT_MESSAGES.submit
+  );
 
   const [error, setError] = useState({
     personNameError: "",
@@ -85,17 +86,17 @@ const WriteExperience = (props) => {
         .catch((err) => console.log(err));
     }
   }, []);
- 
+
   useEffect(() => {
-    if(isEditPage && exp.content){
-        initEditor();
+    if (isEditPage && exp.content) {
+      initEditor();
     }
   }, [exp]);
 
   useEffect(() => {
-    if(draftID === '_'){
+    if (!isEditPage || (isEditPage && exp.isDraft)) {
       setSubmitAlertMessage(ALERT_MESSAGES.submit);
-    }else{
+    } else {
       setSubmitAlertMessage(ALERT_MESSAGES.update);
     }
   }, [draftID]);
@@ -105,7 +106,7 @@ const WriteExperience = (props) => {
       //   readOnly: true,
       holder: EDITTOR_HOLDER_ID,
       logLevel: "ERROR",
-      data: (exp.content),
+      data: exp.content,
       placeholder: "type here...",
       onReady: () => {
         ejInstance.current = editor;
@@ -128,6 +129,7 @@ const WriteExperience = (props) => {
         list: { class: List, inlineToolbar: true },
         code: CodeTool,
         table: Table,
+        style: StyleInlineTool,
         image: {
           class: ImageTool,
           config: {
@@ -158,7 +160,7 @@ const WriteExperience = (props) => {
         personNameError: "*Name cannot be empty",
       }));
       ret = false;
-    }else{
+    } else {
       setError((prevError) => ({
         ...prevError,
         personNameError: "",
@@ -170,7 +172,7 @@ const WriteExperience = (props) => {
         companyNameError: "*Company name cannot be empty",
       }));
       ret = false;
-    }else{
+    } else {
       setError((prevError) => ({
         ...prevError,
         companyNameError: "",
@@ -182,7 +184,7 @@ const WriteExperience = (props) => {
         appliedYearError: "*Year cannot be empty",
       }));
       ret = false;
-    }else{
+    } else {
       setError((prevError) => ({
         ...prevError,
         appliedYearError: "",
@@ -194,7 +196,7 @@ const WriteExperience = (props) => {
         contentError: "*Experience cannot be empty",
       }));
       ret = false;
-    }else{
+    } else {
       setError((prevError) => ({
         ...prevError,
         contentError: "",
@@ -217,10 +219,10 @@ const WriteExperience = (props) => {
         userId: props.userID,
       };
       const url = process.env.REACT_APP_API + `/interview`;
-      try{
+      try {
         const res = await authenticatedAxios.post(url, body);
         setIsSubmittedAlert(true);
-      }catch(err){
+      } catch (err) {
         console.log(err.response.data.error);
         setErrorAlertMessage(err.response.data.error);
         setIsErrorAlert(true);
@@ -230,7 +232,7 @@ const WriteExperience = (props) => {
 
   const handleSaveAsDraft = async (event) => {
     event.preventDefault();
-    if(isValid()){
+    if (isValid()) {
       const body = {
         draftID: draftID,
         title: `${companyName} ${personName} ${appliedYear} ${roleType}`,
@@ -241,18 +243,18 @@ const WriteExperience = (props) => {
         appliedYear: appliedYear,
         userId: props.userID,
       };
-      const url = process.env.REACT_APP_API + '/interview/draft';
-      try{
+      const url = process.env.REACT_APP_API + "/interview/draft";
+      try {
         const res = await authenticatedAxios.post(url, body);
         setDraftID(res.data.interview._id);
         setIsDraftSavedAlert(true);
-      }catch(err){
+      } catch (err) {
         console.log(err.response.data.error);
         setErrorAlertMessage(err.response.data.error);
         setIsErrorAlert(true);
       }
     }
-  }
+  };
 
   return (
     <article>
@@ -280,7 +282,7 @@ const WriteExperience = (props) => {
                     setPersonName(e.target.value);
                   }}
                   helperText={error.personNameError}
-                  error={(error.personNameError) !== ""}
+                  error={error.personNameError !== ""}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -296,7 +298,7 @@ const WriteExperience = (props) => {
                   }}
                   id="fullWidth"
                   helperText={error.companyNameError}
-                  error={(error.companyNameError) !== ""}
+                  error={error.companyNameError !== ""}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -312,7 +314,7 @@ const WriteExperience = (props) => {
                   }}
                   id="fullWidth"
                   helperText={error.appliedYearError}
-                  error={(error.appliedYearError) !== ""}
+                  error={error.appliedYearError !== ""}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -366,8 +368,7 @@ const WriteExperience = (props) => {
                     Submit Experience
                   </Button>
                 </Grid>
-                {
-                  (!isEditPage || (isEditPage && exp.isDraft)) && 
+                {(!isEditPage || (isEditPage && exp.isDraft)) && (
                   <Grid xs={12} md={3} style={{ padding: "10px" }}>
                     <Button
                       type="submit"
@@ -378,13 +379,11 @@ const WriteExperience = (props) => {
                       Save As Draft
                     </Button>
                   </Grid>
-                }
+                )}
               </Grid>
             </Grid>
           </Container>
-          
         </Box>
-        
       </React.Fragment>
       <AlertUtility
         open={isSubmittedAlert}

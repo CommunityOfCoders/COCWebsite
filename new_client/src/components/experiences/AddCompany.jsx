@@ -6,7 +6,7 @@ import "../auth/Error.css";
 import { useState } from "react";
 import { Button, Grid, TextField } from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
-import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { connect } from "react-redux";
 import AlertUtility from "../Utilities/Alert";
 import { useEffect } from "react";
@@ -82,7 +82,11 @@ function AddCompany(props) {
       const formData = new FormData();
       const url = process.env.REACT_APP_API + "/company";
       if (companySelectedFile) {
-        formData.append("companyLogo", companySelectedFile, companySelectedFile.name);
+        formData.append(
+          "companyLogo",
+          companySelectedFile,
+          companySelectedFile.name
+        );
       }
       formData.append("companyName", companyName);
       setIsLoading(true);
@@ -110,7 +114,11 @@ function AddCompany(props) {
       const formData = new FormData();
       const url = process.env.REACT_APP_API + `/company/${companyID}`;
       if (companySelectedFile) {
-        formData.append("companyLogo", companySelectedFile, companySelectedFile.name);
+        formData.append(
+          "companyLogo",
+          companySelectedFile,
+          companySelectedFile.name
+        );
       }
       formData.append("companyName", companyName);
       setIsLoading(true);
@@ -169,11 +177,7 @@ function AddCompany(props) {
                 {isLoading ? (
                   <Spinner />
                 ) : (
-                  <Button
-                    type="submit"
-                    variant="outlined"
-                    color="primary"
-                  >
+                  <Button type="submit" variant="outlined" color="primary">
                     {btnText}
                   </Button>
                 )}

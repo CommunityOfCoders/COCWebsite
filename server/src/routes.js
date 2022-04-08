@@ -310,7 +310,7 @@ module.exports = (app) => {
   app.put('/api/company/:id', auth.verifyToken, user.isMember, CompanyController.updateCompanyById, cache.deleteCache);
   app.delete('/api/company/:id', auth.verifyToken, user.isMember, CompanyController.deleteCompanyById, cache.deleteCache);
 
-  // Interviews
+  // Interview Experiences
   app.get('/api/interviewList/:id', InterviewController.getInterviewByCompanyID);
   app.get('/api/interview/:id', event.validate('checkID'), InterviewController.getInterviewByID);
   app.get('/api/interview/user/:id', event.validate('checkID'), InterviewController.getInterviewByUserID);

@@ -137,7 +137,6 @@ const updateCompanyById = async (req, res, next) => {
 
 const deleteCompanyById = async (req, res, next) => {
   try {
-    console.log("deleted")
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       res.status(422).json({ errors: errors.array() });
@@ -159,7 +158,6 @@ const deleteCompanyById = async (req, res, next) => {
     });
     next();
   } catch (error) {
-    console.log("Not deleted")
     return res.status(400).json({ error: error.message });
   }
 };

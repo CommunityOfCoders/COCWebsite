@@ -25,6 +25,7 @@
     "bootstrap": "^4.4.1",
     "clsx": "^1.1.1",
     "date-fns": "^2.15.0",
+    "editorjs-style": "^3.0.2",
     "jwt-decode": "^3.1.2",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",

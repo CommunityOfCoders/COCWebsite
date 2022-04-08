@@ -5275,6 +5275,11 @@ editor@~1.0.0:
   resolved "https://registry.yarnpkg.com/editor/-/editor-1.0.0.tgz#60c7f87bd62bcc6a894fa8ccd6afb7823a24f742"
   integrity sha1-YMf4e9YrzGqJT6jM1q+3gjok90I=
 
+editorjs-style@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/editorjs-style/-/editorjs-style-3.0.2.tgz#e5ba8e1dfa712f8d93a26e9225a80f57ac34e51b"
+  integrity sha512-xu7vwD2UBYCyhlJOElkWfDfhnvr91PniP+CGZ/aEP7fj+w36E/FY3T+3VPJTcrGsni1UBvUNl7l0fDVLui5sxw==
+
 ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"

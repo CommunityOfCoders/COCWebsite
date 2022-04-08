@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from "react";
 import BackButton from "../Utilities/BackButton";
-import { Box, Container, Grid, Typography, Divider, Card, CardContent, Button } from "@material-ui/core";
+import {
+  Box,
+  Container,
+  Grid,
+  Typography,
+  Divider,
+  Card,
+  CardContent,
+  Button,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import PersonIcon from "@material-ui/icons/Person";
 import EventNote from "@material-ui/icons/EventNote";
 import LocationOn from "@material-ui/icons/LocationOn";
-import axios from "axios";
 import useAuthenticatedAxios from "../Utilities/useAuthenticatedAxios.js";
 import { connect } from "react-redux";
 
@@ -43,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 const MyExperiences = (props) => {
   const classes = useStyles();
   const authenticatedAxios = useAuthenticatedAxios();
-  const [isLoading, setIsLoading] =useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [expList, setExpList] = useState([]);
 
   useEffect(() => {
@@ -75,51 +83,53 @@ const MyExperiences = (props) => {
                 My Experiences
               </Typography>
             </Grid>
-            {
-              (!isLoading && expList.filter(exp => !exp.isDraft).length == 0) ? 
-                <Grid item xs={12}>
-                  <Typography
-                    variant="h6"
-                    style={{ color: "#5e5e5e" }}
-                    gutterBottom
-                  >
-                    No experiences found
-                  </Typography>
-                </Grid>
-                : expList.filter(exp => !exp.isDraft).map((exp, index) => {
-                return <Grid item xs={12} md={3}>
-                  <Card className={classes.root}>
-                    <CardContent
-                      className={classes.cardContentSecond}
-                    >
-                      <Typography align="center">
-                        <PersonIcon style={{ margin: "5px" }} />
-                        {""}
-                        {exp.createdBy}
-                      </Typography>
-                      <Typography align="center">
-                        <EventNote style={{ margin: "5px" }} />
-                        {exp.appliedYear}
-                      </Typography>
-                      <Typography align="center">
-                        <LocationOn style={{ margin: "5px" }} />
-                        {exp.companyRequest}
-                      </Typography>
-                      <Link to={`/exp/edit/${exp._id}`}>
-                        <Button
-                          style={{ color: "#224903" }}
-                          align="center"
-                          variant="contained"
-                          className={classes.button}
-                        >
-                          Edit Experience
-                        </Button>
-                      </Link>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              })
-            }
+            {!isLoading && expList.filter((exp) => !exp.isDraft).length == 0 ? (
+              <Grid item xs={12}>
+                <Typography
+                  variant="h6"
+                  style={{ color: "#5e5e5e" }}
+                  gutterBottom
+                >
+                  No experiences found
+                </Typography>
+              </Grid>
+            ) : (
+              expList
+                .filter((exp) => !exp.isDraft)
+                .map((exp, index) => {
+                  return (
+                    <Grid item xs={12} md={3}>
+                      <Card className={classes.root}>
+                        <CardContent className={classes.cardContentSecond}>
+                          <Typography align="center">
+                            <PersonIcon style={{ margin: "5px" }} />
+                            {""}
+                            {exp.createdBy}
+                          </Typography>
+                          <Typography align="center">
+                            <EventNote style={{ margin: "5px" }} />
+                            {exp.appliedYear}
+                          </Typography>
+                          <Typography align="center">
+                            <LocationOn style={{ margin: "5px" }} />
+                            {exp.companyRequest}
+                          </Typography>
+                          <Link to={`/exp/edit/${exp._id}`}>
+                            <Button
+                              style={{ color: "#224903" }}
+                              align="center"
+                              variant="contained"
+                              className={classes.button}
+                            >
+                              Edit Experience
+                            </Button>
+                          </Link>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  );
+                })
+            )}
           </Grid>
         </Container>
 
@@ -131,56 +141,58 @@ const MyExperiences = (props) => {
               My Drafts
             </Typography>
           </Grid>
-          {
-              (!isLoading && expList.filter(exp => exp.isDraft).length == 0) ? 
-                <Grid item xs={12}>
-                  <Typography
-                    variant="h6"
-                    style={{ color: "#5e5e5e" }}
-                    gutterBottom
-                  >
-                    No experiences found
-                  </Typography>
-                </Grid>
-                : expList.filter(exp => exp.isDraft).map((exp, index) => {
-                return <Grid item xs={12} md={3}>
-                  <Card className={classes.root}>
-                    <CardContent
-                      className={classes.cardContentSecond}
-                    >
-                      <Typography align="center">
-                        <PersonIcon style={{ margin: "5px" }} />
-                        {""}
-                        {exp.createdBy}
-                      </Typography>
-                      <Typography align="center">
-                        <EventNote style={{ margin: "5px" }} />
-                        {exp.appliedYear}
-                      </Typography>
-                      <Typography align="center">
-                        <EventNote style={{ margin: "5px" }} />
-                        {exp.companyRequest}
-                      </Typography>
-                      <Link to={`/exp/edit/${exp._id}`}>
-                        <Button
-                          style={{ color: "#224903" }}
-                          align="center"
-                          variant="contained"
-                          className={classes.button}
-                        >
-                          Edit Experience
-                        </Button>
-                      </Link>
-                    </CardContent>
-                  </Card>
-                </Grid>
+          {!isLoading && expList.filter((exp) => exp.isDraft).length == 0 ? (
+            <Grid item xs={12}>
+              <Typography
+                variant="h6"
+                style={{ color: "#5e5e5e" }}
+                gutterBottom
+              >
+                No experiences found
+              </Typography>
+            </Grid>
+          ) : (
+            expList
+              .filter((exp) => exp.isDraft)
+              .map((exp, index) => {
+                return (
+                  <Grid item xs={12} md={3}>
+                    <Card className={classes.root}>
+                      <CardContent className={classes.cardContentSecond}>
+                        <Typography align="center">
+                          <PersonIcon style={{ margin: "5px" }} />
+                          {""}
+                          {exp.createdBy}
+                        </Typography>
+                        <Typography align="center">
+                          <EventNote style={{ margin: "5px" }} />
+                          {exp.appliedYear}
+                        </Typography>
+                        <Typography align="center">
+                          <EventNote style={{ margin: "5px" }} />
+                          {exp.companyRequest}
+                        </Typography>
+                        <Link to={`/exp/edit/${exp._id}`}>
+                          <Button
+                            style={{ color: "#224903" }}
+                            align="center"
+                            variant="contained"
+                            className={classes.button}
+                          >
+                            Edit Experience
+                          </Button>
+                        </Link>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                );
               })
-            }
+          )}
         </Container>
       </Box>
     </>
   );
-}
+};
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,

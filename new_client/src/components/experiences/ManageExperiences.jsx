@@ -1,23 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Modal from "../Modal/Modal";
 import { Container, Box, Grid, Typography } from "@material-ui/core";
-import { Divider, IconButton } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
-import deshaw from "../assets/DEShaw.webp";
-import AddCompany from "./AddCompany";
 import axios from "axios";
 import { connect } from "react-redux";
 import PersonIcon from "@material-ui/icons/Person";
 import EventNote from "@material-ui/icons/EventNote";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import { green, red } from "@material-ui/core/colors";
 import VerifyExperience from "./VerifyExperience";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,17 +43,40 @@ const useStyles = makeStyles((theme) => ({
 
 const ManageExperiences = (props) => {
   const classes = useStyles();
-
+  const history = useHistory();
   const [unverifiedList, setUnverifiedList] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [isModalClosing, setIsModalClosing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [counter, setCounter] = useState(0);
+  const [isMember, setIsMember] = useState(true);
 
   const handleModalClose = () => {
     setIsModalClosing(true);
     setCounter(counter + 1);
   };
+
+  useEffect(() => {
+    if (props.userID) {
+      axios
+        .post(
+          process.env.REACT_APP_API + "/user",
+          JSON.stringify({ userID: props.userID }),
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          setIsMember(res.data.isMember);
+          if (!res.data.isMember) {
+            history.push("/404");
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [props.userID]);
 
   useEffect(() => {
     axios

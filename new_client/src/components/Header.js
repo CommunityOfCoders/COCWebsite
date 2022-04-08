@@ -124,9 +124,9 @@ function Header(props) {
         <Link
           to="/exp"
           className={navItemClass}
-          onClick={() => currPageChange("experience")}
+          onClick={() => currPageChange("exp")}
         >
-          <nav className={getNavItemContClass("experience")}>EXPERIENCES</nav>
+          <nav className={getNavItemContClass("exp")}>EXPERIENCES</nav>
         </Link>
         {/* <Link
 					to="/blogs"

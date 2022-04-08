@@ -12,11 +12,10 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
-import deshaw from "../assets/DEShaw.webp";
 import AddCompany from "./AddCompany";
 import axios from "axios";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { green, red } from "@material-ui/core/colors";
 import useAuthenticatedAxios from "../Utilities/useAuthenticatedAxios.js";
 
@@ -49,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ManageCompanies = (props) => {
   const classes = useStyles();
-
+  const history = useHistory();
   const authenticatedAxios = useAuthenticatedAxios();
   const [isMember, setIsMember] = useState(false);
   const [companyList, setCompanyList] = useState([]);
@@ -65,6 +64,27 @@ const ManageCompanies = (props) => {
     setIsModalClosing(true);
     setCounter(counter + 1);
   };
+
+  useEffect(() => {
+    if (props.userID) {
+      axios
+        .post(
+          process.env.REACT_APP_API + "/user",
+          JSON.stringify({ userID: props.userID }),
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          if (!res.data.isMember) {
+            history.push("/404");
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [props.userID]);
 
   useEffect(() => {
     axios

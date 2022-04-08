@@ -31,7 +31,6 @@ const submitInterview = async (req, res) => {
 
         let createdInterview;
         if(draftID === "_"){
-            console.log("creating...")
             createdInterview = await Interview.create(interviewDetails);
         }else{
             oldInterview = await Interview.findOne({_id: draftID});
@@ -49,7 +48,6 @@ const saveDraftInterview = async (req, res) => {
     try {
         const errorMessage = bodyCheck(req.body);
         if (errorMessage) throw new Error(errorMessage);
-        if (userId !== req.userID) throw new Error("You don't have write access on this")
         const { draftID, title, createdBy, companyName, content, appliedFor, appliedYear, userId } = req.body;
 
         if (appliedFor !== 'Full Time' && appliedFor !== 'Internship') throw new Error('Please provide a valid role');
@@ -67,7 +65,6 @@ const saveDraftInterview = async (req, res) => {
         };            
         let draftInterview;
         if(draftID === "_"){
-            console.log("creating...")
             draftInterview = await Interview.create(interviewDetails);
         }else{
             oldInterview = await Interview.findOne({_id: draftID});
@@ -126,7 +123,6 @@ const getUnverifiedInterview = async (req, res, next) => {
 
 const verifyInterview = async (req, res) => {
     try {
-        console.log(req.body);
         if (!req.body || !req.body.interviewID || !req.body.companyID) {
             return res.status(422).json({ error: 'Please provide all details' });
         }

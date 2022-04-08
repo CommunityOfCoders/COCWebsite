@@ -4,9 +4,16 @@ import axios from "axios";
 import Spinner from "../spinner/Spinner";
 import "../auth/Error.css";
 import { useState } from "react";
-import { Button, Grid, TextField, Select, MenuItem, FormControl } from "@material-ui/core";
+import {
+  Button,
+  Grid,
+  TextField,
+  Select,
+  MenuItem,
+  FormControl,
+} from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
-import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { connect } from "react-redux";
 import AlertUtility from "../Utilities/Alert";
 import { useEffect } from "react";
@@ -43,7 +50,7 @@ function VerifyExperience(props) {
 
   const handleCompanyChange = (e) => {
     setCompanyID(e.target.value);
-  }
+  };
 
   const isValid = () => {
     let ret = true;
@@ -59,13 +66,13 @@ function VerifyExperience(props) {
 
   useEffect(() => {
     axios
-        .get(process.env.REACT_APP_API + `/interview/${interviewID}`)
-        .then((res) => {
-            setSubmittedCompany(res.data.companyRequest);
-            setCreatedBy(res.data.createdBy);
-            setAppliedYear(res.data.appliedYear);
-            setAppliedFor(res.data.appliedFor);
-        })
+      .get(process.env.REACT_APP_API + `/interview/${interviewID}`)
+      .then((res) => {
+        setSubmittedCompany(res.data.companyRequest);
+        setCreatedBy(res.data.createdBy);
+        setAppliedYear(res.data.appliedYear);
+        setAppliedFor(res.data.appliedFor);
+      });
     axios
       .get(process.env.REACT_APP_API + "/company")
       .then((res) => {
@@ -83,9 +90,9 @@ function VerifyExperience(props) {
     if (isValid()) {
       const url = process.env.REACT_APP_API + "/interview/verify";
       const data = {
-          interviewID,
-          companyID
-      }
+        interviewID,
+        companyID,
+      };
       setIsLoading(true);
       authenticatedAxios
         .post(url, data)
@@ -112,7 +119,7 @@ function VerifyExperience(props) {
           <form onSubmit={handleVerifyExperience}>
             <div className="form-group">
               <Grid container>
-                <Grid item xs={12} sx={{m: 4}}>
+                <Grid item xs={12} sx={{ m: 4 }}>
                   <TextField
                     placeholder="Submitted Company"
                     name="submittedcompanyName"
@@ -127,7 +134,7 @@ function VerifyExperience(props) {
             </div>
             <div className="form-group">
               <Grid container>
-                <Grid item xs={12} sx={{m: 4}}>
+                <Grid item xs={12} sx={{ m: 4 }}>
                   <TextField
                     placeholder="Created by"
                     name="createby"
@@ -142,7 +149,7 @@ function VerifyExperience(props) {
             </div>
             <div className="form-group">
               <Grid container>
-                <Grid item xs={12} sx={{m: 4}}>
+                <Grid item xs={12} sx={{ m: 4 }}>
                   <TextField
                     placeholder="Year"
                     name="year"
@@ -157,7 +164,7 @@ function VerifyExperience(props) {
             </div>
             <div className="form-group">
               <Grid container>
-                <Grid item xs={12} sx={{m: 4}}>
+                <Grid item xs={12} sx={{ m: 4 }}>
                   <TextField
                     placeholder="Role"
                     name="role"
@@ -174,16 +181,17 @@ function VerifyExperience(props) {
               <label>Select Company: </label>
               <FormControl fullWidth>
                 <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={companyID}
-                    label="Age"
-                    onChange={handleCompanyChange}>
-                    {
-                        companyList.map((company, index) => {
-                            return <MenuItem value={company._id}>{company.title}</MenuItem>
-                        })
-                    }
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={companyID}
+                  label="Age"
+                  onChange={handleCompanyChange}
+                >
+                  {companyList.map((company, index) => {
+                    return (
+                      <MenuItem value={company._id}>{company.title}</MenuItem>
+                    );
+                  })}
                 </Select>
               </FormControl>
             </div>
@@ -209,14 +217,14 @@ function VerifyExperience(props) {
       </MuiPickersUtilsProvider>
       <AlertUtility
         open={isSubmitted}
-        duration={3000}
+        duration={2000}
         onCloseHandler={handleClose}
         severity="success"
-        message={successString + " Reloading companies..."}
+        message={successString + " Reloading experiences..."}
       />
       <AlertUtility
         open={isError}
-        duration={2000}
+        duration={1500}
         onCloseHandler={() => {
           setIsError(false);
         }}
