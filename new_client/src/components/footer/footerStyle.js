@@ -18,6 +18,9 @@ export default makeStyles((theme) => ({
     color: WHITE_PRIMARY_COLOR,
     fontFamily: RECHARGE_FONT,
     marginTop: "1rem",
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "1.5rem",
+    },
   },
   socials: {
     margin: "1rem 0 1rem 0",
@@ -51,7 +54,7 @@ export default makeStyles((theme) => ({
       fontSize: "1rem",
     },
     [theme.breakpoints.down("xs")]: {
-      fontSize: "0.9rem",
+      fontSize: "0.8rem",
     },
   },
   bulletSeperator: {

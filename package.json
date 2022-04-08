@@ -1,22 +1,27 @@
 {
-  "name": "COCWebsite",
-  "version": "1.0.0",
-  "description": "The project consists of two parts __client__ and __server__.",
-  "main": "index.js",
+  "name": "cocwebsite",
+  "version": "0.0.1",
+  "private": true,
+  "description": "monorepo for Community Of Coders, VJTI's website",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "npm install --prefix server && npm install --prefix new_client",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm run build --prefix=new_client"
+    "start:client": "yarn workspace coc-client start",
+    "start:server": "yarn workspace coc-server start:dev",
+    "dev": "concurrently --kill-others-on-fail \"yarn start:server\"  \"yarn start:client\""
   },
+  "workspaces": [
+    "server",
+    "new_client"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CommunityOfCoders/COCWebsite.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/CommunityOfCoders/COCWebsite/issues"
   },
-  "homepage": "https://github.com/CommunityOfCoders/COCWebsite#readme"
+  "homepage": "https://www.communityofcoders.in/",
+  "dependencies": {
+    "concurrently": "^7.0.0"
+  }
 }
