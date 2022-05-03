@@ -226,7 +226,7 @@ export default function AboutUs() {
                 <Image
                   name="Ravi Maurya"
                   position="Development Head"
-                  img="https://res.cloudinary.com/coc-vjti/image/upload/v1635179293/vakatqmyckme9tapzkwh.jpg"
+                  img="https://res.cloudinary.com/coc-vjti/image/upload/v1651586037/ravi_rgtmih.jpg"
                 />
               </div>
 

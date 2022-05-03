@@ -15,6 +15,11 @@ export default [
       "https://res.cloudinary.com/coc-vjti/image/upload/v1635180379/gu0rbitjrqqeeuxfnz6n.png",
   },
   {
+    name: "Azeez Dandawala",
+    img:
+      "https://res.cloudinary.com/coc-vjti/image/upload/v1651585881/Azeez_1_qidgth.jpg",
+  },
+  {
     name: "Darsh Bavishi",
     img:
       "https://res.cloudinary.com/coc-vjti/image/upload/v1635180380/mwyyuzyffhea4emoqfeu.jpg",
