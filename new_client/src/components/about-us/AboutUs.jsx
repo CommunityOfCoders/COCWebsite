@@ -219,27 +219,40 @@ export default function AboutUs() {
               <Typography variant="h4">Heads</Typography>
               <div className="gene-sec-cont">
                 <Image
-                  name="Priya Nagda"
+                  name="Sarvagnya Purohit"
                   position="General Secretary"
-                  img="https://res.cloudinary.com/coc-vjti/image/upload/v1635178506/vgwhwuzkwk5di0fy0ehj.jpg"
+                  img="https://res.cloudinary.com/coc-vjti/image/upload/v1667131930/core22/Sarvagnya_Purohit_lyyeby.jpg"
                 />
                 <Image
-                  name="Ravi Maurya"
-                  position="Development Head"
-                  img="https://res.cloudinary.com/coc-vjti/image/upload/v1651586037/ravi_rgtmih.jpg"
+                  name="Naman Kothari"
+                  position="Community Management Head"
+                  img="https://res.cloudinary.com/coc-vjti/image/upload/v1667131929/core22/Naman_Kothari_yvcat3.jpg"
                 />
               </div>
 
               <div className="gene-sec-cont">
                 <Image
-                  name="Kush Kothari"
-                  position="Community Management Head"
-                  img="https://res.cloudinary.com/coc-vjti/image/upload/v1635181861/dvaw7wlw5daqp1r6zot2.jpg"
+                  name="Ananya Bangera"
+                  position="Development Head"
+                  img="https://res.cloudinary.com/coc-vjti/image/upload/v1667131927/core22/Ananya_Bangera_cydls1.jpg"
                 />
                 <Image
-                  name="Saksham Tikoo"
+                  name="Harsh Nag"
+                  position="Development Head"
+                  img="https://res.cloudinary.com/coc-vjti/image/upload/v1667131929/core22/Harsh_Nag_y1bqm8.jpg"
+                />
+              </div>
+
+              <div className="gene-sec-cont">
+                <Image
+                  name="Abhishek Gupta"
                   position="Competitive Programming Head"
-                  img="https://res.cloudinary.com/coc-vjti/image/upload/v1635179439/vyx1vwtt7kj3usyfs1aa.jpg"
+                  img="https://res.cloudinary.com/coc-vjti/image/upload/v1667131927/core22/Abhishek_Gupta_q3o2rx.jpg"
+                />
+                <Image
+                  name="Smit Sekhadia"
+                  position="Open Source Head"
+                  img="https://res.cloudinary.com/coc-vjti/image/upload/v1667131927/core22/Smit_Sekhadia_pxpybl.jpg"
                 />
               </div>
 
@@ -249,7 +262,7 @@ export default function AboutUs() {
               {/* </Grid> */}
             </div>
             <div style={{ textAlign: "center" }}>
-              <Typography variant="h4">The Core Committee - 2021-22</Typography>
+              <Typography variant="h4">The Core Committee - 2022-23</Typography>
               {arr.map((item) => item)}
               <br />
             </div>
