@@ -224,9 +224,9 @@ export default function AboutUs() {
                   img="https://res.cloudinary.com/coc-vjti/image/upload/v1667131930/core22/Sarvagnya_Purohit_lyyeby.jpg"
                 />
                 <Image
-                  name="Naman Kothari"
-                  position="Community Management Head"
-                  img="https://res.cloudinary.com/coc-vjti/image/upload/v1667131929/core22/Naman_Kothari_yvcat3.jpg"
+                  name="Abhishek Gupta"
+                  position="Competitive Programming Head"
+                  img="https://res.cloudinary.com/coc-vjti/image/upload/v1667131927/core22/Abhishek_Gupta_q3o2rx.jpg"
                 />
               </div>
 
@@ -245,14 +245,14 @@ export default function AboutUs() {
 
               <div className="gene-sec-cont">
                 <Image
-                  name="Abhishek Gupta"
-                  position="Competitive Programming Head"
-                  img="https://res.cloudinary.com/coc-vjti/image/upload/v1667131927/core22/Abhishek_Gupta_q3o2rx.jpg"
-                />
-                <Image
                   name="Smit Sekhadia"
                   position="Open Source Head"
                   img="https://res.cloudinary.com/coc-vjti/image/upload/v1667131927/core22/Smit_Sekhadia_pxpybl.jpg"
+                />
+                <Image
+                  name="Naman Kothari"
+                  position="Community Management Head"
+                  img="https://res.cloudinary.com/coc-vjti/image/upload/v1667131929/core22/Naman_Kothari_yvcat3.jpg"
                 />
               </div>
 
