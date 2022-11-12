@@ -1,5 +1,11 @@
 name: Deploy via SSH
 on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'debug'
   workflow_run:
     workflows: ["Build and Release"]
     types:
