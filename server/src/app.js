@@ -34,6 +34,10 @@ routes(app);
 
 dbconnect();
 
+app.get("/ethvjti", (req, res) => {
+  res.send({"ok": "ok"});
+});
+
 app.use(express.static(path.resolve(__dirname, "../../new_client/build")));
 
 app.get("/*", (req, res) => {
