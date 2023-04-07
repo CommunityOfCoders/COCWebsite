@@ -10,6 +10,7 @@ const generateOTP = () => {
     return OTP;
 };
 
+// sending mail to single user
 const sendMailToSingerUser = async (otp, email) => {
     const mailSubject = "EthVJTI Launch NFT One Time Password";
     const mailData = `Your OTP for EthVJTI Launch NFT is: ${otp}`;
