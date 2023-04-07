@@ -1,5 +1,11 @@
 name: Deploy via SSH
 on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'debug'
   workflow_run:
     workflows: ["Build and Release"]
     types:
@@ -9,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploying
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}

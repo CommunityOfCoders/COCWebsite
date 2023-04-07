@@ -11,6 +11,7 @@ const AchievementsController = require("./controllers/AchievementsController");
 const MagazineController = require("./controllers/MagazineController");
 const CompanyController = require("./controllers/CompanyController");
 const InterviewController = require("./controllers/InterviewController");
+const EthVJTIController = require("./controllers/EthVJTIController");
 const upload = require("./middleware/upload");
 const auth = require("./middleware/auth");
 const blog = require("./middleware/blog");
@@ -319,4 +320,10 @@ module.exports = (app) => {
   app.post('/api/interview/draft', auth.verifyToken, InterviewController.saveDraftInterview, cache.deleteCache);
   app.post('/api/interview/verify', auth.verifyToken, user.isMember, InterviewController.verifyInterview, cache.deleteCache);
   app.post('/api/interviewImageUpload', auth.verifyToken, upload.single('expImage'), InterviewController.uploadImage, cache.deleteCache);
+  
+  // EthVJTI
+  app.post('/api/ethvjti/sendotp', EthVJTIController.sendOTP);
+  app.get('/api/ethvjti/verifyotp', EthVJTIController.verifyOTP);
+
 }
+
