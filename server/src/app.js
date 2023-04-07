@@ -18,7 +18,8 @@ var corsOptions = {
 };
 
 if (process.env.NODE_ENV === "production") {
-  corsOptions.origin = "https://communityofcoders.in";
+  // corsOptions.origin = "https://communityofcoders.in";
+  corsOptions.origin = "*";
 }
 
 app.use(cors(corsOptions));
