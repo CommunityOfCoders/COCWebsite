@@ -20,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/CommunityOfCoders/COCWebsite/issues"
   },
-  "homepage": "https://github.com/CommunityOfCoders/COCWebsite#readme",
+  "homepage": "https://www.communityofcoders.in/",
   "dependencies": {
     "concurrently": "^7.0.0"
   }

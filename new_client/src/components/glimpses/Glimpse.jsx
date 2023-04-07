@@ -32,7 +32,7 @@ const Glimpse = () => {
       <Grid container spacing={4}>
         {isLoading ? <Spinner /> : null}
         {glimpses.map((glimpse) => (
-          <Grid item xs={6} md={6} lg={4} key={glimpse._id}>
+          <Grid item xs={12} md={6} lg={4} key={glimpse._id}>
             <IndividualGlimpse
               imgSrc={glimpse.preview}
               title={glimpse.eventName}

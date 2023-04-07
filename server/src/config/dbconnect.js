@@ -1,7 +1,7 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 
-function connect() {
+function connect(callback) {
   const mongooseOptions = {
     useCreateIndex: true,
     useNewUrlParser: true,
@@ -19,10 +19,13 @@ function connect() {
       connectionString = process.env.MONGO_URI;
     }
   }
-  mongoose.connect(connectionString, mongooseOptions);
+  mongoose.connect(connectionString, mongooseOptions).then(() => {
+    callback();
+  });
   mongoose.Promise = global.Promise;
   mongoose.connection.on("open", () => console.log(`MongoDB Connected`));
   mongoose.connection.on("error", console.error.bind(console, "Mongo Error"));
+  // callback();
 }
 
 module.exports = connect;

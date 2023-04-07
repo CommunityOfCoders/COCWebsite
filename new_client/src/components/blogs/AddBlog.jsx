@@ -110,7 +110,7 @@ function AddBlog(props) {
         })
         .catch((err) => console.log(err));
     }
-  });
+  }, [isEditPage, props.username]);
 
   useEffect(() => {
     if (isEditPage) {

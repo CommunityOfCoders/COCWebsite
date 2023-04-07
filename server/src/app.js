@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const path = require("path");
 const routes = require("./routes");
 const config = require("./config");
+const compression = require("compression");
 const dbconnect = require("./config/dbconnect");
 const rescheduler = require("./utility/eventRescheduler");
 
@@ -31,12 +32,13 @@ if (process.env.NODE_ENV !== "test") {
 
 routes(app);
 
-dbconnect();
+dbconnect(rescheduler.reschedule);
 
-app.use(express.static(path.resolve(__dirname, "../../new_client/build")));
+app.use(compression());
+app.use(express.static(path.join(__dirname, "../../new_client/build")));
 
 app.get("/*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../../new_client/build/index.html"));
+  res.sendFile(path.join(__dirname, "../../new_client/build/index.html"));
 });
 
 let port = config.port;
@@ -44,7 +46,6 @@ if (process.env.NODE_ENV === "test") port = 8001;
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
-  rescheduler.reschedule();
 });
 
 module.exports = app;
