@@ -22,8 +22,6 @@ const sendOTP = async (req, res) => {
         const { email, walletAddress } = req.body;
         const newOTP = generateOTP();
 
-        sendMailToSingerUser(newOTP, email);
-
         const userDetails = {
             email,
             walletAddress,
@@ -41,6 +39,7 @@ const sendOTP = async (req, res) => {
             if(userCheck.isMinted){
                 return res.status(400).json({ error: "NFT is already minted for this user" });
             }
+            sendMailToSingerUser(newOTP, email);
             newUser = await EthUser.findByIdAndUpdate(
                 userCheck._id,
                 userDetails,
@@ -70,7 +69,8 @@ const verifyOTP = async (req, res) => {
           })
             .lean();
         if(userCheck && userCheck.emailVerificationOTP == otp){
-            await EthUser.findByIdAndUpdate(userCheck._id, {isMinted: true, emailVerificationOTP: ""});
+            // await EthUser.findByIdAndUpdate(userCheck._id, {isMinted: true, emailVerificationOTP: ""});
+            await EthUser.findByIdAndUpdate(userCheck._id, {emailVerificationOTP: ""});
             return res.status(200).json({ message: "OTP Correct", email: email });
         }
         return res.status(400).json({ error: "OTP not valid" });
@@ -79,7 +79,27 @@ const verifyOTP = async (req, res) => {
     }
 };
 
+const setMinted = async (req, res) => {
+    try {
+        const { email, walletAddress } = req.body;
+
+        const userCheck = await EthUser.findOne({
+            email: email,
+          })
+            .lean();
+        if(userCheck){
+            await EthUser.findByIdAndUpdate(userCheck._id, {isMinted: true, emailVerificationOTP: ""});
+            return res.status(200).json({ message: "User set as minted", email: email });
+        }
+        return res.status(400).json({ error: "Email not found" });
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
+};
+
+
 module.exports = {
     sendOTP,
-    verifyOTP
+    verifyOTP,
+    setMinted
 }
