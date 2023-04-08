@@ -324,6 +324,7 @@ module.exports = (app) => {
   // EthVJTI
   app.post('/api/ethvjti/sendotp', EthVJTIController.sendOTP);
   app.get('/api/ethvjti/verifyotp', EthVJTIController.verifyOTP);
+  app.get('/api/ethvjti/setminted', EthVJTIController.setMinted);
 
 }
 

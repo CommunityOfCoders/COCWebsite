@@ -19,7 +19,8 @@ var corsOptions = {
 };
 
 if (process.env.NODE_ENV === "production") {
-  corsOptions.origin = "https://communityofcoders.in";
+  // corsOptions.origin = "https://communityofcoders.in";
+  corsOptions.origin = "*";
 }
 
 app.use(cors(corsOptions));
@@ -34,8 +35,11 @@ routes(app);
 
 dbconnect(rescheduler.reschedule);
 
-app.use(compression());
-app.use(express.static(path.join(__dirname, "../../new_client/build")));
+app.get("/ethvjti", (req, res) => {
+  res.send({"ok": "ok"});
+});
+
+app.use(express.static(path.resolve(__dirname, "../../new_client/build")));
 
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "../../new_client/build/index.html"));
