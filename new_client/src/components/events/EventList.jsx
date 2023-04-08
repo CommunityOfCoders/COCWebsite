@@ -15,6 +15,7 @@ import Banner from "./Banner";
 import { isFuture } from "date-fns";
 import { TitleWithDivider } from "./EventPage";
 import useAuthenticatedAxios from "../Utilities/useAuthenticatedAxios.js";
+import "./EventList.css";
 import { format } from "date-fns";
 
 function TabPanel(props) {
@@ -159,7 +160,7 @@ function EventList(props) {
         },
         {
           label: "Cancel",
-          onClick: () => {},
+          onClick: () => { },
         },
       ],
     });
@@ -177,9 +178,9 @@ function EventList(props) {
     try {
       const url = !isUserRegistered
         ? process.env.REACT_APP_API +
-          `/events/register?eid=${eventId}&uid=${props.userID}`
+        `/events/register?eid=${eventId}&uid=${props.userID}`
         : process.env.REACT_APP_API +
-          `/events/unregister?eid=${eventId}&uid=${props.userID}`;
+        `/events/unregister?eid=${eventId}&uid=${props.userID}`;
       const response = await authenticatedAxios.post(url);
       if (response.status === 200) {
         const isRegisteredTemp = {
@@ -278,7 +279,7 @@ function EventList(props) {
                       </Tabs>
                     </Grid>
                   </Grid>
-                  
+
                   <Grid item>
                     {years.map((year, index) => (
                       <TabPanel key={year} value={tabValue} index={index}>

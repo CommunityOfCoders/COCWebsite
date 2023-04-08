@@ -118,17 +118,7 @@ const Blogs = (props) => {
     });
   };
 
-  let addBlogFab = (
-    <Grid item style={{ position: "fixed", right: "50px", bottom: "25px" }}>
-      <Tooltip title="Login Required" aria-label="add">
-        <span>
-          <Fab color="secondary" disabled>
-            <AddIcon />
-          </Fab>
-        </span>
-      </Tooltip>
-    </Grid>
-  );
+  let addBlogFab;
 
   if (props.isAuthenticated) {
     addBlogFab = (
@@ -148,7 +138,7 @@ const Blogs = (props) => {
 
   if (!isLoading) {
     blogComponent = posts.map((article) => (
-      <Grid item xs={6} key={article._id}>
+      <Grid item xs={12} md={6} lg={6} key={article._id}>
         <Card>
           <CardHeader
             title={article.blogTitle}
@@ -214,7 +204,7 @@ const Blogs = (props) => {
 
   return (
     <div className={classes.root}>
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <Grid container spacing={3}>
           {blogComponent}
           {addBlogFab}

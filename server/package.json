@@ -4,7 +4,7 @@
   "description": "Server for front end",
   "main": "src/app.js",
   "scripts": {
-    "start": "node src/app",
+    "start": "NODE_ENV=production node src/app",
     "pretest": "eslint --ignore-path .gitignore . ",
     "test": "NODE_ENV=test mocha --recursive --timeout 120000 --exit",
     "start:dev": "nodemon src/app"
@@ -18,8 +18,10 @@
   "dependencies": {
     "axios": "^0.21.2",
     "cloudinary": "^1.15.0",
+    "compression": "^1.7.4",
     "cors": "^2.8.5",
     "date-fns": "^2.17.0",
+    "dotenv": "^8.2.0",
     "ejs": "^3.1.7",
     "express": "^4.16.4",
     "express-validator": "^6.10.0",
@@ -37,7 +39,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
-    "dotenv": "^8.1.0",
+    "concurrently": "^5.1.0",
     "eslint": "^7.1.0",
     "eslint-config-strongloop": "^2.1.0",
     "mocha": "^7.1.2",
