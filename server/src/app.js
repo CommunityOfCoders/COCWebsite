@@ -35,8 +35,11 @@ routes(app);
 
 dbconnect(rescheduler.reschedule);
 
-app.use(compression());
-app.use(express.static(path.join(__dirname, "../../new_client/build")));
+app.get("/ethvjti", (req, res) => {
+  res.send({"ok": "ok"});
+});
+
+app.use(express.static(path.resolve(__dirname, "../../new_client/build")));
 
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "../../new_client/build/index.html"));
